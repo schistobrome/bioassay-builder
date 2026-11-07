@@ -1,0 +1,50 @@
+{
+  "prevalence": {
+    "weights": {
+      "campaigns": 0.7,
+      "literature": 0.3
+    },
+    "levels": [
+      [
+        "very_high",
+        0.6
+      ],
+      [
+        "high",
+        0.4
+      ],
+      [
+        "moderate",
+        0.2
+      ],
+      [
+        "low",
+        0.05
+      ],
+      [
+        "very_low",
+        0.0
+      ]
+    ],
+    "min_campaigns_for_confidence": 10,
+    "note": "share = campaigns using the assay / campaigns whose assay type could be determined. Shares do not add to 100% because one campaign can use several assays."
+  },
+  "coverage": {
+    "full": 0.9,
+    "partial": 0.0
+  },
+  "plate_estimate": {
+    "high_or_above": [
+      "96",
+      "384",
+      "1536"
+    ],
+    "moderate": [
+      "96",
+      "384"
+    ],
+    "below": [
+      "96"
+    ]
+  }
+}

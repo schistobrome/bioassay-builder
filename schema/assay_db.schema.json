@@ -1,0 +1,669 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "assay_db.schema.json",
+ "title": "Assay Builder database (compiled)",
+ "description": "What docs/assay_db.json must contain. Source of truth is the CSV tables in data/; tools/build_db.py checks them and writes this structure.",
+ "type": "object",
+ "required": [
+  "meta",
+  "config",
+  "function_classes",
+  "assays",
+  "kits",
+  "usage_stats",
+  "citations"
+ ],
+ "properties": {
+  "meta": {
+   "type": "object",
+   "required": [
+    "schema_version",
+    "built_on",
+    "counts"
+   ],
+   "properties": {
+    "schema_version": {
+     "type": "string",
+     "description": ""
+    },
+    "built_on": {
+     "type": "string",
+     "description": "date the file was built"
+    },
+    "last_curated": {
+     "type": [
+      "string",
+      "null"
+     ],
+     "description": "most recent reviewed_on date; shown in the app header"
+    },
+    "counts": {
+     "type": "object"
+    },
+    "includes_example_data": {
+     "type": "boolean",
+     "description": "true only for demo builds; the app must show an EXAMPLE banner"
+    }
+   }
+  },
+  "config": {
+   "type": "object",
+   "description": "Thresholds shown to the user in the Definitions panel",
+   "properties": {
+    "prevalence": {
+     "type": "object",
+     "properties": {
+      "weights": {
+       "type": "object",
+       "properties": {
+        "campaigns": {
+         "type": "number"
+        },
+        "literature": {
+         "type": "number"
+        }
+       }
+      },
+      "levels": {
+       "type": "array",
+       "description": "[level, minimum score] from highest to lowest",
+       "items": {
+        "type": "array"
+       }
+      },
+      "min_campaigns_for_confidence": {
+       "type": "integer"
+      },
+      "note": {
+       "type": "string",
+       "description": ""
+      }
+     }
+    },
+    "coverage": {
+     "type": "object",
+     "properties": {
+      "full": {
+       "type": "number"
+      },
+      "partial": {
+       "type": "number"
+      }
+     }
+    },
+    "plate_estimate": {
+     "type": "object"
+    }
+   }
+  },
+  "function_classes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "class_id",
+     "label"
+    ],
+    "properties": {
+     "class_id": {
+      "type": "string",
+      "description": "stable id used by assays"
+     },
+     "label": {
+      "type": "string",
+      "description": ""
+     },
+     "ec_prefixes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "UniProt EC number prefixes"
+     },
+     "keywords": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "UniProt keywords"
+     },
+     "go_terms": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "GO function substrings"
+     },
+     "domain_patterns": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "words matched against UniProt domain/region names"
+     },
+     "needs_domain": {
+      "type": "boolean"
+     },
+     "modality": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "set only for classes switched on by a project type (degrader, autophagy, rna_target)"
+     },
+     "excludes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "class_ids this class cancels"
+     },
+     "notes": {
+      "type": "string",
+      "description": ""
+     }
+    }
+   }
+  },
+  "assays": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "entry_id",
+     "assay_name",
+     "classes",
+     "assay_category",
+     "scope",
+     "role",
+     "screening_suitability",
+     "biological_relevance",
+     "review"
+    ],
+    "properties": {
+     "entry_id": {
+      "type": "string",
+      "description": "stable id, never reused"
+     },
+     "assay_name": {
+      "type": "string",
+      "description": ""
+     },
+     "classes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "class_ids this assay applies to"
+     },
+     "assay_category": {
+      "enum": [
+       "biochemical_hts",
+       "cell_functional",
+       "biophysical_binding",
+       "orthogonal_confirmation",
+       "mechanistic_counterscreen"
+      ]
+     },
+     "scope": {
+      "enum": [
+       "cell-free",
+       "cell-based"
+      ]
+     },
+     "role": {
+      "enum": [
+       "primary",
+       "confirmation",
+       "counterscreen"
+      ]
+     },
+     "development_priority": {
+      "type": "object",
+      "properties": {
+       "best": {
+        "type": [
+         "integer",
+         "null"
+        ]
+       },
+       "text": {
+        "type": "string",
+        "description": "as written, e.g. P2/P3"
+       }
+      }
+     },
+     "screening_suitability": {
+      "type": "string",
+      "enum": [
+       "very_low",
+       "low",
+       "moderate",
+       "high",
+       "very_high"
+      ]
+     },
+     "biological_relevance": {
+      "type": "string",
+      "enum": [
+       "very_low",
+       "low",
+       "moderate",
+       "high",
+       "very_high"
+      ]
+     },
+     "rating_notes": {
+      "type": "string",
+      "description": ""
+     },
+     "measures": {
+      "type": "string",
+      "description": ""
+     },
+     "readouts": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "detection technologies; use the same names as the term table"
+     },
+     "evidence_labels": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "function names used to count public campaigns"
+     },
+     "conditions": {
+      "type": "string",
+      "description": ""
+     },
+     "reagents": {
+      "type": "string",
+      "description": ""
+     },
+     "rationale": {
+      "type": "string",
+      "description": ""
+     },
+     "plate_formats": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "any of 96, 384, 1536; empty = not specified, app estimates from suitability"
+     },
+     "mechanism": {
+      "type": "object",
+      "properties": {
+       "learn_more_url": {
+        "type": [
+         "string",
+         "null"
+        ],
+        "description": "video or lesson; app hides the button when null"
+       }
+      }
+     },
+     "sources": {
+      "type": "array",
+      "description": "literature for this assay (not vendor kits)",
+      "items": {
+       "type": "object",
+       "required": [
+        "doi"
+       ],
+       "properties": {
+        "doi": {
+         "type": "string",
+         "description": ""
+        },
+        "title": {
+         "type": "string",
+         "description": ""
+        },
+        "year": {
+         "type": "string",
+         "description": ""
+        },
+        "journal": {
+         "type": "string",
+         "description": ""
+        }
+       }
+      }
+     },
+     "review": {
+      "type": "object",
+      "properties": {
+       "status": {
+        "type": "string",
+        "description": "draft or reviewed, free text"
+       },
+       "reviewer": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "reviewed_on": {
+        "type": [
+         "string",
+         "null"
+        ]
+       }
+      }
+     }
+    }
+   }
+  },
+  "kits": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "kit_id",
+     "vendor",
+     "product",
+     "applies_to_entries"
+    ],
+    "properties": {
+     "kit_id": {
+      "type": "string",
+      "description": ""
+     },
+     "vendor": {
+      "type": "string",
+      "description": ""
+     },
+     "product": {
+      "type": "string",
+      "description": ""
+     },
+     "product_code": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "only if seen on the vendor page"
+     },
+     "applies_to_entries": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "assay entry_ids"
+     },
+     "target_scope": {
+      "type": "string",
+      "description": "pan-class (...), many receptors, or gene symbols"
+     },
+     "format": {
+      "type": "string",
+      "description": "kit, service, cell line, instrument"
+     },
+     "readout": {
+      "type": "string",
+      "description": ""
+     },
+     "url": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "verification": {
+      "type": "object",
+      "properties": {
+       "status": {
+        "type": "string",
+        "description": "e.g. listing seen / unverified / confirmed on datasheet"
+       },
+       "last_checked": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "source": {
+        "type": "string",
+        "description": ""
+       }
+      }
+     }
+    }
+   }
+  },
+  "usage_stats": {
+   "type": "array",
+   "description": "How often an assay (or one readout of it) is used. One row per assay x scope x stage (x readout).",
+   "items": {
+    "type": "object",
+    "required": [
+     "entry_id",
+     "scope",
+     "stage",
+     "campaigns"
+    ],
+    "properties": {
+     "stat_id": {
+      "type": "string",
+      "description": ""
+     },
+     "entry_id": {
+      "type": "string",
+      "description": ""
+     },
+     "scope": {
+      "type": "object",
+      "description": "what the counts are about",
+      "properties": {
+       "type": {
+        "enum": [
+         "gene",
+         "function_class"
+        ]
+       },
+       "id": {
+        "type": "string",
+        "description": "gene symbol or class_id"
+       }
+      }
+     },
+     "stage": {
+      "enum": [
+       "primary_screen",
+       "confirmation",
+       "counterscreen",
+       "any"
+      ],
+      "description": "which step of the campaign the assay was used for"
+     },
+     "readout": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "null = the assay as a whole; a technology name = share of that readout"
+     },
+     "campaigns": {
+      "type": "object",
+      "properties": {
+       "total": {
+        "type": [
+         "integer",
+         "null"
+        ],
+        "minimum": 0,
+        "description": "unique HTS campaigns found"
+       },
+       "classifiable": {
+        "type": [
+         "integer",
+         "null"
+        ],
+        "minimum": 0,
+        "description": "of those, campaigns whose assay type could be determined (the denominator)"
+       },
+       "using": {
+        "type": [
+         "integer",
+         "null"
+        ],
+        "minimum": 0,
+        "description": "classifiable campaigns using this assay"
+       },
+       "share": {
+        "type": [
+         "number",
+         "null"
+        ],
+        "minimum": 0,
+        "maximum": 1
+       }
+      }
+     },
+     "literature": {
+      "type": "object",
+      "properties": {
+       "total": {
+        "type": [
+         "integer",
+         "null"
+        ],
+        "minimum": 0,
+        "description": ""
+       },
+       "using": {
+        "type": [
+         "integer",
+         "null"
+        ],
+        "minimum": 0,
+        "description": ""
+       },
+       "share": {
+        "type": [
+         "number",
+         "null"
+        ],
+        "minimum": 0,
+        "maximum": 1
+       }
+      }
+     },
+     "standardness": {
+      "type": "object",
+      "description": "weighted mix of the two shares (weights in config)",
+      "properties": {
+       "score": {
+        "type": [
+         "number",
+         "null"
+        ],
+        "minimum": 0,
+        "maximum": 1
+       },
+       "level": {
+        "enum": [
+         "very_low",
+         "low",
+         "moderate",
+         "high",
+         "very_high",
+         null
+        ]
+       },
+       "confidence": {
+        "enum": [
+         "ok",
+         "low"
+        ]
+       }
+      }
+     },
+     "source": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string",
+        "description": "pubchem, chembl, europepmc, manual"
+       },
+       "query": {
+        "type": "string",
+        "description": "exact query or file so the number can be reproduced"
+       },
+       "retrieved_on": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "method_version": {
+        "type": [
+         "string",
+         "null"
+        ]
+       }
+      }
+     },
+     "is_example": {
+      "type": "boolean"
+     },
+     "notes": {
+      "type": "string",
+      "description": ""
+     }
+    }
+   }
+  },
+  "citations": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "doi"
+    ],
+    "properties": {
+     "doi": {
+      "type": "string",
+      "description": ""
+     },
+     "pmid": {
+      "type": "string",
+      "description": ""
+     },
+     "title": {
+      "type": "string",
+      "description": ""
+     },
+     "year": {
+      "type": "string",
+      "description": ""
+     },
+     "journal": {
+      "type": "string",
+      "description": ""
+     },
+     "authors": {
+      "type": "string",
+      "description": ""
+     },
+     "type": {
+      "type": "string",
+      "description": "method paper, review, vendor note"
+     },
+     "url": {
+      "type": "string",
+      "description": ""
+     },
+     "fetched_on": {
+      "type": "string",
+      "description": ""
+     }
+    }
+   }
+  }
+ }
+}

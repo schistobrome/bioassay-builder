@@ -1,0 +1,22 @@
+# Checks the tables and publishes the site on every push to main. (Not yet tested on GitHub.)
+name: Build and publish
+on:
+  push: {branches: [main]}
+  workflow_dispatch:
+permissions: {contents: read, pages: write, id-token: write}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python tools/build_db.py
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: docs}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: {name: github-pages}
+    steps:
+      - uses: actions/deploy-pages@v4

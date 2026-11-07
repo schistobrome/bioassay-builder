@@ -1,0 +1,12 @@
+﻿stat_id,entry_id,scope_type,scope_id,stage,readout,n_campaigns_total,n_campaigns_classifiable,n_campaigns_using,n_literature_total,n_literature_using,source,query,retrieved_on,method_version,notes
+EX1,E4,gene,BRD4,primary_screen,,40,40,30,,,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX2,G1,gene,BRD4,confirmation,,40,40,8,,,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX3,E3,gene,HDAC1,primary_screen,,60,56,48,120,90,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX4,E8,gene,HDAC1,confirmation,,60,56,17,120,30,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX5,GPCR1,gene,GLP1R,primary_screen,,50,45,32,80,55,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX6,GPCR2,gene,GLP1R,primary_screen,,50,45,14,80,20,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX7,GPCR9,gene,GLP1R,primary_screen,,50,45,9,80,12,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX8,GPCR3,gene,GLP1R,confirmation,,50,45,11,80,18,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX9,E4,gene,BRD4,primary_screen,AlphaScreen / AlphaLISA,40,30,15,,,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX10,E4,gene,BRD4,primary_screen,TR-FRET / HTRF,40,30,11,,,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
+EX11,E4,gene,BRD4,primary_screen,Fluorescence polarization,40,30,4,,,illustrative example,,,example,"EXAMPLE NUMBERS, not real data"
