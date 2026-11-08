@@ -178,8 +178,9 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <h3>1. Target and construct</h3>
         <div class="step" id="hint"><b>Step 1 of 3</b>Choose the protein you want to screen.</div>
         <label class="lbl" for="prot">Protein</label>
-        <select id="prot"></select>
-        <p class="note">This build includes three proteins (GLP1R, HDAC1, BRD4). Lookup of any protein from UniProt is the next step.</p>
+        <div class="row"><input type="text" id="prot" list="protlist" placeholder="Gene name or UniProt accession" autocomplete="off" spellcheck="false" style="width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px"><button class="btn primary" id="lookup">Look up</button></div>
+        <datalist id="protlist"><option value="EGFR"><option value="WRN"><option value="HDAC1"><option value="BRD4"><option value="GLP1R"><option value="KCNH2"><option value="ESR1"></datalist>
+        <p class="note" id="lookupnote">Human proteins, looked up live in UniProt. Examples: EGFR, WRN, BRD4, or an accession such as P00533.</p>
 
         <div class="stepblock" id="sb2" hidden>
           <div class="step"><b>Step 2 of 3</b>Drag the handles to set the residues your construct covers. Blue bands are annotated domains.</div>
@@ -257,7 +258,7 @@ const asStr=a=>(a||[]).join("; ");
 let D;
 try{
   const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
-  D={proteins:prots,cfg:db.config,usage:db.usage_stats,meta:db.meta,
+  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:db.usage_stats,meta:db.meta,
    playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||""})),
    kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
 }catch(e){
@@ -321,7 +322,7 @@ function render(){
   const stat={}; P.classes.forEach(c=>stat[c.id]=classStatus(c));
   const full = S.start===1&&S.end===P.len;
   $("summary").innerHTML = (D.usage.some(u=>u.is_example)?`<div class="exbanner">Usage percentages marked "example" are placeholder numbers for this demo, not real data.</div>`:"")+`<div><h2>${esc(S.prot)} <span class="meta">${P.acc}</span><a href="https://www.uniprot.org/uniprotkb/${P.acc}/entry" target="_blank" rel="noopener">UniProt ↗</a></h2><div>${esc(P.name)}, ${P.len} residues</div>
-   <div class="meta">Construct ${S.start}-${S.end}${full?" (full length)":""} · ${S.effect} · UniProt: ${P.kw} keywords, ${P.go} GO functions, ${P.pdb} PDB entries</div></div>
+   <div class="meta">Construct ${S.start}-${S.end}${full?" (full length)":""} · ${S.effect} · UniProt: ${P.kw} keywords, ${P.go} GO functions, ${P.pdb} PDB entries${P.live?" · fetched live from UniProt":" · built-in example copy"}</div></div>
    <div class="cls">${P.classes.map(c=>`<div class="${stat[c.id].st}"><b>${esc(c.label)}</b> <span style="color:var(--muted)">${esc(stat[c.id].note)}</span></div>`).join("")}</div>`;
   const chosen=[],dropped=[];
   for(const r of D.playbook){
@@ -422,8 +423,77 @@ function setProt(p){
   if(S.stage<1){S.stage=1;$("sb2").hidden=false;$("hint").innerHTML="<b>Step 1 of 3 done</b>Protein chosen. Continue below.";}
   render();renderPlan();
 }
-$("prot").innerHTML=`<option value="" disabled selected>Choose a protein…</option>`+Object.keys(D.proteins).map(p=>`<option>${p}</option>`).join("");
-$("prot").onchange=e=>setProt(e.target.value);
+/* ---- live UniProt lookup ---- */
+const ANCHOR_TYPES=new Set(["Domain","Region","Repeat","Motif","Zinc finger","Topological domain","DNA binding"]);
+const SHOW_DOMAIN_TYPES=new Set(["Domain","Zinc finger","DNA binding"]);
+const normT=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+const wordIn=(p,t)=>new RegExp("(?<![a-z0-9])"+p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![a-z0-9])").test(t);
+const ACC=/^([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2})$/;
+const cache={};
+async function getJson(url){const r=await fetch(url,{headers:{Accept:"application/json"}});if(!r.ok)throw new Error("UniProt answered "+r.status);return r.json();}
+async function resolveAccession(q){
+  q=q.trim();if(ACC.test(q.toUpperCase()))return q.toUpperCase();
+  for(const qq of ["gene_exact:"+q+" AND organism_id:9606 AND reviewed:true","gene:"+q+" AND organism_id:9606 AND reviewed:true"]){
+    const d=await getJson("https://rest.uniprot.org/uniprotkb/search?query="+encodeURIComponent(qq)+"&format=json&size=1&fields=accession");
+    if(d.results&&d.results.length)return d.results[0].primaryAccession;}
+  return null;
+}
+function findValues(o,key,out=[]){if(Array.isArray(o))o.forEach(x=>findValues(x,key,out));else if(o&&typeof o==="object")for(const[k,v]of Object.entries(o)){if(k===key&&Array.isArray(v))v.forEach(x=>x&&x.value&&out.push(x.value));else findValues(v,key,out);}return out;}
+function summarize(e){
+  const gene=((e.genes||[])[0]||{}).geneName?.value||"";
+  const ecs=[...new Set(findValues(e.proteinDescription||{},"ecNumbers"))];
+  const keywords=(e.keywords||[]).map(k=>k.name||"");
+  const go=[],pdb=new Set();
+  for(const ref of e.uniProtKBCrossReferences||[]){const pr={};(ref.properties||[]).forEach(p=>pr[p.key]=p.value);
+    if(ref.database==="GO"&&(pr.GoTerm||"").startsWith("F:"))go.push(pr.GoTerm.slice(2));
+    if(ref.database==="PDB")pdb.add(ref.id);}
+  const features=[];
+  for(const f of e.features||[]){if(!ANCHOR_TYPES.has(f.type))continue;const s=parseInt(f.location?.start?.value),en=parseInt(f.location?.end?.value);if(s>0&&en>0)features.push({type:f.type,description:f.description||"",start:s,end:en});}
+  return {gene,length:+(e.sequence?.length||0),ecs,keywords,go,pdb:pdb.size,features,
+    name:e.proteinDescription?.recommendedName?.fullName?.value||e.proteinDescription?.submissionNames?.[0]?.fullName?.value||"",
+    organism:e.organism?.scientificName||"",acc:e.primaryAccession};
+}
+function classifyProtein(info){
+  const found=new Map();
+  for(const row of D.function_classes){
+    if(row.class_id==="generic"){found.set("generic",{label:row.label,why:"applies to every protein",anchors:[]});continue;}
+    const why=[];
+    for(const p of row.ec_prefixes){const h=info.ecs.find(x=>x.startsWith(p));if(h){why.push("EC "+h);break;}}
+    for(const kw of row.keywords){if(info.keywords.some(k=>normT(k)===normT(kw))){why.push("UniProt keyword '"+kw+"'");break;}}
+    for(const term of row.go_terms){const h=info.go.find(g=>normT(g).includes(normT(term)));if(h){why.push("GO '"+h+"'");break;}}
+    const pats=row.domain_patterns.map(normT);const anchors=[];
+    for(const f of info.features){if(pats.some(p=>p&&wordIn(p,normT(f.description)))){if(row.needs_domain&&f.type!=="Topological domain")continue;anchors.push(f);}}
+    if(anchors.length)why.push("domain '"+anchors[0].description+"'");
+    if(row.needs_domain&&!anchors.length)continue;
+    if(why.length)found.set(row.class_id,{label:row.label,why:why.join("; "),anchors});
+  }
+  for(const row of D.function_classes){if(found.has(row.class_id)&&row.excludes.some(x=>found.has(x)))found.delete(row.class_id);}
+  return found;
+}
+function buildProtein(e){
+  const info=summarize(e),found=classifyProtein(info);
+  const classes=[...found].map(([id,c])=>({id,label:c.label,why:c.why,anchors:c.anchors.map(a=>[a.start,a.end])}));
+  const seen=new Set();const domains=info.features.filter(f=>SHOW_DOMAIN_TYPES.has(f.type)).filter(f=>{const k=f.start+"-"+f.end;if(seen.has(k))return false;seen.add(k);return true;}).map(f=>({name:f.description||f.type,s:f.start,e:f.end}));
+  return {acc:info.acc,name:info.name,len:info.length,pdb:info.pdb,kw:info.keywords.length,go:info.go.length,classes,domains,gene:info.gene,organism:info.organism,live:true};
+}
+async function lookup(){
+  const q=$("prot").value.trim();if(!q)return;
+  const note=$("lookupnote");note.textContent="Looking up "+q+" in UniProt…";$("lookup").disabled=true;
+  try{
+    const acc=await resolveAccession(q);
+    if(!acc){note.textContent="No human reviewed UniProt entry found for '"+q+"'. Try the accession, for example Q14191.";return;}
+    if(!cache[acc]){const e=await getJson("https://rest.uniprot.org/uniprotkb/"+acc+".json");cache[acc]=buildProtein(e);}
+    const P=cache[acc];const key=(P.gene||acc).toUpperCase();D.proteins[key]=P;
+    note.textContent="Loaded "+key+" ("+acc+") from UniProt"+(P.organism&&!/sapiens/i.test(P.organism)?"; note: organism is "+P.organism:"")+".";
+    setProt(key);
+  }catch(err){
+    const demo=D.proteins[q.toUpperCase()];
+    if(demo){note.textContent="Could not reach UniProt ("+err.message+"). Showing the built-in copy of "+q.toUpperCase()+".";setProt(q.toUpperCase());}
+    else note.textContent="Could not reach UniProt ("+err.message+"). Check your connection and try again.";
+  }finally{$("lookup").disabled=false;}
+}
+$("lookup").onclick=lookup;
+$("prot").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();lookup();}});
 ["cs","ce"].forEach(i=>$(i).onchange=()=>setRange($("cs").value,$("ce").value));
 $("presets").onclick=e=>{const b=e.target.closest("[data-pre]");if(b){const [s,en]=b.dataset.pre.split("-");setRange(s,en)}};
 $("cconfirm").onclick=()=>{if(S.stage<2){S.stage=2;$("sb3").hidden=false;$("sb3").scrollIntoView({block:"nearest",behavior:"smooth"});}};
