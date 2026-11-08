@@ -1,0 +1,102 @@
+{
+ "GLP1R": {
+  "acc": "P43220",
+  "name": "Glucagon-like peptide 1 receptor",
+  "len": 463,
+  "pdb": 71,
+  "kw": 14,
+  "go": 3,
+  "classes": [
+   {
+    "id": "gpcr",
+    "label": "G-protein-coupled receptor",
+    "why": "UniProt keyword 'G-protein coupled receptor'",
+    "anchors": []
+   },
+   {
+    "id": "generic",
+    "label": "Any protein (biophysical and interference checks)",
+    "why": "applies to every protein",
+    "anchors": []
+   }
+  ],
+  "domains": []
+ },
+ "HDAC1": {
+  "acc": "Q13547",
+  "name": "Histone deacetylase 1",
+  "len": 482,
+  "pdb": 12,
+  "kw": 18,
+  "go": 19,
+  "classes": [
+   {
+    "id": "epigenetic_deacetylase",
+    "label": "Histone deacetylase / sirtuin (eraser)",
+    "why": "EC 3.5.1.98; GO 'histone deacetylase activity'; domain 'Histone deacetylase'",
+    "anchors": [
+     [
+      9,
+      321
+     ]
+    ]
+   },
+   {
+    "id": "generic",
+    "label": "Any protein (biophysical and interference checks)",
+    "why": "applies to every protein",
+    "anchors": []
+   }
+  ],
+  "domains": [
+   {
+    "name": "Histone deacetylase",
+    "s": 9,
+    "e": 321
+   }
+  ]
+ },
+ "BRD4": {
+  "acc": "O60885",
+  "name": "Bromodomain-containing protein 4",
+  "len": 1362,
+  "pdb": 624,
+  "kw": 20,
+  "go": 18,
+  "classes": [
+   {
+    "id": "epigenetic_reader",
+    "label": "Bromodomain reader",
+    "why": "UniProt keyword 'Bromodomain'; domain 'Bromo 1'",
+    "anchors": [
+     [
+      58,
+      164
+     ],
+     [
+      348,
+      457
+     ]
+    ]
+   },
+   {
+    "id": "generic",
+    "label": "Any protein (biophysical and interference checks)",
+    "why": "applies to every protein",
+    "anchors": []
+   }
+  ],
+  "domains": [
+   {
+    "name": "Bromo 1",
+    "s": 58,
+    "e": 164
+   },
+   {
+    "name": "Bromo 2",
+    "s": 348,
+    "e": 457
+   }
+  ]
+ }
+}

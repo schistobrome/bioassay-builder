@@ -9,7 +9,7 @@ App that scientists can use to simplify strategy for choosing which assays (bioc
 The data lives in plain tables (CSV files) in `data/`. A script checks them and builds one file, `docs/assay_db.json`, which the website reads.
 
 | File | Item |
-|---|---|---|
+|---|---|
 | `data/assays.csv` | one assay type (a generic method) |
 | `data/kits.csv` | one commercial kit or service |
 | `data/usage_stats.csv` | how often assay is used in one scope (gene or function class) |

@@ -1,0 +1,479 @@
+<title>Assay Builder</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
+<style>
+/* Layout: left rail = guided setup (protein > construct > effect, then view filters and experimental setup); right = ordered assay path. Cart in header opens the plan drawer. */
+:root{
+  --bg:#f5f6f4; --surface:#ffffff; --surface2:#edf0ee; --line:#d7dcd8; --fg:#1b2420; --muted:#5d6a63;
+  --accent:#0f6b5c; --accent-fg:#ffffff; --accent-soft:#d9efe9;
+  --cell:#8a4b0f; --cell-soft:#f6e6d2; --avail:#2a4f9a; --avail-soft:#dde6f8;
+  --warn:#a15c00; --warn-soft:#fbecd0; --bad:#a3262a; --bad-soft:#f7dcdc;
+  --f-display:'Fraunces',Georgia,serif; --f-body:'IBM Plex Sans',system-ui,sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121815; --surface:#1a221e; --surface2:#222c27; --line:#33403a; --fg:#e8eeea; --muted:#9aa8a0;
+  --accent:#4fc3ab; --accent-fg:#0b1512; --accent-soft:#1d3a33;
+  --cell:#e6a763; --cell-soft:#3a2b19; --avail:#8fb0f0; --avail-soft:#1f2c47;
+  --warn:#e8b04a; --warn-soft:#3a2f14; --bad:#ef8a8d; --bad-soft:#3d1f20; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121815; --surface:#1a221e; --surface2:#222c27; --line:#33403a; --fg:#e8eeea; --muted:#9aa8a0;
+  --accent:#4fc3ab; --accent-fg:#0b1512; --accent-soft:#1d3a33;
+  --cell:#e6a763; --cell-soft:#3a2b19; --avail:#8fb0f0; --avail-soft:#1f2c47;
+  --warn:#e8b04a; --warn-soft:#3a2f14; --bad:#ef8a8d; --bad-soft:#3d1f20; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:14px/1.5 var(--f-body);padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;margin:0;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{max-width:1280px;margin:0 auto;padding-block:20px 60px}
+.top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+.top h1{font-size:26px;display:inline}
+.ver{font:12px var(--f-mono);color:var(--muted);margin-left:10px}
+.dbdate{font:12px var(--f-mono);color:var(--muted);margin-top:2px}
+.topr{display:flex;gap:8px;align-items:center}
+.cartbtn{position:relative;display:flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;cursor:pointer}
+.cartbtn .n{background:var(--accent);color:var(--accent-fg);border-radius:999px;min-width:20px;padding:0 6px;font:600 12px var(--f-mono);text-align:center}
+.cartbtn .n.zero{background:var(--surface2);color:var(--muted)}
+.linkbtn{background:none;border:0;color:var(--accent);cursor:pointer;text-decoration:underline;padding:4px}
+.grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.rail{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px}
+.panel h3{font-size:15px;margin-bottom:10px}
+.lbl{font:500 11px var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:block;margin:12px 0 4px}
+.lbl:first-of-type{margin-top:0}
+.step{border-left:3px solid var(--accent);padding:2px 0 2px 10px;margin:0 0 10px;font-size:13px}
+.step b{display:block;font:500 11px var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.stepblock{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+select,input[type=number]{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px}
+.row{display:flex;gap:8px;align-items:center}
+.row>*{min-width:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{flex:1;background:var(--surface2);border:0;padding:7px 6px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-fg)}
+.btn{border:1px solid var(--line);background:var(--surface2);border-radius:4px;padding:6px 12px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.small{padding:3px 9px;font-size:12px}
+/* range with grab handles */
+.rng{position:relative;height:78px;margin:12px 6px 0;touch-action:none;user-select:none}
+.rbar{position:absolute;left:0;right:0;top:18px;height:18px;background:var(--surface2);border:1px solid var(--line);border-radius:3px}
+.rdom{position:absolute;top:18px;height:18px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:2px;pointer-events:none}
+.rsel{position:absolute;top:14px;height:26px;border:2px solid var(--fg);border-radius:3px;background:color-mix(in srgb,var(--fg) 8%,transparent);pointer-events:none}
+.grip{position:absolute;top:8px;width:16px;height:38px;margin-left:-8px;background:var(--fg);color:var(--bg);border-radius:4px;cursor:ew-resize;display:flex;align-items:center;justify-content:center;touch-action:none}
+.grip::before{content:"";width:2px;height:16px;border-left:2px solid var(--bg);border-right:2px solid var(--bg);width:6px}
+.grip span{position:absolute;top:-17px;font:500 11px var(--f-mono);color:var(--fg);white-space:nowrap}
+.tick{position:absolute;top:40px;width:1px;height:6px;background:var(--muted)}
+.tick.mid{height:4px;opacity:.6}
+.tlab{position:absolute;top:48px;transform:translateX(-50%);font:10px var(--f-mono);color:var(--muted)}
+.dlabel{font:11px var(--f-mono);color:var(--muted);margin-top:2px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{border:1px solid var(--line);background:var(--surface2);color:var(--muted);border-radius:999px;padding:3px 11px;font-size:12px;cursor:pointer;text-decoration:line-through;text-decoration-color:transparent}
+.tag[aria-pressed=true]{text-decoration:none;color:var(--fg)}
+.tag[data-g=cat][aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.tag[data-g=scope][aria-pressed=true]{background:var(--cell-soft);border-color:var(--cell);color:var(--cell)}
+.tag[data-g=avail][aria-pressed=true]{background:var(--avail-soft);border-color:var(--avail);color:var(--avail)}
+.tag[aria-pressed=false]{opacity:.65}
+.plates{display:flex;gap:8px;flex-wrap:wrap}
+.plate{border:1px solid var(--line);background:var(--surface2);border-radius:6px;padding:6px 8px;cursor:pointer;text-align:center;font:500 12px var(--f-mono);color:var(--muted)}
+.plate svg{display:block;margin:0 auto 3px}
+.plate[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.plate .und{display:block;height:34px;line-height:34px;font:600 18px var(--f-display)}
+.chk{display:flex;gap:8px;align-items:flex-start;margin:4px 0;font-size:13px}
+.note{font-size:12px;color:var(--muted);margin:8px 0 0}
+.welcome{border:1px dashed var(--line);border-radius:6px;padding:24px;background:var(--surface)}
+.welcome h2{font-size:22px;margin-bottom:8px}
+.welcome ol{margin:10px 0 0;padding-left:20px;color:var(--muted)}
+.summary{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.summary h2{font-size:22px}
+.summary a{font:12px var(--f-mono);color:var(--accent);margin-left:6px}
+.meta{font:12px var(--f-mono);color:var(--muted)}
+.cls{display:flex;flex-direction:column;gap:6px}
+.cls div{font-size:13px;padding:6px 10px;border-left:3px solid var(--accent);background:var(--surface)}
+.cls .partial{border-color:var(--warn);background:var(--warn-soft)}
+.cls .outside{border-color:var(--bad);background:var(--bad-soft)}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 6px}
+@media(max-width:600px){.flow{grid-template-columns:1fr}}
+.flow a{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:10px 12px}
+.flow b{font:500 11px var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);display:block}
+.flow span{font:600 22px var(--f-display)}
+.flow small{display:block;color:var(--muted);font-size:12px}
+.sect{margin:22px 0 8px;display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sect h2{font-size:19px}
+.sect p{margin:0;color:var(--muted);font-size:13px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-bottom:10px;overflow:hidden}
+.card.inplan{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.card.dim{opacity:.55}
+.card header{display:flex;gap:12px;padding:12px 14px;align-items:flex-start;flex-wrap:wrap}
+.card .tt{flex:1 1 280px;min-width:0}
+.card h3{font-size:16px;font-family:var(--f-body);font-weight:600}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pill{font:500 11px var(--f-mono);padding:2px 7px;border-radius:3px;background:var(--surface2);color:var(--muted)}
+.pill.cell{background:var(--cell-soft);color:var(--cell)}
+.pill.avail{background:var(--avail-soft);color:var(--avail)}
+.pill.draft{background:var(--warn-soft);color:var(--warn)}
+.pill.rev{background:var(--accent-soft);color:var(--accent)}
+.pill.pri{background:var(--accent);color:var(--accent-fg)}
+.meters{display:flex;gap:16px;flex-wrap:wrap}
+.meter{min-width:120px}
+.meter .l{font:11px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.bars{display:flex;gap:2px;margin:3px 0}
+.bars i{width:18px;height:8px;background:var(--surface2);border-radius:1px}
+.bars i.on{background:var(--accent)}
+.meter .v{font-size:12px}
+.card .body{padding:0 14px 12px;border-top:1px solid var(--line)}
+.card .always{padding:0 14px 10px;color:var(--muted);font-size:13px}
+.dl{display:grid;grid-template-columns:130px minmax(0,1fr);gap:6px 12px;margin:10px 0 0;font-size:13px}
+@media(max-width:600px){.dl{grid-template-columns:1fr}}
+.dl dt{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.dl dd{margin:0}
+.kits{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.kits h4{margin:6px 0 0;font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kit{border:1px solid var(--line);border-radius:4px;padding:8px 10px;background:var(--bg);font-size:13px}
+.kit a{color:var(--accent)}
+.kit .u{color:var(--bad);font-weight:600;font-size:12px}
+.actions{display:flex;gap:8px;padding:0 14px 12px;flex-wrap:wrap}
+.dropped{font-size:13px;color:var(--muted);margin-top:16px;padding:10px 12px;border:1px dashed var(--line);border-radius:6px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--surface);border-left:2px solid var(--accent);padding:16px max(16px,env(safe-area-inset-right,0px)) 16px 16px;padding-top:max(16px,env(safe-area-inset-top,0px));overflow:auto;z-index:20;box-shadow:-8px 0 24px rgba(0,0,0,.18)}
+.drawer h2{font-size:19px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.drawer ol{margin:0;padding-left:20px}
+.drawer li{margin:6px 0}
+.drawer textarea{width:100%;min-height:160px;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:8px;font:12px/1.5 var(--f-mono);margin-top:10px}
+details.defs{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+details.defs summary{cursor:pointer;font:600 16px var(--f-display)}
+details.defs dl{display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 14px;font-size:13px;margin:12px 0 0}
+@media(max-width:700px){details.defs dl{grid-template-columns:1fr}}
+details.defs dt{font-weight:600}
+details.defs dd{margin:0;color:var(--muted)}
+details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px 5px;border-radius:3px}
+.std{min-width:150px;max-width:210px}
+.std .l{font:11px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.sbar{height:10px;background:var(--surface2);border-radius:2px;margin:3px 0;overflow:hidden}
+.sbar i{display:block;height:100%;background:var(--avail)}
+.std .v{font-size:12px}
+.std.none .v{color:var(--muted)}
+.ubreak{display:grid;grid-template-columns:150px minmax(0,1fr) 44px;gap:4px 8px;align-items:center;font-size:12px;margin-top:4px}
+.ubreak .sbar{margin:0}
+.sortrow{display:flex;gap:8px;align-items:center;margin:10px 0 0;font-size:13px;color:var(--muted)}
+.sortrow select{width:auto}
+.exbanner{background:var(--warn-soft);color:var(--warn);border-radius:4px;padding:6px 10px;font-size:12px;margin-bottom:10px}
+.foot{margin-top:20px;font-size:12px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div><h1>Assay Builder</h1><span class="ver">v0.1 2026-11-07</span>
+      <div class="dbdate">Curated assay database last updated YYYY-MM-DD</div></div>
+    <div class="topr">
+      <button class="linkbtn" id="defslink">Definitions</button>
+      <button class="cartbtn" id="cart" aria-label="Open my plan" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12.5h11L21 7H6"/></svg>
+        My plan <span class="n zero" id="cartn">0</span></button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <aside class="rail">
+      <div class="panel" id="p1">
+        <h3>1. Target and construct</h3>
+        <div class="step" id="hint"><b>Step 1 of 3</b>Choose the protein you want to screen.</div>
+        <label class="lbl" for="prot">Protein</label>
+        <select id="prot"></select>
+        <p class="note">This build includes three proteins (GLP1R, HDAC1, BRD4). Lookup of any protein from UniProt is the next step.</p>
+
+        <div class="stepblock" id="sb2" hidden>
+          <div class="step"><b>Step 2 of 3</b>Drag the handles to set the residues your construct covers. Blue bands are annotated domains.</div>
+          <div class="row"><input type="number" id="cs" min="1" aria-label="First residue"><span>to</span><input type="number" id="ce" aria-label="Last residue"></div>
+          <div class="rng" id="rng"></div>
+          <div class="dlabel" id="dlabel"></div>
+          <div class="tags" id="presets" style="margin-top:8px"></div>
+          <div style="margin-top:12px"><button class="btn primary" id="cconfirm">Use this construct</button></div>
+        </div>
+
+        <div class="stepblock" id="sb3" hidden>
+          <div class="step"><b>Step 3 of 3</b>What do you want the compound to do?</div>
+          <div class="seg" id="effect"><button aria-pressed="false" data-v="inhibition">Inhibition</button><button aria-pressed="false" data-v="activation">Activation</button></div>
+        </div>
+      </div>
+
+      <div class="panel" id="p2" hidden>
+        <h3>2. What to show</h3>
+        <span class="lbl">Assay setting</span>
+        <div class="tags" id="tscope"></div>
+        <span class="lbl">Availability</span>
+        <div class="tags" id="tavail"></div>
+        <span class="lbl">Category</span>
+        <div class="tags" id="tcat"></div>
+        <p class="note">Click a tag to hide or show it. Colors only separate the groups.</p>
+      </div>
+
+      <div class="panel" id="p3" hidden>
+        <h3>3. Specify experimental setup</h3>
+        <span class="lbl">Plate format (pick all you plan to use)</span>
+        <div class="plates" id="plates"></div>
+        <span class="lbl">Instruments</span>
+        <label class="chk"><input type="checkbox" checked> Plate reader (fluorescence, luminescence)</label>
+        <label class="chk"><input type="checkbox" checked> HTRF / TR-FRET reader</label>
+        <label class="chk"><input type="checkbox"> Kinetic reader with online liquid addition (FLIPR-type)</label>
+        <label class="chk"><input type="checkbox"> LC-MS / RapidFire</label>
+        <label class="chk"><input type="checkbox"> Biosensor (SPR / BLI)</label>
+        <label class="chk"><input type="checkbox"> Cell culture and imaging</label>
+        <p class="note">Plate formats dim assays that are not typically run in your selection. Instruments are not used yet.</p>
+      </div>
+    </aside>
+
+    <main>
+      <div class="welcome" id="welcome">
+        <h2>Start with your target</h2>
+        <p style="margin:0;color:var(--muted)">Recommendations appear once you have told the app three things.</p>
+        <ol><li>Which protein</li><li>Which part of it your construct covers</li><li>Whether you want inhibition or activation</li></ol>
+      </div>
+      <div id="results" hidden>
+        <div class="summary" id="summary"></div>
+        <div class="flow" id="flow"></div>
+        <div class="sortrow"><label for="sort">Order within each stage by</label><select id="sort"><option value="priority">development priority</option><option value="standard">how standard (most used first)</option></select></div>
+        <div id="out"></div>
+      </div>
+      <details class="defs" id="defs">
+        <summary>How this app defines its terms</summary>
+        <dl id="defsbody"></dl>
+      </details>
+      <p class="foot">Entries marked draft have not been reviewed by an expert. Vendor listings were seen on the web on 2026-11-07; confirm readout, format and availability on the datasheet before ordering.</p>
+    </main>
+  </div>
+</div>
+
+<aside class="drawer" id="drawer" hidden aria-label="My plan">
+  <h2>My plan <button class="btn small" id="dclose">Close</button></h2>
+  <p class="note" id="empty">Nothing added yet. Use "Add to my plan" on any assay.</p>
+  <ol id="planlist"></ol>
+  <textarea id="plantext" readonly aria-label="Plan as text" hidden></textarea>
+  <div class="actions" style="padding:8px 0 0" id="pacts" hidden><button class="btn primary" id="copy">Copy plan text</button><button class="btn" id="clear">Clear</button></div>
+</aside>
+
+<script>
+(async()=>{
+const asStr=a=>(a||[]).join("; ");
+let D;
+try{
+  const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
+  D={proteins:prots,cfg:db.config,usage:db.usage_stats,meta:db.meta,
+   playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||""})),
+   kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
+}catch(e){
+  document.querySelector("main").innerHTML='<div class="welcome"><h2>Could not load the database</h2><p>'+String(e.message).replace(/</g,"&lt;")+'. Open this page from the published site (not as a local file) and check that docs/assay_db.json exists.</p></div>';
+  return;
+}
+const _lc=D.meta.last_curated;
+document.querySelector(".dbdate").textContent="Curated assay database last updated "+(_lc||"YYYY-MM-DD");
+const LV = {very_low:1,low:2,moderate:3,high:4,very_high:5};
+const LVL = {very_low:"very low",low:"low",moderate:"moderate",high:"high",very_high:"very high"};
+const CATS = {biochemical_hts:"Biochemical HTS",cell_functional:"Cell-based functional",biophysical_binding:"Biophysical binding",orthogonal_confirmation:"Orthogonal confirmation",mechanistic_counterscreen:"Selectivity / counterscreen"};
+const ROLES = [["primary","Primary","Suitable and scalable for first-pass screening"],["confirmation","Confirmation","Re-test hits with a different method"],["counterscreen","Counterscreen","Remove artifacts and off-target hits"]];
+const SCOPES = {free:"Cell-free assays",cell:"Cell-based assays"};
+const AVAIL = {kit:"Commercial kit available",method:"Method only (no kit recorded)"};
+const FULLCOV = 0.9, PARTIALCOV = 0;
+const $ = id => document.getElementById(id);
+const S = {prot:null,start:1,end:1,stage:0,effect:null,sort:'priority',scope:new Set(Object.keys(SCOPES)),avail:new Set(Object.keys(AVAIL)),cats:new Set(Object.keys(CATS)),plates:new Set(),plan:new Set(),open:new Set()};
+const split = s => (s||"").split(/[;|]/).map(x=>x.trim()).filter(Boolean);
+const isCell = r => /cell/i.test(r.scope||"") && !/free/i.test(r.scope||"");
+const mainRole = r => (split(r.role.replace(/ or /g,";"))[0]||"primary").toLowerCase();
+const pnum = r => { const m = (r.development_priority||"").match(/P(\d)/g); return m? Math.min(...m.map(x=>+x[1])) : 9; };
+const esc = t => String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const plateEst = r => { const l=LV[r.screening_suitability]||0; return l>=4?["96","384","1536"]:l===3?["96","384"]:["96"]; };
+const platesOf = r => split(r.plate_formats).length?{list:split(r.plate_formats),est:false}:{list:plateEst(r),est:true};
+const doiUrl = d => /^https?:/.test(d)?d:"https://doi.org/"+d;
+
+function merge(spans){const a=[...spans].sort((x,y)=>x[0]-y[0]),m=[];for(const [s,e] of a){if(m.length&&s<=m[m.length-1][1]+1)m[m.length-1][1]=Math.max(m[m.length-1][1],e);else m.push([s,e]);}return m;}
+function classStatus(c){
+  if(!c.anchors.length) return {st:"applies",note:c.id==="generic"?c.why:c.why+"; no functional domain annotated in UniProt, so construct coverage cannot be checked"};
+  const m=merge(c.anchors), tot=m.reduce((a,[s,e])=>a+e-s+1,0), ins=m.reduce((a,[s,e])=>a+Math.max(0,Math.min(e,S.end)-Math.max(s,S.start)+1),0), f=ins/tot;
+  const rg=m.map(([s,e])=>s+"-"+e).join(", ");
+  if(f>=FULLCOV) return {st:"applies",note:c.why+"; domain "+rg+" fully inside your construct"};
+  if(f>PARTIALCOV) return {st:"partial",note:"WARNING: only "+Math.round(f*100)+"% of domain "+rg+" is inside your construct"};
+  return {st:"outside",note:"domain "+rg+" is OUTSIDE your construct, so these assays are dropped"};
+}
+function meter(label,key){const n=LV[key]||0;return `<div class="meter"><div class="l">${label}</div><div class="bars" aria-hidden="true">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div><div class="v">${LVL[key]||"-"}</div></div>`;}
+function usageFor(r){
+  const rows=D.usage.filter(u=>u.entry_id===r.entry_id);
+  const mine=rows.filter(u=>u.scope.type==='gene'&&u.scope.id===S.prot);
+  const pool=mine.length?mine:rows.filter(u=>u.scope.type==='function_class'&&D.proteins[S.prot].classes.some(c=>c.id===u.scope.id));
+  const top=pool.find(u=>!u.readout);
+  return top?{top,reads:pool.filter(u=>u.readout).sort((a,b)=>b.campaigns.using-a.campaigns.using)}:null;
+}
+const pct=x=>Math.round(x*100)+"%";
+function stdMeter(r){
+  const u=usageFor(r);
+  if(!u) return `<div class="std none"><div class="l">How standard</div><div class="v">no campaign data yet</div></div>`;
+  const t=u.top,s=t.standardness.score;
+  return `<div class="std"><div class="l">How standard</div><div class="sbar"><i style="width:${pct(s)}"></i></div>
+   <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
+}
+function kitsFor(r){return D.kits.filter(kt=>split(kt.applies_to_entries).includes(r.entry_id)).filter(kt=>{
+  const sc=kt.target_scope||""; if(/^(pan-class|many)/i.test(sc)) return true;
+  return new RegExp("\\b"+S.prot+"\\b","i").test(sc);});}
+
+function render(){
+  const ready=S.stage>=3;
+  $("welcome").hidden=ready; $("results").hidden=!ready; $("p2").hidden=!ready; $("p3").hidden=!ready;
+  if(!ready) return;
+  const P=D.proteins[S.prot];
+  const stat={}; P.classes.forEach(c=>stat[c.id]=classStatus(c));
+  const full = S.start===1&&S.end===P.len;
+  $("summary").innerHTML = (D.usage.some(u=>u.is_example)?`<div class="exbanner">Usage percentages marked "example" are placeholder numbers for this demo, not real data.</div>`:"")+`<div><h2>${esc(S.prot)} <span class="meta">${P.acc}</span><a href="https://www.uniprot.org/uniprotkb/${P.acc}/entry" target="_blank" rel="noopener">UniProt ↗</a></h2><div>${esc(P.name)}, ${P.len} residues</div>
+   <div class="meta">Construct ${S.start}-${S.end}${full?" (full length)":""} · ${S.effect} · UniProt: ${P.kw} keywords, ${P.go} GO functions, ${P.pdb} PDB entries</div></div>
+   <div class="cls">${P.classes.map(c=>`<div class="${stat[c.id].st}"><b>${esc(c.label)}</b> <span style="color:var(--muted)">${esc(stat[c.id].note)}</span></div>`).join("")}</div>`;
+  const chosen=[],dropped=[];
+  for(const r of D.playbook){
+    const cl=split(r.classes).filter(c=>stat[c]); if(!cl.length) continue;
+    const sts=cl.map(c=>stat[c].st);
+    const level=sts.includes("applies")?"applies":sts.includes("partial")?"partial":null;
+    if(!level){dropped.push(r);continue}
+    if(!S.cats.has(r.assay_category)) continue;
+    if(!S.scope.has(isCell(r)?"cell":"free")) continue;
+    if(!S.avail.has(kitsFor(r).length?"kit":"method")) continue;
+    chosen.push({r,level,cl});
+  }
+  const sc=x=>{const u=usageFor(x.r);return u?u.top.standardness.score:-1};
+  chosen.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a.r))-ROLES.findIndex(x=>x[0]===mainRole(b.r))||(S.sort==='standard'?(sc(b)-sc(a)):0)||pnum(a.r)-pnum(b.r));
+  $("flow").innerHTML = ROLES.map(([k,n,d])=>{const g=chosen.filter(x=>mainRole(x.r)===k);return `<a href="#sec-${k}"><b>${n}</b><span>${g.length}</span><small>${d}</small></a>`}).join("");
+  const sel=[...S.plates];
+  let html="";
+  for(const [k,n,d] of ROLES){
+    const g=chosen.filter(x=>mainRole(x.r)===k);
+    html+=`<div class="sect" id="sec-${k}"><h2>${n} assays (${g.length})</h2><p>${d}</p></div>`;
+    if(!g.length) html+=`<div class="dropped">None for this protein with the current filters.</div>`;
+    for(const {r,level} of g){
+      const kits=kitsFor(r), pf=platesOf(r);
+      const open=S.open.has(r.entry_id), inplan=S.plan.has(r.entry_id), draft=/draft/i.test(r.status);
+      const specific=sel.filter(x=>x!=="und");
+      const dim=specific.length>0 && !specific.some(x=>pf.list.includes(x));
+      const dois=split(r.sources_doi);
+      html+=`<article class="card ${inplan?"inplan":""} ${dim?"dim":""}" id="a-${r.entry_id}">
+        <header><div class="tt"><h3>${esc(r.assay_name)} <span class="meta">[${r.entry_id}]</span></h3>
+          <div class="pills"><span class="pill">${CATS[r.assay_category]||r.assay_category}</span>${isCell(r)?'<span class="pill cell">cell-based</span>':'<span class="pill cell" style="background:var(--surface2);color:var(--muted)">cell-free</span>'}
+          <span class="pill pri">${esc(r.development_priority)}</span>${level==="partial"?'<span class="pill draft">domain only partly in construct</span>':""}
+          <span class="pill ${draft?"draft":"rev"}">${draft?"draft, needs expert review":"expert-reviewed"}</span>${kits.length?`<span class="pill avail">${kits.length} vendor option${kits.length>1?"s":""}</span>`:""}
+          <span class="pill">${pf.list.join(" · ")}-well${pf.est?" (est.)":""}</span>${dim?'<span class="pill draft">not typical for your plate format</span>':""}</div></div>
+          <div class="meters">${stdMeter(r)}${meter("HTS suitability",r.screening_suitability)}${meter("Biological relevance",r.biological_relevance)}</div></header>
+        <div class="always">${esc(r.measures)}</div>
+        ${open?`<div class="body"><dl class="dl">
+          <dt>Why use it</dt><dd>${esc(r.rationale)}</dd>
+          <dt>Readouts</dt><dd>${split(r.readouts).map(esc).join(" · ")}</dd>
+          <dt>Typical conditions</dt><dd>${esc(r.conditions)}</dd>
+          <dt>Reagents</dt><dd>${esc(r.reagents)}</dd>
+          ${(()=>{const u=usageFor(r);if(!u)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(t.scope.id)}, stage: ${esc(t.stage.replace("_"," "))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns that stated a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.est?" <span class='meta'>(estimated from the HTS suitability rating; not yet reviewed)</span>":""}</dd>
+          ${r.rating_notes?`<dt>Rating notes</dt><dd>${esc(r.rating_notes)}</dd>`:""}
+          <dt>Sources</dt><dd>${dois.length?dois.map(d=>`<a class="btn small" href="${esc(doiUrl(d))}" target="_blank" rel="noopener">DOI ↗ ${esc(d.replace(/^https?:\/\/(dx\.)?doi\.org\//,""))}</a>`).join(" "):"<span class='meta'>none recorded yet</span>"}</dd>
+          <dt>Review status</dt><dd>${esc(r.status)}</dd>
+          ${r.learn_more_url?`<dt>Learn more</dt><dd><a class="btn small" href="${esc(r.learn_more_url)}" target="_blank" rel="noopener">How this assay works ↗</a></dd>`:""}</dl>
+          <div class="kits"><h4>Vendor options</h4>${kits.length?kits.map(kt=>`<div class="kit"><b>${esc(kt.vendor)}</b>: ${esc(kt.product)}${kt.product_code&&kt.product_code!=="see vendor"?` <span class="meta">(${esc(kt.product_code)})</span>`:""}<br><span class="meta">${esc(kt.target_scope)} · ${esc(kt.format)}</span>
+            ${kt.status==="unverified"?' <span class="u">UNVERIFIED (user-reported)</span>':""}${kt.url?`<br><a href="${esc(kt.url)}" target="_blank" rel="noopener">vendor page ↗</a>`:""}</div>`).join(""):'<div class="kit">No vendor option recorded yet for this assay.</div>'}</div></div>`:""}
+        <div class="actions"><button class="btn" data-open="${r.entry_id}">${open?"Hide details":"Show details"}</button>
+          <button class="btn ${inplan?"":"primary"}" data-plan="${r.entry_id}">${inplan?"Remove from plan":"Add to my plan"}</button></div>
+      </article>`;
+    }
+  }
+  if(dropped.length) html+=`<div class="dropped"><b>Dropped because the domain is outside your construct:</b><br>${dropped.map(r=>esc(r.assay_name)+" ["+r.entry_id+"]").join("<br>")}</div>`;
+  $("out").innerHTML=html;
+}
+function renderPlan(){
+  const rows=D.playbook.filter(r=>S.plan.has(r.entry_id));
+  $("cartn").textContent=rows.length; $("cartn").classList.toggle("zero",!rows.length);
+  $("empty").hidden=rows.length>0; $("plantext").hidden=!rows.length; $("pacts").hidden=!rows.length;
+  rows.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a))-ROLES.findIndex(x=>x[0]===mainRole(b))||pnum(a)-pnum(b));
+  $("planlist").innerHTML=rows.map(r=>`<li><b>${esc(r.assay_name)}</b> <span class="meta">${mainRole(r)} · ${esc(r.development_priority)}</span> <button class="btn small" data-rm="${r.entry_id}">Remove</button></li>`).join("");
+  $("plantext").value=`Assay plan for ${S.prot}, construct ${S.start}-${S.end}, ${S.effect||""}\n`+rows.map((r,i)=>`${i+1}. [${mainRole(r)}] ${r.assay_name} (${r.development_priority}); readouts: ${split(r.readouts).join(", ")}`).join("\n");
+}
+
+/* ---- range with grab handles ---- */
+function niceStep(L){for(const s of [10,20,25,50,100,200,250,500,1000]) if(L/s<=10) return s; return 1000;}
+function drawRange(){
+  const P=D.proteins[S.prot],L=P.len,pc=x=>(x-1)/Math.max(1,L-1)*100,step=niceStep(L);
+  let h=`<div class="rbar"></div>`+P.domains.map(d=>`<div class="rdom" style="left:${pc(d.s)}%;width:${(d.e-d.s)/Math.max(1,L-1)*100}%" title="${esc(d.name)} ${d.s}-${d.e}"></div>`).join("");
+  h+=`<div class="rsel" style="left:${pc(S.start)}%;width:${(S.end-S.start)/Math.max(1,L-1)*100}%"></div>`;
+  for(let v=0;v<=L;v+=step/2){const x=Math.max(1,v);const major=v%step===0;h+=`<div class="tick ${major?"":"mid"}" style="left:${pc(x)}%"></div>`+(major&&v>0&&pc(x)<92?`<div class="tlab" style="left:${pc(x)}%">${v}</div>`:"")}
+  h+=`<div class="tlab" style="left:0%;transform:none">1</div><div class="tlab" style="left:100%;transform:translateX(-100%)">${L}</div>`;
+  h+=`<div class="grip" id="gs" tabindex="0" role="slider" aria-label="Construct start" aria-valuemin="1" aria-valuemax="${L}" aria-valuenow="${S.start}" style="left:${pc(S.start)}%"><span>${S.start}</span></div>`;
+  h+=`<div class="grip" id="ge" tabindex="0" role="slider" aria-label="Construct end" aria-valuemin="1" aria-valuemax="${L}" aria-valuenow="${S.end}" style="left:${pc(S.end)}%"><span style="transform:translateX(-30%)">${S.end}</span></div>`;
+  $("rng").innerHTML=h;
+  $("dlabel").textContent=P.domains.length?"Annotated domains: "+P.domains.map(d=>d.name+" "+d.s+"-"+d.e).join(", "):"No functional domains annotated in UniProt";
+}
+let drag=null;
+function posToRes(ev){const r=$("rng").getBoundingClientRect(),L=D.proteins[S.prot].len;return Math.round(1+Math.min(1,Math.max(0,(ev.clientX-r.left)/r.width))*(L-1));}
+$("rng").addEventListener("pointerdown",e=>{
+  const g=e.target.closest(".grip");let w=g?g.id:null;
+  if(!w){const v=posToRes(e);w=Math.abs(v-S.start)<=Math.abs(v-S.end)?"gs":"ge";}
+  drag=w;$("rng").setPointerCapture(e.pointerId);moveTo(e);});
+$("rng").addEventListener("pointermove",e=>{if(drag)moveTo(e)});
+$("rng").addEventListener("pointerup",()=>{drag=null});
+function moveTo(e){const v=posToRes(e);if(drag==="gs")setRange(Math.min(v,S.end),S.end);else setRange(S.start,Math.max(v,S.start));}
+$("rng").addEventListener("keydown",e=>{const g=e.target.closest(".grip");if(!g)return;const d={ArrowLeft:-1,ArrowRight:1}[e.key];if(!d)return;e.preventDefault();const k=(e.shiftKey?10:1)*d;
+  if(g.id==="gs")setRange(Math.min(S.start+k,S.end),S.end);else setRange(S.start,Math.max(S.end+k,S.start));$(g.id).focus();});
+function syncInputs(){$("cs").value=S.start;$("ce").value=S.end;$("cs").max=$("ce").max=D.proteins[S.prot].len;}
+function setRange(s,e){const L=D.proteins[S.prot].len;s=Math.max(1,Math.min(L,Math.round(+s)||1));e=Math.max(1,Math.min(L,Math.round(+e)||L));if(s>e)[s,e]=[e,s];S.start=s;S.end=e;syncInputs();drawRange();if(S.stage>=3)render();renderPlan();}
+
+/* ---- guided steps ---- */
+function setProt(p){
+  S.prot=p;const P=D.proteins[p];S.start=1;S.end=P.len;
+  S.plan=new Set([...S.plan]);
+  $("presets").innerHTML=`<button class="tag" data-g="cat" aria-pressed="true" data-pre="1-${P.len}">Full length</button>`+P.domains.map(d=>`<button class="tag" data-g="cat" aria-pressed="true" data-pre="${d.s}-${d.e}">${esc(d.name)} ${d.s}-${d.e}</button>`).join("");
+  syncInputs();drawRange();
+  if(S.stage<1){S.stage=1;$("sb2").hidden=false;$("hint").innerHTML="<b>Step 1 of 3 done</b>Protein chosen. Continue below.";}
+  render();renderPlan();
+}
+$("prot").innerHTML=`<option value="" disabled selected>Choose a protein…</option>`+Object.keys(D.proteins).map(p=>`<option>${p}</option>`).join("");
+$("prot").onchange=e=>setProt(e.target.value);
+["cs","ce"].forEach(i=>$(i).onchange=()=>setRange($("cs").value,$("ce").value));
+$("presets").onclick=e=>{const b=e.target.closest("[data-pre]");if(b){const [s,en]=b.dataset.pre.split("-");setRange(s,en)}};
+$("cconfirm").onclick=()=>{if(S.stage<2){S.stage=2;$("sb3").hidden=false;$("sb3").scrollIntoView({block:"nearest",behavior:"smooth"});}};
+$("effect").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.effect=b.dataset.v;[...$("effect").children].forEach(x=>x.setAttribute("aria-pressed",x===b));if(S.stage<3)S.stage=3;render();renderPlan();};
+
+/* ---- tags ---- */
+function mkTags(id,obj,set,g){$(id).innerHTML=Object.entries(obj).map(([k,v])=>`<button class="tag" data-g="${g}" data-k="${k}" aria-pressed="true">${v}</button>`).join("");
+  $(id).onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;const k=b.dataset.k;set.has(k)?set.delete(k):set.add(k);b.setAttribute("aria-pressed",set.has(k));render()};}
+mkTags("tscope",SCOPES,S.scope,"scope");mkTags("tavail",AVAIL,S.avail,"avail");mkTags("tcat",CATS,S.cats,"cat");
+
+/* ---- plate icons ---- */
+const PL={96:[8,12],384:[16,24],1536:[32,48]};
+function plateSvg(n){const [r,c]=PL[n],W=54,H=38,dx=(W-8)/(c-1),dy=(H-8)/(r-1),rad=n==96?1.7:n==384?.9:.45;let d="";for(let i=0;i<r;i++)for(let j=0;j<c;j++)d+=`<circle cx="${4+j*dx}" cy="${4+i*dy}" r="${rad}"/>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true"><rect x=".5" y=".5" width="${W-1}" height="${H-1}" rx="4" fill="none" stroke="currentColor"/><g fill="currentColor">${d}</g></svg>`;}
+$("plates").innerHTML=[96,384,1536].map(n=>`<button class="plate" data-p="${n}" aria-pressed="false">${plateSvg(n)}×${n}</button>`).join("")+`<button class="plate" data-p="und" aria-pressed="false"><span class="und">?</span>Not decided</button>`;
+$("plates").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;const k=b.dataset.p;
+  if(k==="und"){S.plates.clear();S.plates.add("und");}else{S.plates.delete("und");S.plates.has(k)?S.plates.delete(k):S.plates.add(k);}
+  [...$("plates").children].forEach(x=>x.setAttribute("aria-pressed",S.plates.has(x.dataset.p)));render();};
+
+/* ---- results actions, drawer ---- */
+$("out").onclick=e=>{const o=e.target.closest("[data-open]"),p=e.target.closest("[data-plan]");
+  if(o){const k=o.dataset.open;S.open.has(k)?S.open.delete(k):S.open.add(k);render()}
+  if(p){const k=p.dataset.plan;S.plan.has(k)?S.plan.delete(k):S.plan.add(k);render();renderPlan()}};
+$("planlist").onclick=e=>{const b=e.target.closest("[data-rm]");if(b){S.plan.delete(b.dataset.rm);render();renderPlan()}};
+function drawer(open){$("drawer").hidden=!open;$("cart").setAttribute("aria-expanded",open)}
+$("cart").onclick=()=>drawer($("drawer").hidden);$("dclose").onclick=()=>drawer(false);
+$("sort").onchange=e=>{S.sort=e.target.value;render()};
+$("copy").onclick=()=>{const t=$("plantext");t.select();try{navigator.clipboard.writeText(t.value).catch(()=>{})}catch(_){}};
+$("clear").onclick=()=>{S.plan.clear();render();renderPlan()};
+
+/* ---- definitions (shows the settings coded into the app) ---- */
+const DEFS=[
+["Primary / Confirmation / Counterscreen","The stage an assay plays. Primary: suitable and scalable for first-pass screening. Confirmation: re-tests hits, often with a different method. Counterscreen: removes artifacts and off-target hits. Each assay has one main stage in the database."],
+["Biochemical HTS","Purified-component assay built for screening many compounds (for example a fluorogenic enzyme assay)."],
+["Cell-based functional","Measures a response in living cells, such as cAMP, calcium or reporter signal. Cell-based assays are the usual primary screens for GPCRs and ion channels."],
+["Biophysical binding","Detects direct compound binding to the protein (for example thermal shift, SPR, ITC, ASMS) without requiring a functional readout."],
+["Orthogonal confirmation","An assay that measures the same question with a different detection principle than the primary, so technology-specific artifacts are less likely to repeat. In this database it is a category label chosen by the curator. It does not mean the assay is harder to miniaturize; that is what the HTS suitability rating shows."],
+["Selectivity / counterscreen","Tests that separate true target effects from artifacts or from effects on related proteins (readout interference, related family members, parental cells)."],
+["HTS suitability (5 levels)","very low, low, moderate, high, very high. How well the assay scales to screening: miniaturization, cost, speed, automation. Curator rating."],
+["Biological relevance (5 levels)","very low to very high. How directly the readout reflects the biology you care about. Curator rating."],
+["Priority P1 to P4","P1 develop first; P2 develop next as follow-up or orthogonal; P3 mechanism or selectivity follow-up; P4 specialized. This reading of the reviewer's scale is not yet confirmed. Assays with two values (P1/P2) are sorted by the lower number."],
+["Construct coverage thresholds","Domain at least "+Math.round(FULLCOV*100)+"% inside your construct: assays apply. Between 0% and "+Math.round(FULLCOV*100)+"%: assays are shown with a warning. 0%: assays for that function are dropped. If UniProt annotates no domain, coverage cannot be checked and assays are shown."],
+["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
+["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
+["Plate formats (estimated)","Until each entry has a reviewed plate-format list, the app estimates it from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Assays are dimmed, never hidden, when none of your selected formats fit."],
+["Draft vs expert-reviewed","Draft entries were written by Claude and have not been reviewed by an expert. Reviewed entries were edited by the expert reviewer (name and date not yet recorded)."],
+["Vendor options","Kits and services found on vendor web pages on 2026-11-07, or reported by users and marked UNVERIFIED. Check datasheets before ordering."]];
+$("defsbody").innerHTML=DEFS.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("");
+$("defslink").onclick=()=>{$("defs").open=true;$("defs").scrollIntoView({behavior:"smooth"})};
+renderPlan();render();
+
+})();
+</script>

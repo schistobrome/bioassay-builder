@@ -1,22 +1,14 @@
-# Checks the tables and publishes the site on every push to main. (Not yet tested on GitHub.)
-name: Build and publish
+# Checks that the tables are valid on every push. The site itself is served from the docs/ folder
+# (Settings > Pages > Deploy from a branch > main > /docs), so run tools/build_db.py and commit docs/assay_db.json.
+name: Check data
 on:
   push: {branches: [main]}
-  workflow_dispatch:
-permissions: {contents: read, pages: write, id-token: write}
+  pull_request:
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: python tools/build_db.py
-      - uses: actions/upload-pages-artifact@v3
-        with: {path: docs}
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: {name: github-pages}
-    steps:
-      - uses: actions/deploy-pages@v4
+      - run: python tools/build_db.py --out /tmp/assay_db_check.json
