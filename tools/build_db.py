@@ -72,6 +72,19 @@ def main():
     if args.include_examples:
         usage += read("", os.path.join(ROOT, "examples", "usage_stats.example.csv"))
 
+    cond_path = os.path.join(DATA, "condition_stats.csv")        # optional, written by build_database.py
+    conds = []
+    if os.path.exists(cond_path):
+        for u in read("condition_stats.csv"):
+            if u["entry_id"] not in {a["entry_id"] for a in assays}:
+                continue
+            def fnum(x): return float(x) if x not in ("", None) else None
+            conds.append({"entry_id": u["entry_id"], "scope": {"type": u["scope_type"], "id": u["scope_id"]},
+                          "parameter": u["parameter"], "kind": u["kind"], "n_using": num(u["n_campaigns_using"], "condition_stats.csv"),
+                          "n_stating": num(u["n_campaigns_stating"], "condition_stats.csv"),
+                          "median": fnum(u["median"]), "p25": fnum(u["p25"]), "p75": fnum(u["p75"]), "min": fnum(u["min"]), "max": fnum(u["max"]),
+                          "top": [[v.rsplit("|", 1)[0], float(v.rsplit("|", 1)[1])] for v in [x.strip() for x in u["top_values"].split(";")] if "|" in v]})
+
     class_ids = {c["class_id"] for c in classes}
     if len(class_ids) != len(classes):
         err("function_classes.csv: duplicate class_id")
@@ -139,7 +152,7 @@ def main():
     out = {
         "meta": {"schema_version": "0.1", "built_on": date.today().isoformat(),
                  "last_curated": max([a.get("reviewed_on", "") for a in assays if a.get("reviewed_on")] or [None]),
-                 "counts": {"assays": len(assays), "kits": len(kits), "usage_stats": len(stats)},
+                 "counts": {"assays": len(assays), "kits": len(kits), "usage_stats": len(stats), "condition_stats": len(conds)},
                  "includes_example_data": bool(args.include_examples)},
         "config": config,
         "function_classes": [{
@@ -164,6 +177,7 @@ def main():
             "readout": k["readout"], "url": k["url"] or None,
             "verification": {"status": k["status"], "last_checked": k.get("last_checked") or None, "source": k.get("source", "")}} for k in kits],
         "usage_stats": stats,
+        "condition_stats": conds,
         "citations": cites,
     }
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
@@ -173,7 +187,7 @@ def main():
         print("\nNot built: fix the %d error(s) above." % len(ERRORS)); sys.exit(1)
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))      # compact: the usage table is large
-    print("Built %s: %d assays, %d kits, %d usage rows, %d warning(s)." % (os.path.relpath(args.out, ROOT), len(assays), len(kits), len(stats), len(WARNINGS)))
+    print("Built %s: %d assays, %d kits, %d usage rows, %d condition rows, %d warning(s)." % (os.path.relpath(args.out, ROOT), len(assays), len(kits), len(stats), len(conds), len(WARNINGS)))
 
 
 if __name__ == "__main__":

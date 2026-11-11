@@ -281,7 +281,7 @@ const asStr=a=>(a||[]).join("; ");
 let D;
 try{
   const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
-  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:db.usage_stats,meta:db.meta,
+  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:db.usage_stats,conds:db.condition_stats||[],meta:db.meta,
    playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,effect:a.effect||"",development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||""})),
    kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
 }catch(e){
@@ -334,6 +334,37 @@ const MINC=5;          /* fewer classifiable campaigns than this: look at the wi
 const EFFL={inhibition:"inhibition",activation:"activation",any:"all directions pooled"};
 const UBY={};D.usage.forEach(u=>{(UBY[u.entry_id]=UBY[u.entry_id]||[]).push(u)});
 const _ucache={};
+const CBY={};D.conds.forEach(u=>{(CBY[u.entry_id]=CBY[u.entry_id]||[]).push(u)});
+const CORDER=["buffer","ph","temperature","incubation_min","detergent","reducing_agent","dmso_pct","mgcl2_mm","nacl_mm","atp_um","bsa_pct","volume_ul"];
+const CLABEL={buffer:"Buffer",ph:"pH",temperature:"Temperature",incubation_min:"Incubation",detergent:"Detergent",reducing_agent:"Reducing agent",dmso_pct:"DMSO",mgcl2_mm:"MgCl2",nacl_mm:"NaCl",atp_um:"ATP",bsa_pct:"BSA",volume_ul:"Assay volume"};
+const fmt=(v,d=1)=>Number(v).toFixed(d).replace(/\.0+$/,"").replace(/(\.\d*?)0+$/,"$1");
+function condText(u){
+  if(u.kind==="categorical") return u.top.slice(0,4).map(([v,s])=>esc(v)+" "+pct(s)).join(", ");
+  const rng=(a,b,unit)=>a===b?"":" (middle half "+fmt(a)+" to "+fmt(b)+unit+")";
+  const P=u.parameter;
+  if(P==="ph") return "pH "+fmt(u.median)+rng(u.p25,u.p75,"");
+  if(P==="incubation_min") return (u.median>=90?fmt(u.median/60)+" h":fmt(u.median)+" min")+rng(u.p25,u.p75," min");
+  if(P==="dmso_pct") return fmt(u.median,2)+"% final"+rng(u.p25,u.p75,"%");
+  if(P==="mgcl2_mm"||P==="nacl_mm") return fmt(u.median)+" mM"+rng(u.p25,u.p75," mM");
+  if(P==="atp_um") return fmt(u.median)+" \u00b5M"+rng(u.p25,u.p75," \u00b5M");
+  if(P==="bsa_pct") return fmt(u.median,3)+"%"+rng(u.p25,u.p75,"%");
+  if(P==="volume_ul") return fmt(u.median)+" \u00b5L"+rng(u.p25,u.p75," \u00b5L");
+  return fmt(u.median);
+}
+function condFor(r){
+  const rows=CBY[r.entry_id]||[], P=D.proteins[S.prot];
+  const g=rows.filter(u=>u.scope.type==="gene"&&u.scope.id===S.prot);
+  const cl=rows.filter(u=>u.scope.type==="function_class"&&P.classes.some(c=>c.id===u.scope.id));
+  let pool=g,basis=S.prot;
+  const byParam={};
+  for(const u of cl){const o=byParam[u.parameter];if(!o||u.n_stating>o.n_stating)byParam[u.parameter]=u;}   /* class rows: the class with most campaigns */
+  const out={};
+  for(const k of CORDER){
+    const gu=g.find(u=>u.parameter===k);
+    if(gu) out[k]={u:gu,lvl:"protein"}; else if(byParam[k]) out[k]={u:byParam[k],lvl:"class"};
+  }
+  return CORDER.filter(k=>out[k]).map(k=>({k,...out[k]}));
+}
 function usageFor(r){
   const key=r.entry_id+"|"+S.prot+"|"+S.effect;
   if(key in _ucache) return _ucache[key];
@@ -480,6 +511,7 @@ function render(){
           <dt>Why use it</dt><dd>${esc(r.rationale)}</dd>
           <dt>Readouts</dt><dd>${split(r.readouts).map(esc).join(" · ")}</dd>
           <dt>Typical conditions</dt><dd>${esc(r.conditions)}</dd>
+          ${(()=>{const c=condFor(r);if(!c.length)return "";return `<dt>Reported by campaigns</dt><dd><div class="ubreak" style="grid-template-columns:120px minmax(0,1fr)">${c.map(x=>`<span>${CLABEL[x.k]}</span><span>${condText(x.u)} <span class="meta">n=${x.u.n_stating}${x.lvl==="class"?", class-wide":""}</span></span>`).join("")}</div><div class="meta">Values stated in public assay texts (first value stated per campaign; n = campaigns that state it, out of ${c[0].u.n_using} for this assay type). Use as a starting point; the curated text above is the reviewed recommendation.</div></dd>`})()}
           <dt>Reagents</dt><dd>${esc(r.reagents)}</dd>
           ${(()=>{const u=usageFor(r);if(!u)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns that stated a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
           <dt>Instruments</dt><dd>${instNeed(r).alts.length?"Readouts here need "+instNeed(r).alts.map(a=>INSTL[a]).join(" or ")+" (any one is enough).":"No special instrument beyond basic lab equipment."}${need.length?" <b>Not covered by your selection.</b>":""}</dd>
@@ -662,6 +694,7 @@ const DEFS=[
 ["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
 ["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Inhibition vs activation: the shares are recomputed for the effect you choose. For inhibition, every campaign not labeled as activation counts (binding and unlabeled assays are normally run to find inhibitors or binders). For activation, only campaigns labeled activation or mixed count. If the protein has fewer than "+MINC+" such campaigns, the app uses the whole function class instead and says so. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
+["Reported conditions","Under Show details, 'Reported by campaigns' lists values that public assay texts state: buffer, pH, temperature, incubation time, detergent, reducing agent, DMSO, MgCl2, NaCl, ATP, BSA and assay volume. For each assay type the app shows the median and the middle half of the stated values (numbers) or the shares of each choice (buffers, detergents and so on). A value is the first one stated in a campaign's text, so a campaign that also mentions a detection buffer may be misread. n is the number of campaigns that state the value; protein-specific values need at least 10, class-wide values at least 5. These are descriptive statistics, not a recommendation."],
 ["Liquid and plate handling","These items do not dim assays. They only produce notes: for example 1536-well work usually needs nanoliter compound transfer plus a bulk dispenser, and assays with wash steps (ELISA, filtration) are flagged when no plate washer is ticked. Which equipment public campaigns actually mention is listed by scripts/equipment_scan.py (build_output/equipment_mentions.csv)."],
 ["Instruments","Each readout listed for an assay needs an instrument (for example TR-FRET needs an HTRF reader, calcium dye assays need a kinetic reader). An assay is dimmed when none of its readouts can run with the instruments you ticked; cell-based assays also need cell culture. Readouts that name no instrument the app knows are ignored, and entries that say \'same readout as X\' use the readouts of X. The mapping is keyword based and not curated, so check the readout list."],
 ["Draft vs expert-reviewed","Draft entries were written by Claude and have not been reviewed by an expert. Reviewed entries were edited by the expert reviewer (name and date not yet recorded)."],

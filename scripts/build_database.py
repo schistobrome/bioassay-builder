@@ -1082,16 +1082,24 @@ def merge_campaign_lists(a, b):
         m = out.get(c["c"])
         if m is None:
             out[c["c"]] = {"c": c["c"], "f": set(c["f"]), "t": set(c["t"]), "e": [c["e"]], "x": {c["x"]}, "r": set(c.get("r", [])),
-                           "p": set(c.get("p", []))}
+                           "p": set(c.get("p", [])), "k": dict(c.get("k") or {})}
         else:
             m["f"].update(c["f"]); m["t"].update(c["t"]); m["e"].append(c["e"]); m["x"].add(c["x"]); m["r"].update(c.get("r", []))
             m["p"].update(c.get("p", []))
+            for key, val in (c.get("k") or {}).items():
+                m["k"].setdefault(key, val)
     return [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
-             "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]), "p": sorted(v["p"])}
+             "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]), "p": sorted(v["p"]), "k": v["k"]}
             for k, v in out.items()]
 
 
 EFFECTS = ("inhibition", "activation")
+
+CONDS_DIR = os.path.join(CACHE, "conditions")        # written by conditions.py (optional)
+CONDITION_COLUMNS = ["stat_id", "entry_id", "scope_type", "scope_id", "parameter", "kind", "n_campaigns_using",
+                     "n_campaigns_stating", "median", "p25", "p75", "min", "max", "top_values", "source",
+                     "retrieved_on", "method_version", "notes"]
+COND_MIN_N = {"gene": 10, "function_class": 5}       # campaigns that must state a parameter before a row is written
 
 PLATES_DIR = os.path.join(CACHE, "plates")          # written by plate_formats.py (optional)
 PLATE_RE = re.compile(r"(?<![\d.,])(?:(?P<n>96|384|1536|3456|6144)[\s\-]*(?:well|wells|microtit\w*|micro-?plate\w*|mtp|plates?|format)\b"
@@ -1111,6 +1119,112 @@ def plates_in(text):
             continue
         found.add(PLATE_NAME[m.group("n")] if m.group("n") else "low")
     return sorted(found)
+
+
+# ---------------------------------------------------------------- assay conditions stated in the text (pH, temperature, buffer ...)
+
+_U = r"[µμu]"                                              # micro sign variants
+COND_NUMERIC = ["ph", "incubation_min", "dmso_pct", "mgcl2_mm", "nacl_mm", "atp_um", "bsa_pct", "volume_ul"]
+COND_CATEGORICAL = ["temperature", "buffer", "detergent", "reducing_agent"]
+COND_LABEL = {"ph": "pH", "incubation_min": "incubation time (min)", "dmso_pct": "DMSO (% final)", "mgcl2_mm": "MgCl2 (mM)",
+              "nacl_mm": "NaCl (mM)", "atp_um": "ATP (uM)", "bsa_pct": "BSA (%)", "volume_ul": "assay volume (uL)",
+              "temperature": "temperature", "buffer": "buffer", "detergent": "detergent", "reducing_agent": "reducing agent"}
+_PH = re.compile(r"\bpH\s*(?:of|=|:|~|about|approximately)?\s*(\d{1,2}(?:\.\d{1,2})?)", re.I)
+_TEMP_C = re.compile(r"(?<![\d.])(\d{2})\s*(?:°|º|˚|degrees?)\s*(?:celsius|c)\b|(?<![\d.])(\d{2})\s*c\b(?!\w)", re.I)
+_RT = re.compile(r"room temp|ambient temp|\brt\b|\bambient\b", re.I)
+_TIME = re.compile(r"(?:incubat\w*|reaction|react\w*|for|after)\W{0,40}?(\d+(?:\.\d+)?)\s*(min(?:ute)?s?|h(?:ou)?rs?|h)\b", re.I)
+_DMSO1 = re.compile(r"(\d+(?:\.\d+)?)\s*%\s*(?:\(?v\s*/\s*v\)?\s*)?(?:final\s+)?DMSO", re.I)
+_DMSO2 = re.compile(r"DMSO\W{0,25}?(\d+(?:\.\d+)?)\s*%", re.I)
+_MG = re.compile(r"(\d+(?:\.\d+)?)\s*mM\s*(?:of\s*)?MgCl\s*2|MgCl\s*2\W{0,8}?(\d+(?:\.\d+)?)\s*mM", re.I)
+_NA = re.compile(r"(\d+(?:\.\d+)?)\s*mM\s*(?:of\s*)?NaCl|NaCl\W{0,8}?(\d+(?:\.\d+)?)\s*mM", re.I)
+_ATP = re.compile(r"(\d+(?:\.\d+)?)\s*(" + _U + r"M|mM|nM)\s*(?:of\s*)?ATP\b|\bATP\W{0,12}?(\d+(?:\.\d+)?)\s*(" + _U + r"M|mM|nM)", re.I)
+_BSA1 = re.compile(r"(\d*\.?\d+)\s*%\s*(?:\(?w\s*/\s*v\)?\s*)?(?:BSA|bovine serum albumin)", re.I)
+_BSA2 = re.compile(r"(\d*\.?\d+)\s*mg\s*/\s*m[lL]\s*(?:BSA|bovine serum albumin)", re.I)
+_VOL = re.compile(r"(?:final|total|assay|reaction)\s+(?:assay\s+|reaction\s+)?volume\W{0,25}?(\d+(?:\.\d+)?)\s*" + _U + r"[lL]\b", re.I)
+_BUFFERS = [("HEPES", r"hepes"), ("Tris", r"\btris\b|tris-?hcl"), ("phosphate / PBS", r"\bpbs\b|phosphate buffer|sodium phosphate|potassium phosphate"),
+            ("MOPS", r"\bmops\b"), ("MES", r"\bmes\b"), ("bicine", r"bicine"), ("HBSS", r"hbss|hank'?s"), ("citrate", r"citrate buffer|sodium citrate"),
+            ("glycine", r"glycine"), ("CHES", r"\bches\b"), ("acetate", r"acetate buffer|sodium acetate")]
+_DETERGENTS = [("Tween-20", r"tween[- ]?20|polysorbate"), ("Triton X-100", r"triton"), ("Brij-35", r"brij"), ("CHAPS", r"chaps"),
+               ("NP-40 / Nonidet", r"nonidet|np-?40"), ("Pluronic", r"pluronic"), ("CHAPSO / octyl glucoside", r"chapso|octyl[- ]glucoside"), ("SDS", r"\bsds\b")]
+_REDUCERS = [("DTT", r"\bdtt\b|dithiothreitol"), ("TCEP", r"\btcep\b"), ("2-mercaptoethanol", r"mercaptoethanol|\b2-?me\b|\bbme\b"), ("glutathione", r"glutathione|\bgsh\b")]
+_BUF_C = [(n, re.compile(rx, re.I)) for n, rx in _BUFFERS]
+_DET_C = [(n, re.compile(rx, re.I)) for n, rx in _DETERGENTS]
+_RED_C = [(n, re.compile(rx, re.I)) for n, rx in _REDUCERS]
+
+
+def _first(rx, text, group=1):
+    m = rx.search(text)
+    return float(m.group(group) or m.group(group + 1)) if m else None
+
+
+def conditions_in(text):
+    """Assay conditions a text states (first stated value; categories as lists).
+    Returns {parameter: value}; numbers are floats. Only plausible values are kept."""
+    text = str(text or "")
+    out = {}
+    for m in _PH.finditer(text):
+        v = float(m.group(1))
+        if 3.0 <= v <= 11.0:
+            out["ph"] = v
+            break
+    for m in _TEMP_C.finditer(text):
+        v = int(m.group(1) or m.group(2))
+        if 4 <= v <= 60:
+            out["temperature"] = ["%d C" % v]
+            break
+    else:
+        if _RT.search(text):
+            out["temperature"] = ["room temperature"]
+    for m in _TIME.finditer(text):
+        v = float(m.group(1)) * (60 if m.group(2).lower().startswith("h") else 1)
+        if 1 <= v <= 1440:
+            out["incubation_min"] = v
+            break
+    for rx in (_DMSO1, _DMSO2):
+        vals = [float(m.group(1)) for m in rx.finditer(text)]
+        vals = [v for v in vals if 0 < v <= 10]            # 100 % DMSO is the compound stock, not the assay
+        if vals:
+            out["dmso_pct"] = vals[0]
+            break
+    v = _first(_MG, text)
+    if v is not None and 0 < v <= 100:
+        out["mgcl2_mm"] = v
+    v = _first(_NA, text)
+    if v is not None and 0 < v <= 1000:
+        out["nacl_mm"] = v
+    m = _ATP.search(text)
+    if m:
+        num = float(m.group(1) or m.group(3))
+        unit = (m.group(2) or m.group(4)).lower().replace("µ", "u").replace("μ", "u")
+        um = num * 1000 if unit == "mm" else num / 1000 if unit == "nm" else num
+        if 0 < um <= 10000:
+            out["atp_um"] = um
+    m = _BSA1.search(text)
+    if m:
+        out["bsa_pct"] = float(m.group(1))
+    else:
+        m = _BSA2.search(text)
+        if m:
+            out["bsa_pct"] = float(m.group(1)) / 10.0
+    if "bsa_pct" in out and not 0 < out["bsa_pct"] <= 10:
+        del out["bsa_pct"]
+    v = _first(_VOL, text)
+    if v is not None and 0 < v <= 1000:
+        out["volume_ul"] = v
+    for key, table in (("buffer", _BUF_C), ("detergent", _DET_C), ("reducing_agent", _RED_C)):
+        found = [n for n, rx in table if rx.search(text)]
+        if found:
+            out[key] = found
+    return out
+
+
+def quantile(sorted_values, q):
+    if not sorted_values:
+        return None
+    pos = (len(sorted_values) - 1) * q
+    lo = int(pos)
+    hi = min(lo + 1, len(sorted_values) - 1)
+    return sorted_values[lo] + (sorted_values[hi] - sorted_values[lo]) * (pos - lo)
 
 
 def effect_subset(campaigns, effect):
@@ -1142,12 +1256,19 @@ def aggregate(args, assays, classes_rows, stamp):
             n_plates += 1
             for c in s["campaigns"]:
                 c["p"] = sorted(set(c.get("p", [])) | set(pl["campaigns"].get(c["c"], [])))
+    n_conds = 0
+    for s in summaries:                                         # assay conditions found by conditions.py
+        cd = read_json(os.path.join(CONDS_DIR, safe(s["acc"]) + ".json"))
+        if cd:
+            n_conds += 1
+            for c in s["campaigns"]:
+                c["k"] = cd["campaigns"].get(c["c"]) or c.get("k") or {}
     entries = [(a, set(split(a.get("evidence_labels") or a.get("evidence_function")))) for a in assays]
     entries = [(a, labels) for a, labels in entries if labels]
     version = "bd-" + stamp.replace("-", "")
     source = "build_database.py (ChEMBL + PubChem%s, labeled by m2)" % (" + BindingDB" if n_bdb else "")
     today = datetime.now().strftime("%Y-%m-%d")
-    stat_rows, effect_rows = [], []
+    stat_rows, effect_rows, cond_rows = [], [], []
 
     def rows_for(scope_type, scope_id, campaigns_all, note_extra="", classes=()):
         out = []
@@ -1155,9 +1276,7 @@ def aggregate(args, assays, classes_rows, stamp):
             out += rows_for_effect(scope_type, scope_id, effect_subset(campaigns_all, effect), effect, note_extra, classes)
         return out
 
-    def rows_for_effect(scope_type, scope_id, campaigns, effect, note_extra, classes):
-        out = []
-        total = len(campaigns)
+    def using_for(scope_type, scope_id, campaigns, classes):
         classifiable = [c for c in campaigns if c["f"]]
         for a, wanted in entries:
             entry_classes = set(split(a.get("classes")))
@@ -1169,8 +1288,36 @@ def aggregate(args, assays, classes_rows, stamp):
             want_cell = "cell-based" in scope_text and "free" not in scope_text
             # a cell-based assay entry is only counted from cell-based campaigns, and a cell-free one from cell-free
             using = [c for c in classifiable if wanted & set(c["f"]) and (c.get("x") == "cell-based") == want_cell]
-            if not using:
-                continue
+            if using:
+                yield a, wanted, using
+
+    def cond_rows_for(scope_type, scope_id, campaigns, classes):
+        out = []
+        for a, wanted, using in using_for(scope_type, scope_id, campaigns, classes):
+            ks = [c.get("k") or {} for c in using]
+            common = [source, today, version, "auto-generated from stated values in assay texts; see notes"]
+            for param in COND_NUMERIC:
+                vals = sorted(k[param] for k in ks if param in k)
+                if len(vals) < COND_MIN_N[scope_type]:
+                    continue
+                out.append(dict(zip(CONDITION_COLUMNS, ["%s-%s-%s" % (scope_id, a["entry_id"], param), a["entry_id"], scope_type,
+                    scope_id, param, "numeric", len(using), len(vals), round(quantile(vals, .5), 3), round(quantile(vals, .25), 3),
+                    round(quantile(vals, .75), 3), vals[0], vals[-1], ""] + common)))
+            for param in COND_CATEGORICAL:
+                stating = [k[param] for k in ks if k.get(param)]
+                if len(stating) < COND_MIN_N[scope_type]:
+                    continue
+                cnt = collections.Counter(v for lst in stating for v in set(lst))
+                top = "; ".join("%s|%.3f" % (v, n / len(stating)) for v, n in cnt.most_common(5))
+                out.append(dict(zip(CONDITION_COLUMNS, ["%s-%s-%s" % (scope_id, a["entry_id"], param), a["entry_id"], scope_type,
+                    scope_id, param, "categorical", len(using), len(stating), "", "", "", "", "", top] + common)))
+        return out
+
+    def rows_for_effect(scope_type, scope_id, campaigns, effect, note_extra, classes):
+        out = []
+        total = len(campaigns)
+        classifiable = [c for c in campaigns if c["f"]]
+        for a, wanted, using in using_for(scope_type, scope_id, campaigns, classes):
             base = [a["entry_id"], scope_type, scope_id, "any", effect]
             tail = [source, "functions: " + "; ".join(sorted(wanted)), today, version, AUTO_ROW_NOTE + note_extra]
             sid = "%s-%s-%s" % (scope_id, a["entry_id"], effect[:3])
@@ -1193,6 +1340,7 @@ def aggregate(args, assays, classes_rows, stamp):
     for s in summaries:
         scope = summary_scope(s)
         stat_rows += rows_for("gene", scope, s["campaigns"], classes=s["classes"])
+        cond_rows += cond_rows_for("gene", scope, s["campaigns"], s["classes"])
         counts = collections.Counter(c["e"] for c in s["campaigns"])
         effect_rows.append({"gene": scope, "accession": s["acc"], "classes": "; ".join(s["classes"]),
                             "n_campaigns": s["n_campaigns"], "inhibition": counts["inhibition"],
@@ -1202,18 +1350,21 @@ def aggregate(args, assays, classes_rows, stamp):
         for cls in s["classes"]:
             gene_count[cls].add(scope)
             for c in s["campaigns"]:
-                m = by_class[cls].setdefault(c["c"], {"c": c["c"], "f": set(), "t": set(), "e": [], "x": set(), "p": set()})
+                m = by_class[cls].setdefault(c["c"], {"c": c["c"], "f": set(), "t": set(), "e": [], "x": set(), "p": set(), "k": {}})
                 m["p"].update(c.get("p", []))
+                for key, val in (c.get("k") or {}).items():
+                    m["k"].setdefault(key, val)
                 m["f"].update(c["f"])
                 m["t"].update(c["t"])
                 m["e"].append(c["e"])
                 m["x"].add(c["x"])
     class_merged = {}
     for cls, camps in by_class.items():
-        merged = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]), "p": sorted(v["p"]),
+        merged = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]), "p": sorted(v["p"]), "k": v["k"],
                    "x": "cell-based" if "cell-based" in v["x"] else "cell-free"} for k, v in camps.items()]
         class_merged[cls] = merged
         stat_rows += rows_for("function_class", cls, merged, "; counted across %d proteins" % len(gene_count[cls]))
+        cond_rows += cond_rows_for("function_class", cls, merged, ())
 
     seen, unique = {}, []                           # de-duplicate on the key the database uses
     for r in stat_rows:
@@ -1222,6 +1373,7 @@ def aggregate(args, assays, classes_rows, stamp):
             seen[key] = True
             unique.append(r)
     write_csv(os.path.join(OUTDIR, "usage_stats.generated.csv"), unique, USAGE_COLUMNS)
+    write_csv(os.path.join(OUTDIR, "condition_stats.generated.csv"), cond_rows, CONDITION_COLUMNS)
     write_csv(os.path.join(OUTDIR, "effect_by_gene.csv"), effect_rows,
               ["gene", "accession", "classes", "n_campaigns", "inhibition", "activation", "mixed", "unspecified",
                "no_function_label"])
@@ -1264,7 +1416,7 @@ def aggregate(args, assays, classes_rows, stamp):
               ["class_id", "function_label", "technology", "n_campaigns", "n_proteins_in_class",
                "playbook_entries_listing_it", "suggestion"])
     no_labels = [a["entry_id"] for a in assays if not (a.get("evidence_labels") or a.get("evidence_function"))]
-    return {"proteins": len(summaries), "with_bindingdb": n_bdb, "with_plates": n_plates, "rows": len(unique),
+    return {"proteins": len(summaries), "with_bindingdb": n_bdb, "with_plates": n_plates, "with_conditions": n_conds, "condition_rows": len(cond_rows), "rows": len(unique),
             "suggestions": sum(1 for s in suggestions if s["suggestion"] != "covered"),
             "entries_without_evidence_labels": no_labels}
 
@@ -1349,6 +1501,12 @@ def merge_into_data(replace_m2):
     if os.path.exists(path):
         shutil.copy(path, os.path.join(backup, "usage_stats_%s.csv" % datetime.now().strftime("%Y%m%d_%H%M%S")))
     write_csv(path, final, USAGE_COLUMNS)
+    cgen = os.path.join(OUTDIR, "condition_stats.generated.csv")
+    cpath = os.path.join(DATA, "condition_stats.csv")
+    if os.path.exists(cgen) and read_csv(cgen):               # the whole table is generated; keep a backup of the last one
+        if os.path.exists(cpath):
+            shutil.copy(cpath, os.path.join(backup, "condition_stats_%s.csv" % datetime.now().strftime("%Y%m%d_%H%M%S")))
+        shutil.copy(cgen, cpath)
     return added, replaced, kept, conflicts, pruned
 
 
@@ -1604,6 +1762,9 @@ def main(argv=None):
             % (res["proteins"], res["with_bindingdb"], res["rows"]))
         log("  plate formats read for %d proteins%s" % (res["with_plates"], "" if res["with_plates"] else
             " (run scripts/plate_formats.py first to add them)"))
+        log("  assay conditions read for %d proteins -> %d condition rows (build_output/condition_stats.generated.csv)%s"
+            % (res["with_conditions"], res["condition_rows"], "" if res["with_conditions"] else
+               " (run scripts/conditions.py first to add them)"))
         log("  effect counts: build_output/effect_by_gene.csv and effect_by_class.csv; gaps: function_gaps.csv")
         log("  readout suggestions not yet in the playbook: %d (build_output/readout_suggestions.csv)" % res["suggestions"])
         if res["entries_without_evidence_labels"]:
