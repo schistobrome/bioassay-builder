@@ -259,7 +259,7 @@ let D;
 try{
   const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
   D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:db.usage_stats,meta:db.meta,
-   playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||""})),
+   playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,effect:a.effect||"",development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||""})),
    kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
 }catch(e){
   document.querySelector("main").innerHTML='<div class="welcome"><h2>Could not load the database</h2><p>'+String(e.message).replace(/</g,"&lt;")+'. Open this page from the published site (not as a local file) and check that docs/assay_db.json exists.</p></div>';
@@ -295,12 +295,32 @@ function classStatus(c){
   return {st:"outside",note:"domain "+rg+" is OUTSIDE your construct, so these assays are dropped"};
 }
 function meter(label,key){const n=LV[key]||0;return `<div class="meter"><div class="l">${label}</div><div class="bars" aria-hidden="true">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div><div class="v">${LVL[key]||"-"}</div></div>`;}
+const MINC=5;          /* fewer classifiable campaigns than this: look at the wider group instead */
+const EFFL={inhibition:"inhibition",activation:"activation",any:"all directions pooled"};
+const UBY={};D.usage.forEach(u=>{(UBY[u.entry_id]=UBY[u.entry_id]||[]).push(u)});
+const _ucache={};
 function usageFor(r){
-  const rows=D.usage.filter(u=>u.entry_id===r.entry_id);
-  const mine=rows.filter(u=>u.scope.type==='gene'&&u.scope.id===S.prot);
-  const pool=mine.length?mine:rows.filter(u=>u.scope.type==='function_class'&&D.proteins[S.prot].classes.some(c=>c.id===u.scope.id));
-  const top=pool.find(u=>!u.readout);
-  return top?{top,reads:pool.filter(u=>u.readout).sort((a,b)=>b.campaigns.using-a.campaigns.using)}:null;
+  const key=r.entry_id+"|"+S.prot+"|"+S.effect;
+  if(key in _ucache) return _ucache[key];
+  const rows=UBY[r.entry_id]||[], P=D.proteins[S.prot], eff=S.effect;
+  const isGene=u=>u.scope.type==='gene'&&u.scope.id===S.prot;
+  const isCls=u=>u.scope.type==='function_class'&&P.classes.some(c=>c.id===u.scope.id);
+  const tiers=[[isGene,eff,"gene"],[isCls,eff,"class"],[isGene,"any","gene"],[isCls,"any","class"]];
+  let found=null,first=null;
+  for(const [fn,ef,lvl] of tiers){
+    const pool=rows.filter(u=>fn(u)&&(u.effect||"any")===ef);
+    const tops=pool.filter(u=>!u.readout).sort((a,b)=>(b.campaigns.classifiable||0)-(a.campaigns.classifiable||0));
+    if(!tops.length) continue;
+    const top=tops[0];
+    const hit={top,reads:pool.filter(u=>u.readout&&u.scope.id===top.scope.id).sort((a,b)=>b.campaigns.using-a.campaigns.using),level:lvl,effect:ef};
+    if(!first) first=hit;
+    if((top.campaigns.classifiable||0)>=MINC){found=hit;break;}
+  }
+  return _ucache[key]=found||first;
+}
+function basis(u){
+  const t=u.top, who=u.level==="gene"?t.scope.id:"the "+t.scope.id+" function class";
+  return who+", "+EFFL[u.effect]+(u.effect!==S.effect&&u.effect==="any"?" (no "+S.effect+"-specific data)":"");
 }
 const pct=x=>Math.round(x*100)+"%";
 function stdMeter(r){
@@ -308,7 +328,7 @@ function stdMeter(r){
   if(!u) return `<div class="std none"><div class="l">How standard</div><div class="v">no campaign data yet</div></div>`;
   const t=u.top,s=t.standardness.score;
   return `<div class="std"><div class="l">How standard</div><div class="sbar"><i style="width:${pct(s)}"></i></div>
-   <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
+   <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${u.level==="class"?' <span class="pill">class-wide</span>':""}${u.effect==="any"?' <span class="pill">all directions</span>':""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
 }
 function kitsFor(r){return D.kits.filter(kt=>split(kt.applies_to_entries).includes(r.entry_id)).filter(kt=>{
   const sc=kt.target_scope||""; if(/^(pan-class|many)/i.test(sc)) return true;
@@ -324,12 +344,13 @@ function render(){
   $("summary").innerHTML = (D.usage.some(u=>u.is_example)?`<div class="exbanner">Usage percentages marked "example" are placeholder numbers for this demo, not real data.</div>`:"")+`<div><h2>${esc(S.prot)} <span class="meta">${P.acc}</span><a href="https://www.uniprot.org/uniprotkb/${P.acc}/entry" target="_blank" rel="noopener">UniProt ↗</a></h2><div>${esc(P.name)}, ${P.len} residues</div>
    <div class="meta">Construct ${S.start}-${S.end}${full?" (full length)":""} · ${S.effect} · UniProt: ${P.kw} keywords, ${P.go} GO functions, ${P.pdb} PDB entries${P.live?" · fetched live from UniProt":" · built-in example copy"}</div></div>
    <div class="cls">${P.classes.map(c=>`<div class="${stat[c.id].st}"><b>${esc(c.label)}</b> <span style="color:var(--muted)">${esc(stat[c.id].note)}</span></div>`).join("")}</div>`;
-  const chosen=[],dropped=[];
+  const chosen=[],dropped=[],notapp=[];
   for(const r of D.playbook){
     const cl=split(r.classes).filter(c=>stat[c]); if(!cl.length) continue;
     const sts=cl.map(c=>stat[c].st);
     const level=sts.includes("applies")?"applies":sts.includes("partial")?"partial":null;
     if(!level){dropped.push(r);continue}
+    if(r.effect&&r.effect!=="both"&&r.effect!==S.effect){notapp.push(r);continue}
     if(!S.cats.has(r.assay_category)) continue;
     if(!S.scope.has(isCell(r)?"cell":"free")) continue;
     if(!S.avail.has(kitsFor(r).length?"kit":"method")) continue;
@@ -337,6 +358,12 @@ function render(){
   }
   const sc=x=>{const u=usageFor(x.r);return u?u.top.standardness.score:-1};
   chosen.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a.r))-ROLES.findIndex(x=>x[0]===mainRole(b.r))||(S.sort==='standard'?(sc(b)-sc(a)):0)||pnum(a.r)-pnum(b.r));
+  const tally={gene:0,class:0,any:0,none:0};
+  chosen.forEach(x=>{const u=usageFor(x.r);if(!u)tally.none++;else if(u.effect==="any")tally.any++;else tally[u.level]++;});
+  const eNote=(tally.gene+tally.class+tally.any+tally.none)===0?"":
+    tally.gene>0?`<div class="meta">${esc(S.prot)}: ${tally.gene} assays have ${S.effect}-specific usage data for this protein${tally.class?`, ${tally.class} fall back to the whole function class`:""}${tally.any?`, ${tally.any} only have data pooled over all directions`:""}.</div>`:
+    `<div class="exbanner">Few or no ${S.effect} campaigns were found for ${esc(S.prot)}, so usage shares come from the wider function class${tally.any?" or are pooled over all directions":""}. Treat "how standard" as a rough guide here.</div>`;
+  $("summary").insertAdjacentHTML("beforeend",eNote);
   $("flow").innerHTML = ROLES.map(([k,n,d])=>{const g=chosen.filter(x=>mainRole(x.r)===k);return `<a href="#sec-${k}"><b>${n}</b><span>${g.length}</span><small>${d}</small></a>`}).join("");
   const sel=[...S.plates];
   let html="";
@@ -363,7 +390,7 @@ function render(){
           <dt>Readouts</dt><dd>${split(r.readouts).map(esc).join(" · ")}</dd>
           <dt>Typical conditions</dt><dd>${esc(r.conditions)}</dd>
           <dt>Reagents</dt><dd>${esc(r.reagents)}</dd>
-          ${(()=>{const u=usageFor(r);if(!u)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(t.scope.id)}, stage: ${esc(t.stage.replace("_"," "))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns that stated a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.est?" <span class='meta'>(estimated from the HTS suitability rating; not yet reviewed)</span>":""}</dd>
+          ${(()=>{const u=usageFor(r);if(!u)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns that stated a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.est?" <span class='meta'>(estimated from the HTS suitability rating; not yet reviewed)</span>":""}</dd>
           ${r.rating_notes?`<dt>Rating notes</dt><dd>${esc(r.rating_notes)}</dd>`:""}
           <dt>Sources</dt><dd>${dois.length?dois.map(d=>`<a class="btn small" href="${esc(doiUrl(d))}" target="_blank" rel="noopener">DOI ↗ ${esc(d.replace(/^https?:\/\/(dx\.)?doi\.org\//,""))}</a>`).join(" "):"<span class='meta'>none recorded yet</span>"}</dd>
           <dt>Review status</dt><dd>${esc(r.status)}</dd>
@@ -375,6 +402,7 @@ function render(){
       </article>`;
     }
   }
+  if(notapp.length) html+=`<div class="dropped"><b>Not relevant when you want ${esc(S.effect)}:</b><br>${notapp.map(r=>esc(r.assay_name)+" ["+r.entry_id+"]").join("<br>")}</div>`;
   if(dropped.length) html+=`<div class="dropped"><b>Dropped because the domain is outside your construct:</b><br>${dropped.map(r=>esc(r.assay_name)+" ["+r.entry_id+"]").join("<br>")}</div>`;
   $("out").innerHTML=html;
 }
@@ -537,7 +565,7 @@ const DEFS=[
 ["Priority P1 to P4","P1 develop first; P2 develop next as follow-up or orthogonal; P3 mechanism or selectivity follow-up; P4 specialized. This reading of the reviewer's scale is not yet confirmed. Assays with two values (P1/P2) are sorted by the lower number."],
 ["Construct coverage thresholds","Domain at least "+Math.round(FULLCOV*100)+"% inside your construct: assays apply. Between 0% and "+Math.round(FULLCOV*100)+"%: assays are shown with a warning. 0%: assays for that function are dropped. If UniProt annotates no domain, coverage cannot be checked and assays are shown."],
 ["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
-["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
+["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Inhibition vs activation: the shares are recomputed for the effect you choose. For inhibition, every campaign not labeled as activation counts (binding and unlabeled assays are normally run to find inhibitors or binders). For activation, only campaigns labeled activation or mixed count. If the protein has fewer than "+MINC+" such campaigns, the app uses the whole function class instead and says so. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
 ["Plate formats (estimated)","Until each entry has a reviewed plate-format list, the app estimates it from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Assays are dimmed, never hidden, when none of your selected formats fit."],
 ["Draft vs expert-reviewed","Draft entries were written by Claude and have not been reviewed by an expert. Reviewed entries were edited by the expert reviewer (name and date not yet recorded)."],
 ["Vendor options","Kits and services found on vendor web pages on 2026-11-07, or reported by users and marked UNVERIFIED. Check datasheets before ordering."]];

@@ -82,7 +82,7 @@ LABEL_COLUMNS = ["id", "source", "campaign", "text_level", "in_v1_scope", "conte
 LABEL_FIELDS = ["context", "role", "effect", "mutant", "in_v1_scope", "construct_start", "construct_end",
                 "construct_note", "construct_evidence", "function_labels", "function_method", "function_evidence",
                 "technology_labels", "technology_method", "technology_evidence"]
-USAGE_COLUMNS = ["stat_id", "entry_id", "scope_type", "scope_id", "stage", "readout", "n_campaigns_total",
+USAGE_COLUMNS = ["stat_id", "entry_id", "scope_type", "scope_id", "stage", "effect", "readout", "n_campaigns_total",
                  "n_campaigns_classifiable", "n_campaigns_using", "n_literature_total", "n_literature_using",
                  "source", "query", "retrieved_on", "method_version", "notes"]
 PUBCHEM_COLUMNS = ["aid", "source", "title", "found_by", "summary_text", "full_description", "protocol", "targets"]
@@ -1088,6 +1088,18 @@ def merge_campaign_lists(a, b):
              "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"])} for k, v in out.items()]
 
 
+EFFECTS = ("inhibition", "activation")
+
+
+def effect_subset(campaigns, effect):
+    """Campaigns that speak to the wanted direction.
+    inhibition: everything not labeled activation (binding and unlabeled assays are normally run to find inhibitors/binders);
+    activation: only campaigns labeled activation, or mixed (both directions)."""
+    if effect == "activation":
+        return [c for c in campaigns if c["e"] in ("activation", "mixed")]
+    return [c for c in campaigns if c["e"] != "activation"]
+
+
 def aggregate(args, assays, classes_rows, stamp):
     summaries = [read_json(p) for p in
                  (os.path.join(SUMMARY, f) for f in sorted(os.listdir(SUMMARY)) if f.endswith(".json"))] \
@@ -1108,7 +1120,13 @@ def aggregate(args, assays, classes_rows, stamp):
     today = datetime.now().strftime("%Y-%m-%d")
     stat_rows, effect_rows = [], []
 
-    def rows_for(scope_type, scope_id, campaigns, note_extra="", classes=()):
+    def rows_for(scope_type, scope_id, campaigns_all, note_extra="", classes=()):
+        out = []
+        for effect in EFFECTS:
+            out += rows_for_effect(scope_type, scope_id, effect_subset(campaigns_all, effect), effect, note_extra, classes)
+        return out
+
+    def rows_for_effect(scope_type, scope_id, campaigns, effect, note_extra, classes):
         out = []
         total = len(campaigns)
         classifiable = [c for c in campaigns if c["f"]]
@@ -1124,13 +1142,15 @@ def aggregate(args, assays, classes_rows, stamp):
             using = [c for c in classifiable if wanted & set(c["f"]) and (c.get("x") == "cell-based") == want_cell]
             if not using:
                 continue
-            base = [a["entry_id"], scope_type, scope_id, "any"]
+            base = [a["entry_id"], scope_type, scope_id, "any", effect]
             tail = [source, "functions: " + "; ".join(sorted(wanted)), today, version, AUTO_ROW_NOTE + note_extra]
-            sid = "%s-%s-any" % (scope_id, a["entry_id"])
+            sid = "%s-%s-%s" % (scope_id, a["entry_id"], effect[:3])
             out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""] + [total, len(classifiable), len(using), "", ""] + tail)))
             tech = collections.Counter(t for c in using for t in set(c["t"]))
             n_tech = sum(1 for c in using if c["t"])
             for t, n in tech.most_common():
+                if n < args.min_readout and len(tech) >= 5:
+                    continue                      # one-off technology labels are mostly text noise
                 out.append(dict(zip(USAGE_COLUMNS, [sid + "-" + re.sub(r"\W+", "", t)[:12]] + base + [t]
                                     + [total, n_tech, n, "", ""] + tail)))
         return out
@@ -1163,7 +1183,7 @@ def aggregate(args, assays, classes_rows, stamp):
 
     seen, unique = {}, []                           # de-duplicate on the key the database uses
     for r in stat_rows:
-        key = (r["entry_id"], r["scope_type"], r["scope_id"], r["stage"], r["readout"])
+        key = (r["entry_id"], r["scope_type"], r["scope_id"], r["stage"], r["effect"], r["readout"])
         if key not in seen:
             seen[key] = True
             unique.append(r)
@@ -1257,7 +1277,7 @@ def merge_into_data(replace_m2):
     existing = read_csv(path)
 
     def key_of(r):
-        return (r["entry_id"], r["scope_type"], r["scope_id"], r["stage"], r["readout"])
+        return (r["entry_id"], r["scope_type"], r["scope_id"], r["stage"], r.get("effect") or "any", r["readout"])
 
     def is_auto(r):
         v = r.get("method_version", "")
@@ -1288,6 +1308,8 @@ def merge_into_data(replace_m2):
             pruned += 1
             continue
         final.append(r)
+    for r in final:
+        r["effect"] = r.get("effect") or "any"          # rows written before the effect column existed
     backup = os.path.join(DATA, "backup")
     os.makedirs(backup, exist_ok=True)
     if os.path.exists(path):
@@ -1332,6 +1354,8 @@ def build_parser():
     ap.add_argument("--max-cooldowns", type=int, default=6,
                     help="rests allowed per run before stopping (default 6)")
     ap.add_argument("--pause", type=float, default=0.4, help="seconds between calls (be polite to the services)")
+    ap.add_argument("--min-readout", type=int, default=2,
+                    help="drop a technology row used by fewer campaigns than this (only when 5 or more technologies are seen)")
     ap.add_argument("--suggest-min", type=int, default=5, help="minimum campaigns for a readout suggestion")
     ap.add_argument("--aggregate-only", action="store_true", help="skip downloading/labeling; just rebuild the output tables")
     ap.add_argument("--no-aggregate", action="store_true")

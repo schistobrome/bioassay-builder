@@ -15,6 +15,8 @@ CATEGORIES = {"biochemical_hts", "cell_functional", "biophysical_binding", "orth
 ROLES = {"primary", "confirmation", "counterscreen"}
 LEVELS = {"very_low", "low", "moderate", "high", "very_high"}
 STAGES = {"primary_screen", "confirmation", "counterscreen", "any"}
+USAGE_EFFECTS = {"any", "inhibition", "activation"}
+ASSAY_EFFECTS = {"", "both", "inhibition", "activation"}
 SCOPES = {"cell-free", "cell-based"}
 ERRORS, WARNINGS = [], []
 
@@ -90,6 +92,7 @@ def main():
         for d in lst(a.get("sources_doi", "")):
             if not re.match(r"^(10\.\d{4,9}/\S+|https?://\S+)$", d): warn("assays.csv %s: '%s' does not look like a DOI" % (e, d))
         if not a["status"]: warn("assays.csv %s: no review status" % e)
+        if a.get("effect", "").lower() not in ASSAY_EFFECTS: err("assays.csv %s: effect must be blank, both, inhibition or activation, got '%s'" % (e, a["effect"]))
 
     for k in kits:
         for e in lst(k["applies_to_entries"]):
@@ -107,6 +110,7 @@ def main():
         if u["scope_type"] not in ("gene", "function_class"): err("%s: scope_type must be gene or function_class" % where)
         if u["scope_type"] == "function_class" and u["scope_id"] not in class_ids: err("%s: unknown class '%s'" % (where, u["scope_id"]))
         if u["stage"] not in STAGES: err("%s: stage must be one of %s" % (where, sorted(STAGES)))
+        if (u.get("effect") or "any") not in USAGE_EFFECTS: err("%s: effect must be one of %s" % (where, sorted(USAGE_EFFECTS)))
         nt, nc, nu = (num(u[c], where) for c in ("n_campaigns_total", "n_campaigns_classifiable", "n_campaigns_using"))
         lt, lu = num(u["n_literature_total"], where), num(u["n_literature_using"], where)
         if nc is not None and nu is not None and nu > nc: err("%s: n_campaigns_using is larger than n_campaigns_classifiable" % where)
@@ -119,7 +123,7 @@ def main():
         stats.append({
             "stat_id": u["stat_id"], "entry_id": u["entry_id"],
             "scope": {"type": u["scope_type"], "id": u["scope_id"]},
-            "stage": u["stage"], "readout": u["readout"] or None,
+            "stage": u["stage"], "effect": u.get("effect") or "any", "readout": u["readout"] or None,
             "campaigns": {"total": nt, "classifiable": nc, "using": nu, "share": sc},
             "literature": {"total": lt, "using": lu, "share": sl},
             "standardness": {"score": score, "level": level_for(score, levels) if score is not None else None,
@@ -141,6 +145,7 @@ def main():
         "assays": [{
             "entry_id": a["entry_id"], "assay_name": a["assay_name"], "classes": lst(a["classes"]),
             "assay_category": a["assay_category"], "scope": a["scope"], "role": a["role"],
+            "effect": (a.get("effect") or "").lower() or None,
             "development_priority": priority(a["development_priority"]),
             "screening_suitability": a["screening_suitability"], "biological_relevance": a["biological_relevance"],
             "rating_notes": a["rating_notes"], "measures": a["measures"], "readouts": lst(a["readouts"]),
@@ -163,7 +168,7 @@ def main():
     if ERRORS:
         print("\nNot built: fix the %d error(s) above." % len(ERRORS)); sys.exit(1)
     with open(args.out, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=1, ensure_ascii=False)
+        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))      # compact: the usage table is large
     print("Built %s: %d assays, %d kits, %d usage rows, %d warning(s)." % (os.path.relpath(args.out, ROOT), len(assays), len(kits), len(stats), len(WARNINGS)))
 
 
