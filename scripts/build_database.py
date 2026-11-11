@@ -1124,7 +1124,21 @@ def merge_campaign_lists(a, b):
             for k, v in out.items()]
 
 
-EFFECTS = ("inhibition", "activation")
+# Direction views written to usage_stats.csv (effect column). Each view = the campaign directions it counts.
+# The website's "Include unspecified results" switch picks between the two views of the chosen direction:
+#   inhibition  + switch on  -> "inhibition"                    (the original meaning, kept for old rows)
+#   inhibition  + switch off -> "inhibition_labeled"
+#   activation  + switch off -> "activation"                    (the original meaning, kept for old rows)
+#   activation  + switch on  -> "activation_with_unspecified"
+EFFECT_VIEWS = {
+    "inhibition": ("inhibition", "mixed", "unspecified"),
+    "activation": ("activation", "mixed"),
+    "inhibition_labeled": ("inhibition", "mixed"),
+    "activation_with_unspecified": ("activation", "mixed", "unspecified"),
+}
+EFFECTS = tuple(EFFECT_VIEWS)
+EFFECT_SHORT = {"inhibition": "inh", "activation": "act", "inhibition_labeled": "inl",
+                "activation_with_unspecified": "acu"}         # used in stat_id; first two are unchanged from before
 
 CONDS_DIR = os.path.join(CACHE, "conditions")        # written by conditions.py (optional)
 CONDITION_COLUMNS = ["stat_id", "entry_id", "scope_type", "scope_id", "parameter", "kind", "n_campaigns_using",
@@ -1259,12 +1273,12 @@ def quantile(sorted_values, q):
 
 
 def effect_subset(campaigns, effect):
-    """Campaigns that speak to the wanted direction.
+    """Campaigns that speak to the wanted direction view (see EFFECT_VIEWS).
     inhibition: everything not labeled activation (binding and unlabeled assays are normally run to find inhibitors/binders);
-    activation: only campaigns labeled activation, or mixed (both directions)."""
-    if effect == "activation":
-        return [c for c in campaigns if c["e"] in ("activation", "mixed")]
-    return [c for c in campaigns if c["e"] != "activation"]
+    activation: only campaigns labeled activation, or mixed (both directions);
+    the *_labeled / *_with_unspecified views leave out or add the campaigns whose text names no direction."""
+    wanted = EFFECT_VIEWS[effect]
+    return [c for c in campaigns if c["e"] in wanted]
 
 
 def aggregate(args, assays, classes_rows, stamp):
@@ -1356,7 +1370,7 @@ def aggregate(args, assays, classes_rows, stamp):
         for a, wanted, using in using_for(scope_type, scope_id, campaigns, classes):
             base = [a["entry_id"], scope_type, scope_id, "any", effect]
             tail = [source, "functions: " + "; ".join(sorted(wanted)), today, version, AUTO_ROW_NOTE + note_extra]
-            sid = "%s-%s-%s" % (scope_id, a["entry_id"], effect[:3])
+            sid = "%s-%s-%s" % (scope_id, a["entry_id"], EFFECT_SHORT[effect])
             out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""] + [total, len(classifiable), len(using), "", ""] + tail)))
             tech = collections.Counter(t for c in using for t in set(c["t"]))
             n_tech = sum(1 for c in using if c["t"])

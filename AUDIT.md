@@ -45,7 +45,15 @@ Checked and found correct: plate-format extraction ignores compound, source and 
 ## Decisions for you
 
 - **D1. Stop tracking generated files?** Recommended: `git rm -r --cached build_output data/backup`, add `/build_output/` and `/data/backup/` to `.gitignore`, and delete the stray `gitignore` file. This changes repo history going forward, so it's your call.
-- **D2. Make "how standard" format-specific (recommended).** Add an `evidence_technology` column to `assays.csv` listing the technology labels each entry uses (for example IC3 → "Automated patch clamp"; IC2 → "Thallium flux"; IC1 → "Membrane potential dye"; P1 → "Fluorogenic / FRET substrate"). I would then change `using_for` so a campaign counts only when both its function and its technology match, and show the function-level number as context. Alternative without a data change: relabel the bar "share of campaigns studying this function".
+**Decided 2026-11-11 (done on this branch):**
+- **D2:** relabeled "How standard" to **"Campaign occurrence"**. The Definitions panel now says plainly that it measures the share of campaigns studying the assay's *function*, and that sibling formats show the same value. The technology-specific option below remains open for later.
+- **D3:** added an **"Include unspecified results"** switch under Inhibition / Activation (default off = only campaigns labeled with the chosen direction, or mixed). The pipeline writes two extra effect views (`inhibition_labeled`, `activation_with_unspecified`); the old `inhibition` / `activation` rows keep their meaning. The title-keyword key for better labels is written out in [plans/EFFECT_LABELING.md](plans/EFFECT_LABELING.md); measured, it changes 4.0% of records.
+- **D5:** class-wide fallbacks and small samples now show a **⚠** next to the occurrence. Its tooltip (hover or keyboard focus) says how many campaigns the protein itself has; a Definitions entry explains it.
+- **D6:** plan and proposed tightenings and expansions in [plans/REFACTOR_function_classes.md](plans/REFACTOR_function_classes.md). Nothing in the curated files was edited.
+- **D8:** `assay_db.json` usage rows are now a compact table (schema 0.2) with the shared source text stored once. `index.html` expands it on load (and still reads the old format). **42,123 rows in 4.9 MB, down from 19,555 rows in 12.6 MB.** `data/usage_stats.csv` was regenerated with the duplicate-study fix and the new effect views. The BindingDB links were computed in memory; nothing in `build_cache/` or `build_output/` was written. Backup: `data/backup/usage_stats_20261111_*.csv`.
+
+**Still open:**
+- **D2b. Make campaign occurrence format-specific (later).** Add an `evidence_technology` column to `assays.csv` listing the technology labels each entry uses (for example IC3 → "Automated patch clamp"; IC2 → "Thallium flux"; IC1 → "Membrane potential dye"; P1 → "Fluorogenic / FRET substrate"). I would then change `using_for` so a campaign counts only when both its function and its technology match, and show the function-level number as context. Alternative without a data change: relabel the bar "share of campaigns studying this function".
 - **D3. Better direction labels.** Adopt the title-first rule BindingDB already uses (with potentiate, PAM, induce and opener added) for ChEMBL and PubChem too. That needs a relabel (the cached embeddings make it mostly fast). Separately, decide whether "unspecified" should stay in the inhibition view.
 - **D4. Class attribution.** Count a campaign toward a class only if its function label belongs to that class (for example a kinase-activity campaign does not count for "autophagy").
 - **D5. Small-sample display.** Show the class fallback more loudly (for example "protein has 3 campaigns; showing all kinases"), and hide the share when even the best tier has fewer than 5.
@@ -62,7 +70,7 @@ All commands are for PowerShell in `C:\Users\xanox\Documents\GitHub\bioassay-bui
 py -m unittest discover -s tests -v
 ```
 
-**Apply the fixes to your data** (no internet; minutes; makes a backup of `data\usage_stats.csv` first):
+**Your data is already updated** (`data\usage_stats.csv`, `data\condition_stats.csv`, `docs\assay_db.json`, done 2026-11-11). Once, before your next pipeline run, store the BindingDB links in the cache so future rebuilds keep the duplicate-study fix, and refresh the files in `build_output\` (no internet; minutes; `data\usage_stats.csv` is backed up first):
 ```powershell
 py scripts\bindingdb_label.py --rekey                         # adds ChEMBL-document links to existing BindingDB summaries
 py scripts\build_database.py --aggregate-only --merge         # recount with one key per study; prunes stale rows
@@ -70,6 +78,7 @@ py tools\build_db.py                                          # rebuilds docs\as
 py scripts\equipment_scan.py                                  # optional: corrected equipment counts
 py tools\audit_gaps.py                                        # optional: refresh build_output\audit\
 ```
+The numbers should match what is on the site now. If you skip `--rekey`, the next aggregate quietly brings back about 7,000 duplicate campaigns.
 To undo the data change, copy the newest file in `data\backup\` over `data\usage_stats.csv` and rerun `py tools\build_db.py`.
 
 **Look at the site locally:**

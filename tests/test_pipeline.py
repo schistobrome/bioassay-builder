@@ -111,6 +111,8 @@ class TestCampaignIdentity(unittest.TestCase):
         cs = [camp("a", e="inhibition"), camp("b", e="activation"), camp("c", e="mixed"), camp("d", e="unspecified")]
         self.assertEqual([c["c"] for c in bd.effect_subset(cs, "inhibition")], ["a", "c", "d"])
         self.assertEqual([c["c"] for c in bd.effect_subset(cs, "activation")], ["b", "c"])
+        self.assertEqual([c["c"] for c in bd.effect_subset(cs, "inhibition_labeled")], ["a", "c"])
+        self.assertEqual([c["c"] for c in bd.effect_subset(cs, "activation_with_unspecified")], ["b", "c", "d"])
 
     def test_canonical_patent_keys(self):
         self.assertEqual(bd.canonical_campaign("patent:US9023767B2"), "patent:US9023767")
@@ -177,6 +179,10 @@ class TestAggregate(FakeCache):
         k2 = top[("K2", "inhibition")]
         self.assertEqual(k2["n_campaigns_using"], "1")
         self.assertEqual(top[("K1", "activation")]["n_campaigns_using"], "1")
+        self.assertEqual(top[("K1", "inhibition_labeled")]["n_campaigns_total"], "2")            # pc:100 (unspecified) left out
+        self.assertEqual(top[("K1", "activation_with_unspecified")]["n_campaigns_total"], "2")
+        ids = [r["stat_id"] for r in rows]
+        self.assertEqual(len(ids), len(set(ids)))                                                # no stat_id collisions
         tr = [r for r in rows if r["entry_id"] == "K1" and r["effect"] == "inhibition" and r["readout"] == "TR-FRET"
               and r["scope_type"] == "gene"]
         self.assertEqual((tr[0]["n_campaigns_classifiable"], tr[0]["n_campaigns_using"]), ("2", "2"))
@@ -264,6 +270,15 @@ class TestBindingDBAliases(unittest.TestCase):
             {"id": "bdb:3", "campaign": "patent:US3333333", "title": generic},         # too short to trust
         ]
         self.assertEqual(bdl.chembl_aliases(bdb, chembl), {"doc:CHEMBL7": "patent:US1111111"})
+
+    def test_rekey_runs_without_folder_and_labeling_still_needs_it(self):
+        import bindingdb_label as bdl
+        from unittest import mock
+        with mock.patch.object(bdl, "rekey_only", return_value="rekeyed") as rk:
+            self.assertEqual(bdl.main(["--rekey"]), "rekeyed")
+            rk.assert_called_once()
+        with mock.patch("sys.stderr"), self.assertRaises(SystemExit):
+            bdl.main([])
 
     def test_chembl_document_linked_to_two_patents_is_not_merged(self):
         import bindingdb_label as bdl

@@ -1,24 +1,24 @@
 ﻿class_id,label,n_playbook_entries,n_entries_reviewed,n_entries_with_kit,n_entries_without_evidence_labels,n_proteins_in_proteome,n_proteins_in_proteome_with_campaigns,n_proteins_in_proteome_zero_campaigns,n_proteins_summarized,n_proteins_lt5_usable_campaigns,n_campaigns,campaigns_for_inhibition_view,campaigns_for_activation_view,activation_share,pct_no_function_label,pct_no_technology_label,readout_suggestions_not_in_playbook
-protein_kinase,Protein kinase,6,6,1,0,,,,580,95,15307,14905,631,0.041,0.1,0.336,100
-dna_helicase,ATP-dependent helicase,6,6,1,0,,,,68,49,219,218,2,0.009,0.123,0.352,10
-nuclease,Nuclease (exo- / endonuclease),5,5,0,0,,,,82,65,756,744,17,0.022,0.68,0.544,10
-protease,Protease / peptidase,3,3,0,0,,,,329,172,6875,6729,258,0.038,0.3,0.683,44
-protein_phosphatase,Protein phosphatase,4,4,0,0,,,,100,41,2776,2750,59,0.021,0.128,0.648,53
-receptor_ectodomain,Receptor ligand-binding ectodomain,4,4,0,0,,,,446,309,10698,10378,445,0.042,0.29,0.518,96
-gpcr,G-protein-coupled receptor,10,0,4,1,,,,370,148,12548,10224,3833,0.305,0.364,0.503,45
-ion_channel,Ion channel,5,0,0,1,,,,235,125,8060,7523,932,0.116,0.418,0.477,94
-abc_transporter,ABC transporter,4,0,0,0,,,,26,19,1246,1199,98,0.079,0.405,0.839,23
-solute_carrier,Solute carrier / secondary transporter,1,0,0,0,,,,147,120,3064,3019,73,0.024,0.507,0.617,28
-epigenetic_writer,Histone methyltransferase (writer),3,0,1,0,,,,51,23,718,714,6,0.008,0.159,0.297,27
-epigenetic_demethylase,Histone demethylase (eraser),3,0,1,0,,,,26,11,563,563,4,0.007,0.215,0.316,14
-epigenetic_deacetylase,Histone deacetylase / sirtuin (eraser),5,0,3,1,,,,18,1,1530,1503,47,0.031,0.019,0.491,25
-epigenetic_reader,Bromodomain reader,3,0,1,1,,,,43,9,1016,1013,5,0.005,0.193,0.232,33
-ppi_domain,Protein-protein interaction domain,3,0,0,0,,,,469,305,10490,10021,793,0.076,0.258,0.439,159
-e3_ligase,E3 ubiquitin ligase,1,0,0,0,,,,97,76,1754,1745,19,0.011,0.177,0.396,42
-dub,Deubiquitinase,1,0,0,0,,,,65,45,275,273,3,0.011,0.269,0.447,10
-degrader_modality,Targeted protein degradation project,3,0,0,1,,,,0,0,0,0,0,,,,0
-nuclear_receptor,Nuclear receptor,3,0,0,0,,,,53,8,3979,2661,1916,0.482,0.374,0.393,62
-topoisomerase,DNA topoisomerase,4,1,0,0,,,,3,0,702,698,9,0.013,0.071,0.45,5
-rna_binding,RNA-binding protein,2,0,0,0,,,,824,695,8258,7965,480,0.058,0.304,0.497,165
-autophagy,Autophagy / lysosomal flux,1,0,0,0,,,,74,46,3481,3368,143,0.041,0.179,0.436,93
-(no class),No function class matched,0,0,0,0,,,,0,0,0,0,0,,,,0
+protein_kinase,Protein kinase,6,6,1,0,680,580,100,580,95,15307,14905,631,0.041,0.1,0.336,100
+dna_helicase,ATP-dependent helicase,6,6,1,0,149,68,81,68,49,219,218,2,0.009,0.123,0.352,10
+nuclease,Nuclease (exo- / endonuclease),5,5,0,0,227,82,145,82,65,756,744,17,0.022,0.68,0.544,10
+protease,Protease / peptidase,3,3,0,0,625,329,296,329,172,6875,6729,258,0.038,0.3,0.683,44
+protein_phosphatase,Protein phosphatase,4,4,0,0,196,100,96,100,41,2776,2750,59,0.021,0.128,0.648,53
+receptor_ectodomain,Receptor ligand-binding ectodomain,4,4,0,0,1610,402,1208,446,309,10698,10378,445,0.042,0.29,0.518,96
+gpcr,G-protein-coupled receptor,10,0,4,1,850,370,480,370,148,12548,10224,3833,0.305,0.364,0.503,45
+ion_channel,Ion channel,5,0,0,1,490,233,257,235,125,8060,7523,932,0.116,0.418,0.477,94
+abc_transporter,ABC transporter,4,0,0,0,49,26,23,26,19,1246,1199,98,0.079,0.405,0.839,23
+solute_carrier,Solute carrier / secondary transporter,1,0,0,0,342,144,198,147,120,3064,3019,73,0.024,0.507,0.617,28
+epigenetic_writer,Histone methyltransferase (writer),3,0,1,0,65,51,14,51,23,718,714,6,0.008,0.159,0.297,27
+epigenetic_demethylase,Histone demethylase (eraser),3,0,1,0,35,26,9,26,11,563,563,4,0.007,0.215,0.316,14
+epigenetic_deacetylase,Histone deacetylase / sirtuin (eraser),5,0,3,1,18,18,0,18,1,1530,1503,47,0.031,0.019,0.491,25
+epigenetic_reader,Bromodomain reader,3,0,1,1,44,43,1,43,9,1016,1013,5,0.005,0.193,0.232,33
+ppi_domain,Protein-protein interaction domain,3,0,0,0,1527,467,1060,469,305,10490,10021,793,0.076,0.258,0.439,159
+e3_ligase,E3 ubiquitin ligase,1,0,0,0,427,96,331,97,76,1754,1745,19,0.011,0.177,0.396,42
+dub,Deubiquitinase,1,0,0,0,117,65,52,65,45,275,273,3,0.011,0.269,0.447,10
+degrader_modality,Targeted protein degradation project,3,0,0,1,0,0,0,0,0,0,0,0,,,,0
+nuclear_receptor,Nuclear receptor,3,0,0,0,57,53,4,53,8,3979,2661,1916,0.482,0.374,0.393,62
+topoisomerase,DNA topoisomerase,4,1,0,0,7,3,4,3,0,702,698,9,0.013,0.071,0.45,5
+rna_binding,RNA-binding protein,2,0,0,0,1653,822,831,824,695,8258,7965,480,0.058,0.304,0.497,165
+autophagy,Autophagy / lysosomal flux,1,0,0,0,174,74,100,74,46,3481,3368,143,0.041,0.179,0.436,93
+(no class),No function class matched,0,0,0,0,12223,2387,9836,0,0,0,0,0,,,,0

@@ -163,7 +163,7 @@ def chembl_rows_for(key):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--folder", required=True)
+    ap.add_argument("--folder", help="folder with the BindingDB TSV files (needed for labeling, not for --rekey)")
     ap.add_argument("--all", action="store_true", help="every reviewed protein in BindingDB, not only those build_database summarized")
     ap.add_argument("--genes", help="comma-separated gene symbols or accessions")
     ap.add_argument("--rules-only", action="store_true", help="synonym rules only (no meaning model)")
@@ -176,6 +176,8 @@ def main(argv=None):
     args = ap.parse_args(argv)
     if args.rekey:
         return rekey_only()
+    if not args.folder:
+        ap.error("--folder is required (for example --folder data\\public\\bindingdb); only --rekey works without it")
 
     proteins = bd.read_csv(os.path.join(CACHE, "uniprot_human_reviewed.csv"))
     if not proteins:
