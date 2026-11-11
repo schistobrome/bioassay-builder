@@ -229,6 +229,9 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <label class="chk"><input type="checkbox" data-i="impedance"> Label-free impedance system (xCELLigence-type)</label>
         <label class="chk"><input type="checkbox" data-i="thermal"> Thermal-shift instrument or qPCR machine</label>
         <label class="chk"><input type="checkbox" data-i="itc"> ITC calorimeter</label>
+        <label class="chk"><input type="checkbox" data-i="gel"> Gel electrophoresis, Western blot or gel imaging setup</label>
+        <label class="chk"><input type="checkbox" data-i="structure"> Access to X-ray crystallography or cryo-EM</label>
+        <label class="chk"><input type="checkbox" data-i="service"> Access to a vendor profiling service (for example KINOMEscan)</label>
         </div>
         <span class="lbl">Liquid and plate handling</span>
         <div id="handling">
@@ -364,31 +367,42 @@ function stdMeter(r){
    <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${u.level==="class"?' <span class="pill">class-wide</span>':""}${u.effect==="any"?' <span class="pill">all directions</span>':""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
 }
 /* ---- instruments: which instrument each readout needs (keywords found in the playbook's readout text) ---- */
-const INSTL={plate:"a plate reader (fluorescence, luminescence)",htrf:"an HTRF / TR-FRET reader",alpha:"an AlphaScreen-capable reader",kinetic:"a kinetic reader with online liquid addition (FLIPR-type)",lcms:"LC-MS / RapidFire",spr:"a biosensor (SPR / BLI)",mobility:"a mobility-shift system (Caliper / LabChip)",radio:"radioactivity detection (scintillation counter or filter reader)",cell:"cell culture and imaging",patch:"an automated patch-clamp system",ecl:"an electrochemiluminescence reader (Meso Scale-type)",impedance:"a label-free impedance system (xCELLigence-type)",flow:"a flow cytometer",thermal:"a thermal-shift instrument or qPCR machine",itc:"an ITC calorimeter"};
+const INSTL={plate:"a plate reader (fluorescence, luminescence)",htrf:"an HTRF / TR-FRET reader",alpha:"an AlphaScreen-capable reader",kinetic:"a kinetic reader with online liquid addition (FLIPR-type)",lcms:"LC-MS / RapidFire",spr:"a biosensor (SPR / BLI)",mobility:"a mobility-shift system (Caliper / LabChip)",radio:"radioactivity detection (scintillation counter or filter reader)",cell:"cell culture and imaging",patch:"an automated patch-clamp system",ecl:"an electrochemiluminescence reader (Meso Scale-type)",impedance:"a label-free impedance system (xCELLigence-type)",flow:"a flow cytometer",thermal:"a thermal-shift instrument or qPCR machine",itc:"an ITC calorimeter",gel:"a gel electrophoresis, Western blot or gel imaging setup",structure:"access to X-ray crystallography or cryo-EM",service:"a vendor profiling service (for example KINOMEscan)"};
 const INSTR=[ /* first match wins, so specific technologies come before the general plate reader */
  ["alpha",/alpha-?(screen|lisa)/i],["htrf",/htrf|tr-?fret|lanthascreen|\blance\b|time-resolved/i],
  ["kinetic",/flipr|calcium (dye|flux|mobili)|fluo-?4|thallium|membrane[- ]potential|rubidium flux|kinetic fluorescence/i],
  ["lcms",/mass spec|lc-?ms|rapidfire|\basms\b|maldi|intact[- ]protein/i],
  ["spr",/\bspr\b|\bbli\b|biolayer|surface plasmon|biosensor|octet|biacore/i],
  ["mobility",/mobility[- ]shift|caliper|labchip/i],
- ["radio",/radiomet|radioligand|35s|scintillation|\bspa\b|filtration|\[3h\]|\[125i\]|32p|33p/i],
+ ["radio",/radiomet|radioligand|radiolabel|radioactiv|35s|scintillation|\bspa\b|filtration|\[3h\]|\[125i\]|32p|33p/i],
+ ["service",/kinomescan|discoverx|kdelect/i],
+ ["structure",/crystallograph|cryo-?em|x-ray|\bnmr\b/i],
+ ["gel",/\bgel\b|\bpage\b|emsa|agarose|western|immunoblot|pull-?down|immunodetection/i],
  ["patch",/patch[- ]clamp|ionworks|qpatch|patchliner|syncropatch|electrophysiolog/i],
  ["ecl",/meso scale|\bmsd\b|electrochemiluminesc|\becl\b/i],
  ["impedance",/impedance|xcelligence|rtca/i],
  ["flow",/flow cytomet|\bfacs\b|\bique\b|hypercyt/i],
- ["thermal",/thermal shift|\bdsf\b|differential scanning fluorimetry|thermofluor/i],
+ ["thermal",/thermal shift|thermal melting|melting curve|\bdsf\b|differential scanning fluorimetry|thermofluor/i],
  ["itc",/\bitc\b|isothermal titration|calorimetr/i],
  ["cell",/high-content|imaging|microscop|immunofluorescence/i],
- ["plate",/luminesc|glo\b|-glo|fluoresc|fluorogenic|polari[sz]ation|\bfp\b|absorb|colorimetr|malachite|elisa|bret|nanoluc|luciferase|reporter|fret|transcreener|dye|ratiometric|cetsa|alphascreen/i]];
+ ["plate",/luminesc|glo\b|-glo|fluoresc|fluorogenic|polari[sz]ation|\bfp\b|absorb|colorimetr|malachite|elisa|bret|nanoluc|luciferase|reporter|fret|transcreener|dye|ratiometric|cetsa|alphascreen|coupled|nadh|nadph|resazurin|redox|thiol-reactivity|reducing agent|europium|enzyme fragment|complementation|two-hybrid|phosphorylation assay|second-messenger|pathway-specific|activity assay|product-spike|detergent|enzyme-concentration|surface antibody|antibody detection/i]];
 const instOf=t=>{      /* instruments a readout text needs; "A or B" lists count as alternatives, otherwise the first (most specific) match wins */
   const hits=INSTR.filter(([k,re])=>re.test(t)).map(x=>x[0]);
   return hits.length>1&&/\bor\b/i.test(t)?hits:hits.slice(0,1);
 };
 const WASHRE=/elisa|immunosorbent|filtration|wash|western|harvest/i;
-function instNeed(r){            /* alternatives: the assay can run if any ONE of these is available; empty = no special instrument */
-  const alts=new Set();let open=false;
-  for(const t of split(r.readouts)){const ks=instOf(t);if(ks.length)ks.forEach(k=>alts.add(k));else open=true;}
-  if(open) alts.clear();          /* a readout with no special instrument keeps the assay feasible */
+function readoutTexts(r,d=0){        /* "Same readout as K1" entries use the readouts of the entry they point to */
+  const t=r.readouts||"";
+  if(!/^\s*same/i.test(t)||d>2) return split(t);
+  const m=t.match(/\bas ([A-Za-z]{1,5}\d+)\b/i)||t.match(/\b([A-Z][A-Za-z]{0,4}\d+)\b/);
+  const ref=m&&D.playbook.find(x=>x.entry_id===m[1]&&x!==r);
+  if(ref) return readoutTexts(ref,d+1);
+  const cl=split(r.classes);     /* "the primary assay": the primary entries of the same classes */
+  return D.playbook.filter(x=>x!==r&&mainRole(x)==="primary"&&split(x.classes).some(c=>cl.includes(c))).flatMap(x=>readoutTexts(x,d+1));
+}
+function instNeed(r){            /* the assay can run if any ONE of these alternatives is available; readouts the app cannot classify are ignored */
+  const alts=new Set();
+  for(const t of readoutTexts(r)){instOf(t).forEach(k=>alts.add(k));}
   return {alts:[...alts],cell:isCell(r)};
 }
 function instMissing(r){
@@ -649,7 +663,7 @@ const DEFS=[
 ["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Inhibition vs activation: the shares are recomputed for the effect you choose. For inhibition, every campaign not labeled as activation counts (binding and unlabeled assays are normally run to find inhibitors or binders). For activation, only campaigns labeled activation or mixed count. If the protein has fewer than "+MINC+" such campaigns, the app uses the whole function class instead and says so. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
 ["Liquid and plate handling","These items do not dim assays. They only produce notes: for example 1536-well work usually needs nanoliter compound transfer plus a bulk dispenser, and assays with wash steps (ELISA, filtration) are flagged when no plate washer is ticked. Which equipment public campaigns actually mention is listed by scripts/equipment_scan.py (build_output/equipment_mentions.csv)."],
-["Instruments","Each readout listed for an assay needs an instrument (for example TR-FRET needs an HTRF reader, calcium dye assays need a kinetic reader). An assay is dimmed when none of its readouts can run with the instruments you ticked; cell-based assays also need cell culture. Readouts the app cannot classify count as feasible. The mapping is keyword based and not curated, so check the readout list."],
+["Instruments","Each readout listed for an assay needs an instrument (for example TR-FRET needs an HTRF reader, calcium dye assays need a kinetic reader). An assay is dimmed when none of its readouts can run with the instruments you ticked; cell-based assays also need cell culture. Readouts that name no instrument the app knows are ignored, and entries that say \'same readout as X\' use the readouts of X. The mapping is keyword based and not curated, so check the readout list."],
 ["Draft vs expert-reviewed","Draft entries were written by Claude and have not been reviewed by an expert. Reviewed entries were edited by the expert reviewer (name and date not yet recorded)."],
 ["Vendor options","Kits and services found on vendor web pages on 2026-11-07, or reported by users and marked UNVERIFIED. Check datasheets before ordering."]];
 $("defsbody").innerHTML=DEFS.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("");
