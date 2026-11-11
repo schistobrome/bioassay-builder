@@ -223,7 +223,22 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <label class="chk"><input type="checkbox" data-i="radio"> Radioactivity detection (scintillation / filter)</label>
         <label class="chk"><input type="checkbox" data-i="spr"> Biosensor (SPR / BLI)</label>
         <label class="chk"><input type="checkbox" data-i="cell"> Cell culture and imaging</label>
+        <label class="chk"><input type="checkbox" data-i="flow"> Flow cytometer</label>
+        <label class="chk"><input type="checkbox" data-i="patch"> Automated patch-clamp system</label>
+        <label class="chk"><input type="checkbox" data-i="ecl"> Electrochemiluminescence reader (Meso Scale-type)</label>
+        <label class="chk"><input type="checkbox" data-i="impedance"> Label-free impedance system (xCELLigence-type)</label>
+        <label class="chk"><input type="checkbox" data-i="thermal"> Thermal-shift instrument or qPCR machine</label>
+        <label class="chk"><input type="checkbox" data-i="itc"> ITC calorimeter</label>
         </div>
+        <span class="lbl">Liquid and plate handling</span>
+        <div id="handling">
+        <label class="chk"><input type="checkbox" data-i="multi"> Multichannel or electronic pipettes (manual or semi-manual)</label>
+        <label class="chk"><input type="checkbox" data-i="disp"> Bulk reagent dispenser (Multidrop-type, semi-automated)</label>
+        <label class="chk"><input type="checkbox" data-i="nano"> Nanoliter compound transfer (acoustic, non-contact or pin tool)</label>
+        <label class="chk"><input type="checkbox" data-i="handler"> Automated liquid handler (robotic workstation)</label>
+        <label class="chk"><input type="checkbox" data-i="washer"> Microplate washer</label>
+        </div>
+        <div class="note" id="eqnote" hidden></div>
         <p class="note">Plate formats and instruments dim assays (never hide them): an assay is dimmed when none of its readouts can be run with the instruments you ticked, or when your plate format is not typical for it. Tick everything you can reach, or core-facility instruments too.</p>
       </div>
     </aside>
@@ -349,7 +364,7 @@ function stdMeter(r){
    <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${u.level==="class"?' <span class="pill">class-wide</span>':""}${u.effect==="any"?' <span class="pill">all directions</span>':""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
 }
 /* ---- instruments: which instrument each readout needs (keywords found in the playbook's readout text) ---- */
-const INSTL={plate:"a plate reader (fluorescence, luminescence)",htrf:"an HTRF / TR-FRET reader",alpha:"an AlphaScreen-capable reader",kinetic:"a kinetic reader with online liquid addition (FLIPR-type)",lcms:"LC-MS / RapidFire",spr:"a biosensor (SPR / BLI)",mobility:"a mobility-shift system (Caliper / LabChip)",radio:"radioactivity detection (scintillation counter or filter reader)",cell:"cell culture and imaging"};
+const INSTL={plate:"a plate reader (fluorescence, luminescence)",htrf:"an HTRF / TR-FRET reader",alpha:"an AlphaScreen-capable reader",kinetic:"a kinetic reader with online liquid addition (FLIPR-type)",lcms:"LC-MS / RapidFire",spr:"a biosensor (SPR / BLI)",mobility:"a mobility-shift system (Caliper / LabChip)",radio:"radioactivity detection (scintillation counter or filter reader)",cell:"cell culture and imaging",patch:"an automated patch-clamp system",ecl:"an electrochemiluminescence reader (Meso Scale-type)",impedance:"a label-free impedance system (xCELLigence-type)",flow:"a flow cytometer",thermal:"a thermal-shift instrument or qPCR machine",itc:"an ITC calorimeter"};
 const INSTR=[ /* first match wins, so specific technologies come before the general plate reader */
  ["alpha",/alpha-?(screen|lisa)/i],["htrf",/htrf|tr-?fret|lanthascreen|\blance\b|time-resolved/i],
  ["kinetic",/flipr|calcium (dye|flux|mobili)|fluo-?4|thallium|membrane[- ]potential|rubidium flux|kinetic fluorescence/i],
@@ -357,12 +372,22 @@ const INSTR=[ /* first match wins, so specific technologies come before the gene
  ["spr",/\bspr\b|\bbli\b|biolayer|surface plasmon|biosensor|octet|biacore/i],
  ["mobility",/mobility[- ]shift|caliper|labchip/i],
  ["radio",/radiomet|radioligand|35s|scintillation|\bspa\b|filtration|\[3h\]|\[125i\]|32p|33p/i],
- ["cell",/high-content|imaging|microscop|immunofluorescence|flow cytometry|facs/i],
+ ["patch",/patch[- ]clamp|ionworks|qpatch|patchliner|syncropatch|electrophysiolog/i],
+ ["ecl",/meso scale|\bmsd\b|electrochemiluminesc|\becl\b/i],
+ ["impedance",/impedance|xcelligence|rtca/i],
+ ["flow",/flow cytomet|\bfacs\b|\bique\b|hypercyt/i],
+ ["thermal",/thermal shift|\bdsf\b|differential scanning fluorimetry|thermofluor/i],
+ ["itc",/\bitc\b|isothermal titration|calorimetr/i],
+ ["cell",/high-content|imaging|microscop|immunofluorescence/i],
  ["plate",/luminesc|glo\b|-glo|fluoresc|fluorogenic|polari[sz]ation|\bfp\b|absorb|colorimetr|malachite|elisa|bret|nanoluc|luciferase|reporter|fret|transcreener|dye|ratiometric|cetsa|alphascreen/i]];
-const instOf=t=>{const m=INSTR.find(([k,re])=>re.test(t));return m?m[0]:null};
+const instOf=t=>{      /* instruments a readout text needs; "A or B" lists count as alternatives, otherwise the first (most specific) match wins */
+  const hits=INSTR.filter(([k,re])=>re.test(t)).map(x=>x[0]);
+  return hits.length>1&&/\bor\b/i.test(t)?hits:hits.slice(0,1);
+};
+const WASHRE=/elisa|immunosorbent|filtration|wash|western|harvest/i;
 function instNeed(r){            /* alternatives: the assay can run if any ONE of these is available; empty = no special instrument */
   const alts=new Set();let open=false;
-  for(const t of split(r.readouts)){const k=instOf(t);if(k)alts.add(k);else open=true;}
+  for(const t of split(r.readouts)){const ks=instOf(t);if(ks.length)ks.forEach(k=>alts.add(k));else open=true;}
   if(open) alts.clear();          /* a readout with no special instrument keeps the assay feasible */
   return {alts:[...alts],cell:isCell(r)};
 }
@@ -408,6 +433,14 @@ function render(){
   $("summary").insertAdjacentHTML("beforeend",eNote);
   $("flow").innerHTML = ROLES.map(([k,n,d])=>{const g=chosen.filter(x=>mainRole(x.r)===k);return `<a href="#sec-${k}"><b>${n}</b><span>${g.length}</span><small>${d}</small></a>`}).join("");
   const sel=[...S.plates];
+  const eq=[], has=k=>S.inst.has(k), anyHand=["multi","disp","nano","handler"].some(has);
+  if(!anyHand) eq.push("Tick the liquid-handling equipment you have to get notes on which plate formats it can support.");
+  else{
+    if(sel.includes("1536")&&!(has("nano")&&(has("disp")||has("handler")))) eq.push("1536-well work normally needs a nanoliter compound transfer device (acoustic, non-contact or pin tool) and a bulk reagent dispenser. One or both are not ticked.");
+    if(sel.includes("384")&&!(has("disp")||has("handler")||has("nano"))) eq.push("384-well work with pipettes only is possible but slow and error-prone; a bulk dispenser or liquid handler is usually used.");
+    if(sel.includes("96")&&sel.length===1&&has("handler")&&!has("multi")) eq.push("96-well work does not need automation; your liquid handler is not a limit here.");
+  }
+  $("eqnote").hidden=!eq.length;$("eqnote").innerHTML=eq.map(esc).join("<br>");
   let html="";
   for(const [k,n,d] of ROLES){
     const g=chosen.filter(x=>mainRole(x.r)===k);
@@ -418,6 +451,7 @@ function render(){
       const open=S.open.has(r.entry_id), inplan=S.plan.has(r.entry_id), draft=/draft/i.test(r.status);
       const specific=sel.filter(x=>x!=="und");
       const need=instMissing(r);
+      const washNote=WASHRE.test(r.readouts||"")&&!has("washer");
       const dim=(specific.length>0 && !specific.some(x=>pf.list.includes(x)))||need.length>0;
       const dois=split(r.sources_doi);
       html+=`<article class="card ${inplan?"inplan":""} ${dim?"dim":""}" id="a-${r.entry_id}">
@@ -425,7 +459,7 @@ function render(){
           <div class="pills"><span class="pill">${CATS[r.assay_category]||r.assay_category}</span>${isCell(r)?'<span class="pill cell">cell-based</span>':'<span class="pill cell" style="background:var(--surface2);color:var(--muted)">cell-free</span>'}
           <span class="pill pri">${esc(r.development_priority)}</span>${level==="partial"?'<span class="pill draft">domain only partly in construct</span>':""}
           <span class="pill ${draft?"draft":"rev"}">${draft?"draft, needs expert review":"expert-reviewed"}</span>${kits.length?`<span class="pill avail">${kits.length} vendor option${kits.length>1?"s":""}</span>`:""}
-          <span class="pill">${pf.list.join(" · ")}-well${pf.src==="est"?" (est.)":pf.src==="data"?" (from data)":""}</span>${specific.length>0&&!specific.some(x=>pf.list.includes(x))?'<span class="pill draft">not typical for your plate format</span>':""}${need.length?`<span class="pill draft">needs: ${esc(need.join(" and "))}</span>`:""}</div></div>
+          <span class="pill">${pf.list.join(" · ")}-well${pf.src==="est"?" (est.)":pf.src==="data"?" (from data)":""}</span>${specific.length>0&&!specific.some(x=>pf.list.includes(x))?'<span class="pill draft">not typical for your plate format</span>':""}${need.length?`<span class="pill draft">needs: ${esc(need.join(" and "))}</span>`:""}${washNote?'<span class="pill">wash steps (by hand without a plate washer)</span>':""}</div></div>
           <div class="meters">${stdMeter(r)}${meter("HTS suitability",r.screening_suitability)}${meter("Biological relevance",r.biological_relevance)}</div></header>
         <div class="always">${esc(r.measures)}</div>
         ${open?`<div class="body"><dl class="dl">
@@ -585,7 +619,8 @@ $("plates").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;const 
   if(k==="und"){S.plates.clear();S.plates.add("und");}else{S.plates.delete("und");S.plates.has(k)?S.plates.delete(k):S.plates.add(k);}
   [...$("plates").children].forEach(x=>x.setAttribute("aria-pressed",S.plates.has(x.dataset.p)));render();};
 
-$("insts").onchange=e=>{const c=e.target.closest("[data-i]");if(!c)return;c.checked?S.inst.add(c.dataset.i):S.inst.delete(c.dataset.i);render()};
+const instToggle=e=>{const c=e.target.closest("[data-i]");if(!c)return;c.checked?S.inst.add(c.dataset.i):S.inst.delete(c.dataset.i);render()};
+$("insts").onchange=instToggle;$("handling").onchange=instToggle;
 
 /* ---- results actions, drawer ---- */
 $("out").onclick=e=>{const o=e.target.closest("[data-open]"),p=e.target.closest("[data-plan]");
@@ -613,6 +648,7 @@ const DEFS=[
 ["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
 ["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Inhibition vs activation: the shares are recomputed for the effect you choose. For inhibition, every campaign not labeled as activation counts (binding and unlabeled assays are normally run to find inhibitors or binders). For activation, only campaigns labeled activation or mixed count. If the protein has fewer than "+MINC+" such campaigns, the app uses the whole function class instead and says so. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
+["Liquid and plate handling","These items do not dim assays. They only produce notes: for example 1536-well work usually needs nanoliter compound transfer plus a bulk dispenser, and assays with wash steps (ELISA, filtration) are flagged when no plate washer is ticked. Which equipment public campaigns actually mention is listed by scripts/equipment_scan.py (build_output/equipment_mentions.csv)."],
 ["Instruments","Each readout listed for an assay needs an instrument (for example TR-FRET needs an HTRF reader, calcium dye assays need a kinetic reader). An assay is dimmed when none of its readouts can run with the instruments you ticked; cell-based assays also need cell culture. Readouts the app cannot classify count as feasible. The mapping is keyword based and not curated, so check the readout list."],
 ["Draft vs expert-reviewed","Draft entries were written by Claude and have not been reviewed by an expert. Reviewed entries were edited by the expert reviewer (name and date not yet recorded)."],
 ["Vendor options","Kits and services found on vendor web pages on 2026-11-07, or reported by users and marked UNVERIFIED. Check datasheets before ordering."]];

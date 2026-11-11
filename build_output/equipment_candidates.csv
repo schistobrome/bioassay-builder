@@ -1,0 +1,93 @@
+﻿phrase,n_campaigns,n_proteins,example
+BT system,43,12,y to cells in confluent adherent cultures (all systems other than the BT system) was assessed by measuring total protein levels using sulforhodamine
+SAg system,43,12,tem (48 h: 3C and CASM3C systems; 72 h: BT and HDF3CGF systems; 96 h: SAg system). SRB was performed by staining cells with 0.1% SRB after fixation wi
+APJ system,31,2,"nd angiotensin II. Underscoring the emerging importance of the apelin/APJ system, recent studies have shown that apelin reduces the extent of atherosc"
+TRANS system,25,19,"target reporter gene sequence. A major difference between the CIS and TRANS system is that in CIS activities of endogenous TFs are measured, whereas the"
+Fusion plate reader,18,2,"antibody took place for 40 minutes and HTRF signal was measured on a Fusion plate reader (Perkin Elmer, Boston, Mass.)."
+ELISA reader,18,5,w/v sodium citrate) is added to the reaction. The plate is read by an ELISA reader with an absorbance at 620 nm.
+FLIPRTETRA reader,17,17,uffer as indicated in the manufacturer manual) and plates analysed at FLIPRTETRA reader using a lambdaexc 510 - 545nm / lambdaem 565 - 625 nm filter. To test
+CCD imager,16,8,; absorbance; Read 1 at 405 nm absorbance using ViewLux (PerkinElmer) CCD imager. 10; Detector; absorbance; Read 2 at 573 nm absorbance using ViewLux
+Rubystar HTRF plate reader,14,2,ed at 30° C. for 1.5 hours. The 620 nm fluorescence is then read on a Rubystar HTRF plate reader (BMG Labtechnologies) using a 50 millisecond delay followed by a 400
+TRF reader,13,3,"room temperature. The time-resolved energy transfer is measured by a TRF reader (Evotec Technologies GmbH), equipped with a ND:YAG laser as excitatio"
+FP reader,13,1,"added to stop the reaction. Change in RP7030's FP is determined by a FP reader (Analyst HT, LH, BioSystems)."
+RUBYstar HTRF plate reader,12,1,l at 620 nm is collected for 400 ms following a 50 &#956;s delay on a RUBYstar HTRF plate reader (BMG Labtechnologies). Raw RFU data is normalized to maximum (1.0 nM
+AlphaScreen platform,10,4,'The current cell-based ERK phosphorylation assay was performed using AlphaScreen platform. AlphaScreen is a two bead-based proximity-dependent chemical energy
+NADPH-generating system,10,6,"resence of glucose-6-phosphate, glucose-6-phosphate dehydrogenase and NADPH-generating system incubated for 15 mins by fluorometry"
+ATP-regenerating system,9,2,mixed with labeled ubiquitins (terbium- and fluorescein-labeled) and ATP-regenerating system to trigger polyu Assay Materials: Caspase-Glo(R) 3/7 Assay: Promega (
+High-throughput CCD imager,8,4,sorbance at 405 and 573 nm were measured using ViewLux (Perkin-Elmer) High-throughput CCD imager and absorbance protocol settings. The 573-to-405 absorbance ratio was
+I3X plate reader,8,4,fter 30 minutes room temperature incubation with the Molecular device I3X plate reader. The IC50 values were calculated from a series of percent inhibition
+Life Science LC3000 instrument,8,2,"and 0.2% Coating Reagent 3. The assay plates were placed on a Caliper Life Science LC3000 instrument, and each well was sampled using appropriate separation conditions to"
+Analyst HT reader,8,5,uorescence polarization in mP is measured at room temperature with an Analyst HT reader. An excitation filter at 545nm and an emission filter at 610 to 675nm
+Thermo CatX workstation,7,2,"16 low controls. Liquid handling and incubation steps were done on a Thermo CatX workstation equipped with a Innovadyne Nanodrop Express. Between pipetting steps,"
+NADPH-regenerating system,6,3,"1 mM DTT) and preincubated for 5 min at 37 °C. together with 50 μl of NADPH-regenerating system (phosphate buffer with 10 mM NADP®, 100 mM glucose-6-phosphate and 2,"
+ABCG2 counter,6,1,"e Response for ABC transporter inhibitors: specifically ABCB1 screen, ABCG2 counter-screen. (Class of assay: confirmatory) || PubChem AID 1689: Dose Resp"
+FLT reader,6,2,crease fluorescence lifetime (FLT) of PT14 measured by the means of a FLT reader as described by Doering et al. (2009). The effect of the compound on
+MolecularDevices M5 reader,6,2,to each well to terminate the assay. Well fluorescence was read on a MolecularDevices M5 reader - excitation wavelength of 475 nm and emiss
+Acoustic Technology instrument,6,1,"rial dilution of test compound was added to deep 384 well plate using Acoustic Technology instrument (Echo 550, LabCyte) containing reaction buffer (50 mM Tris-HCl (pH 8."
+IonWorks Quattro instrument,6,3,"p configuration (100 ug/mL amphoterocin) at room temperature using an IonWorks Quattro instrument. The internal solution contained 140 mM KCl, 1 mM MgCl2, 1 mM EGTA an"
+Homogenous Time-Resolved Fluorescence reader,5,1,5 nM Streptavidin-XL665) incubated for 1 hour at 23° C. and read on a Homogenous Time-Resolved Fluorescence reader. IC50s were fitted using GraphPad Prism to a sigmoidal dose response.
+ABCB1 counter,5,2,"e Response for ABC transporter inhibitors: specifically ABCG2 screen, ABCB1 counter-screen. Follow-up assay on set 2. (Class of assay: confirmatory) || P"
+NOVOStar reader,5,2,n-AMC as substrate. Reactions were carried out at 30 C. utilizing the NOVOStar reader for microplates (BMG labtechnology).
+EZ-Reader system,4,2,"rylated peptides were separated and quantified using a Caliper LC3000/EZ-Reader system and HTS Well Analyzer Software (Caliper, A PerkinElmer Company, Hopki"
+ECL-M8 instrument,4,1,"d with TAG-G2-11 and biotin-4G8. The ECL signal was measured using an ECL-M8 instrument (IGEN International, Inc.) according to the manufacturer's instructio"
+Luminoskan Ascent instrument,4,1,ted at room temperature for 15 minutes. The plate is then read by the Luminoskan Ascent instrument and the results displayed with the Ascent Software version 2.6.
+HyperCyt system,4,1,d for 30 min. Suspended cells are analyzed by flow cytometry with the HyperCyt system to test for allosteric activators. The plates that contain Mn2+ (fina
+Combi dispenser,4,2,eads (biotin and antiflag beads). 6. Add 4ul of 2.5S AF9-Flag using a Combi dispenser. 7. Add 4ul of 2.5X Biotin AF4 using a Combi dispenser. 8. Incubate a
+IonWorks instrument,4,1,"esuspended in approximately 4.0 ml of bath solution and placed in the IonWorks instrument. The intracellular solution consisted of (in mM): 80 K gluconate, 40"
+For counter,4,2,"bottom 96-well plates pre-coated with 1 μm/ml αCD3 and 5 μg/ml αCD28. For counter assay, cells were instead stimulated by adding 8× stock solutions of"
+FLIPR384 instrument,4,1,"d compounds of the invention and the Ca2+ response was monitored on a FLIPR384 instrument (Molecular Devices, Sunnydale Calif., USA). Maximal agonist activity"
+Packard Discovery plate reader,3,1,d. The degree of phosphorylation of GST-IKBalpha was measured using a Packard Discovery plate reader (Perkin-Elmer) as a ratio of specific 665 nm energy transfer signal t
+Microplate reader,3,3,ne phosphatase (AP) substrate 9) 0.5 M NaOH 10) Microplate washer 11) Microplate reader Assay Protocol: Making Nrp2-affinity plates 1) Dilute Nrp2-b1b2 and B
+Elmer EnSpire Alpha plate reader,3,2,shakenin the dark for 60 min. The microplate was read using a Perkin Elmer EnSpire Alpha plate reader (λEx/λEm=680/520-620 nm). Percent inhibition was calculated relative
+Eppendorf AF2200 plate reader,3,1,"ollowing washes, the amount of bound labeled-GTP was measured with an Eppendorf AF2200 plate reader."
+MS system,3,3,Time dependent inhibition of CYP1A2 (unknown origin) at 100 uM by LC/MS system
+EZ reader,3,3,Inhibition of IR (unknown origin) by caliper EZ reader mobility shift assay relative to control
+Max Gemini XS instrument,3,1,"otiter plates, and readings were taken on a Molecular Devices Spectra Max Gemini XS instrument. The excitation wavelength was 355 nm and the emission wavelength was"
+Typhoon imager,3,2,exposed for 30 minutes to a storage phosphor screen and scanned by a Typhoon imager (GE Life Sciences).
+OPRK system,3,2,"ility. Evidence from preclinical studies indicates that the dynorphin/OPRK system may be dysregulated in affective psychiatric disorders (for review, s"
+RTCA system,3,3,t are detected as changes in cellular impedance using the xCELLigence RTCA system. Active SLCs transport part of the substrate into the cell leaving a
+Coulter DTX 880 plate reader,3,1,concentrations were 33.3 to 0.015 DM). Samples were read on a Beckman Coulter DTX 880 plate reader in fluorescence polarization mode using excitation at 485 nm and emis
+Beckman BioRaptor dispenser,3,1,bstrate Solution are added to a Greiner 1536 well black plate using a Beckman BioRaptor dispenser. No Enzyme control wells contain 2 uL Assay Buffer + 2 uL Substrate S
+Tecan 500 instrument,3,1,"th EDTA/kinease detection reagents and the polarization measured on a Tecan 500 instrument. From the dose-response curve obtained, the IC50 was calculated using"
+QPatch 48 HTX system,3,2,h CsOH Osmolality 310 mOsm/L. Utilizing the voltage-clamp mode in the QPatch 48 HTX system a half inactivation state voltage protocol (V1/2) was used to determi
+PAR1 counter,3,1,-Trp-Leu-Val-Lys-Asn-Gly-NH2 for PAR4 antagonist screen or SFFLRR for PAR1 counter screen were routinely tested to ensure a response at EC50 in the assa
+Gemini plate reader,3,1,tal reaction volume was 100 μL. The reaction rates were measured on a Gemini plate reader with an excitation wavelength of 488 nm and an emission of 530 nm. Re
+Baculovirus system,2,2,Inhibition of GST-tagged p110delta (unknown origin) expressed in Sf9/Baculovirus system using [gamma-33P]ATP by scintillation proximity assay
+Correlation Spectroscopy Plus reader,2,2,n that was measured by laser excitation at 633 nm with a Fluorescence Correlation Spectroscopy Plus reader (Evotec AG). Equilibrium dissociation constant (Ki) values for NIK in
+II system,2,2,e other reagents were purchased from Sigma-Aldrich. Caliper EZ reader II system was used to collect all data. HDAC inhibition assays: Compounds were
+EnSpire plate reader,2,2,C3 using Ac-Leu-Gly-Lys(Ac)-AMC as substrate incubated for 30 mins by EnSpire plate reader analysis
+Tecan Genios Pro plate reader,2,2,"te at 405 nm wavelength for 60 or 120 minutes in a Tecan Spark M10 or Tecan Genios Pro plate reader at 37° C. After optimization of assay conditions, every enzyme was te"
+Tecan workstation,2,1,"n, and then diluted with DMSO and water in a two-step process using a Tecan workstation. Cells were treated with diluted compounds for 24 h (5.4 μL into 200"
+Attagene TRANS-FACTORIAL system,2,1,"is a cell-based, multiplexed assay created by modifying the existing Attagene TRANS-FACTORIAL system to include a panel of nuclear receptors from some or all the followin"
+Tecan plate reader,2,1,"iquitinase USP2a."" The assays were performed using Infinite 200 PRO - Tecan plate reader and 96-well, black Greiner microplates in a 100 ml reaction volume. T"
+SP system,2,2,"ts were performed using an xCELLigence Real-Time Cell Analyzer (RTCA) SP system (ACEA biosciences, San Diego, CA, USA. The xCELLigence biosensor dete"
+Perkin Elmer AlphaQuest reader,2,2,"ach well. After 2-16 hr incubation of the beads, plates are read in a Perkin Elmer AlphaQuest reader (available from PerkinElmer Life and Analytical Sciences, Inc., of Bo"
+Prominence HPLC system,2,1,"iquid Chromatography (HPLC) for biochemical assays was performed on a Prominence HPLC system (Shimadzu Scientific Instruments, Inc., Columbia, Md.) equipped with"
+GR counter,2,2,"ds with known mechanisms of action. Initial hits were triaged using a GR counter-screen, assessed for isoform specificity using a separate GPX2 assay,"
+Microbia counter,2,1,ave-dried filters on a hot plate and the radio activity is counted in Microbia counter. Compounds showing a minimum of 50% inhibition at 10 uM concentration
+Analyst HT plate reader,2,2,solution (25 #l) was added. 12. The plate was read 5 min later in an Analyst HT plate reader (Molecu
+Procedure RhoGAP DR counter,2,2,"ein inhibitors would be of great innovation value and they could s... Procedure RhoGAP DR counter assay - Biomol green read-out Sample preparation I#Positive mix (3x),"
+Infinite F500 plate reader,2,1,"monitored at 305 nm for formation of the borate-enol complex using an Infinite F500 plate reader (TECAN, Morrisville, N.C.) for 175 seconds. Calculation of initial ve"
+TECAN plate reader,2,1,"ioproducts, Cat #, BM-244)7.384-well plate (Fisher, Cat #, 5795-EN)8. TECAN plate reader (TECAN)II. Experimental ProcedureCompounds are first dissolved in DMS"
+Packard Fusion plate reader,2,1,"r one hour on a plate shaker at 900 rpm. The plate was then read on a Packard Fusion plate reader in TRF mode. Kinase Assay buffers were:A: 50 mM HEPES pH 7.5, 6 mM Mn"
+Screen Direct system,2,2,"he incubation medium, cells were lysed using lysis buffer of the cAMP-Screen Direct system (Applied Biosystems, Foster City, CA). The cAMP content of the cell l"
+T200 instrument,2,2,on Resonance (SPR) Assay: SPR studies were performed using a Biacore™ T200 instrument (GE Health Sciences Inc.). The BCL6 BTB protein used in the FP assay
+MultiScreen system,2,2,"0−11 mol/l) of test and reference compounds in 96-well filter plates (MultiScreen system, cat. MAFBN0B10, Millipore, Billerica, Mass., USA) for one h at 4° C."
+Caspase-1-ASC counter,2,1,le concentration confirmation of inhibitors of NALP1 in yeast using a Caspase-1-ASC counter screen. Data Source: Sanford-Burnham Center for Chemical Genomics (SB
+Elmer EnSpire Multimode plate reader,2,1,aking for 30 min at RT. Luminescence (1000 ms) was measured in Perkin Elmer EnSpire Multimode plate reader.
+CTEPExperimental instrument,2,2,"cell line, Fluo-8 calcium ion fluorescent dye, positive control MPEP, CTEPExperimental instrument: FLIPR Tetra real-time fluorescence imaging analysis systemExperiment"
+Top Count instrument,2,1,as added. Total counts retained by the filters were quantified with a Top Count instrument.
+StarGazer instrument,2,2,"say on Human SULT1E1 Differential static light scattering assay using StarGazer instrument from Harbinger Biotech: Protein samples are heated gradually, with li"
+StarGazer plate reader,2,2,gregated protein scatters light emanating from below the plate in the StarGazer plate reader. The CCD camera records scattered light from each well as a function
+Gal4 system,2,1,dose response assay to identify compounds that interfere with the UAS/Gal4 system and/or luciferase reporter. Source (MLPCN Center Name): The Scripps R
+Bac-to-Bac system,2,1,f9 insect cells (obtained from ATCC) using baculovirus generated with Bac-to-Bac system (Invitrogen). Test compounds were serially diluted to reach final tes
+Agilent 1150 LC system,2,1,"bolomics: LC gradient was employed at a flow rate of 200 μL/min on an Agilent 1150 LC system (Agilent, Santa Clara, Calif., USA); mass spectrometry was performed"
+Sf21-Baculovirus system,2,2,Inhibition of human recombinant His-tagged Glyoxalase 1 expressed in Sf21-Baculovirus system
+LJL Analyst plate reader,2,1,ormat. Time-resolved fluorescence was measured at 615 and 665 nm on a LJL Analyst plate reader. The ratio of 665/615 was used to calculate EC50 values of test compo
+Ultra plate reader,2,1,"Activator of Caspases."" Fluorescence polarization was measured on an Ultra plate reader at excitation and emission wavelengths of 485 and 530 nm, respectivel"
+IonWorks Barracuda instrument,2,2,"opulation patch clamp (PPC). PPC measurements were performed using an IonWorks Barracuda instrument (Molecular Devices Corporation, Union City, Calif.) using either Patc"
+DiscoverX KdELECT platform,2,1,K dissociation constants (Kd) for compounds were determined using the DiscoverX KdELECT platform. The MYLK kinase (accession number NP_444254.3) was labeled with a DN
+After system,2,1,"Cl2, 2 D-Glucose monohydrate, 10 Hepes (pH adjusted to 7.4 with NaOH).After system flushing, testing compounds are dissolved in external solution contai"
+MSD SECTOR TM instrument,2,1,"of reading buffer (supplied), and the luminescence value was read by MSD SECTOR TM instrument. 6) The instrument showed the luminescence value for p38 and phospho-"
+Mithras plate reader,2,1,the manufacturer (Promega) instructions. Luminescence was read with a Mithras plate reader (Berthold). Data were expressed as percentage of the 10 μM LCA value
+Brandel system,2,1,3108). Membranes were harvested by rapid filtration using the 96 well Brandel system or a cell harvester using a Whatman GF/C filter or filter plates trea

@@ -1,0 +1,50 @@
+﻿category,equipment,n_campaigns,share_of_campaigns,n_proteins,example
+acoustic / non-contact nanoliter dispenser,Echo (Labcyte/Beckman),451,0.0081,154,"mbinant enzymes. Compounds in 100% DMSO were added to assay plates by acoustic dispensing. PI3K enzyme was added in a Tris buffer (50 mM Tris pH7.4, 0.05% C"
+acoustic / non-contact nanoliter dispenser,BioRAPTR,137,0.0025,53,"then dilute 10-fold in pre-chilled 1x Assay Buffer. 3) Using Beckman BiorapTR dispense 2uL of Assay Buffer in columns 1 and 2, and 2uL of 26S prote"
+acoustic / non-contact nanoliter dispenser,Mosquito (SPT Labtech),27,0.0005,17,"ransferred into a 384-well Perkin Elmer ProxiPlate 384 plus plates by Mosquito Solutions (5 μL) of 0.8 nM, the full-length LSD1 and 0.5 μM FAD in re"
+acoustic / non-contact nanoliter dispenser,Nanoliter dispenser (generic),24,0.0004,12,l compounds for Kd measurements are distributed by acoustic transfer (non-contact dispensing) in 100% DMSO. The compounds were then diluted directly into the a
+acoustic / non-contact nanoliter dispenser,HP D300 / Tecan D300e,9,0.0002,8,"zyme buffer to which compounds were added in dose-response with an HP D300 digital dispenser (Hewlett-Packard), followed by addition of 20 μL of"
+acoustic / non-contact nanoliter dispenser,Tempest,3,0.0001,2,ids. Liquid handling was performed using Labcyte Echo and Formulatrix Tempest.
+automated liquid handler,robotic platform (generic),244,0.0044,111,l compound EGTA was transferred to the assay plate using the Kalypsys robotic system equipped with a 1536 pin head. The plate was incubated at room
+automated liquid handler,Janus (PerkinElmer),73,0.0013,24,lied to the assay plates using an automated workstation (Perkin Elmer JANUS...
+automated liquid handler,Biomek (Beckman),70,0.0013,31,). For pipetting of the incubation mixture we routinely use the robot Biomek (Fa. Beckman).
+automated liquid handler,Agilent Bravo / Vprep,61,0.0011,20,"5 acoustic dispenser.Subsequent reagent additions employed an Agilent Bravo. Next, 18 of 1.1 IX enzyme and 1.1 IX substrate in IX assay buffer (I"
+automated liquid handler,Hamilton,9,0.0002,5,"using a computer-controlled 8-modular valve positioner (Digital MVP, Hamilton, Reno, NV)."
+automated liquid handler,Tecan Freedom EVO / Fluent,8,0.0001,3,olume of 100% DMSO. The serially diluted compounds were prepared on a Tecan EVO100. A second addition of 10 ul of Tyr-Sox FGFR4 substrate was added t
+automated liquid handler,Zephyr / Sciclone,2,0.0,2,"ing a Mitsubishi robotic plate handler, Liconic incubators, a Caliper Zephyr® liquid handling workstation equipped with temperature-controlled dec"
+bulk reagent dispenser,Multidrop / Multidrop Combi,274,0.0049,113,igin) at 10 uM incubated for 30 mins in presence of [gamma-33P]ATP by multidrop micro reagent based assay relative to control
+bulk reagent dispenser,bulk dispenser (generic),135,0.0024,43,s dispensed into clear 384-well assay plates using a MULTIDROP Combi reagent dispenser. The diluted compound stock plates were then applied to the assay pla
+bulk reagent dispenser,WellMate,76,0.0014,20,r positive controls and 9 uL of assay buffer were added to them using WellMate bulk dispenser (Matrix). 5. 9 uL of Bcl-B working solution was added
+bulk reagent dispenser,Thermo/Titertek bulk dispenser,9,0.0002,7,"n-coated 96-well plate (Perbio) and incubated for 1 hour on a shaker (Titertek, Flow Laboratories) at room temperature. The plates were washed four"
+bulk reagent dispenser,FlexDrop,3,0.0001,3,"DMSO) diluted first in DMSO to 1 mM and then to 1.5 uM in Buffer 2. A FLEXDROP (Perkin Elmer) was cleaned with ethanol then water, and primed with B"
+electronic / multichannel pipette,multichannel pipette,31,0.0006,18,cGLGKacGGAKacRHRK-COOH. Addition to wells was performed with either a multichannel pipet (for optimization experiments) or a Biotek EL406 liquid handler
+electronic / multichannel pipette,"electronic pipette (Viaflo, E1-ClipTip)",11,0.0002,11,"lemented with 0.1% DMSO), which were added to the E-plate utilizing a VIAFLO 96 handheld electronic 96 channel pipette (Integra Bioscience, Tokyo,"
+imagers / high-content,flow cytometer (generic),687,0.0124,238,ast cancers. The Eya family of proteins was also found to contain a unique HAD phosphatase domain with protein tyrosine phosphatase activity whi
+imagers / high-content,Acumen / Celigo / IncuCyte,40,0.0007,10,total intensity of fluorescent objects (nuclei) were enumerated by an Acumen Explorer Ex3 (TTP LabTech) fluorescence scanning plate imager (405 nm
+imagers / high-content,ImageXpress / Opera / Operetta / CellInsight / ArrayScan,14,0.0003,9,with the respective antibodies and DAPI. A spinning disk Perkin Elmer Opera platform equipped with a 20 x water immersion objective (0.7 numerica
+mass spec / other analytical,LC-MS (generic),598,0.0108,142,anscription complex subunit 1 in human INA-6 cells after 3 hrs by nanoLC-MS/MS method
+mass spec / other analytical,Caliper / LabChip mobility shift,394,0.0071,78,Inhibition of SGK1 using fluorescent labelled substrate at 5 uM by caliper method
+mass spec / other analytical,qPCR / thermal cycler,141,0.0025,79,Inhibition of human wild type SGK1 at 1 uM by qPCR analysis relative to control
+mass spec / other analytical,RapidFire (Agilent),80,0.0014,38,3K9Me3 peptide as substrate assessed as demethylation of substrate by Rapidfire mass spectrometric analysis
+microplate washer / plate handling,incubator (CO2),1045,0.0188,290,1% P/S. Cells were given a minimum of 4 hours in incubator at 37° C./5% CO2 to adhere prior to further treatment. Compounds were diluted in DMSO
+microplate washer / plate handling,plate washer (generic),856,0.0154,272,"ase assays. 3. The liganded beads were blocked with excess biotin and washed with blocking buffer (SeaBlock (Pierce), 1% BSA, 0.05% Tween 20, 1 mM DTT)"
+microplate washer / plate handling,cell harvester / filter,630,0.0113,195,"are then transferred to 96-well Millipore MultiScreen IP 0.45 m PVDF filter plate (The filter plate is prewetted with 200 μL 100% ethanol, distilled wa"
+microplate washer / plate handling,plate shaker,303,0.0055,134,"tion of SPA beads was 1.0 mg/mL. After the plate sealing, plates were shaken overnight at room temperature and centrifuged at 1800 rpm for 10 minu"
+microplate washer / plate handling,plate centrifuge,301,0.0054,126,"e plate sealing, plates were shaken overnight at room temperature and centrifuged at 1800 rpm for 10 minutes."
+microplate washer / plate handling,plate sealer,69,0.0012,19,"uM ATP. The final concentration of SPA beads was 1.0 mg/mL. After the plate sealing, plates were shaken overnight at room temperature and centrifuged"
+microplate washer / plate handling,BioTek ELx405 / EL406 / MultiFlo,34,0.0006,22,"ither a multichannel pipet (for optimization experiments) or a Biotek EL406 liquid handler. After a 1000-rpm spin-down for 1 minute, 100 nL of th"
+pin tool / pintool,pin tool (generic),441,0.0079,146,"lution were transferred to the assay plates at 23 nL/well via a NX-TR pin tool workstation (WAKO, San Diego, Calif.) and incubated with enzyme for 1"
+pin tool / pintool,Kalypsys,261,0.0047,86,nd control compound EGTA was transferred to the assay plate using the Kalypsys robotic system equipped with a 1536 pin head. The plate was incubated
+pin tool / pintool,CyBio / CyBi-Well,71,0.0013,22,urs at 37C and 5% CO2 5. Prepare compound plates and control plate on Cybi-Well system 6. Add 1 ul of 200x compound stock in to the cell plates 7. In
+pin tool / pintool,V&P Scientific,39,0.0007,18,"nts, and a Janus 384 MDT (PerkinElmer) equipped with a 50 nL Pintool (V&P Scientific, Inc.) was used to add the compounds dissolved in DMSO to the reactio"
+plate readers / detectors,scintillation counter (generic),2034,0.0366,440,Residual activity of SGK1 at 1 uM by microplate scintillation counting
+plate readers / detectors,EnVision (PerkinElmer),974,0.0175,266,"sed at 5 μL/well into the assay plate. Plates were measured using the EnVision plate reader (Perkin Elmer), with excitation 320 nm and emissions of"
+plate readers / detectors,FLIPR / FDSS / kinetic imaging reader,958,0.0173,195,mGluR8 assessed as inhibition of glutamate-induced calcium influx by FLIPR assay
+plate readers / detectors,PHERAstar / CLARIOstar (BMG),839,0.0151,256,"rk room, quantification of the AlphaScreen signal is performed on the Pherastar (BMG)."
+plate readers / detectors,TopCount / MicroBeta / Wallac,757,0.0136,212,"minutes on streptavidin-coated plates, washed, and quantified using a TopCount scintillation plate reader (Packard). IC50 values are determined via"
+plate readers / detectors,SpectraMax / FlexStation (Molecular Devices),556,0.01,218,"ubation at room temperature, the absorbance was read at 620nm using a Spectramax PLUS 384 plate reader by Molecular Devices. Dose response curves were"
+plate readers / detectors,ViewLux,390,0.007,146,"OMFP at 50 uM ', '5. Incubate at ambient for 10 minutes', '6. Read on ViewLux using Excitation = 485 nm, Emission = 525 nm'] ['Compound Ranking:',"
+plate readers / detectors,Octet / Biacore / SPR system,242,0.0044,150,cells assessed as dissociation constant incubated for 72 to 96 hrs by SPR analysis
+plate readers / detectors,Synergy / Cytation (BioTek),191,0.0034,98,"530,590 nm for TAMRA-cGMP or 485,530 nm for fluorescein-cAMP using a Synergy4 (Biotek) microplate reader."
+plate readers / detectors,Tecan Infinite / Spark / Safire,95,0.0017,49,"um. FP values in millipolarization units (mP) were measured using the Infinite M-1000 plate reader (Tecan U.S., Research Triangle Park, N.C.) in Micro"
+plate readers / detectors,Victor (PerkinElmer),76,0.0014,43,tion of the substrate. ATP conversion was recorded using Perkin-Elmer Victor Luminometer. Data was plotted using GraphPad software and IC50 was ca
