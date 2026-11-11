@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- doctype, charset and viewport added Nov 2026: without them phones showed the desktop layout zoomed out
+     and the browser used "quirks mode" -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Assay Builder</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
@@ -159,6 +166,8 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
 .exbanner{background:var(--warn-soft);color:var(--warn);border-radius:4px;padding:6px 10px;font-size:12px;margin-bottom:10px}
 .foot{margin-top:20px;font-size:12px;color:var(--muted)}
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <div class="top">
@@ -180,7 +189,7 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <label class="lbl" for="prot">Protein</label>
         <div class="row"><input type="text" id="prot" list="protlist" placeholder="Gene name or UniProt accession" autocomplete="off" spellcheck="false" style="width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px"><button class="btn primary" id="lookup">Look up</button></div>
         <datalist id="protlist"><option value="EGFR"><option value="WRN"><option value="HDAC1"><option value="BRD4"><option value="GLP1R"><option value="KCNH2"><option value="ESR1"></datalist>
-        <p class="note" id="lookupnote">Human proteins, looked up live in UniProt. Examples: EGFR, WRN, BRD4, or an accession such as P00533.</p>
+        <p class="note" id="lookupnote" aria-live="polite">Human proteins, looked up live in UniProt. Examples: EGFR, WRN, BRD4, or an accession such as P00533.</p>
 
         <div class="stepblock" id="sb2" hidden>
           <div class="step"><b>Step 2 of 3</b>Drag the handles to set the residues your construct covers. Blue bands are annotated domains.</div>
@@ -289,7 +298,8 @@ try{
   return;
 }
 const _lc=D.meta.last_curated;
-document.querySelector(".dbdate").textContent="Curated assay database last updated "+(_lc||"YYYY-MM-DD");
+/* no playbook row has a reviewed_on date yet, so say so instead of showing the placeholder "YYYY-MM-DD" */
+document.querySelector(".dbdate").textContent=(_lc?"Curated assay database last reviewed "+_lc:"Curated assay database: no review date recorded yet")+(D.meta.built_on?" · data built "+D.meta.built_on:"");
 const LV = {very_low:1,low:2,moderate:3,high:4,very_high:5};
 const LVL = {very_low:"very low",low:"low",moderate:"moderate",high:"high",very_high:"very high"};
 const CATS = {biochemical_hts:"Biochemical HTS",cell_functional:"Cell-based functional",biophysical_binding:"Biophysical binding",orthogonal_confirmation:"Orthogonal confirmation",mechanistic_counterscreen:"Selectivity / counterscreen"};
@@ -355,7 +365,6 @@ function condFor(r){
   const rows=CBY[r.entry_id]||[], P=D.proteins[S.prot];
   const g=rows.filter(u=>u.scope.type==="gene"&&u.scope.id===S.prot);
   const cl=rows.filter(u=>u.scope.type==="function_class"&&P.classes.some(c=>c.id===u.scope.id));
-  let pool=g,basis=S.prot;
   const byParam={};
   for(const u of cl){const o=byParam[u.parameter];if(!o||u.n_stating>o.n_stating)byParam[u.parameter]=u;}   /* class rows: the class with most campaigns */
   const out={};
@@ -394,6 +403,7 @@ function stdMeter(r){
   const u=usageFor(r);
   if(!u) return `<div class="std none"><div class="l">How standard</div><div class="v">no campaign data yet</div></div>`;
   const t=u.top,s=t.standardness.score;
+  if(s==null) return `<div class="std none"><div class="l">How standard</div><div class="v">no usable count</div></div>`;   /* hand-made rows with blank counts */
   return `<div class="std"><div class="l">How standard</div><div class="sbar"><i style="width:${pct(s)}"></i></div>
    <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${u.level==="class"?' <span class="pill">class-wide</span>':""}${u.effect==="any"?' <span class="pill">all directions</span>':""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
 }
@@ -444,7 +454,8 @@ function instMissing(r){
 }
 function kitsFor(r){return D.kits.filter(kt=>split(kt.applies_to_entries).includes(r.entry_id)).filter(kt=>{
   const sc=kt.target_scope||""; if(/^(pan-class|many)/i.test(sc)) return true;
-  return new RegExp("\\b"+S.prot+"\\b","i").test(sc);});}
+  return new RegExp("\\b"+reEsc(S.prot)+"\\b","i").test(sc);});}   /* escaped: gene names can contain "." or "-" */
+function reEsc(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");}
 
 function render(){
   const ready=S.stage>=3;
@@ -513,7 +524,7 @@ function render(){
           <dt>Typical conditions</dt><dd>${esc(r.conditions)}</dd>
           ${(()=>{const c=condFor(r);if(!c.length)return "";return `<dt>Reported by campaigns</dt><dd><div class="ubreak" style="grid-template-columns:120px minmax(0,1fr)">${c.map(x=>`<span>${CLABEL[x.k]}</span><span>${condText(x.u)} <span class="meta">n=${x.u.n_stating}${x.lvl==="class"?", class-wide":""}</span></span>`).join("")}</div><div class="meta">Values stated in public assay texts (first value stated per campaign; n = campaigns that state it, out of ${c[0].u.n_using} for this assay type). Use as a starting point; the curated text above is the reviewed recommendation.</div></dd>`})()}
           <dt>Reagents</dt><dd>${esc(r.reagents)}</dd>
-          ${(()=>{const u=usageFor(r);if(!u)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns that stated a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
+          ${(()=>{const u=usageFor(r);if(!u||u.top.standardness.score==null)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns using this assay whose text states a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
           <dt>Instruments</dt><dd>${instNeed(r).alts.length?"Readouts here need "+instNeed(r).alts.map(a=>INSTL[a]).join(" or ")+" (any one is enough).":"No special instrument beyond basic lab equipment."}${need.length?" <b>Not covered by your selection.</b>":""}</dd>
           ${r.rating_notes?`<dt>Rating notes</dt><dd>${esc(r.rating_notes)}</dd>`:""}
           <dt>Sources</dt><dd>${dois.length?dois.map(d=>`<a class="btn small" href="${esc(doiUrl(d))}" target="_blank" rel="noopener">DOI ↗ ${esc(d.replace(/^https?:\/\/(dx\.)?doi\.org\//,""))}</a>`).join(" "):"<span class='meta'>none recorded yet</span>"}</dd>
@@ -673,7 +684,9 @@ $("out").onclick=e=>{const o=e.target.closest("[data-open]"),p=e.target.closest(
   if(o){const k=o.dataset.open;S.open.has(k)?S.open.delete(k):S.open.add(k);render()}
   if(p){const k=p.dataset.plan;S.plan.has(k)?S.plan.delete(k):S.plan.add(k);render();renderPlan()}};
 $("planlist").onclick=e=>{const b=e.target.closest("[data-rm]");if(b){S.plan.delete(b.dataset.rm);render();renderPlan()}};
-function drawer(open){$("drawer").hidden=!open;$("cart").setAttribute("aria-expanded",open)}
+function drawer(open){$("drawer").hidden=!open;$("cart").setAttribute("aria-expanded",open);
+  (open?$("dclose"):$("cart")).focus();}       /* keyboard users land inside the drawer, and back on the button after */
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("drawer").hidden)drawer(false);});
 $("cart").onclick=()=>drawer($("drawer").hidden);$("dclose").onclick=()=>drawer(false);
 $("sort").onchange=e=>{S.sort=e.target.value;render()};
 $("copy").onclick=()=>{const t=$("plantext");t.select();try{navigator.clipboard.writeText(t.value).catch(()=>{})}catch(_){}};
@@ -705,3 +718,5 @@ renderPlan();render();
 
 })();
 </script>
+</body>
+</html>

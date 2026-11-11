@@ -128,6 +128,39 @@ def campaign_of(key, pat, pmid):
     return "bdb:" + key.split("_")[0]
 
 
+ALIAS_MIN_CHARS = 40       # shorter texts ("Inhibition assay") are too generic to prove two rows are the same assay
+
+
+def text_print(text):
+    """First 120 characters of a description, lower case, punctuation removed: equal prints = same assay text."""
+    return re.sub(r"[^a-z0-9]+", " ", (text or "").lower()).strip()[:120]
+
+
+def chembl_aliases(records, chembl_rows):
+    """ChEMBL re-publishes BindingDB's patent data (ChEMBL source 37) under its own document ids, so the same
+    patent assay arrives twice: once as 'doc:CHEMBL...' and once as 'patent:US...'. Where a BindingDB description
+    is word-for-word a ChEMBL description, record {ChEMBL campaign: BindingDB campaign}. build_database.py
+    then counts them as one. Only one-to-one matches are used, so a generic text never merges two studies."""
+    by_text = collections.defaultdict(set)
+    for r in chembl_rows:
+        if r.get("source") == "ChEMBL":
+            t = text_print(r.get("title") or r.get("text"))
+            if len(t) >= ALIAS_MIN_CHARS:
+                by_text[t].add(r.get("campaign") or r["id"])
+    pairs = collections.defaultdict(set)          # ChEMBL campaign -> BindingDB campaigns with the same text
+    for r in records:
+        t = text_print(r.get("title") or r.get("text"))
+        hits = by_text.get(t, set())
+        if len(hits) == 1:
+            pairs[next(iter(hits))].add(r["campaign"])
+    return {chembl: list(bdb)[0] for chembl, bdb in sorted(pairs.items()) if len(bdb) == 1}
+
+
+def chembl_rows_for(key):
+    """The labeled ChEMBL / PubChem records build_database.py wrote for this protein (empty list if none)."""
+    return bd.read_csv(os.path.join(bd.LABELS, key + "_labeled.csv"))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--folder", required=True)
@@ -138,7 +171,11 @@ def main(argv=None):
     ap.add_argument("--max-assays-per-protein", type=int, default=3000)
     ap.add_argument("--max-minutes", type=float)
     ap.add_argument("--redo", action="store_true", help="label everything again")
+    ap.add_argument("--rekey", action="store_true",
+                    help="only add the ChEMBL-document links (aliases) to proteins already labeled; fast, no relabeling")
     args = ap.parse_args(argv)
+    if args.rekey:
+        return rekey_only()
 
     proteins = bd.read_csv(os.path.join(CACHE, "uniprot_human_reviewed.csv"))
     if not proteins:
@@ -230,7 +267,7 @@ def main(argv=None):
             campaigns, merged = bd.dedupe_campaigns(records)
             bd.write_json(os.path.join(SUMMARY_BDB, bd.safe(acc) + ".json"),
                           {"acc": acc, "n_assays": len(records), "campaigns": campaigns, "skipped": dict(skipped),
-                           "built": bd.now()})
+                           "aliases": chembl_aliases(records, chembl_rows_for(key)), "built": bd.now()})
             bd.write_json(state_path, {"term_hash": term_hash, "built_from": len(agg[acc])})
             n_done += 1
             print("  [%d/%d] %-10s %6d assays -> %5d campaigns  (skipped: %s)"
@@ -244,6 +281,30 @@ def main(argv=None):
         embedder.save()
     print("Done: %d proteins labeled, %d already done. Now run:  python scripts/build_database.py --aggregate-only --merge"
           % (n_done, n_skip))
+
+
+def rekey_only():
+    """Add 'aliases' to every existing build_cache/summary_bdb/<acc>.json from the labeled CSVs already on disk.
+    No BindingDB files, no meaning model, no internet. Then run build_database.py --aggregate-only --merge."""
+    proteins = bd.read_csv(os.path.join(CACHE, "uniprot_human_reviewed.csv"))
+    counts = collections.Counter(p["gene"] for p in proteins if p["gene"])
+    info = {p["accession"]: p for p in proteins}
+    files = sorted(f for f in os.listdir(SUMMARY_BDB) if f.endswith(".json")) if os.path.isdir(SUMMARY_BDB) else []
+    n_files = n_links = 0
+    for f in files:
+        path = os.path.join(SUMMARY_BDB, f)
+        summary = bd.read_json(path)
+        row = info.get((summary or {}).get("acc"))
+        if not summary or not row:
+            continue
+        key = bd.safe(row["gene"]) if row["gene"] and counts[row["gene"]] == 1 else bd.safe((row["gene"] or "NA") + "_" + row["accession"])
+        records = bd.read_csv(os.path.join(LABELS_BDB, key + "_bdb_labeled.csv"))
+        summary["aliases"] = chembl_aliases(records, chembl_rows_for(key))
+        bd.write_json(path, summary)
+        n_files += 1
+        n_links += len(summary["aliases"])
+    print("Added ChEMBL-document links to %d proteins (%d links). Now run:\n"
+          "  python scripts/build_database.py --aggregate-only --merge" % (n_files, n_links))
 
 
 if __name__ == "__main__":

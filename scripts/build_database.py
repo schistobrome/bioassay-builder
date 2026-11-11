@@ -897,7 +897,9 @@ def step_label(row, key, args, terms, embedder_box, abstracts, term_hash):
 # ---------------------------------------------------------------- C3: summary (with campaign de-duplication)
 
 def merge_effect(effects):
-    e = set(effects) - {"unspecified"}
+    """Direction of a campaign from the directions of its records. A blank direction counts as unspecified
+    (before this fix a blank made the campaign 'mixed', which put it in both the inhibition and activation counts)."""
+    e = set(effects) - {"unspecified", ""}
     if e == {"inhibition"}:
         return "inhibition"
     if e == {"activation"}:
@@ -905,19 +907,48 @@ def merge_effect(effects):
     return "mixed" if e else "unspecified"
 
 
-def dedupe_campaigns(labeled):
-    """A ChEMBL assay that is a copy of a PubChem deposit and the PubChem original are ONE campaign."""
+def pubchem_originals(records):
+    """PubChem AID -> campaign key of the PubChem original, for every PubChem record in the list.
+    Used with record_campaign() so a ChEMBL copy of a PubChem deposit is counted with its original.
+    (One shared helper for dedupe_campaigns, plate_formats.py, conditions.py and equipment_scan.py.)"""
     original = {}
-    for r in labeled:
+    for r in records:
         if (r.get("source") or "").startswith("PubChem/") and r.get("pubchem_aid"):
             original[str(r["pubchem_aid"]).strip()] = r.get("campaign") or r["id"]
+    return original
+
+
+def record_campaign(record, originals):
+    """The campaign a labeled record belongs to (ChEMBL copies of PubChem deposits join the PubChem original)."""
+    camp = record.get("campaign") or record["id"]
+    aid = str(record.get("pubchem_aid") or "").strip()
+    if record.get("source") == "ChEMBL" and aid in originals:
+        return originals[aid]
+    return camp
+
+
+PATENT_KIND = re.compile(r"(?<=\d)[A-Z]\d?$")       # kind code at the end of a patent number: B2, A1, E ...
+
+
+def canonical_campaign(key, aliases=None):
+    """One spelling per campaign, so copies of the same study from different databases count once.
+    * aliases (from bindingdb_label.py) map a ChEMBL document to the patent BindingDB says it is;
+    * patent numbers lose punctuation and the kind code: PubChem's 'US9023767B2' = BindingDB's 'US9023767'."""
+    key = (aliases or {}).get(key, key)
+    if key.startswith("patent:"):
+        number = re.sub(r"[^A-Za-z0-9]", "", key[len("patent:"):]).upper()
+        key = "patent:" + PATENT_KIND.sub("", number)
+    return key
+
+
+def dedupe_campaigns(labeled):
+    """A ChEMBL assay that is a copy of a PubChem deposit and the PubChem original are ONE campaign."""
+    original = pubchem_originals(labeled)
     camps = collections.OrderedDict()
     merged = 0
     for r in labeled:
-        camp = r.get("campaign") or r["id"]
-        aid = str(r.get("pubchem_aid") or "").strip()
-        if r.get("source") == "ChEMBL" and aid in original and original[aid] != camp:
-            camp = original[aid]
+        camp = record_campaign(r, original)
+        if camp != (r.get("campaign") or r["id"]):
             merged += 1
         c = camps.setdefault(camp, {"f": set(), "t": set(), "e": [], "x": set(), "r": set()})
         c["f"].update(split(r.get("function_labels")))
@@ -1241,14 +1272,6 @@ def aggregate(args, assays, classes_rows, stamp):
                  (os.path.join(SUMMARY, f) for f in sorted(os.listdir(SUMMARY)) if f.endswith(".json"))] \
         if os.path.isdir(SUMMARY) else []
     summaries = [s for s in summaries if s]
-    n_bdb = 0
-    if not getattr(args, "no_bindingdb", False) and os.path.isdir(SUMMARY_BDB):
-        for s in summaries:                                     # add BindingDB campaigns; same campaign key = same campaign
-            extra = read_json(os.path.join(SUMMARY_BDB, safe(s["acc"]) + ".json"))
-            if extra and extra.get("campaigns"):
-                s["campaigns"] = merge_campaign_lists(s["campaigns"], extra["campaigns"])
-                s["n_campaigns"] = len(s["campaigns"])
-                n_bdb += 1
     n_plates = 0
     for s in summaries:                                         # plate formats found by plate_formats.py
         pl = read_json(os.path.join(PLATES_DIR, safe(s["acc"]) + ".json"))
@@ -1263,7 +1286,20 @@ def aggregate(args, assays, classes_rows, stamp):
             n_conds += 1
             for c in s["campaigns"]:
                 c["k"] = cd["campaigns"].get(c["c"]) or c.get("k") or {}
-    entries = [(a, set(split(a.get("evidence_labels") or a.get("evidence_function")))) for a in assays]
+    # One key per study, then add BindingDB. This runs AFTER plates and conditions are attached, because those
+    # files use the original keys. Copies of one study (PubChem patent deposit, BindingDB patent row, ChEMBL
+    # document of the same patent) become one campaign; see canonical_campaign().
+    use_bdb = not getattr(args, "no_bindingdb", False) and os.path.isdir(SUMMARY_BDB)
+    n_bdb = 0
+    for s in summaries:
+        extra = (read_json(os.path.join(SUMMARY_BDB, safe(s["acc"]) + ".json")) if use_bdb else None) or {}
+        aliases = extra.get("aliases") or {}
+        own = [dict(c, c=canonical_campaign(c["c"], aliases)) for c in s["campaigns"]]
+        other = [dict(c, c=canonical_campaign(c["c"])) for c in extra.get("campaigns") or []]
+        n_bdb += bool(other)
+        s["campaigns"] = merge_campaign_lists(own, other)
+        s["n_campaigns"] = len(s["campaigns"])
+    entries =[(a, set(split(a.get("evidence_labels") or a.get("evidence_function")))) for a in assays]
     entries = [(a, labels) for a, labels in entries if labels]
     version = "bd-" + stamp.replace("-", "")
     source = "build_database.py (ChEMBL + PubChem%s, labeled by m2)" % (" + BindingDB" if n_bdb else "")
@@ -1335,7 +1371,7 @@ def aggregate(args, assays, classes_rows, stamp):
                                     + [total, len(plate_c), n, "", ""] + tail)))
         return out
 
-    by_class = collections.defaultdict(dict)       # class -> campaign key -> merged campaign
+    class_campaigns = collections.defaultdict(list)    # class -> campaigns of all its proteins (merged below)
     gene_count = collections.defaultdict(set)
     for s in summaries:
         scope = summary_scope(s)
@@ -1349,19 +1385,10 @@ def aggregate(args, assays, classes_rows, stamp):
                             "no_function_label": sum(1 for c in s["campaigns"] if not c["f"])})
         for cls in s["classes"]:
             gene_count[cls].add(scope)
-            for c in s["campaigns"]:
-                m = by_class[cls].setdefault(c["c"], {"c": c["c"], "f": set(), "t": set(), "e": [], "x": set(), "p": set(), "k": {}})
-                m["p"].update(c.get("p", []))
-                for key, val in (c.get("k") or {}).items():
-                    m["k"].setdefault(key, val)
-                m["f"].update(c["f"])
-                m["t"].update(c["t"])
-                m["e"].append(c["e"])
-                m["x"].add(c["x"])
+            class_campaigns[cls].extend(s["campaigns"])
     class_merged = {}
-    for cls, camps in by_class.items():
-        merged = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]), "p": sorted(v["p"]), "k": v["k"],
-                   "x": "cell-based" if "cell-based" in v["x"] else "cell-free"} for k, v in camps.items()]
+    for cls, camps in class_campaigns.items():
+        merged = merge_campaign_lists(camps, [])        # a campaign shared by several proteins counts once
         class_merged[cls] = merged
         stat_rows += rows_for("function_class", cls, merged, "; counted across %d proteins" % len(gene_count[cls]))
         cond_rows += cond_rows_for("function_class", cls, merged, ())
@@ -1397,9 +1424,9 @@ def aggregate(args, assays, classes_rows, stamp):
         for c in split(a.get("classes")):
             readouts_by_class[c].append((a["entry_id"], norm(a.get("readouts", ""))))
     suggestions = []
-    for cls, camps in by_class.items():
+    for cls, camps in class_merged.items():
         pair = collections.Counter()
-        for c in camps.values():
+        for c in camps:
             for f in c["f"]:
                 for t in c["t"]:
                     pair[(f, t)] += 1
@@ -1407,7 +1434,9 @@ def aggregate(args, assays, classes_rows, stamp):
             if n < args.suggest_min:
                 continue
             parts = [norm(p) for p in re.split(r"[/(),]", t) if len(norm(p)) > 2] + [norm(t)]
-            covered = sorted({e for e, text in readouts_by_class.get(cls, []) if any(p in text for p in parts)})
+            # generic entries (thermal shift, SPR, ITC ...) apply to every class, so they count as covering it too
+            listed = readouts_by_class.get(cls, []) + readouts_by_class.get("generic", [])
+            covered = sorted({e for e, text in listed if any(p in text for p in parts)})
             suggestions.append({"class_id": cls, "function_label": f, "technology": t, "n_campaigns": n,
                                 "n_proteins_in_class": len(gene_count[cls]),
                                 "playbook_entries_listing_it": "; ".join(covered),
@@ -1457,6 +1486,19 @@ def write_progress(names):
 
 # ---------------------------------------------------------------- E: merge
 
+def summarized_scopes():
+    """(scope_type, scope_id) of every protein and function class the aggregate step looked at.
+    An automatic row for one of these scopes that the latest build no longer produces is out of date."""
+    out = set()
+    if os.path.isdir(SUMMARY):
+        for f in os.listdir(SUMMARY):
+            s = read_json(os.path.join(SUMMARY, f)) if f.endswith(".json") else None
+            if s:
+                out.add(("gene", summary_scope(s)))
+                out.update(("function_class", c) for c in s.get("classes", []))
+    return out
+
+
 def merge_into_data(replace_m2):
     gen = read_csv(os.path.join(OUTDIR, "usage_stats.generated.csv"))
     path = os.path.join(DATA, "usage_stats.csv")
@@ -1471,7 +1513,9 @@ def merge_into_data(replace_m2):
 
     index = {key_of(r): i for i, r in enumerate(existing)}
     gen_keys = {key_of(g) for g in gen}
-    regenerated = {(g["scope_type"], g["scope_id"]) for g in gen}
+    # scopes this build covered: those with new rows, plus summarized proteins that now produce no rows at all
+    # (before, their old automatic rows stayed forever; 83 such rows were found in Nov 2026, e.g. LGALS8)
+    regenerated = {(g["scope_type"], g["scope_id"]) for g in gen} | summarized_scopes()
     added = replaced = kept = 0
     conflicts = []
     for g in gen:

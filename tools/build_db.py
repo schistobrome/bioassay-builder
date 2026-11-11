@@ -18,6 +18,7 @@ STAGES = {"primary_screen", "confirmation", "counterscreen", "any"}
 USAGE_EFFECTS = {"any", "inhibition", "activation"}
 ASSAY_EFFECTS = {"", "both", "inhibition", "activation"}
 SCOPES = {"cell-free", "cell-based"}
+MAX_JSON_MB = 15          # docs/assay_db.json above this size gets a warning
 ERRORS, WARNINGS = [], []
 
 
@@ -74,9 +75,10 @@ def main():
 
     cond_path = os.path.join(DATA, "condition_stats.csv")        # optional, written by build_database.py
     conds = []
+    known_entries = {a["entry_id"] for a in assays}             # built once (was rebuilt for every condition row)
     if os.path.exists(cond_path):
         for u in read("condition_stats.csv"):
-            if u["entry_id"] not in {a["entry_id"] for a in assays}:
+            if u["entry_id"] not in known_entries:
                 continue
             def fnum(x): return float(x) if x not in ("", None) else None
             conds.append({"entry_id": u["entry_id"], "scope": {"type": u["scope_type"], "id": u["scope_id"]},
@@ -187,6 +189,10 @@ def main():
         print("\nNot built: fix the %d error(s) above." % len(ERRORS)); sys.exit(1)
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))      # compact: the usage table is large
+    size_mb = os.path.getsize(args.out) / 1e6
+    if size_mb > MAX_JSON_MB:
+        print("WARNING: %s is %.1f MB (limit we aim for: %d MB). The page will load slowly on phones; see AUDIT.md."
+              % (os.path.relpath(args.out, ROOT), size_mb, MAX_JSON_MB))
     print("Built %s: %d assays, %d kits, %d usage rows, %d condition rows, %d warning(s)." % (os.path.relpath(args.out, ROOT), len(assays), len(kits), len(stats), len(conds), len(WARNINGS)))
 
 

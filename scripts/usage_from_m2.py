@@ -17,6 +17,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 split = lambda s: [x.strip() for x in re.split(r"[;|]", s or "") if x.strip()]
 
 
+def campaigns_of(records):
+    """Pool the labeled assays of one campaign (one paper, patent or PubChem deposit) into one row.
+    Before Nov 2026 every assay row counted as a campaign, so a paper with 12 assays counted 12 times."""
+    pooled = collections.OrderedDict()
+    for r in records:
+        c = pooled.setdefault(r.get("campaign") or r.get("id"), {"function_labels": set(), "technology_labels": set()})
+        c["function_labels"].update(split(r.get("function_labels")))
+        c["technology_labels"].update(split(r.get("technology_labels")))
+    return [{k: "; ".join(sorted(v)) for k, v in c.items()} for c in pooled.values()]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("gene")
@@ -28,7 +39,8 @@ def main():
     if not os.path.exists(path):
         raise SystemExit("Not found: %s (run m2_label.py for this gene first)" % path)
     with open(path, newline="", encoding="utf-8-sig") as f:
-        camps = [r for r in csv.DictReader(f) if r.get("in_v1_scope") == "yes"]
+        records = [r for r in csv.DictReader(f) if r.get("in_v1_scope") == "yes"]
+    camps = campaigns_of(records)
     total = len(camps)
     classifiable = [c for c in camps if split(c.get("function_labels"))]
     with open(a.assays, newline="", encoding="utf-8-sig") as f:
