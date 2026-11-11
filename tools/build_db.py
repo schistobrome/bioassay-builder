@@ -120,10 +120,14 @@ def main():
         parts = [(w["campaigns"], sc), (w["literature"], sl)]
         parts = [(wt, s) for wt, s in parts if s is not None]
         score = sum(wt * s for wt, s in parts) / sum(wt for wt, s in parts) if parts else None
+        rd = u["readout"]
+        plate = rd[6:] if rd.startswith("plate:") else None      # plate-format rows share the readout column
+        if plate is not None:
+            rd = ""
         stats.append({
             "stat_id": u["stat_id"], "entry_id": u["entry_id"],
             "scope": {"type": u["scope_type"], "id": u["scope_id"]},
-            "stage": u["stage"], "effect": u.get("effect") or "any", "readout": u["readout"] or None,
+            "stage": u["stage"], "effect": u.get("effect") or "any", "readout": rd or None, "plate": plate,
             "campaigns": {"total": nt, "classifiable": nc, "using": nu, "share": sc},
             "literature": {"total": lt, "using": lu, "share": sl},
             "standardness": {"score": score, "level": level_for(score, levels) if score is not None else None,

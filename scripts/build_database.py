@@ -1081,14 +1081,36 @@ def merge_campaign_lists(a, b):
     for c in list(a) + list(b):
         m = out.get(c["c"])
         if m is None:
-            out[c["c"]] = {"c": c["c"], "f": set(c["f"]), "t": set(c["t"]), "e": [c["e"]], "x": {c["x"]}, "r": set(c.get("r", []))}
+            out[c["c"]] = {"c": c["c"], "f": set(c["f"]), "t": set(c["t"]), "e": [c["e"]], "x": {c["x"]}, "r": set(c.get("r", [])),
+                           "p": set(c.get("p", []))}
         else:
             m["f"].update(c["f"]); m["t"].update(c["t"]); m["e"].append(c["e"]); m["x"].add(c["x"]); m["r"].update(c.get("r", []))
+            m["p"].update(c.get("p", []))
     return [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
-             "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"])} for k, v in out.items()]
+             "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]), "p": sorted(v["p"])}
+            for k, v in out.items()]
 
 
 EFFECTS = ("inhibition", "activation")
+
+PLATES_DIR = os.path.join(CACHE, "plates")          # written by plate_formats.py (optional)
+PLATE_RE = re.compile(r"(?<![\d.,])(?:(?P<n>96|384|1536|3456|6144)[\s\-]*(?:well|wells|microtit\w*|micro-?plate\w*|mtp|plates?|format)\b"
+                      r"|(?P<w>six|6|12|24|48)[\s\-]+well)", re.I)
+PLATE_BEFORE = re.compile(r"(source|compound|mother|stock|master|daughter|dilution|intermediate|library)\b[^.;]{0,25}$", re.I)
+PLATE_AFTER = re.compile(r"[\s\-]*(?:well\s*)?(?:\w+\s+){0,2}?(?:source|compound|mother|stock|master|daughter|dilution)\s+plate", re.I)
+PLATE_NAME = {"96": "96", "384": "384", "1536": "1536", "3456": "1536", "6144": "1536"}
+
+
+def plates_in(text):
+    """Assay plate formats a text states: '96', '384', '1536' (1536 and denser) and 'low' (6 to 48 wells).
+    Mentions of compound / source / stock plates are ignored."""
+    found = set()
+    text = str(text or "")
+    for m in PLATE_RE.finditer(text):
+        if PLATE_BEFORE.search(text[max(0, m.start() - 40):m.start()]) or PLATE_AFTER.match(text[m.end():m.end() + 40]):
+            continue
+        found.add(PLATE_NAME[m.group("n")] if m.group("n") else "low")
+    return sorted(found)
 
 
 def effect_subset(campaigns, effect):
@@ -1113,6 +1135,13 @@ def aggregate(args, assays, classes_rows, stamp):
                 s["campaigns"] = merge_campaign_lists(s["campaigns"], extra["campaigns"])
                 s["n_campaigns"] = len(s["campaigns"])
                 n_bdb += 1
+    n_plates = 0
+    for s in summaries:                                         # plate formats found by plate_formats.py
+        pl = read_json(os.path.join(PLATES_DIR, safe(s["acc"]) + ".json"))
+        if pl:
+            n_plates += 1
+            for c in s["campaigns"]:
+                c["p"] = sorted(set(c.get("p", [])) | set(pl["campaigns"].get(c["c"], [])))
     entries = [(a, set(split(a.get("evidence_labels") or a.get("evidence_function")))) for a in assays]
     entries = [(a, labels) for a, labels in entries if labels]
     version = "bd-" + stamp.replace("-", "")
@@ -1153,6 +1182,10 @@ def aggregate(args, assays, classes_rows, stamp):
                     continue                      # one-off technology labels are mostly text noise
                 out.append(dict(zip(USAGE_COLUMNS, [sid + "-" + re.sub(r"\W+", "", t)[:12]] + base + [t]
                                     + [total, n_tech, n, "", ""] + tail)))
+            plate_c = [c for c in using if c.get("p")]           # campaigns whose text states a plate format
+            for fmt, n in collections.Counter(p for c in plate_c for p in set(c["p"])).most_common():
+                out.append(dict(zip(USAGE_COLUMNS, [sid + "-plate" + fmt] + base + ["plate:" + fmt]
+                                    + [total, len(plate_c), n, "", ""] + tail)))
         return out
 
     by_class = collections.defaultdict(dict)       # class -> campaign key -> merged campaign
@@ -1169,14 +1202,15 @@ def aggregate(args, assays, classes_rows, stamp):
         for cls in s["classes"]:
             gene_count[cls].add(scope)
             for c in s["campaigns"]:
-                m = by_class[cls].setdefault(c["c"], {"c": c["c"], "f": set(), "t": set(), "e": [], "x": set()})
+                m = by_class[cls].setdefault(c["c"], {"c": c["c"], "f": set(), "t": set(), "e": [], "x": set(), "p": set()})
+                m["p"].update(c.get("p", []))
                 m["f"].update(c["f"])
                 m["t"].update(c["t"])
                 m["e"].append(c["e"])
                 m["x"].add(c["x"])
     class_merged = {}
     for cls, camps in by_class.items():
-        merged = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
+        merged = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]), "p": sorted(v["p"]),
                    "x": "cell-based" if "cell-based" in v["x"] else "cell-free"} for k, v in camps.items()]
         class_merged[cls] = merged
         stat_rows += rows_for("function_class", cls, merged, "; counted across %d proteins" % len(gene_count[cls]))
@@ -1230,7 +1264,7 @@ def aggregate(args, assays, classes_rows, stamp):
               ["class_id", "function_label", "technology", "n_campaigns", "n_proteins_in_class",
                "playbook_entries_listing_it", "suggestion"])
     no_labels = [a["entry_id"] for a in assays if not (a.get("evidence_labels") or a.get("evidence_function"))]
-    return {"proteins": len(summaries), "with_bindingdb": n_bdb, "rows": len(unique),
+    return {"proteins": len(summaries), "with_bindingdb": n_bdb, "with_plates": n_plates, "rows": len(unique),
             "suggestions": sum(1 for s in suggestions if s["suggestion"] != "covered"),
             "entries_without_evidence_labels": no_labels}
 
@@ -1568,6 +1602,8 @@ def main(argv=None):
         res = aggregate(args, assays, classes_rows, stamp)
         log("  %d proteins summarized (%d with BindingDB campaigns) -> %d de-duplicated usage rows (build_output/usage_stats.generated.csv)"
             % (res["proteins"], res["with_bindingdb"], res["rows"]))
+        log("  plate formats read for %d proteins%s" % (res["with_plates"], "" if res["with_plates"] else
+            " (run scripts/plate_formats.py first to add them)"))
         log("  effect counts: build_output/effect_by_gene.csv and effect_by_class.csv; gaps: function_gaps.csv")
         log("  readout suggestions not yet in the playbook: %d (build_output/readout_suggestions.csv)" % res["suggestions"])
         if res["entries_without_evidence_labels"]:
