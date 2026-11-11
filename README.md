@@ -5,6 +5,7 @@ App that scientists can use to simplify strategy for choosing which assays (bioc
 > [!NOTE]
 > Work in progress! Project using Claude and public data to make assay selection easy and clear
 
+(https://schistobrome.github.io/bioassay-builder/)[https://schistobrome.github.io/bioassay-builder/]
 
 The data lives in plain tables (CSV files) in `data/`. A script checks them and builds one file, `docs/assay_db.json`, which the website reads.
 

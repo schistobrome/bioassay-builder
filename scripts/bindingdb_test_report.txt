@@ -1,0 +1,199 @@
+BindingDB and companion-source test for the Assay Builder
+Run at: 2026-11-09 08:10:13
+Affinity cutoff: 10000 nM. Raw answers are saved in C:\Users\xanox\Documents\GitHub\bioassay-builder\scripts\bindingdb_test
+
+=== EGFR ===
+  UniProt accession: P00533
+  BindingDB:
+    getLigandsByUniprots -> 29217 ligand rows (cached)
+    Field names in a row: affinity, affinity_type, doi, monomerid, pmid, query, smile
+    Affinity types: IC50 26689, Kd 1680, Ki 537, EC50 311
+    Distinct compounds: 14286
+    Affinity values (nM): best 0.002, median 52; 17337 rows at or below 100 nM
+    Distinct papers (DOI/PMID) referenced: 1246
+    Hint only: 27226 IC50/Ki rows (inhibition-type) vs 311 EC50/Potency rows (activation-type). BindingDB does not state inhibitor/activator or binding site.
+  ChEMBL mechanisms:
+    target CHEMBL203 (Epidermal growth factor receptor)
+    90 mechanism rows
+    Action types: INHIBITOR 80, ANTAGONIST 4, BINDING AGENT 3, CROSS-LINKING AGENT 1, NEGATIVE ALLOSTERIC MODULATOR 1, VACCINE ANTIGEN 1
+    Rows with a binding-site comment: 0
+    Row fields: action_type, binding_site_comment, direct_interaction, disease_efficacy, max_phase, mec_id, mechanism_comment, mechanism_of_action, mechanism_refs, molecular_mechanism, molecule_chembl_id, parent_molecule_chembl_id, record_id, selectivity_comment, site_id, target_chembl_id, variant_sequence
+  UniProt binding and active sites:
+    Binding site 4, Active site 1, Site 1
+    Ligands named: ATP (4)
+      Active site 837-837 Proton acceptor
+      Binding site 718-726 ATP
+      Binding site 745-745 ATP
+    PDB entries listed: 388
+  PDBe ligand-binding residues (first 2 PDB entries):
+    1IVO: 0 binding sites (nothing returned)
+    1M14: 0 binding sites (nothing returned)
+
+=== WRN ===
+  UniProt accession: Q14191
+  BindingDB:
+    getLigandsByUniprots -> 2397 ligand rows (cached)
+    Field names in a row: affinity, affinity_type, doi, monomerid, pmid, query, smile
+    Affinity types: IC50 2395, Kd 2
+    Distinct compounds: 1795
+    Affinity values (nM): best 0.228, median 35; 1963 rows at or below 100 nM
+    Distinct papers (DOI/PMID) referenced: 18
+    Hint only: 2395 IC50/Ki rows (inhibition-type) vs 0 EC50/Potency rows (activation-type). BindingDB does not state inhibitor/activator or binding site.
+  ChEMBL mechanisms:
+    target CHEMBL2146312 (Bifunctional 3'-5' exonuclease/ATP-dependent helicase WRN)
+    0 mechanism rows
+    (ChEMBL has no curated drug mechanism for this target; it may have bioactivity data only)
+  UniProt binding and active sites:
+    Binding site 13, Site 2
+    Ligands named: ATP (5), Mn(2+) (4), Zn(2+) (4)
+      Binding site 82-82 Mn(2+)
+      Binding site 82-82 Mn(2+)
+      Binding site 84-84 Mn(2+)
+    PDB entries listed: 51
+  PDBe ligand-binding residues (first 2 PDB entries):
+    10AJ: 0 binding sites (nothing returned)
+    10AK: 0 binding sites (nothing returned)
+
+=== BRD4 ===
+  UniProt accession: O60885
+  BindingDB:
+    getLigandsByUniprots -> 21649 ligand rows (cached)
+    Field names in a row: affinity, affinity_type, doi, monomerid, pmid, query, smile
+    Affinity types: IC50 17505, Ki 2922, Kd 1076, EC50 146
+    Distinct compounds: 11744
+    Affinity values (nM): best 0.0043, median 100; 11235 rows at or below 100 nM
+    Distinct papers (DOI/PMID) referenced: 448
+    Hint only: 20427 IC50/Ki rows (inhibition-type) vs 146 EC50/Potency rows (activation-type). BindingDB does not state inhibitor/activator or binding site.
+  ChEMBL mechanisms:
+    target CHEMBL1163125 (Bromodomain-containing protein 4)
+    0 mechanism rows
+    (ChEMBL has no curated drug mechanism for this target; it may have bioactivity data only)
+  UniProt binding and active sites:
+    Site 3
+      Site 140-140 Acetylated histone binding
+      Site 433-433 Acetylated histone binding
+      Site 719-720 Breakpoint for translocation to form BDR4-NUTM1 fusion protein
+    PDB entries listed: 624
+  PDBe ligand-binding residues (first 2 PDB entries):
+    2I8N: 0 binding sites (nothing returned)
+    2LSP: 0 binding sites (nothing returned)
+
+=== HDAC1 ===
+  UniProt accession: Q13547
+  BindingDB:
+    getLigandsByUniprots -> empty answer (BindingDB says no match)
+    getLigandsByUniprot -> empty answer (BindingDB says no match)
+  ChEMBL mechanisms:
+    target CHEMBL325 (Histone deacetylase 1)
+    2 mechanism rows
+    Action types: INHIBITOR 2
+    Rows with a binding-site comment: 0
+    Row fields: action_type, binding_site_comment, direct_interaction, disease_efficacy, max_phase, mec_id, mechanism_comment, mechanism_of_action, mechanism_refs, molecular_mechanism, molecule_chembl_id, parent_molecule_chembl_id, record_id, selectivity_comment, site_id, target_chembl_id, variant_sequence
+  UniProt binding and active sites:
+    Binding site 6, Active site 1
+    Ligands named: 1D-myo-inositol 1,4,5,6-tetrakisphosphate (3), Zn(2+) (3)
+      Active site 141-141 
+      Binding site 27-27 1D-myo-inositol 1,4,5,6-tetrakisphosphate
+      Binding site 31-31 1D-myo-inositol 1,4,5,6-tetrakisphosphate
+    PDB entries listed: 12
+  PDBe ligand-binding residues (first 2 PDB entries):
+    4BKX: 0 binding sites (nothing returned)
+    5ICN: 0 binding sites (nothing returned)
+
+=== GLP1R ===
+  UniProt accession: P43220
+  BindingDB:
+    getLigandsByUniprots -> empty answer (BindingDB says no match)
+    getLigandsByUniprot -> empty answer (BindingDB says no match)
+  ChEMBL mechanisms:
+    target CHEMBL1784 (Glucagon-like peptide 1 receptor)
+    17 mechanism rows
+    Action types: AGONIST 16, ANTAGONIST 1
+    Rows with a binding-site comment: 0
+    Row fields: action_type, binding_site_comment, direct_interaction, disease_efficacy, max_phase, mec_id, mechanism_comment, mechanism_of_action, mechanism_refs, molecular_mechanism, molecule_chembl_id, parent_molecule_chembl_id, record_id, selectivity_comment, site_id, target_chembl_id, variant_sequence
+  UniProt binding and active sites:
+    Site 2
+      Site 121-121 Interaction with the endogenous ligand GLP-1
+      Site 128-128 Interaction with the endogenous ligand GLP-1
+    PDB entries listed: 71
+  PDBe ligand-binding residues (first 2 PDB entries):
+    27XK: 0 binding sites (nothing returned)
+    3C59: 0 binding sites (nothing returned)
+
+=== ABL1 ===
+  UniProt accession: P00519
+  BindingDB:
+    getLigandsByUniprots -> empty answer (BindingDB says no match)
+    getLigandsByUniprot -> empty answer (BindingDB says no match)
+  ChEMBL mechanisms:
+    target CHEMBL1862 (Tyrosine-protein kinase ABL1)
+    18 mechanism rows
+    Action types: INHIBITOR 18
+    Rows with a binding-site comment: 0
+    Row fields: action_type, binding_site_comment, direct_interaction, disease_efficacy, max_phase, mec_id, mechanism_comment, mechanism_of_action, mechanism_refs, molecular_mechanism, molecule_chembl_id, parent_molecule_chembl_id, record_id, selectivity_comment, site_id, target_chembl_id, variant_sequence
+  UniProt binding and active sites:
+    Binding site 3, Active site 1, Site 1
+    Ligands named: ATP (3)
+      Active site 363-363 Proton acceptor
+      Binding site 248-256 ATP
+      Binding site 271-271 ATP
+    PDB entries listed: 85
+  PDBe ligand-binding residues (first 2 PDB entries):
+    1AB2: 0 binding sites (nothing returned)
+    1AWO: 0 binding sites (nothing returned)
+
+=== CDK2 ===
+  UniProt accession: P24941
+  BindingDB:
+    getLigandsByUniprots -> 14647 ligand rows
+    Field names in a row: affinity, affinity_type, doi, monomerid, pmid, query, smile
+    Affinity types: IC50 11786, Ki 2580, Kd 264, EC50 17
+    Distinct compounds: 10973
+    Affinity values (nM): best 0.03, median 82; 7981 rows at or below 100 nM
+    Distinct papers (DOI/PMID) referenced: 717
+    Hint only: 14366 IC50/Ki rows (inhibition-type) vs 17 EC50/Potency rows (activation-type). BindingDB does not state inhibitor/activator or binding site.
+  ChEMBL mechanisms:
+    target CHEMBL301 (Cyclin-dependent kinase 2)
+    11 mechanism rows
+    Action types: INHIBITOR 11
+    Rows with a binding-site comment: 0
+    Row fields: action_type, binding_site_comment, direct_interaction, disease_efficacy, max_phase, mec_id, mechanism_comment, mechanism_of_action, mechanism_refs, molecular_mechanism, molecule_chembl_id, parent_molecule_chembl_id, record_id, selectivity_comment, site_id, target_chembl_id, variant_sequence
+  UniProt binding and active sites:
+    Binding site 21, Site 3, Active site 1
+    Ligands named: ATP (14), ADP (4), Mg(2+) (3)
+      Active site 127-127 Proton acceptor
+      Binding site 10-10 ATP
+      Binding site 11-11 ATP
+    PDB entries listed: 522
+  PDBe ligand-binding residues (first 2 PDB entries):
+    1AQ1: 0 binding sites (nothing returned)
+    1B38: 0 binding sites (nothing returned)
+
+=== ESR1 ===
+  UniProt accession: P03372
+  BindingDB:
+    getLigandsByUniprots -> 9062 ligand rows
+    Field names in a row: affinity, affinity_type, doi, monomerid, pmid, query, smile
+    Affinity types: IC50 6729, EC50 1510, Ki 768, Kd 55
+    Distinct compounds: 5356
+    Affinity values (nM): best 0.002, median 33; 5575 rows at or below 100 nM
+    Distinct papers (DOI/PMID) referenced: 428
+    Hint only: 7497 IC50/Ki rows (inhibition-type) vs 1510 EC50/Potency rows (activation-type). BindingDB does not state inhibitor/activator or binding site.
+  ChEMBL mechanisms:
+    target CHEMBL206 (Estrogen receptor)
+    25 mechanism rows
+    Action types: AGONIST 12, DEGRADER 7, MODULATOR 4, ANTAGONIST 2
+    Rows with a binding-site comment: 0
+    Row fields: action_type, binding_site_comment, direct_interaction, disease_efficacy, max_phase, mec_id, mechanism_comment, mechanism_of_action, mechanism_refs, molecular_mechanism, molecule_chembl_id, parent_molecule_chembl_id, record_id, selectivity_comment, site_id, target_chembl_id, variant_sequence
+  UniProt binding and active sites:
+    Binding site 3
+    Ligands named: 17beta-estradiol (3)
+      Binding site 353-353 17beta-estradiol
+      Binding site 394-394 17beta-estradiol
+      Binding site 524-524 17beta-estradiol
+    PDB entries listed: 479
+  PDBe ligand-binding residues (first 2 PDB entries):
+    1A52: 0 binding sites (nothing returned)
+    1ERE: 0 binding sites (nothing returned)
+
+DONE.

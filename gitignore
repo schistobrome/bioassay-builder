@@ -5,6 +5,4 @@ __pycache__/
 .venv/
 scripts/term_table_old_*.csv
 pipeline_data/**
-data/public/**
-build_cache/**
-
+data/public/

@@ -1,0 +1,70 @@
+﻿axis,term,synonyms,examples,suppresses,applies_to,notes
+function,ATPase activity,atpase|atp hydrolysis|atp turnover|adp production|adp formation,ATPase activity measured as ADP produced from ATP hydrolysis,,any,
+function,Helicase unwinding,helicase|unwinding|unwind|duplex dna unwinding,helicase unwinding of a forked duplex DNA substrate,,any,
+function,Exonuclease / nuclease activity,exonuclease|nuclease|dna degradation|dna cleavage,exonuclease degradation of a DNA substrate,,any,
+function,Kinase activity,kinase|phosphorylation|phosphorylate|autophosphorylation|phosphotransferase|poly glu tyr|poly glu ala tyr|poly gat|atp incorporation|phosphate incorporation|tyrosine kinase,kinase activity measured by phosphorylation of a peptide substrate,,any,
+function,Protein-DNA binding,dna binding|binding to dna|protein dna binding|electrophoretic mobility shift|emsa|gel shift|fluorescence anisotropy,Binding of the protein to a DNA substrate,,any,
+function,Compound-DNA binding (interference),thiazole orange|intercalator|intercalation|dna intercalat|compound dna binding|dna binding counterscreen,Counterscreen for compounds that bind the DNA substrate,Protein-DNA binding,any,
+function,Ligand binding affinity,binding affinity|binding constant|dissociation constant|kd|kon|koff|association constant|binding kinetics|competitive binding,Binding affinity of the compound to the purified protein,,any,
+function,Covalent adduct formation,adduct|covalent|intact protein mass|cysteine modification,Covalent adduct formation on the protein measured by mass spectrometry,,any,
+function,Time-dependent / covalent kinetics,kinact|k inact|inactivation rate|saturation rate constant|time dependent inhibition|residence time|jump dilution,"Rate of covalent inactivation, kinact over Ki",,any,
+function,Kinome selectivity panel,selectivity interaction|kinomescan|kinome scan|kinase panel|selectivity profiling|kinome profiling,Selectivity profiling across a panel of kinases,,any,
+function,Target engagement (cellular),target engagement|cetsa|cellular thermal shift|thermal stability in cells,Cellular target engagement measured by thermal stabilization,,cell-based,
+function,Cell proliferation / viability,proliferation|viability|cell growth|cytotoxic|cytotoxicity|celltiter|mtt|cell survival,cell proliferation or viability readout in cultured cells,,cell-based,
+function,Cellular signaling,p erk|perk|p akt|phospho erk|downstream signaling|pathway,downstream signaling readout in cultured cells,,cell-based,
+function,Apoptosis / DNA damage (cellular),apoptosis|caspase|cleaved parp|double strand break|double stands break|p chk2|gamma h2ax,Induction of apoptosis or DNA damage in cells,,cell-based,
+function,siRNA / RNAi screen,sirna|rnai|shrna|crispr|genome wide screen,Genome-wide siRNA screen,,cell-based,
+technology,ADP-Glo luminescence,adpglo|promega adp,ADP-Glo luminescence readout,,any,
+technology,Kinase-Glo luminescence,kinaseglo,Kinase-Glo luminescence readout,,any,
+technology,Transcreener,transcreener,Transcreener ADP detection,,any,
+technology,TR-FRET / HTRF,htrf|tr fret|trfret|time resolved fret|time resolved fluorescence|ulight|lance ultra,Time-resolved FRET homogeneous assay,Fluorogenic / FRET substrate,any,
+technology,LanthaScreen,lanthascreen,LanthaScreen TR-FRET assay,TR-FRET / HTRF|Fluorogenic / FRET substrate,any,
+technology,AlphaScreen / AlphaLISA,alphascreen|alphalisa|alpha screen,AlphaScreen proximity assay,,any,
+technology,Fluorescence polarization,fluorescence polarization|fluorescence polarisation|fp assay|anisotropy,Fluorescence polarization binding assay,,any,
+technology,Fluorogenic / FRET substrate,fluor quencher|fluorophore quencher|quencher|quenched|tamra|bhq|cy5|fret assay|fluorogenic|fluorometric|fluorescence based|fluorescence intensity|dequench|z lyte|zlyte|fret based,"Fluorophore and quencher labeled DNA substrate, fluorescence increases on unwinding",,any,
+technology,Gel-based (PAGE / EMSA),gel electrophoresis|polyacrylamide|page analysis|gel based|gel shift|emsa|sds page,Products separated by polyacrylamide gel electrophoresis,,any,
+technology,Radiometric,radiometric|radioactiv|32p|33p|gamma32p|gamma33p|scintillation|flashplate|filter binding,Radiometric assay with 32P or 33P labeled substrate,,any,
+technology,Mobility shift (Caliper / LabChip),mobility shift|caliper|labchip,Microfluidic mobility shift assay,,any,
+technology,KINOMEscan competition binding,kinomescan|kinome scan|discoverx|ambit,KINOMEscan active-site competition binding assay,,any,
+technology,ELISA / immunosorbent,elisa|immunosorbent|immunoassay|tmb,ELISA or immunosorbent based assay,,any,
+technology,SPR / BLI,spr|surface plasmon|biolayer interferometry|bli|biacore,Surface plasmon resonance binding kinetics,,any,
+technology,Thermal shift (DSF),thermal shift|differential scanning fluorimetry|dsf|sypro|melting temperature|thermofluor,"Thermal shift assay with SYPRO Orange dye, change in melting temperature",,any,
+technology,CETSA,cetsa|cellular thermal shift,Cellular thermal shift assay,,cell-based,
+technology,ITC,isothermal titration|itc,Isothermal titration calorimetry,,any,
+technology,Mass spectrometry,ms analysis|esi ms|lc ms|maldi|intact mass|tof,Mass spectrometry analysis,,any,
+technology,Western blot,western blot|immunoblot,Western blotting analysis,,cell-based,
+technology,Luciferase reporter,luciferase reporter|reporter gene|reporter assay,Luciferase reporter gene assay,,cell-based,
+technology,Crystallography / cryo-EM,x ray crystallography|crystal structure|cryo em|cocrystal,X-ray crystal structure of the complex,,any,
+function,Histone deacetylase activity,hdac|histone deacetylase|deacetylase activity|sirtuin|sirt1|sirt2|sirt3|hdac1|hdac2|hdac3|hdac6|hdac8,Inhibition of recombinant HDAC1 deacetylase activity using a fluorogenic acetyl-lysine peptide,,any,added by build_database.py
+function,Histone methyltransferase activity,histone methyltransferase|methyltransferase activity|hmt|ezh2|prmt1|prmt5|dot1l|g9a|smyd2|setd2|nsd2|sam methyl transfer,Inhibition of EZH2 methyltransferase activity measured by methylation of a histone H3 peptide,,any,added by build_database.py
+function,Histone demethylase activity,demethylase|histone demethylase|lsd1|kdm1a|kdm4|kdm5|jmjd|jumonji,Inhibition of LSD1 demethylase activity in a peroxidase-coupled assay,,any,added by build_database.py
+function,Bromodomain binding,bromodomain|brd4|brd2|brd3|brdt|bet bromodomain|acetyl lysine peptide displacement|acetylated peptide binding|kac peptide,Displacement of an acetylated histone H4 peptide from the BRD4 bromodomain,,any,added by build_database.py
+function,Protease activity,protease|proteinase|peptidase|caspase|cathepsin|mmp|metalloproteinase|cleavage of a fluorogenic peptide|protease inhibition,Inhibition of cathepsin K cleavage of a fluorogenic peptide substrate,,any,added by build_database.py
+function,Phosphatase activity,phosphatase|ptp1b|shp2|dephosphorylation|pp2a|dusp|pten,Inhibition of PTP1B dephosphorylation of pNPP or a phosphopeptide,,any,added by build_database.py
+function,Ubiquitination activity,ubiquitination|ubiquitin ligase|e3 ligase|e2 enzyme|autoubiquitination|ubiquitin transfer|polyubiquitin,Inhibition of E3 ligase auto-ubiquitination in a TR-FRET assay,,any,added by build_database.py
+function,Deubiquitinase activity,deubiquitinase|deubiquitinating|dub|usp7|usp1|uchl1|ubiquitin-rhodamine|ubiquitin aminomethylcoumarin,Inhibition of USP7 cleavage of ubiquitin-rhodamine110,,any,added by build_database.py
+function,Topoisomerase activity,topoisomerase|topo i|topo ii|dna relaxation|supercoiled dna relaxation|decatenation|kdna decatenation|cleavage complex,Inhibition of topoisomerase II kDNA decatenation,,any,added by build_database.py
+function,Protein-protein interaction,protein-protein interaction|ppi|disruption of the interaction|interaction between|bcl-2 family binding|mdm2 p53,Disruption of the MDM2-p53 interaction measured by fluorescence polarization,,any,added by build_database.py
+function,Nuclear receptor coactivator recruitment,coactivator recruitment|coactivator peptide|nuclear receptor coactivator|src-1 peptide|ligand binding domain coactivator|lbd coactivator,Recruitment of a fluorescent coactivator peptide to the ligand-binding domain measured by TR-FRET,,any,added by build_database.py
+function,RNA-protein binding,rna binding|rna-protein|rna protein interaction|rna recognition|riboswitch|rna aptamer,Inhibition of protein binding to a fluorescent RNA oligonucleotide,,any,added by build_database.py
+function,G-protein activation (GTPgammaS),gtpgammas|gtp gamma s|35s gtp|eu-gtp|g protein activation|g-protein activation,Agonist-stimulated [35S]GTPgammaS binding in receptor membranes,,any,added by build_database.py
+function,Receptor radioligand binding,radioligand binding|radioligand displacement|competition binding membranes|ligand binding membranes|tritiated ligand|3h ligand|3h labeled|125i ligand|scintillation proximity binding,Displacement of [3H]-ligand from membranes expressing the receptor,,any,added by build_database.py
+function,cAMP signaling,camp accumulation|camp assay|cyclic amp|intracellular camp|camp levels|camp production|camp htrf|glosensor camp|forskolin,Agonist-induced cAMP accumulation in HEK293 cells expressing the receptor,,cell-based,added by build_database.py
+function,Calcium mobilization,calcium mobilization|calcium flux|intracellular calcium|calcium release|fluo-4|fluo4|flipr calcium|fura-2|ca2+ mobilization|calcium signaling assay,Agonist-induced intracellular calcium mobilization measured with Fluo-4,,cell-based,added by build_database.py
+function,Beta-arrestin recruitment,beta-arrestin|b-arrestin|beta arrestin|arrestin recruitment|pathhunter|tango assay|arrestin translocation,Beta-arrestin recruitment measured by enzyme fragment complementation,,cell-based,added by build_database.py
+function,Receptor internalization,receptor internalization|receptor internalisation|receptor trafficking|receptor endocytosis|surface receptor loss,Agonist-induced receptor internalization measured by high-content imaging,,cell-based,added by build_database.py
+function,Reporter gene expression,reporter gene|reporter assay|luciferase reporter|cre-luc|cre luciferase|nfat luciferase|sre luciferase|gal4 luciferase|beta-lactamase reporter|transactivation assay,CRE-luciferase reporter response in cells expressing the receptor,,cell-based,added by build_database.py
+function,Hormone secretion,insulin secretion|glucose-stimulated insulin|gsis|hormone secretion|glp-1 secretion|secretion assay,Glucose-stimulated insulin secretion in INS-1 cells,,cell-based,added by build_database.py
+function,Ion channel activity,ion channel|patch clamp|patch-clamp|membrane potential|thallium flux|ion flux|herg|sodium channel|potassium channel|calcium channel|nav1|kv11|channel current|automated electrophysiology|qpatch|patchxpress|synchropatch,Inhibition of hERG current measured by automated patch clamp,,cell-based,added by build_database.py
+function,Transporter activity,transporter activity|substrate uptake|cellular uptake of|efflux ratio|p-glycoprotein|p-gp|abcb1|bcrp|mrp1|slc|vesicular transport|bidirectional transport|caco-2 transport|calcein-am efflux|transporter atpase,Inhibition of P-gp mediated efflux in a calcein-AM assay,,cell-based,added by build_database.py
+function,Cellular protein degradation,protein degradation|dc50|dmax|hibit|protein level reduction|targeted protein degradation|protac|molecular glue,Degradation of the target protein measured by HiBiT lytic detection,,cell-based,added by build_database.py
+function,Cellular histone modification,histone mark|h3k27me3|h3k4me|h3k9|h3k27ac|histone acetylation level|histone methylation level|cellular histone,Reduction of cellular H3K27me3 measured by AlphaLISA,,cell-based,added by build_database.py
+function,Autophagic flux,autophagic flux|lc3 puncta|mcherry-gfp-lc3|autophagy flux|autophagosome|lc3 turnover,Autophagic flux measured by tandem mCherry-GFP-LC3 imaging,,cell-based,added by build_database.py
+technology,Luminescent HDAC assay,hdac-glo|hdac glo|luminogenic hdac|luminescent hdac,HDAC-Glo I/II luminescent assay,,any,added by build_database.py
+technology,Fluorescent calcium dye,fluo-4|fluo4|fura-2|calcium dye|fluorescent calcium|flipr|fdss|calcium 5 dye|calcium 6,FLIPR calcium dye readout,,cell-based,added by build_database.py
+technology,Enzyme fragment complementation,enzyme fragment complementation|efc|pathhunter|hibit complementation|beta-galactosidase complementation,PathHunter enzyme fragment complementation readout,,any,added by build_database.py
+technology,BRET / NanoBRET,bret|nanobret|bioluminescence resonance energy transfer|nanoluc,NanoBRET target engagement,,cell-based,added by build_database.py
+technology,Automated patch clamp,automated patch clamp|patch clamp|qpatch|patchxpress|syncropatch|synchropatch|ionworks|ionflux|whole-cell recording,Automated patch clamp recording,,cell-based,added by build_database.py
+technology,Membrane potential dye,membrane potential dye|fmp dye|flipr membrane potential|voltage sensitive dye|dibac|fluorescent membrane potential,FLIPR membrane potential dye,,cell-based,added by build_database.py
+technology,Radioligand binding,radioligand|scintillation proximity|spa beads|filtration binding|tritiated|3h ligand|125i ligand,Scintillation proximity radioligand binding,,any,added by build_database.py
+technology,High-content imaging,high content|high-content|operetta|incell analyzer|cellomics|immunofluorescence,High-content imaging readout,,cell-based,added by build_database.py
