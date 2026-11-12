@@ -1,0 +1,26 @@
+﻿class_id,label,ec_prefixes,keywords,go_terms,domain_patterns,needs_domain,modality,excludes,notes
+protein_kinase,Protein kinase,2.7.10|2.7.11|2.7.12|2.7.13,Serine/threonine-protein kinase|Tyrosine-protein kinase,protein kinase activity,protein kinase,no,,,
+dna_helicase,ATP-dependent helicase,3.6.4.12|3.6.4.13,helicase,helicase activity,helicase,no,,,
+nuclease,Nuclease (exo- / endonuclease),3.1.11|3.1.13|3.1.14|3.1.15|3.1.16|3.1.21|3.1.22|3.1.25|3.1.26|3.1.27|3.1.30|3.1.31|3.1.-,exonuclease|endonuclease|nuclease,exonuclease activity|endonuclease activity|nuclease activity,exonuclease|endonuclease|nuclease,no,,,
+protease,Protease / peptidase,3.4.,protease,peptidase activity,peptidase|protease|caspase,no,,dub,
+protein_phosphatase,Protein phosphatase,3.1.3.16|3.1.3.48,protein phosphatase,protein tyrosine phosphatase activity|protein serine/threonine phosphatase activity,phosphatase,no,,,
+receptor_ectodomain,Receptor ligand-binding ectodomain,,receptor,receptor activity,extracellular,yes,,gpcr|ion_channel|abc_transporter|solute_carrier,Only counted when UniProt annotates an extracellular region (Topological domain).
+gpcr,G-protein-coupled receptor,,G-protein coupled receptor,G protein-coupled receptor activity|G-protein coupled receptor activity,,no,,,
+ion_channel,Ion channel,,Ion channel|Voltage-gated channel|Ligand-gated ion channel|Potassium channel|Sodium channel|Calcium channel|Chloride channel,ion channel activity,,no,,,
+abc_transporter,ABC transporter,,ABC transporter|Multidrug resistance,ABC type transporter activity|ATPase coupled transmembrane transporter activity,abc transporter|abc transmembrane,no,,,
+solute_carrier,Solute carrier / secondary transporter,,Symport|Antiport|Sugar transport|Amino acid transport|Neurotransmitter transport,symporter activity|antiporter activity|secondary active transmembrane transporter activity,,no,,,
+epigenetic_writer,Histone methyltransferase (writer),2.1.1.43|2.1.1.319|2.1.1.320|2.1.1.321|2.1.1.322|2.1.1.367,,histone methyltransferase activity|histone arginine methyltransferase activity,set|dot1|prmt|protein arginine n methyltransferase,no,,,
+epigenetic_demethylase,Histone demethylase (eraser),1.14.11.27|1.14.11.65|1.14.11.66|1.14.11.67|1.14.11.68|1.14.11.69|1.14.99.66,,histone demethylase activity,jmjc,no,,,
+epigenetic_deacetylase,Histone deacetylase / sirtuin (eraser),3.5.1.98|2.3.1.286,,histone deacetylase activity|NAD dependent protein deacetylase activity,histone deacetylase|sirtuin,no,,,
+epigenetic_reader,Bromodomain reader,,Bromodomain,,bromo|bromodomain,no,,,
+ppi_domain,Protein-protein interaction domain,,,,sh2|sh3|pdz|ww|wd|ank|tpr|btb|poz|bh3,no,,,Broad on purpose: any protein with one of these interaction domains gets the PPI assays.
+e3_ligase,E3 ubiquitin ligase,2.3.2.27|2.3.2.26|2.3.2.31,,ubiquitin protein ligase activity|ubiquitin-like ligase-substrate adaptor activity|ubiquitin ligase complex scaffold activity,hect|rbr|u box|ring type|f box,no,,epigenetic_deacetylase,
+dub,Deubiquitinase,3.4.19.12,,ubiquitin specific protease activity|cysteine type deubiquitinase activity|deubiquitinase activity,usp|uch|josephin|otu|mindy,no,,,
+degrader_modality,Targeted protein degradation project,,,,,no,degrader,,Only included when you pass --modality degrader.
+nuclear_receptor,Nuclear receptor,,,nuclear receptor activity|steroid hormone receptor activity,nuclear receptor|nr c4 type|nr lbd,no,,,
+topoisomerase,DNA topoisomerase,5.6.2.1|5.6.2.2|5.99.1.2|5.99.1.3,Topoisomerase,DNA topoisomerase activity,topoisomerase|toprim,no,,,
+rna_binding,RNA-binding protein,,,,rrm|kh|drbm|dsrm|dsrbd|pumilio|pum hd|csd|cold shock|c3h1 type|cchc type|yth|piwi|paz|s1 motif,no,rna_target,,UniProt does not annotate the RNA itself; for RNA-structure targets pass --modality rna_target.
+autophagy,Autophagy / lysosomal flux,,Autophagy,,,no,autophagy,,Also available for any protein with --modality autophagy.
+generic,Any protein (biophysical and interference checks),,,,,no,,,Always applies.
+lipid_kinase,Lipid kinase (PI3K / PI4K / PIP kinase / DGK / SPHK),2.7.1.137|2.7.1.153|2.7.1.154|2.7.1.67|2.7.1.68|2.7.1.149|2.7.1.150|2.7.1.107|2.7.1.91|2.7.1.138|2.7.1.158,,"phosphatidylinositol-4,5-bisphosphate 3-kinase activity|1-phosphatidylinositol-3-kinase activity|1-phosphatidylinositol-4-kinase activity|1-phosphatidylinositol-4-phosphate 5-kinase activity|1-phosphatidylinositol-5-phosphate 4-kinase activity|diacylglycerol kinase activity|sphingosine kinase activity",,no,,,"Lipid kinases use the same assay platforms as protein kinases (ADP-Glo, HTRF, binding)."
+adp_ribosyltransferase,PARP / ADP-ribosyltransferase,2.4.2.30|2.4.2.31,,NAD+ ADP-ribosyltransferase activity|NAD+-protein ADP-ribosyltransferase activity|NAD+-protein poly-ADP-ribosyltransferase activity|NAD+-protein mono-ADP-ribosyltransferase activity,parp catalytic,no,,,

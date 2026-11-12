@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- doctype, charset and viewport added Nov 2026: without them phones showed the desktop layout zoomed out
+     and the browser used "quirks mode" -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Assay Builder</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
@@ -152,6 +159,10 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
 .sbar i{display:block;height:100%;background:var(--avail)}
 .std .v{font-size:12px}
 .std.none .v{color:var(--muted)}
+/* caution mark: tooltip on hover or keyboard focus (D5) */
+.caution{position:relative;color:var(--warn);font-weight:600;cursor:help;margin-left:2px;outline-offset:1px}
+.caution:hover::after,.caution:focus::after{content:attr(data-tip);position:absolute;left:0;top:130%;z-index:5;width:max-content;max-width:min(260px,70vw);
+  background:var(--fg);color:var(--bg);padding:6px 8px;border-radius:4px;font:400 12px/1.4 var(--f-body);white-space:normal;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .ubreak{display:grid;grid-template-columns:150px minmax(0,1fr) 44px;gap:4px 8px;align-items:center;font-size:12px;margin-top:4px}
 .ubreak .sbar{margin:0}
 .sortrow{display:flex;gap:8px;align-items:center;margin:10px 0 0;font-size:13px;color:var(--muted)}
@@ -159,6 +170,8 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
 .exbanner{background:var(--warn-soft);color:var(--warn);border-radius:4px;padding:6px 10px;font-size:12px;margin-bottom:10px}
 .foot{margin-top:20px;font-size:12px;color:var(--muted)}
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <div class="top">
@@ -179,8 +192,8 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <div class="step" id="hint"><b>Step 1 of 3</b>Choose the protein you want to screen.</div>
         <label class="lbl" for="prot">Protein</label>
         <div class="row"><input type="text" id="prot" list="protlist" placeholder="Gene name or UniProt accession" autocomplete="off" spellcheck="false" style="width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px"><button class="btn primary" id="lookup">Look up</button></div>
-        <datalist id="protlist"><option value="EGFR"><option value="WRN"><option value="HDAC1"><option value="BRD4"><option value="GLP1R"><option value="KCNH2"><option value="ESR1"></datalist>
-        <p class="note" id="lookupnote">Human proteins, looked up live in UniProt. Examples: EGFR, WRN, BRD4, or an accession such as P00533.</p>
+        <datalist id="protlist"></datalist>
+        <p class="note" id="lookupnote" aria-live="polite">Human proteins, looked up live in UniProt. Start typing a gene name for suggestions (proteins with campaign data), or enter any gene name or accession such as O60885.</p>
 
         <div class="stepblock" id="sb2" hidden>
           <div class="step"><b>Step 2 of 3</b>Drag the handles to set the residues your construct covers. Blue bands are annotated domains.</div>
@@ -194,6 +207,8 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <div class="stepblock" id="sb3" hidden>
           <div class="step"><b>Step 3 of 3</b>What do you want the compound to do?</div>
           <div class="seg" id="effect"><button aria-pressed="false" data-v="inhibition">Inhibition</button><button aria-pressed="false" data-v="activation">Activation</button></div>
+          <label class="chk" style="margin-top:8px"><input type="checkbox" id="unspec"> Include unspecified results</label>
+          <p class="note" style="margin-top:2px">Unspecified = campaigns whose text names no direction (often binding or plain activity assays). Off: only campaigns labeled with the direction you chose (or both directions).</p>
         </div>
       </div>
 
@@ -255,7 +270,7 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
       <div id="results" hidden>
         <div class="summary" id="summary"></div>
         <div class="flow" id="flow"></div>
-        <div class="sortrow"><label for="sort">Order within each stage by</label><select id="sort"><option value="priority">development priority</option><option value="standard">how standard (most used first)</option></select></div>
+        <div class="sortrow"><label for="sort">Order within each stage by</label><select id="sort"><option value="relevance">relevance (campaign occurrence and biological relevance)</option><option value="priority">development priority</option><option value="standard">campaign occurrence (most common first)</option></select></div>
         <div id="out"></div>
       </div>
       <details class="defs" id="defs">
@@ -278,18 +293,60 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
 <script>
 (async()=>{
 const asStr=a=>(a||[]).join("; ");
+/* Usage rows arrive as a compact table (schema 0.2: columns + rows + a shared list of source texts) to keep
+   assay_db.json small. This turns each row back into the object the rest of the page reads.
+   An older file with a plain list of objects (schema 0.1) is used as it is. */
+function expandUsage(u){
+  if(Array.isArray(u)) return u;
+  const ix={};u.columns.forEach((c,i)=>ix[c]=i);
+  return u.rows.map(r=>{
+    const g=c=>r[ix[c]], nc=g("classifiable"), lt=g("lit_total"), s=u.sources[g("source")]||[];
+    return {entry_id:g("entry_id"),scope:{type:g("scope_type"),id:g("scope_id")},stage:g("stage"),effect:g("effect"),
+      readout:g("readout"),plate:g("plate"),
+      campaigns:{total:g("total"),classifiable:nc,using:g("using"),share:nc?g("using")/nc:null},
+      literature:{total:lt,using:g("lit_using"),share:lt?g("lit_using")/lt:null},
+      standardness:{score:g("score"),level:g("level"),confidence:g("low_confidence")?"low":"ok"},
+      source:{name:s[0],query:s[1],retrieved_on:s[2],method_version:s[3]},is_example:s[3]==="example",notes:s[4]||""};
+  });
+}
 let D;
 try{
   const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
-  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:db.usage_stats,conds:db.condition_stats||[],meta:db.meta,
+  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:expandUsage(db.usage_stats),conds:db.condition_stats||[],meta:db.meta,
    playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,effect:a.effect||"",development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||""})),
    kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
 }catch(e){
   document.querySelector("main").innerHTML='<div class="welcome"><h2>Could not load the database</h2><p>'+String(e.message).replace(/</g,"&lt;")+'. Open this page from the published site (not as a local file) and check that docs/assay_db.json exists.</p></div>';
   return;
 }
+/* autosuggest: gene names of every protein with campaign data, plus the built-in examples.
+   UniProt accessions are not suggested (a few proteins without a gene symbol are stored under theirs),
+   but typing one still works: lookup() resolves it. P2RY* and B3G* are real gene symbols that look like accessions. */
+{
+  const ACC=/^([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2})$/, NOT_ACC=/^(P2RY\d|B3G)/;
+  const names=new Set(Object.keys(D.proteins||{}));
+  for(const u of D.usage) if(u.scope.type==="gene"&&u.scope.id) names.add(u.scope.id);
+  const opts=[...names].filter(n=>!ACC.test(n)||NOT_ACC.test(n)).sort((a,b)=>a.localeCompare(b,"en",{numeric:true}));
+  /* fill the dropdown only after the first character, with at most 30 names starting with what was typed */
+  const dl=document.getElementById("protlist"), box=document.getElementById("prot"), MAXSUG=30;
+  const suggest=()=>{
+    const q=box.value.trim().toUpperCase();
+    dl.textContent="";
+    if(!q) return;
+    const frag=document.createDocumentFragment();
+    for(const n of opts){
+      if(!n.toUpperCase().startsWith(q)) continue;
+      const o=document.createElement("option");o.value=n;frag.appendChild(o);
+      if(frag.childNodes.length>=MAXSUG) break;
+    }
+    dl.appendChild(frag);
+  };
+  box.addEventListener("input",suggest);
+  suggest();
+}
 const _lc=D.meta.last_curated;
-document.querySelector(".dbdate").textContent="Curated assay database last updated "+(_lc||"YYYY-MM-DD");
+/* no playbook row has a reviewed_on date yet, so say so instead of showing the placeholder "YYYY-MM-DD" */
+document.querySelector(".dbdate").textContent=(_lc?"Curated assay database last reviewed "+_lc:"Curated assay database: no review date recorded yet")+(D.meta.built_on?" · data built "+D.meta.built_on:"");
 const LV = {very_low:1,low:2,moderate:3,high:4,very_high:5};
 const LVL = {very_low:"very low",low:"low",moderate:"moderate",high:"high",very_high:"very high"};
 const CATS = {biochemical_hts:"Biochemical HTS",cell_functional:"Cell-based functional",biophysical_binding:"Biophysical binding",orthogonal_confirmation:"Orthogonal confirmation",mechanistic_counterscreen:"Selectivity / counterscreen"};
@@ -299,7 +356,7 @@ const AVAIL = {kit:"Commercial kit available",method:"Method only (no kit record
 const FULLCOV = 0.9, PARTIALCOV = 0;
 const $ = id => document.getElementById(id);
 const INST_DEFAULT=["plate","htrf"];
-const S = {inst:new Set(INST_DEFAULT),prot:null,start:1,end:1,stage:0,effect:null,sort:'priority',scope:new Set(Object.keys(SCOPES)),avail:new Set(Object.keys(AVAIL)),cats:new Set(Object.keys(CATS)),plates:new Set(),plan:new Set(),open:new Set()};
+const S = {inst:new Set(INST_DEFAULT),prot:null,start:1,end:1,stage:0,effect:null,unspec:false,sort:'relevance',scope:new Set(Object.keys(SCOPES)),avail:new Set(Object.keys(AVAIL)),cats:new Set(Object.keys(CATS)),plates:new Set(),plan:new Set(),open:new Set()};
 const split = s => (s||"").split(/[;|]/).map(x=>x.trim()).filter(Boolean);
 const isCell = r => /cell/i.test(r.scope||"") && !/free/i.test(r.scope||"");
 const mainRole = r => (split(r.role.replace(/ or /g,";"))[0]||"primary").toLowerCase();
@@ -331,7 +388,8 @@ function meter(label,key){const n=LV[key]||0;return `<div class="meter"><div cla
 const PLABEL={"96":"96-well","384":"384-well","1536":"1536-well and denser","low":"6 to 48-well"};
 const MINP=5, PLATE_SHARE=0.10;   /* a plate format is "typical" when at least 10% of the campaigns that state a format used it */
 const MINC=5;          /* fewer classifiable campaigns than this: look at the wider group instead */
-const EFFL={inhibition:"inhibition",activation:"activation",any:"all directions pooled"};
+const EFFL={inhibition:"inhibition, unspecified campaigns included",inhibition_labeled:"inhibition (campaigns labeled inhibition or mixed)",
+  activation:"activation (campaigns labeled activation or mixed)",activation_with_unspecified:"activation, unspecified campaigns included",any:"all directions pooled"};
 const UBY={};D.usage.forEach(u=>{(UBY[u.entry_id]=UBY[u.entry_id]||[]).push(u)});
 const _ucache={};
 const CBY={};D.conds.forEach(u=>{(CBY[u.entry_id]=CBY[u.entry_id]||[]).push(u)});
@@ -355,7 +413,6 @@ function condFor(r){
   const rows=CBY[r.entry_id]||[], P=D.proteins[S.prot];
   const g=rows.filter(u=>u.scope.type==="gene"&&u.scope.id===S.prot);
   const cl=rows.filter(u=>u.scope.type==="function_class"&&P.classes.some(c=>c.id===u.scope.id));
-  let pool=g,basis=S.prot;
   const byParam={};
   for(const u of cl){const o=byParam[u.parameter];if(!o||u.n_stating>o.n_stating)byParam[u.parameter]=u;}   /* class rows: the class with most campaigns */
   const out={};
@@ -365,10 +422,17 @@ function condFor(r){
   }
   return CORDER.filter(k=>out[k]).map(k=>({k,...out[k]}));
 }
+/* Which effect view of the usage rows to read: the chosen direction, with or without unspecified campaigns
+   ("Include unspecified results" switch). See EFFECT_VIEWS in scripts/build_database.py. */
+function effView(){
+  if(S.effect==="inhibition") return S.unspec?"inhibition":"inhibition_labeled";
+  return S.unspec?"activation_with_unspecified":"activation";
+}
 function usageFor(r){
-  const key=r.entry_id+"|"+S.prot+"|"+S.effect;
+  const key=r.entry_id+"|"+S.prot+"|"+effView();
   if(key in _ucache) return _ucache[key];
-  const rows=UBY[r.entry_id]||[], P=D.proteins[S.prot], eff=S.effect;
+  const rows=UBY[r.entry_id]||[], P=D.proteins[S.prot], eff=effView();
+  let geneN=0;           /* classifiable campaigns for this protein itself (for the small-sample caution) */
   const isGene=u=>u.scope.type==='gene'&&u.scope.id===S.prot;
   const isCls=u=>u.scope.type==='function_class'&&P.classes.some(c=>c.id===u.scope.id);
   const tiers=[[isGene,eff,"gene"],[isCls,eff,"class"],[isGene,"any","gene"],[isCls,"any","class"]];
@@ -378,24 +442,56 @@ function usageFor(r){
     const tops=pool.filter(u=>!u.readout&&!u.plate).sort((a,b)=>(b.campaigns.classifiable||0)-(a.campaigns.classifiable||0));
     if(!tops.length) continue;
     const top=tops[0];
+    if(lvl==="gene"&&ef===eff) geneN=top.campaigns.classifiable||0;
     const hit={top,reads:pool.filter(u=>u.readout&&u.scope.id===top.scope.id).sort((a,b)=>b.campaigns.using-a.campaigns.using),
       plates:pool.filter(u=>u.plate&&u.scope.id===top.scope.id).sort((a,b)=>b.campaigns.using-a.campaigns.using),level:lvl,effect:ef};
     if(!first) first=hit;
     if((top.campaigns.classifiable||0)>=MINC){found=hit;break;}
   }
-  return _ucache[key]=found||first;
+  const res=found||first;
+  if(res) res.geneN=geneN;
+  return _ucache[key]=res;
 }
 function basis(u){
   const t=u.top, who=u.level==="gene"?t.scope.id:"the "+t.scope.id+" function class";
-  return who+", "+EFFL[u.effect]+(u.effect!==S.effect&&u.effect==="any"?" (no "+S.effect+"-specific data)":"");
+  return who+", "+EFFL[u.effect]+(u.effect==="any"?" (no "+S.effect+"-specific data)":"");
+}
+/* D5: a caution mark when a small sample forced a fallback (or when even the fallback is small). Text shows on hover
+   and keyboard focus, and is read out by screen readers. */
+function caution(u){
+  const n=u.top.campaigns.classifiable||0, cls=u.top.scope.id, c=x=>x+" campaign"+(x===1?"":"s");
+  let tip="";
+  if(u.level==="class") tip=(u.geneN
+      ?S.prot+" has only "+c(u.geneN)+" with a classified assay for this direction (fewer than "+MINC+")"
+      :"No "+S.prot+" campaign in our data matches this assay's function for this direction")
+    +", so this number is for the whole "+cls+" class, not "+S.prot+" itself.";
+  else if(n<MINC) tip="Only "+c(n)+" with a classified assay, and the wider class has no larger sample: treat this number as anecdotal.";
+  if(u.effect==="any") tip+=(tip?" ":"")+"No direction-specific data either: counts pool all directions.";
+  return tip?` <span class="caution" tabindex="0" role="img" aria-label="Caution: ${esc(tip)}" data-tip="${esc(tip)}">⚠</span>`:"";
 }
 const pct=x=>Math.round(x*100)+"%";
+/* Default order (decided 2026-11-11): most relevant assays first within each stage.
+   relevance = 0.6 x campaign occurrence, scaled so the most-used assay in the same stage counts 1
+               (occurrence is for THIS protein; a class-wide fallback counts half; no data counts 0)
+             + 0.4 x the assay's biological-relevance rating (1-5, scaled to 0-1).
+   Scaling within the stage keeps real usage in charge: a rating alone cannot lift an assay with no campaigns above
+   the assay most campaigns used. Generic checks (thermal shift, SPR, ITC, ...) come after the protein's own function
+   assays; ties: development priority. */
+const isGeneric=r=>split(r.classes).every(c=>c==="generic");
+function occurrence(r){
+  const u=usageFor(r), s=u&&u.top.standardness.score;
+  return (s==null||s===false)?0:s*(u.level==="class"?0.5:1);
+}
+function relevance(r,stageMax){
+  return 0.6*(stageMax>0?occurrence(r)/stageMax:0)+0.4*((LV[r.biological_relevance]||0)/5);
+}
 function stdMeter(r){
   const u=usageFor(r);
-  if(!u) return `<div class="std none"><div class="l">How standard</div><div class="v">no campaign data yet</div></div>`;
+  if(!u) return `<div class="std none"><div class="l">Campaign occurrence</div><div class="v">no campaign data yet</div></div>`;
   const t=u.top,s=t.standardness.score;
-  return `<div class="std"><div class="l">How standard</div><div class="sbar"><i style="width:${pct(s)}"></i></div>
-   <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${u.level==="class"?' <span class="pill">class-wide</span>':""}${u.effect==="any"?' <span class="pill">all directions</span>':""}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
+  if(s==null) return `<div class="std none"><div class="l">Campaign occurrence</div><div class="v">no usable count</div></div>`;   /* hand-made rows with blank counts */
+  return `<div class="std"><div class="l">Campaign occurrence</div><div class="sbar"><i style="width:${pct(s)}"></i></div>
+   <div class="v"><b>${pct(s)}</b> of ${t.campaigns.classifiable} campaigns${t.standardness.confidence==="low"?" (few)":""}${u.level==="class"?' <span class="pill">class-wide</span>':""}${u.effect==="any"?' <span class="pill">all directions</span>':""}${caution(u)}${t.is_example?' <span class="pill draft">example</span>':""}</div></div>`;
 }
 /* ---- instruments: which instrument each readout needs (keywords found in the playbook's readout text) ---- */
 const INSTL={plate:"a plate reader (fluorescence, luminescence)",htrf:"an HTRF / TR-FRET reader",alpha:"an AlphaScreen-capable reader",kinetic:"a kinetic reader with online liquid addition (FLIPR-type)",lcms:"LC-MS / RapidFire",spr:"a biosensor (SPR / BLI)",mobility:"a mobility-shift system (Caliper / LabChip)",radio:"radioactivity detection (scintillation counter or filter reader)",cell:"cell culture and imaging",patch:"an automated patch-clamp system",ecl:"an electrochemiluminescence reader (Meso Scale-type)",impedance:"a label-free impedance system (xCELLigence-type)",flow:"a flow cytometer",thermal:"a thermal-shift instrument or qPCR machine",itc:"an ITC calorimeter",gel:"a gel electrophoresis, Western blot or gel imaging setup",structure:"access to X-ray crystallography or cryo-EM",service:"a vendor profiling service (for example KINOMEscan)"};
@@ -444,7 +540,8 @@ function instMissing(r){
 }
 function kitsFor(r){return D.kits.filter(kt=>split(kt.applies_to_entries).includes(r.entry_id)).filter(kt=>{
   const sc=kt.target_scope||""; if(/^(pan-class|many)/i.test(sc)) return true;
-  return new RegExp("\\b"+S.prot+"\\b","i").test(sc);});}
+  return new RegExp("\\b"+reEsc(S.prot)+"\\b","i").test(sc);});}   /* escaped: gene names can contain "." or "-" */
+function reEsc(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");}
 
 function render(){
   const ready=S.stage>=3;
@@ -469,12 +566,17 @@ function render(){
     chosen.push({r,level,cl});
   }
   const sc=x=>{const u=usageFor(x.r);return u?u.top.standardness.score:-1};
-  chosen.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a.r))-ROLES.findIndex(x=>x[0]===mainRole(b.r))||(S.sort==='standard'?(sc(b)-sc(a)):0)||pnum(a.r)-pnum(b.r));
+  const stageMax={};                       /* highest occurrence per stage, for relevance() scaling */
+  chosen.forEach(x=>{const k=mainRole(x.r);stageMax[k]=Math.max(stageMax[k]||0,occurrence(x.r));});
+  const rel=x=>relevance(x.r,stageMax[mainRole(x.r)]);
+  const byOrder=S.sort==='relevance'?(a,b)=>(isGeneric(a.r)-isGeneric(b.r))||(rel(b)-rel(a))
+               :S.sort==='standard'?(a,b)=>sc(b)-sc(a):()=>0;
+  chosen.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a.r))-ROLES.findIndex(x=>x[0]===mainRole(b.r))||byOrder(a,b)||pnum(a.r)-pnum(b.r));
   const tally={gene:0,class:0,any:0,none:0};
   chosen.forEach(x=>{const u=usageFor(x.r);if(!u)tally.none++;else if(u.effect==="any")tally.any++;else tally[u.level]++;});
   const eNote=(tally.gene+tally.class+tally.any+tally.none)===0?"":
     tally.gene>0?`<div class="meta">${esc(S.prot)}: ${tally.gene} assays have ${S.effect}-specific usage data for this protein${tally.class?`, ${tally.class} fall back to the whole function class`:""}${tally.any?`, ${tally.any} only have data pooled over all directions`:""}.</div>`:
-    `<div class="exbanner">Few or no ${S.effect} campaigns were found for ${esc(S.prot)}, so usage shares come from the wider function class${tally.any?" or are pooled over all directions":""}. Treat "how standard" as a rough guide here.</div>`;
+    `<div class="exbanner">Few or no ${S.effect} campaigns were found for ${esc(S.prot)}, so usage shares come from the wider function class${tally.any?" or are pooled over all directions":""}. Treat campaign occurrence as a rough guide here (look for the ⚠ mark).</div>`;
   $("summary").insertAdjacentHTML("beforeend",eNote);
   $("flow").innerHTML = ROLES.map(([k,n,d])=>{const g=chosen.filter(x=>mainRole(x.r)===k);return `<a href="#sec-${k}"><b>${n}</b><span>${g.length}</span><small>${d}</small></a>`}).join("");
   const sel=[...S.plates];
@@ -513,7 +615,7 @@ function render(){
           <dt>Typical conditions</dt><dd>${esc(r.conditions)}</dd>
           ${(()=>{const c=condFor(r);if(!c.length)return "";return `<dt>Reported by campaigns</dt><dd><div class="ubreak" style="grid-template-columns:120px minmax(0,1fr)">${c.map(x=>`<span>${CLABEL[x.k]}</span><span>${condText(x.u)} <span class="meta">n=${x.u.n_stating}${x.lvl==="class"?", class-wide":""}</span></span>`).join("")}</div><div class="meta">Values stated in public assay texts (first value stated per campaign; n = campaigns that state it, out of ${c[0].u.n_using} for this assay type). Use as a starting point; the curated text above is the reviewed recommendation.</div></dd>`})()}
           <dt>Reagents</dt><dd>${esc(r.reagents)}</dd>
-          ${(()=>{const u=usageFor(r);if(!u)return "";const t=u.top;return `<dt>How standard</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns that stated a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
+          ${(()=>{const u=usageFor(r);if(!u||u.top.standardness.score==null)return "";const t=u.top;return `<dt>Campaign occurrence</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type (${t.campaigns.using} used it; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns using this assay whose text states a technology.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
           <dt>Instruments</dt><dd>${instNeed(r).alts.length?"Readouts here need "+instNeed(r).alts.map(a=>INSTL[a]).join(" or ")+" (any one is enough).":"No special instrument beyond basic lab equipment."}${need.length?" <b>Not covered by your selection.</b>":""}</dd>
           ${r.rating_notes?`<dt>Rating notes</dt><dd>${esc(r.rating_notes)}</dd>`:""}
           <dt>Sources</dt><dd>${dois.length?dois.map(d=>`<a class="btn small" href="${esc(doiUrl(d))}" target="_blank" rel="noopener">DOI ↗ ${esc(d.replace(/^https?:\/\/(dx\.)?doi\.org\//,""))}</a>`).join(" "):"<span class='meta'>none recorded yet</span>"}</dd>
@@ -615,8 +717,8 @@ function classifyProtein(info){
     for(const term of row.go_terms){const h=info.go.find(g=>normT(g).includes(normT(term)));if(h){why.push("GO '"+h+"'");break;}}
     const pats=row.domain_patterns.map(normT);const anchors=[];
     for(const f of info.features){if(pats.some(p=>p&&wordIn(p,normT(f.description)))){if(row.needs_domain&&f.type!=="Topological domain")continue;anchors.push(f);}}
+    if(row.needs_domain&&(!anchors.length||!why.length))continue;   /* domain required IN ADDITION to an EC / keyword / GO match (same rule as m4_recommend.classify) */
     if(anchors.length)why.push("domain '"+anchors[0].description+"'");
-    if(row.needs_domain&&!anchors.length)continue;
     if(why.length)found.set(row.class_id,{label:row.label,why:why.join("; "),anchors});
   }
   for(const row of D.function_classes){if(found.has(row.class_id)&&row.excludes.some(x=>found.has(x)))found.delete(row.class_id);}
@@ -649,6 +751,7 @@ $("prot").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();
 ["cs","ce"].forEach(i=>$(i).onchange=()=>setRange($("cs").value,$("ce").value));
 $("presets").onclick=e=>{const b=e.target.closest("[data-pre]");if(b){const [s,en]=b.dataset.pre.split("-");setRange(s,en)}};
 $("cconfirm").onclick=()=>{if(S.stage<2){S.stage=2;$("sb3").hidden=false;$("sb3").scrollIntoView({block:"nearest",behavior:"smooth"});}};
+$("unspec").onchange=e=>{S.unspec=e.target.checked;if(S.stage>=3)render();};
 $("effect").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.effect=b.dataset.v;[...$("effect").children].forEach(x=>x.setAttribute("aria-pressed",x===b));if(S.stage<3)S.stage=3;render();renderPlan();};
 
 /* ---- tags ---- */
@@ -673,7 +776,9 @@ $("out").onclick=e=>{const o=e.target.closest("[data-open]"),p=e.target.closest(
   if(o){const k=o.dataset.open;S.open.has(k)?S.open.delete(k):S.open.add(k);render()}
   if(p){const k=p.dataset.plan;S.plan.has(k)?S.plan.delete(k):S.plan.add(k);render();renderPlan()}};
 $("planlist").onclick=e=>{const b=e.target.closest("[data-rm]");if(b){S.plan.delete(b.dataset.rm);render();renderPlan()}};
-function drawer(open){$("drawer").hidden=!open;$("cart").setAttribute("aria-expanded",open)}
+function drawer(open){$("drawer").hidden=!open;$("cart").setAttribute("aria-expanded",open);
+  (open?$("dclose"):$("cart")).focus();}       /* keyboard users land inside the drawer, and back on the button after */
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("drawer").hidden)drawer(false);});
 $("cart").onclick=()=>drawer($("drawer").hidden);$("dclose").onclick=()=>drawer(false);
 $("sort").onchange=e=>{S.sort=e.target.value;render()};
 $("copy").onclick=()=>{const t=$("plantext");t.select();try{navigator.clipboard.writeText(t.value).catch(()=>{})}catch(_){}};
@@ -692,7 +797,10 @@ const DEFS=[
 ["Priority P1 to P4","P1 develop first; P2 develop next as follow-up or orthogonal; P3 mechanism or selectivity follow-up; P4 specialized. This reading of the reviewer's scale is not yet confirmed. Assays with two values (P1/P2) are sorted by the lower number."],
 ["Construct coverage thresholds","Domain at least "+Math.round(FULLCOV*100)+"% inside your construct: assays apply. Between 0% and "+Math.round(FULLCOV*100)+"%: assays are shown with a warning. 0%: assays for that function are dropped. If UniProt annotates no domain, coverage cannot be checked and assays are shown."],
 ["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
-["How standard (usage)","Of the unique HTS campaigns for this gene or function class whose assay type could be determined, the share that used the assay. Shares do not add to 100% because one campaign can use several assays. The bar shows a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Inhibition vs activation: the shares are recomputed for the effect you choose. For inhibition, every campaign not labeled as activation counts (binding and unlabeled assays are normally run to find inhibitors or binders). For activation, only campaigns labeled activation or mixed count. If the protein has fewer than "+MINC+" such campaigns, the app uses the whole function class instead and says so. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\". Public assay text often does not state the technology, so the denominator is smaller than the number of campaigns found."],
+["Campaign occurrence","How often public screening campaigns for this protein (or its function class) studied the biological function this assay measures. A campaign is one independent study: one PubChem deposit, one paper or one patent, counted once even when ChEMBL, PubChem and BindingDB all hold a copy. The number is: campaigns whose text matches the assay's function (for example 'ion channel activity' or 'kinase activity'), divided by all campaigns whose function could be determined from their text. A cell-based assay is only counted from cell-based campaigns, and a cell-free assay from cell-free ones. It is NOT yet specific to the detection format: assays that measure the same function in the same setting (for example patch clamp, thallium flux and membrane-potential dye) show the same occurrence. The format split is under Show details ('readout shares'). Shares do not add to 100% because one campaign can study several functions. The bar is a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing, which is the case today). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Public assay text often does not name the function or technology, so the denominator is smaller than the number of campaigns found. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\"."],
+["Inhibition, activation and unspecified results","Each campaign is labeled inhibition, activation, mixed (both) or unspecified (its text names no direction, as in many binding or plain activity assays). Campaign occurrence is recomputed for the direction you choose: inhibition counts campaigns labeled inhibition or mixed; activation counts campaigns labeled activation or mixed. Tick 'Include unspecified results' to add the unspecified campaigns to either direction. This is useful for inhibition, because binding and unlabeled assays are usually run to find inhibitors or binders. Direction labels come from keywords in the assay text and are not perfect."],
+["Order of assays","Within each stage (primary, confirmation, counterscreen) the most relevant assays come first. Relevance combines how often campaigns for this protein used the assay's function (campaign occurrence; a class-wide fallback counts half) with the assay's biological-relevance rating. Assays for the protein's own functions come before the generic checks that apply to any protein (thermal shift, SPR, ITC and so on). You can switch to ordering by development priority or by campaign occurrence alone."],
+["Class-wide fallback (⚠)","If the protein has fewer than "+MINC+" classified campaigns for the chosen direction, the app shows the numbers for its whole function class instead, marked 'class-wide' with a ⚠ sign. Hover over or tab to the sign to see how many campaigns the protein itself has. The sign also appears when even the class has fewer than "+MINC+" campaigns (treat as anecdotal), and when only data pooled over all directions exist."],
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
 ["Reported conditions","Under Show details, 'Reported by campaigns' lists values that public assay texts state: buffer, pH, temperature, incubation time, detergent, reducing agent, DMSO, MgCl2, NaCl, ATP, BSA and assay volume. For each assay type the app shows the median and the middle half of the stated values (numbers) or the shares of each choice (buffers, detergents and so on). A value is the first one stated in a campaign's text, so a campaign that also mentions a detection buffer may be misread. n is the number of campaigns that state the value; protein-specific values need at least 10, class-wide values at least 5. These are descriptive statistics, not a recommendation."],
 ["Liquid and plate handling","These items do not dim assays. They only produce notes: for example 1536-well work usually needs nanoliter compound transfer plus a bulk dispenser, and assays with wash steps (ELISA, filtration) are flagged when no plate washer is ticked. Which equipment public campaigns actually mention is listed by scripts/equipment_scan.py (build_output/equipment_mentions.csv)."],
@@ -705,3 +813,5 @@ renderPlan();render();
 
 })();
 </script>
+</body>
+</html>

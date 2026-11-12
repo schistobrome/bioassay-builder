@@ -297,10 +297,11 @@ def classify(info, classes, modalities=()):
                 if row["needs_domain"] == "yes" and feat["type"] != "Topological domain":
                     continue
                 anchors.append(feat)
+        if row["needs_domain"] == "yes" and (not anchors or not why):
+            continue        # needs_domain: the domain is required IN ADDITION to an EC / keyword / GO match (fixed Nov 2026;
+                            # before, an extracellular region alone made any protein a "receptor")
         if anchors:
             why.append("domain '%s'" % anchors[0]["description"])
-        if row["needs_domain"] == "yes" and not anchors:
-            continue
         if why:
             found[cid] = {"label": row["label"], "why": why, "anchors": anchors}
     for row in classes:                      # some classes cancel others (e.g. a GPCR is not a plain ectodomain receptor)

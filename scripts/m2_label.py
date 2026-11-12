@@ -116,7 +116,8 @@ SEED = [
      "proliferation|viability|cell growth|cytotoxic|cytotoxicity|celltiter|mtt|cell survival",
      "cell proliferation or viability readout in cultured cells", ""),
     ("function", "Cellular signaling",
-     "p erk|perk|p akt|phospho erk|downstream signaling|pathway",
+     "p erk|perk|p akt|phospho erk|downstream signaling|pathway|erk phosphorylation|erk1 2 phosphorylation|"
+     "phosphorylation of erk|phosphorylation of erk1 2|perk1 2|p erk1 2|phospho erk1 2",
      "downstream signaling readout in cultured cells", ""),
     ("function", "Apoptosis / DNA damage (cellular)",
      "apoptosis|caspase|cleaved parp|double strand break|double stands break|p chk2|gamma h2ax",
@@ -148,7 +149,7 @@ SEED = [
      "Radiometric assay with 32P or 33P labeled substrate", ""),
     ("technology", "Mobility shift (Caliper / LabChip)", "mobility shift|caliper|labchip",
      "Microfluidic mobility shift assay", ""),
-    ("technology", "KINOMEscan competition binding", "kinomescan|kinome scan|discoverx|ambit",
+    ("technology", "KINOMEscan competition binding", "kinomescan|kinome scan|ambit",
      "KINOMEscan active-site competition binding assay", ""),
     ("technology", "ELISA / immunosorbent", "elisa|immunosorbent|immunoassay|tmb",
      "ELISA or immunosorbent based assay", ""),
@@ -299,9 +300,37 @@ PATENT = re.compile(r"\b(?:US\d{7,11}[A-Z]\d?|WO\d{9,12})\b")
 ANTIPROLIF = re.compile(r"antiproliferat|cytotoxic|cytostatic|in vivo|xenograft", re.I)
 HOSTS = re.compile(r"sf9|sf21|high[\s-]?five|\bhi5\b|bl21|e\.?\s?coli|escherichia|insect|baculovirus", re.I)
 
+# Bump this when a labeling RULE in this file changes (not the term table, which has its own hash).
+# build_database.py and bindingdb_label.py put it in the label cache key, so cached labels are redone (no downloads).
+RULES_VERSION = "rules3"     # 2026-11-11: membrane preparations and GTPgammaS binding count as cell-free;
+                             # 2026-11-12: a protein's EC number can imply its activity term (EC_IMPLIES)
+
+# Assays run on membrane preparations (or [35S]GTPgammaS / Eu-GTP binding, which needs membranes) are cell-free,
+# even when the receptor was "expressed in CHO cells" or ChEMBL lists a cell type. Plural "membranes" or an explicit
+# preparation word is required, so "membrane potential" or "membrane permeability" (cell assays) do not match.
+GTP_BINDING = re.compile(r"\[35s?\]\s*-?\s*gtp|\b35s[\s-]*gtp|gtp\s*-?\s*(?:γ|gamma)\s*-?\s*s?\b|gtpγs|\beu[\s-]?gtp", re.I)
+MEMBRANE = re.compile(r"\bmembranes\b|\bmembrane[\s-]+(?:prep\w*|homogenates?|fractions?|suspensions?)\b|"
+                      r"\bcell[\s-]+membrane\b", re.I)
+MEMBRANE_BAO = {"cell membrane format"}     # not "subcellular format": ChEMBL also uses it for lysates and cell assays
+# ... unless the text says the cells were intact or living, or the readout is one only living cells give
+WHOLE_CELL = re.compile(r"\b(?:whole|intact|live|living)(?:[\s-]+[\w-]+){0,2}?[\s-]+cells?\b|whole[\s-]cell\b|"
+                        r"proliferat|viability|apoptosis|western blot|in vivo|xenograft|\bsirna\b|cetsa", re.I)
+# ChEMBL often writes "expressed in HEK293 cell membrane" for ordinary cell assays; these readouts give them away
+LIVE_READOUT = re.compile(r"calcium|\bca2\+|\bcamp\b|current|membrane potential|surface|density|reporter|corrector|"
+                          r"potentiat|activation of|induced activation|internali[sz]|arrestin|impedance|\bflux\b|"
+                          r"uptake|efflux|secretion|fluorescen\w* imaging|integrity|permeab|\bldh\b|cytotox|flipr|"
+                          r"patch[\s-]?clamp|electrophysiolog", re.I)
+
 
 def context_of(text, bao="", cell_type=""):
-    """cell-based or cell-free. Protein made in insect or bacterial cells is still cell-free."""
+    """cell-based or cell-free. Protein made in insect or bacterial cells is still cell-free,
+    and so is an assay on membranes prepared from cells: [35S]GTPgammaS / Eu-GTP binding, or a text (or ChEMBL
+    format) naming membranes with no readout that needs living cells."""
+    if not WHOLE_CELL.search(text):
+        if GTP_BINDING.search(text):
+            return "cell-free"
+        if (MEMBRANE.search(text) or bao in MEMBRANE_BAO) and not LIVE_READOUT.search(text):
+            return "cell-free"
     stripped = EXPRESSION.sub(" ", text)
     if CELLISH.search(stripped) or ANTIPROLIF.search(stripped):
         return "cell-based"
@@ -455,15 +484,96 @@ def load_abstracts(m1_dir):
     return found
 
 
+EC_IMPLIES = [            # (EC prefix, function term). The first matching prefix decides for each EC number.
+    ("3.6.5.", None),            # GTPases: "inhibition of KRAS" says nothing about which activity was read
+    ("7.", None),                # translocases (ABC transporters, ion pumps): measured as transport, not turnover
+    ("3.4.19.12", "Deubiquitinase activity"),
+    ("3.4.", "Protease activity"),
+    ("2.7.10.", "Kinase activity"), ("2.7.11.", "Kinase activity"), ("2.7.12.", "Kinase activity"),
+    # lipid kinases (PI3K, PI4K, PIP kinases, DGK, SPHK): same assay platforms as protein kinases
+    ("2.7.1.137", "Kinase activity"), ("2.7.1.153", "Kinase activity"), ("2.7.1.154", "Kinase activity"),
+    ("2.7.1.67", "Kinase activity"), ("2.7.1.68", "Kinase activity"), ("2.7.1.149", "Kinase activity"),
+    ("2.7.1.150", "Kinase activity"), ("2.7.1.107", "Kinase activity"), ("2.7.1.91", "Kinase activity"),
+    ("2.7.1.138", "Kinase activity"), ("2.7.1.158", "Kinase activity"),
+    # histone demethylases (KDM1, JmjC KDM2-7) and histone methyltransferases (SET, DOT1L, PRMT)
+    ("1.14.11.27", "Histone demethylase activity"), ("1.14.11.65", "Histone demethylase activity"),
+    ("1.14.11.66", "Histone demethylase activity"), ("1.14.11.67", "Histone demethylase activity"),
+    ("1.14.11.68", "Histone demethylase activity"), ("1.14.11.69", "Histone demethylase activity"),
+    ("1.14.99.66", "Histone demethylase activity"),
+    ("2.1.1.43", "Histone methyltransferase activity"), ("2.1.1.319", "Histone methyltransferase activity"),
+    ("2.1.1.320", "Histone methyltransferase activity"), ("2.1.1.321", "Histone methyltransferase activity"),
+    ("2.1.1.322", "Histone methyltransferase activity"), ("2.1.1.354", "Histone methyltransferase activity"),
+    ("2.1.1.355", "Histone methyltransferase activity"), ("2.1.1.356", "Histone methyltransferase activity"),
+    ("2.1.1.357", "Histone methyltransferase activity"), ("2.1.1.359", "Histone methyltransferase activity"),
+    ("2.1.1.360", "Histone methyltransferase activity"), ("2.1.1.361", "Histone methyltransferase activity"),
+    ("2.1.1.362", "Histone methyltransferase activity"), ("2.1.1.364", "Histone methyltransferase activity"),
+    ("2.1.1.367", "Histone methyltransferase activity"), ("2.1.1.369", "Histone methyltransferase activity"),
+    ("2.1.1.370", "Histone methyltransferase activity"), ("2.1.1.371", "Histone methyltransferase activity"),
+    ("3.1.3.16", "Phosphatase activity"), ("3.1.3.48", "Phosphatase activity"),
+    ("3.1.4.17", "Phosphodiesterase activity"), ("3.1.4.35", "Phosphodiesterase activity"),
+    ("3.1.4.53", "Phosphodiesterase activity"),
+    ("1.14.14.", "Cytochrome P450 activity"), ("1.14.15.", "Cytochrome P450 activity"),
+    ("2.3.1.48", "Histone acetyltransferase activity"),
+    ("2.1.1.37", "DNA / RNA methyltransferase activity"), ("2.1.1.348", "DNA / RNA methyltransferase activity"),
+    ("3.5.1.98", "Histone deacetylase activity"),
+    ("2.4.2.30", "ADP-ribosyltransferase activity"), ("2.4.2.31", "ADP-ribosyltransferase activity"),
+    ("2.3.2.", "Ubiquitination activity"),
+    ("5.6.2.", "Topoisomerase activity"),
+    ("3.1.11.", "Exonuclease / nuclease activity"), ("3.1.13.", "Exonuclease / nuclease activity"),
+    ("3.1.14.", "Exonuclease / nuclease activity"), ("3.1.15.", "Exonuclease / nuclease activity"),
+    ("3.1.16.", "Exonuclease / nuclease activity"), ("3.1.21.", "Exonuclease / nuclease activity"),
+    ("3.1.22.", "Exonuclease / nuclease activity"), ("3.1.25.", "Exonuclease / nuclease activity"),
+    ("3.1.26.", "Exonuclease / nuclease activity"), ("3.1.27.", "Exonuclease / nuclease activity"),
+    ("3.1.30.", "Exonuclease / nuclease activity"), ("3.1.31.", "Exonuclease / nuclease activity"),
+    ("", "Enzyme activity"),     # any other EC number
+]
+
+
+def ec_numbers(entry):
+    """EC numbers in a UniProt JSON entry (recommended and alternative names, and domains/components)."""
+    out = []
+
+    def walk(obj):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if k == "ecNumbers" and isinstance(v, list):
+                    out.extend(x.get("value", "") for x in v if isinstance(x, dict))
+                else:
+                    walk(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                walk(item)
+    walk(entry.get("proteinDescription", {}))
+    return sorted(set(e for e in out if e))
+
+
+def ec_implied(ecs, term_names):
+    """The one function term the EC numbers point to, or None (no EC, an excluded EC, or two different terms)."""
+    found = set()
+    for ec in ecs:
+        for prefix, term in EC_IMPLIES:
+            exact = prefix and prefix[-1].isdigit()          # "2.1.1.37" must not match "2.1.1.370"
+            if (ec == prefix) if exact else ec.startswith(prefix):
+                found.add(term)
+                break
+    if None in found:
+        return None
+    found = {t for t in found if t in term_names}
+    return found.pop() if len(found) == 1 else None
+
+
 def implied_function(terms, m1_dir, accession):
     """The one function term that the protein's UniProt domains name, if exactly one.
     A kinase domain alone implies 'Kinase activity'; WRN has helicase AND exonuclease
-    domains, so nothing is implied there (it stays unlabeled rather than guessed)."""
+    domains, so nothing is implied there (it stays unlabeled rather than guessed).
+    When no domain names a term, the EC number can (EC_IMPLIES): CYP3A4 -> 'Cytochrome P450 activity',
+    carbonic anhydrase -> 'Enzyme activity'. Only terms present in the term table are used."""
     try:
         with open(os.path.join(m1_dir, "uniprot_%s.json" % accession), encoding="utf-8") as handle:
-            features = json.load(handle).get("features", [])
+            entry = json.load(handle)
     except (OSError, ValueError):
         return None, ""
+    features = entry.get("features", [])
     domains = [clean(f.get("description")) for f in features if f.get("type") == "Domain"]
     found = collections.OrderedDict()
     for term in terms:
@@ -477,6 +587,11 @@ def implied_function(terms, m1_dir, accession):
     if len(found) == 1:
         name = list(found)[0]
         return name, found[name]
+    if not found:                     # no domain names a term: fall back to the EC number
+        ecs = ec_numbers(entry)
+        name = ec_implied(ecs, {t.name for t in terms if t.axis == "function" and t.applies_to != "cell-based"})
+        if name:
+            return name, "EC " + ", ".join(ecs)
     return None, ""
 
 # ------------------------------------------------------ language model
@@ -619,8 +734,12 @@ def label_records(records, terms, embedder, patterns, length, implied=(None, "")
                     evidence = "; ".join("%s <- '%s' (in paper abstract)" % kv for kv in found.items())
             if (not labels and axis == "function" and implied[0] and rec["context"] == "cell-free"
                     and rec["effect"] != "unspecified" and not BINDING_WORDS.search(text)):
-                labels, method = [implied[0]], "implied by domain"
-                evidence = "UniProt domain '%s'" % implied[1]
+                if implied[1].startswith("EC "):
+                    labels, method = [implied[0]], "implied by EC number"
+                    evidence = "UniProt %s" % implied[1]
+                else:
+                    labels, method = [implied[0]], "implied by domain"
+                    evidence = "UniProt domain '%s'" % implied[1]
             rec[axis + "_labels"] = " | ".join(labels)
             rec[axis + "_method"] = method
             rec[axis + "_evidence"] = evidence
@@ -733,8 +852,9 @@ def run_gene(gene, args, terms, embedder):
     say("  Paper abstracts available: %d papers (%d assays). %s" % (
         len(abstracts), sum(1 for r in records if r.get("abstract")),
         "" if abstracts else "Run m2b_fetch_abstracts.py to add them."))
-    say("  Function implied by the UniProt domains: %s" % (
-        "%s (from domain '%s')" % implied if implied[0] else "none (several or no matching domains)"))
+    say("  Function implied by the UniProt domains or EC number: %s" % (
+        "%s (from %s)" % (implied[0], implied[1] if implied[1].startswith("EC ") else "domain '%s'" % implied[1])
+        if implied[0] else "none (several or no matching domains)"))
     review = label_records(records, terms, embedder, construct_patterns(gene), length, implied)
 
     out = args.out

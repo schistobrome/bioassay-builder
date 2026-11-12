@@ -15,9 +15,13 @@ CATEGORIES = {"biochemical_hts", "cell_functional", "biophysical_binding", "orth
 ROLES = {"primary", "confirmation", "counterscreen"}
 LEVELS = {"very_low", "low", "moderate", "high", "very_high"}
 STAGES = {"primary_screen", "confirmation", "counterscreen", "any"}
-USAGE_EFFECTS = {"any", "inhibition", "activation"}
+# inhibition_labeled / activation_with_unspecified: the same directions with unspecified campaigns left out / added
+USAGE_EFFECTS = {"any", "inhibition", "activation", "inhibition_labeled", "activation_with_unspecified"}
+USAGE_COLUMNS = ["entry_id", "scope_type", "scope_id", "stage", "effect", "readout", "plate", "total", "classifiable",
+                 "using", "lit_total", "lit_using", "score", "level", "low_confidence", "source"]
 ASSAY_EFFECTS = {"", "both", "inhibition", "activation"}
 SCOPES = {"cell-free", "cell-based"}
+MAX_JSON_MB = 15          # docs/assay_db.json above this size gets a warning
 ERRORS, WARNINGS = [], []
 
 
@@ -74,9 +78,10 @@ def main():
 
     cond_path = os.path.join(DATA, "condition_stats.csv")        # optional, written by build_database.py
     conds = []
+    known_entries = {a["entry_id"] for a in assays}             # built once (was rebuilt for every condition row)
     if os.path.exists(cond_path):
         for u in read("condition_stats.csv"):
-            if u["entry_id"] not in {a["entry_id"] for a in assays}:
+            if u["entry_id"] not in known_entries:
                 continue
             def fnum(x): return float(x) if x not in ("", None) else None
             conds.append({"entry_id": u["entry_id"], "scope": {"type": u["scope_type"], "id": u["scope_id"]},
@@ -116,7 +121,9 @@ def main():
     w = config["prevalence"]["weights"]
     levels = config["prevalence"]["levels"]
     min_n = config["prevalence"]["min_campaigns_for_confidence"]
-    stats = []
+    # Usage rows are written as a compact table (schema 0.2): one short list per row, and the long, repeated
+    # source / query / notes text stored once in a lookup list. docs/index.html turns them back into objects.
+    stats, sources, source_index = [], [], {}
     for u in usage:
         where = "usage_stats.csv %s" % (u["stat_id"] or "?")
         if u["entry_id"] not in entry_ids: err("%s: unknown entry '%s'" % (where, u["entry_id"])); continue
@@ -137,20 +144,20 @@ def main():
         plate = rd[6:] if rd.startswith("plate:") else None      # plate-format rows share the readout column
         if plate is not None:
             rd = ""
-        stats.append({
-            "stat_id": u["stat_id"], "entry_id": u["entry_id"],
-            "scope": {"type": u["scope_type"], "id": u["scope_id"]},
-            "stage": u["stage"], "effect": u.get("effect") or "any", "readout": rd or None, "plate": plate,
-            "campaigns": {"total": nt, "classifiable": nc, "using": nu, "share": sc},
-            "literature": {"total": lt, "using": lu, "share": sl},
-            "standardness": {"score": score, "level": level_for(score, levels) if score is not None else None,
-                             "confidence": ("low" if (nc is not None and nc < min_n) or nc is None else "ok")},
-            "source": {"name": u["source"], "query": u["query"], "retrieved_on": u["retrieved_on"] or None, "method_version": u["method_version"] or None},
-            "is_example": u["method_version"] == "example",
-            "notes": u["notes"]})
+        src = (u["source"], u["query"], u["retrieved_on"] or None, u["method_version"] or None, u["notes"])
+        if src not in source_index:
+            source_index[src] = len(sources)
+            sources.append(list(src))
+        stats.append([
+            u["entry_id"], u["scope_type"], u["scope_id"], u["stage"], u.get("effect") or "any", rd or None, plate,
+            nt, nc, nu, lt, lu,
+            round(score, 4) if score is not None else None,
+            level_for(score, levels) if score is not None else None,
+            1 if (nc is None or nc < min_n) else 0,
+            source_index[src]])
 
     out = {
-        "meta": {"schema_version": "0.1", "built_on": date.today().isoformat(),
+        "meta": {"schema_version": "0.2", "built_on": date.today().isoformat(),
                  "last_curated": max([a.get("reviewed_on", "") for a in assays if a.get("reviewed_on")] or [None]),
                  "counts": {"assays": len(assays), "kits": len(kits), "usage_stats": len(stats), "condition_stats": len(conds)},
                  "includes_example_data": bool(args.include_examples)},
@@ -176,7 +183,9 @@ def main():
             "applies_to_entries": lst(k["applies_to_entries"]), "target_scope": k["target_scope"], "format": k["format"],
             "readout": k["readout"], "url": k["url"] or None,
             "verification": {"status": k["status"], "last_checked": k.get("last_checked") or None, "source": k.get("source", "")}} for k in kits],
-        "usage_stats": stats,
+        "usage_stats": {"columns": USAGE_COLUMNS, "rows": stats,
+                        "source_columns": ["name", "query", "retrieved_on", "method_version", "notes"],
+                        "sources": sources},
         "condition_stats": conds,
         "citations": cites,
     }
@@ -187,6 +196,10 @@ def main():
         print("\nNot built: fix the %d error(s) above." % len(ERRORS)); sys.exit(1)
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))      # compact: the usage table is large
+    size_mb = os.path.getsize(args.out) / 1e6
+    if size_mb > MAX_JSON_MB:
+        print("WARNING: %s is %.1f MB (limit we aim for: %d MB). The page will load slowly on phones; see AUDIT.md."
+              % (os.path.relpath(args.out, ROOT), size_mb, MAX_JSON_MB))
     print("Built %s: %d assays, %d kits, %d usage rows, %d condition rows, %d warning(s)." % (os.path.relpath(args.out, ROOT), len(assays), len(kits), len(stats), len(conds), len(WARNINGS)))
 
 

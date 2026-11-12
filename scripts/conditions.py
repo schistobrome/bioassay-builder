@@ -27,16 +27,10 @@ def campaigns_with_conditions(key):
     records, _ = m2.build_records(key, m1.DATA, None)
     if not records:
         return {}
-    original = {}
-    for r in records:
-        if (r.get("source") or "").startswith("PubChem/") and r.get("pubchem_aid"):
-            original[str(r["pubchem_aid"]).strip()] = r.get("campaign") or r["id"]
+    originals = bd.pubchem_originals(records)
     out = {}
     for r in records:
-        camp = r.get("campaign") or r["id"]
-        aid = str(r.get("pubchem_aid") or "").strip()
-        if r.get("source") == "ChEMBL" and aid in original and original[aid] != camp:
-            camp = original[aid]
+        camp = bd.record_campaign(r, originals)
         found = bd.conditions_in(r.get("text"))
         slot = out.setdefault(camp, {})
         for k, v in found.items():

@@ -436,184 +436,60 @@
    }
   },
   "usage_stats": {
-   "type": "array",
-   "description": "How often an assay (or one readout of it) is used. One row per assay x scope x stage (x readout).",
-   "items": {
-    "type": "object",
-    "required": [
-     "entry_id",
-     "scope",
-     "stage",
-     "campaigns"
-    ],
-    "properties": {
-     "stat_id": {
-      "type": "string",
-      "description": ""
-     },
-     "entry_id": {
-      "type": "string",
-      "description": ""
-     },
-     "scope": {
-      "type": "object",
-      "description": "what the counts are about",
-      "properties": {
-       "type": {
-        "enum": [
-         "gene",
-         "function_class"
-        ]
-       },
-       "id": {
-        "type": "string",
-        "description": "gene symbol or class_id"
-       }
-      }
-     },
-     "stage": {
-      "enum": [
-       "primary_screen",
-       "confirmation",
-       "counterscreen",
-       "any"
-      ],
-      "description": "which step of the campaign the assay was used for"
-     },
-     "readout": {
-      "type": [
-       "string",
-       "null"
-      ],
-      "description": "null = the assay as a whole; a technology name = share of that readout"
-     },
-     "campaigns": {
-      "type": "object",
-      "properties": {
-       "total": {
-        "type": [
-         "integer",
-         "null"
-        ],
-        "minimum": 0,
-        "description": "unique HTS campaigns found"
-       },
-       "classifiable": {
-        "type": [
-         "integer",
-         "null"
-        ],
-        "minimum": 0,
-        "description": "of those, campaigns whose assay type could be determined (the denominator)"
-       },
-       "using": {
-        "type": [
-         "integer",
-         "null"
-        ],
-        "minimum": 0,
-        "description": "classifiable campaigns using this assay"
-       },
-       "share": {
-        "type": [
-         "number",
-         "null"
-        ],
-        "minimum": 0,
-        "maximum": 1
-       }
-      }
-     },
-     "literature": {
-      "type": "object",
-      "properties": {
-       "total": {
-        "type": [
-         "integer",
-         "null"
-        ],
-        "minimum": 0,
-        "description": ""
-       },
-       "using": {
-        "type": [
-         "integer",
-         "null"
-        ],
-        "minimum": 0,
-        "description": ""
-       },
-       "share": {
-        "type": [
-         "number",
-         "null"
-        ],
-        "minimum": 0,
-        "maximum": 1
-       }
-      }
-     },
-     "standardness": {
-      "type": "object",
-      "description": "weighted mix of the two shares (weights in config)",
-      "properties": {
-       "score": {
-        "type": [
-         "number",
-         "null"
-        ],
-        "minimum": 0,
-        "maximum": 1
-       },
-       "level": {
-        "enum": [
-         "very_low",
-         "low",
-         "moderate",
-         "high",
-         "very_high",
-         null
-        ]
-       },
-       "confidence": {
-        "enum": [
-         "ok",
-         "low"
-        ]
-       }
-      }
-     },
-     "source": {
-      "type": "object",
-      "properties": {
-       "name": {
-        "type": "string",
-        "description": "pubchem, chembl, europepmc, manual"
-       },
-       "query": {
-        "type": "string",
-        "description": "exact query or file so the number can be reproduced"
-       },
-       "retrieved_on": {
-        "type": [
-         "string",
-         "null"
-        ]
-       },
-       "method_version": {
-        "type": [
-         "string",
-         "null"
-        ]
-       }
-      }
-     },
-     "is_example": {
-      "type": "boolean"
-     },
-     "notes": {
-      "type": "string",
-      "description": ""
+   "type": "object",
+   "description": "How often an assay (or one readout / plate format of it) is used, as a compact table (schema 0.2). Each row is a list in the order of 'columns'. One row per assay x scope x stage x effect view (x readout or plate). docs/index.html expands rows back into objects.",
+   "required": [
+    "columns",
+    "rows",
+    "source_columns",
+    "sources"
+   ],
+   "properties": {
+    "columns": {
+     "const": [
+      "entry_id",
+      "scope_type",
+      "scope_id",
+      "stage",
+      "effect",
+      "readout",
+      "plate",
+      "total",
+      "classifiable",
+      "using",
+      "lit_total",
+      "lit_using",
+      "score",
+      "level",
+      "low_confidence",
+      "source"
+     ],
+     "description": "entry_id; scope_type (gene | function_class); scope_id (gene symbol or class_id); stage; effect (any | inhibition | activation | inhibition_labeled | activation_with_unspecified); readout (technology name or null); plate (96 | 384 | 1536 | low or null); total = unique campaigns found; classifiable = denominator; using = numerator; lit_total, lit_using = literature counts or null; score = weighted share 0-1 or null; level = very_low..very_high or null; low_confidence = 1 when classifiable < min_campaigns_for_confidence; source = index into 'sources'"
+    },
+    "rows": {
+     "type": "array",
+     "items": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16
+     }
+    },
+    "source_columns": {
+     "const": [
+      "name",
+      "query",
+      "retrieved_on",
+      "method_version",
+      "notes"
+     ]
+    },
+    "sources": {
+     "type": "array",
+     "description": "Shared provenance text, stored once. method_version 'example' marks illustrative numbers.",
+     "items": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5
      }
     }
    }
