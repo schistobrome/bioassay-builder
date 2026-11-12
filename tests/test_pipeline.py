@@ -368,5 +368,199 @@ class TestMerge(FakeCache):
         self.assertEqual(kept, 1)
 
 
+# --------------------------------------------------------------------------- labeling fixes (2026-11-11)
+
+class TestMembraneContext(unittest.TestCase):
+    """Membrane preparations and GTPgammaS binding are cell-free, even when the receptor was expressed in cells."""
+
+    def ctx(self, text, bao="", cell_type=""):
+        return bd.m2.context_of(text, bao, cell_type)
+
+    def test_membrane_assays_are_cell_free(self):
+        self.assertEqual(self.ctx("Displacement of [3H]NMS from human M2 receptor expressed in HEK293T cell membranes",
+                                  cell_type="HEK293T"), "cell-free")
+        self.assertEqual(self.ctx("Agonist activity at human S1P2 receptor expressed in CHO cells assessed as induction of "
+                                  "[35S]GTPgammaS binding", cell_type="CHO"), "cell-free")
+        self.assertEqual(self.ctx("Agonist-stimulated GTPγS binding", cell_type="CHO"), "cell-free")
+        self.assertEqual(self.ctx("Binding affinity to human CB1 receptor", bao="cell membrane format", cell_type="CHO"),
+                         "cell-free")
+
+    def test_cell_assays_stay_cell_based(self):
+        self.assertEqual(self.ctx("Inhibition of hERG measured by membrane potential dye in HEK293 cells"), "cell-based")
+        self.assertEqual(self.ctx("Displacement of [3H]ligand from receptor in intact CHO cells membranes"), "cell-based")
+        self.assertEqual(self.ctx("Agonist activity at receptor expressed in CHO cells assessed as cAMP accumulation",
+                                  cell_type="CHO"), "cell-based")
+        self.assertEqual(self.ctx("Kinase activity of enzyme expressed in Sf9 cells"), "cell-free")       # unchanged rule
+        # ChEMBL's loose "expressed in ... cell membrane" on ordinary cell assays (real examples)
+        self.assertEqual(self.ctx("Activation of human TRPV4 expressed in HEK293T cell membrane at 30 uM in presence of GSK",
+                                  cell_type="HEK293T"), "cell-based")
+        self.assertEqual(self.ctx("Antagonist activity at human mGlu1 expressed in AV12 cell membrane assessed as reduction "
+                                  "in glutamate-induced calcium influx", cell_type="AV12"), "cell-based")
+        self.assertEqual(self.ctx("Antagonist activity at human S1P2 receptor expressed in CHO cell membrane by FLIPR assay",
+                                  cell_type="CHO"), "cell-based")
+        self.assertEqual(self.ctx("Corrector activity at CFTR expressed in CFBE41o- cells assessed as restoration of "
+                                  "plasma membrane density", bao="cell membrane format", cell_type="CFBE41o-"), "cell-based")
+        self.assertEqual(self.ctx("Cell membrane integrity measured by LDH release in HepG2 cells"), "cell-based")
+        # GTPgammaS binding is a membrane assay even when the text says "uptake"
+        self.assertEqual(self.ctx("Activity at S1P2 receptor expressed in CHO cells measured as S1P-induced "
+                                  "[35S]GTP-gamma-S uptake", cell_type="CHO"), "cell-free")
+
+    def test_rules_version_is_part_of_the_label_cache_key(self):
+        self.assertTrue(bd.label_hash().endswith(bd.m2.RULES_VERSION))
+
+
+class TestTermTableFixes(unittest.TestCase):
+    """Reads scripts/term_table.csv (read-only) and checks the 2026-11-11 synonym fixes."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.terms = bd.m2.load_terms()
+
+    def hits(self, axis, text):
+        return set(bd.m2.rule_match(self.terms, axis, bd.m2.norm(text)))
+
+    def test_tritiated_displacement_is_radioligand_binding(self):
+        text = "Displacement of [3H]-(S)-ligand from human OX1R expressed in CHOK1 cells"
+        self.assertIn("Radioligand binding", self.hits("technology", text))
+        self.assertIn("Receptor radioligand binding", self.hits("function", text))
+        self.assertIn("Radioligand binding", self.hits("technology", "Displacement of [125I]-CXCL12 from CXCR4"))
+        self.assertNotIn("Radioligand binding", self.hits("technology", "[3H]thymidine incorporation in cells"))
+
+    def test_ip_one_has_a_function_label(self):
+        self.assertIn("Inositol phosphate accumulation", self.hits("function", "Agonist activity by IP-One HTRF assay"))
+        self.assertIn("Inositol phosphate accumulation", self.hits("function", "assessed as IP1 accumulation"))
+        self.assertIn("Inositol phosphate accumulation",
+                      self.hits("function", "assessed as stimulation of [3H]inositol phosphates accumulation"))
+        # enzyme assays on inositol phosphates must not get this cell-only label
+        self.assertNotIn("Inositol phosphate accumulation",
+                         self.hits("function", "Inhibition of SHIP1 inositol phosphate 5-phosphatase activity"))
+        self.assertNotIn("Inositol phosphate accumulation",
+                         self.hits("function", "Inhibition of inositol trisphosphate 3-kinase ITPKA"))
+
+    def test_discoverx_is_not_kinomescan(self):
+        t = self.hits("technology", "PathHunter beta-arrestin assay (DiscoverX)")
+        self.assertNotIn("KINOMEscan competition binding", t)
+        self.assertIn("Enzyme fragment complementation", t)
+        self.assertIn("Enzyme fragment complementation", self.hits("technology", "cAMP measured by HitHunter assay"))
+        self.assertIn("KINOMEscan competition binding", self.hits("technology", "DiscoverX KINOMEscan panel"))
+
+    def test_erk_phosphorylation_is_cellular_signaling(self):
+        self.assertIn("Cellular signaling", self.hits("function", "assessed as ERK1/2 phosphorylation by AlphaScreen SureFire"))
+
+
+class TestEcImpliedFunction(unittest.TestCase):
+    """2026-11-12: when no UniProt domain names a function term, the EC number may (one clear term, or nothing)."""
+    NAMES = {"Kinase activity", "Protease activity", "Exonuclease / nuclease activity", "Helicase unwinding",
+             "Cytochrome P450 activity", "Phosphodiesterase activity", "Enzyme activity",
+             "DNA / RNA methyltransferase activity", "Deubiquitinase activity"}
+
+    def test_ec_mapping(self):
+        f = bd.m2.ec_implied
+        self.assertEqual(f(["1.14.14.1", "1.14.14.55"], self.NAMES), "Cytochrome P450 activity")     # CYP3A4
+        self.assertEqual(f(["3.1.4.35"], self.NAMES), "Phosphodiesterase activity")                    # PDE5A
+        self.assertEqual(f(["4.2.1.1"], self.NAMES), "Enzyme activity")                                # carbonic anhydrase
+        self.assertEqual(f(["3.4.19.12"], self.NAMES), "Deubiquitinase activity")                      # USP7, not protease
+        self.assertIsNone(f(["3.6.5.2"], self.NAMES))                       # KRAS: no activity is implied
+        self.assertIsNone(f(["7.6.2.2"], self.NAMES))                       # ABC transporter
+        self.assertIsNone(f(["2.7.11.1", "3.4.21.5"], self.NAMES))          # two different activities: nothing
+        self.assertIsNone(f([], self.NAMES))
+        self.assertEqual(f(["2.1.1.37"], self.NAMES), "DNA / RNA methyltransferase activity")        # DNMT1
+        self.assertEqual(f(["2.1.1.370"], self.NAMES | {"Histone methyltransferase activity"}),
+                         "Histone methyltransferase activity")             # exact match: NSD3 is an HMT, not a DNMT
+        self.assertEqual(f(["2.7.1.153"], self.NAMES), "Kinase activity")  # PI3K: lipid kinase
+        self.assertIsNone(f(["1.14.14.1"], {"Kinase activity"}))             # term not in the table: nothing
+
+    def test_domain_still_wins_and_ec_only_fills_gaps(self):
+        terms = bd.m2.load_terms()
+        tmp = tempfile.mkdtemp()
+        try:
+            def entry(acc, domains, ecs):
+                write_json(os.path.join(tmp, "uniprot_%s.json" % acc), {
+                    "features": [{"type": "Domain", "description": d} for d in domains],
+                    "proteinDescription": {"recommendedName": {"ecNumbers": [{"value": e} for e in ecs]}}})
+            entry("K", ["Protein kinase"], ["2.7.11.1"])
+            entry("W", ["Helicase ATP-binding", "3'-5' exonuclease"], ["3.6.4.12", "3.1.11.1"])
+            entry("C", [], ["4.2.1.1"])
+            self.assertEqual(bd.m2.implied_function(terms, tmp, "K")[0], "Kinase activity")
+            self.assertIsNone(bd.m2.implied_function(terms, tmp, "W")[0])       # WRN-like: several domains, no guess
+            name, detail = bd.m2.implied_function(terms, tmp, "C")
+            if "Enzyme activity" in {t.name for t in terms}:
+                self.assertEqual((name, detail), ("Enzyme activity", "EC 4.2.1.1"))
+            else:
+                self.assertIsNone(name)
+        finally:
+            shutil.rmtree(tmp)
+
+
+class TestClassRules(FakeCache):
+    """Class rules (2026-11-11): needs_domain means domain AND another match; classes are recomputed at aggregate."""
+    RECEPTOR = {"class_id": "receptor_ectodomain", "label": "Receptor", "ec_prefixes": "", "keywords": "receptor",
+                "go_terms": "receptor activity", "domain_patterns": "extracellular", "needs_domain": "yes",
+                "modality": "", "excludes": "", "notes": ""}
+    KINASE = {"class_id": "protein_kinase", "label": "Kinase", "ec_prefixes": "2.7.11", "keywords": "",
+              "go_terms": "", "domain_patterns": "", "needs_domain": "no", "modality": "", "excludes": "", "notes": ""}
+
+    @staticmethod
+    def info(keywords=(), go=(), ecs=(), extracellular=True):
+        feats = [{"type": "Topological domain", "description": "Extracellular", "start": 1, "end": 100}] if extracellular else []
+        return {"ecs": list(ecs), "keywords": list(keywords), "go": list(go), "features": feats}
+
+    def test_extracellular_region_alone_is_not_a_receptor(self):
+        cls = [self.RECEPTOR]
+        self.assertNotIn("receptor_ectodomain", bd.m4.classify(self.info(), cls))                     # e.g. an aquaporin
+        self.assertIn("receptor_ectodomain", bd.m4.classify(self.info(keywords=["Receptor"]), cls))  # real receptor
+        self.assertNotIn("receptor_ectodomain", bd.m4.classify(self.info(keywords=["Receptor"], extracellular=False), cls))
+
+    def test_aggregate_recomputes_classes_from_cached_uniprot(self):
+        bd_m1 = bd.m1.DATA
+        bd.m1.DATA = os.path.join(bd.CACHE, "m1_data")
+        try:
+            write_json(os.path.join(bd.m1.DATA, "uniprot_P1.json"),
+                       {"proteinDescription": {"recommendedName": {"ecNumbers": [{"value": "2.7.11.1"}]}}})
+            # the stored summary says "ion_channel", but the cached UniProt entry makes it a kinase under today's rules
+            self.summary("P1", "KIN1", [camp("doc:D1", t=["TR-FRET"])], classes=("ion_channel",))
+            args = argparse.Namespace(min_readout=2, suggest_min=1, no_bindingdb=False)
+            res = bd.aggregate(args, ASSAYS, [self.KINASE], "2026-01-01")
+            self.assertEqual(res["reclassed"], 1)
+            rows = self.usage()
+            self.assertTrue(any(r["entry_id"] == "K1" and r["scope_type"] == "gene" for r in rows))
+        finally:
+            bd.m1.DATA = bd_m1
+
+
+class TestCellFreeFunctions(FakeCache):
+    """A campaign with a membrane binding assay AND a cell assay counts for cell-free entries too."""
+
+    def test_dedupe_keeps_cell_free_functions_and_technologies(self):
+        recs = [{"id": "a1", "campaign": "doc:D1", "context": "cell-free", "function_labels": "Kinase activity",
+                 "technology_labels": "TR-FRET", "effect": "inhibition", "role": ""},
+                {"id": "a2", "campaign": "doc:D1", "context": "cell-based", "function_labels": "Cell proliferation / viability",
+                 "technology_labels": "Luminescence", "effect": "inhibition", "role": ""}]
+        (c,), _ = bd.dedupe_campaigns(recs)
+        self.assertEqual(c["x"], "cell-based")                         # unchanged: any cell record makes it cell-based
+        self.assertEqual(c["ff"], ["Kinase activity"])
+        self.assertEqual(c["tf"], ["TR-FRET"])
+
+    def test_old_summaries_without_ff_behave_as_before(self):
+        self.assertEqual(bd.cell_free_functions(camp("x", x="cell-based")), set())
+        self.assertEqual(bd.cell_free_functions(camp("x", x="cell-free")), {"Kinase activity"})
+        merged = bd.merge_campaign_lists([camp("pc:1", x="cell-based")], [camp("pc:1", x="cell-free")])
+        self.assertEqual(merged[0]["x"], "cell-based")
+        self.assertEqual(merged[0]["ff"], ["Kinase activity"])         # the cell-free copy keeps its function
+
+    def test_mixed_campaign_counts_for_cell_free_entry_with_cell_free_technologies_only(self):
+        mixed = dict(camp("doc:D2", f=["Kinase activity", "Cell proliferation / viability"], t=["TR-FRET", "Luminescence"],
+                          x="cell-based"), ff=["Kinase activity"], tf=["TR-FRET"])
+        self.summary("P1", "KIN1", [camp("doc:D1", t=["TR-FRET"]), mixed])
+        self.run_aggregate()
+        rows = self.usage()
+        top = {(r["entry_id"], r["effect"]): r for r in rows if r["scope_type"] == "gene" and not r["readout"]}
+        self.assertEqual(top[("K1", "inhibition")]["n_campaigns_using"], "2")    # cell-free entry: both campaigns
+        self.assertEqual(top[("K2", "inhibition")]["n_campaigns_using"], "1")    # cell-based entry: only the mixed one
+        k1_reads = {r["readout"] for r in rows if r["entry_id"] == "K1" and r["scope_type"] == "gene" and r["readout"]
+                    and not r["readout"].startswith("plate:")}
+        self.assertEqual(k1_reads, {"TR-FRET"})                                  # no cell-assay technology leaks in
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -210,7 +210,7 @@ def main(argv=None):
 
     added = bd.ensure_terms()
     terms = m2.load_terms()
-    term_hash = bd.file_hash(m2.TERM_TABLE) + ("r" if args.rules_only else "m") + \
+    term_hash = bd.label_hash() + ("r" if args.rules_only else "m") + \
         ("L" if args.no_literature else "") + str(args.max_assays_per_protein)
     embedder = bd.EmbedderBox(not args.rules_only)
     bd.log.handle = None

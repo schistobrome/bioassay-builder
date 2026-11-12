@@ -374,7 +374,9 @@ EXTRA_TERMS = [
     ("function", "Nuclear receptor coactivator recruitment", "coactivator recruitment|coactivator peptide|nuclear receptor coactivator|src-1 peptide|ligand binding domain coactivator|lbd coactivator", "Recruitment of a fluorescent coactivator peptide to the ligand-binding domain measured by TR-FRET", "", "any"),
     ("function", "RNA-protein binding", "rna binding|rna-protein|rna protein interaction|rna recognition|riboswitch|rna aptamer", "Inhibition of protein binding to a fluorescent RNA oligonucleotide", "", "any"),
     ("function", "G-protein activation (GTPgammaS)", "gtpgammas|gtp gamma s|35s gtp|eu-gtp|g protein activation|g-protein activation", "Agonist-stimulated [35S]GTPgammaS binding in receptor membranes", "", "any"),
-    ("function", "Receptor radioligand binding", "radioligand binding|radioligand displacement|competition binding membranes|ligand binding membranes|tritiated ligand|3h ligand|3h labeled|125i ligand|scintillation proximity binding", "Displacement of [3H]-ligand from membranes expressing the receptor", "", "any"),
+    ("function", "Receptor radioligand binding", "radioligand binding|radioligand displacement|competition binding membranes|ligand binding membranes|tritiated ligand|3h ligand|3h labeled|125i ligand|scintillation proximity binding|displacement of 3h|displacement of 125i|binding of 3h|binding of 125i|3h binding|125i binding", "Displacement of [3H]-ligand from membranes expressing the receptor", "", "any"),
+    ("function", "Inositol phosphate accumulation", "ip one|ipone|ip1 accumulation|ip1 production|ip1 formation|ip1 levels|accumulation of ip1|inositol monophosphate accumulation|inositol 1 phosphate accumulation|inositol phosphate accumulation|inositol phosphates accumulation|accumulation of inositol phosphate|accumulation of inositol phosphates|inositol phosphate production|inositol phosphate formation|inositol phosphates formation|ip3 accumulation|phosphoinositide hydrolysis|phosphoinositide turnover|pi turnover", "Agonist-induced accumulation of inositol monophosphate (IP1) in the presence of LiCl, measured by HTRF IP-One", "", "cell-based"),
+    ("function", "ADP-ribosyltransferase activity", "parp activity|parp1 activity|parp2 activity|parp enzyme|parp inhibition|inhibition of parp|inhibition of parp1|inhibition of parp2|inhibition of human parp|inhibition of human parp1|parp1 inhibition|parp2 inhibition|parylation|poly adp ribose|poly adp ribosylation|adp ribosylation|adp ribosyltransferase|par formation|tankyrase|tnks1|tnks2|mono adp ribosyltransferase", "Inhibition of PARP1 activity measured by incorporation of biotinylated NAD+ onto histones", "", "any"),
     ("function", "cAMP signaling", "camp accumulation|camp assay|cyclic amp|intracellular camp|camp levels|camp production|camp htrf|glosensor camp|forskolin", "Agonist-induced cAMP accumulation in HEK293 cells expressing the receptor", "", "cell-based"),
     ("function", "Calcium mobilization", "calcium mobilization|calcium flux|intracellular calcium|calcium release|fluo-4|fluo4|flipr calcium|fura-2|ca2+ mobilization|calcium signaling assay", "Agonist-induced intracellular calcium mobilization measured with Fluo-4", "", "cell-based"),
     ("function", "Beta-arrestin recruitment", "beta-arrestin|b-arrestin|beta arrestin|arrestin recruitment|pathhunter|tango assay|arrestin translocation", "Beta-arrestin recruitment measured by enzyme fragment complementation", "", "cell-based"),
@@ -388,13 +390,37 @@ EXTRA_TERMS = [
     ("function", "Autophagic flux", "autophagic flux|lc3 puncta|mcherry-gfp-lc3|autophagy flux|autophagosome|lc3 turnover", "Autophagic flux measured by tandem mCherry-GFP-LC3 imaging", "", "cell-based"),
     ("technology", "Luminescent HDAC assay", "hdac-glo|hdac glo|luminogenic hdac|luminescent hdac", "HDAC-Glo I/II luminescent assay", "", "any"),
     ("technology", "Fluorescent calcium dye", "fluo-4|fluo4|fura-2|calcium dye|fluorescent calcium|flipr|fdss|calcium 5 dye|calcium 6", "FLIPR calcium dye readout", "", "cell-based"),
-    ("technology", "Enzyme fragment complementation", "enzyme fragment complementation|efc|pathhunter|hibit complementation|beta-galactosidase complementation", "PathHunter enzyme fragment complementation readout", "", "any"),
+    ("technology", "Enzyme fragment complementation", "enzyme fragment complementation|efc|pathhunter|hithunter|camp hunter|hibit complementation|beta-galactosidase complementation", "PathHunter enzyme fragment complementation readout", "", "any"),
     ("technology", "BRET / NanoBRET", "bret|nanobret|bioluminescence resonance energy transfer|nanoluc", "NanoBRET target engagement", "", "cell-based"),
     ("technology", "Automated patch clamp", "automated patch clamp|patch clamp|qpatch|patchxpress|syncropatch|synchropatch|ionworks|ionflux|whole-cell recording", "Automated patch clamp recording", "", "cell-based"),
     ("technology", "Membrane potential dye", "membrane potential dye|fmp dye|flipr membrane potential|voltage sensitive dye|dibac|fluorescent membrane potential", "FLIPR membrane potential dye", "", "cell-based"),
-    ("technology", "Radioligand binding", "radioligand|scintillation proximity|spa beads|filtration binding|tritiated|3h ligand|125i ligand", "Scintillation proximity radioligand binding", "", "any"),
+    ("technology", "Radioligand binding", "radioligand|scintillation proximity|spa beads|filtration binding|tritiated|3h ligand|125i ligand|displacement of 3h|displacement of 125i|binding of 3h|binding of 125i|3h binding|125i binding|radiolabeled ligand|radiolabelled ligand", "Scintillation proximity radioligand binding", "", "any"),
     ("technology", "High-content imaging", "high content|high-content|operetta|incell analyzer|cellomics|immunofluorescence", "High-content imaging readout", "", "cell-based"),
+    # 2026-11-12 (review chunk 06): terms for the new classes (small GTPase, PDE, CYP, other enzymes, KAT, DNMT,
+    # chromatin readers, aggregation, cytokines). "Enzyme activity" is also implied by a protein's EC number (m2.EC_IMPLIES).
+    ("function", "Enzyme activity", "enzyme activity|enzymatic activity|catalytic activity|ellman|ellman s method|co2 hydration|co2 hydrase|stopped flow co2|substrate conversion|product formation|initial velocity|lineweaver burk|michaelis menten", "Inhibition of human carbonic anhydrase II measured by stopped-flow CO2 hydration", "", "any"),
+    ("function", "Cellular enzyme activity", "whole blood assay|human whole blood|pge2 production|pge2 release|pge2 formation|prostaglandin e2 production|kynurenine production|kynurenine levels|kynurenine formation|2 hydroxyglutarate|2 hg production|2 hg levels|ltb4 production|leukotriene b4 production|txb2 production|thromboxane b2 production|nitrite production|nitric oxide production|cellular enzyme activity|intracellular enzyme activity", "Inhibition of IDO1 in HeLa cells measured as kynurenine production", "", "cell-based"),
+    ("function", "Cytochrome P450 activity", "cytochrome p450|p450|cyp450|cyp1a1|cyp1a2|cyp1b1|cyp2a6|cyp2b6|cyp2c8|cyp2c9|cyp2c19|cyp2d6|cyp2e1|cyp2j2|cyp3a|cyp3a4|cyp3a5|cyp11b1|cyp11b2|cyp17a1|cyp19a1|aromatase|p450 glo|midazolam 1 hydroxylation|testosterone 6beta hydroxylation|bufuralol|dextromethorphan o demethylation|phenacetin o deethylation|diclofenac 4 hydroxylation|tolbutamide hydroxylation|mephenytoin", "Inhibition of CYP3A4 in human liver microsomes measured as midazolam 1'-hydroxylation by LC-MS/MS", "", "any"),
+    ("function", "CYP induction", "induction of cyp1a2|induction of cyp3a4|induction of cyp2b6|cyp1a2 induction|cyp3a4 induction|cyp2b6 induction|cyp induction|enzyme induction|pxr activation|pxr transactivation|pxr reporter|car activation|ahr activation", "Induction of CYP3A4 mRNA in cultured human hepatocytes", "", "cell-based"),
+    ("function", "Phosphodiesterase activity", "phosphodiesterase|pde activity|camp hydrolysis|cgmp hydrolysis|pde1|pde1a|pde1b|pde1c|pde2|pde2a|pde3|pde3a|pde3b|pde4|pde4a|pde4b|pde4b2|pde4c|pde4d|pde4d2|pde4d3|pde5|pde5a|pde6|pde6c|pde7|pde7a|pde7b|pde8|pde8a|pde8b|pde9|pde9a|pde10|pde10a|pde11|pde11a|pde glo|3h camp|3h cgmp", "Inhibition of PDE4B hydrolysis of fluorescent cAMP measured by fluorescence polarization", "", "any"),
+    ("function", "Nucleotide exchange", "nucleotide exchange|sos1 mediated|sos mediated|sos1 catalyzed|sos catalyzed|sos1 catalysed|gdp gtp exchange|gdp to gtp exchange|bodipy gdp|bodipy fl gdp|mant gdp|mant gtp|gppnhp|gtp loading|nucleotide loading|exchange factor activity|gef activity|edta mediated exchange", "Inhibition of SOS1-mediated exchange of BODIPY-GDP for GTP on KRAS G12C", "", "any"),
+    ("function", "GTPase activity", "gtpase activity|gtp hydrolysis|intrinsic gtpase|gap stimulated|gap mediated hydrolysis|gtpase glo", "GTP hydrolysis by the GTPase measured as phosphate release", "", "any"),
+    ("function", "Histone acetyltransferase activity", "histone acetyltransferase|acetyltransferase activity|hat activity|hat assay|p300 hat|cbp hat|p300 cbp hat|kat6a|kat6b|kat5|kat7|kat8|tip60|hbo1|myst", "Inhibition of p300 HAT activity measured by acetylation of a histone H3 peptide", "", "any"),
+    ("function", "DNA / RNA methyltransferase activity", "dna methyltransferase|dnmt|dnmt1|dnmt3a|dnmt3b|cpg methylation|hemimethylated dna|rna methyltransferase|m6a methyltransferase|mettl3|mettl14|mettl16|n6 methyladenosine", "Inhibition of DNMT1 methylation of a hemimethylated DNA substrate", "Histone methyltransferase activity", "any"),
+    ("function", "Chromatin reader binding", "chromodomain|chromo domain|cbx2|cbx4|cbx6|cbx7|cbx8|mbt domain|l3mbtl1|l3mbtl3|pwwp|yeats|enl yeats|af9 yeats|mllt1|mllt3|tudor domain|spindlin1|methyllysine reader|methyl lysine reader|kme reader|h3k9me3 peptide|h3k27me3 peptide|h4k20me2 peptide", "Displacement of a trimethyl-lysine histone peptide from the CBX7 chromodomain by AlphaScreen", "", "any"),
+    ("function", "Cytokine release", "il 1beta release|il 1b release|il1b release|il 1 release|il 1beta secretion|il 1 secretion|il 1beta production|il 1 production|tnf alpha release|tnf alpha production|tnfa release|tnfa production|tnf release|tnf production|il 6 release|il 6 production|il6 production|il 8 release|il 2 production|ifn gamma production|ifn gamma release|cytokine release|cytokine production|cytokine secretion", "Inhibition of LPS-induced IL-1beta release from human monocytes", "", "cell-based"),
+    ("function", "Protein aggregation", "amyloid aggregation|abeta aggregation|beta amyloid aggregation|amyloid beta aggregation|abeta42 aggregation|abeta 42 aggregation|42 aggregation|40 aggregation|peptide aggregation|tau aggregation|alpha synuclein aggregation|synuclein aggregation|protein aggregation|self aggregation|self induced aggregation|fibril formation|fibrillization|fibrillation|thioflavin|tht fluorescence|tht assay|tetramer stabilization|tetramer dissociation|ttr stabilization|ttr tetramer|amyloid fibril|aggregation of amyloid|aggregation of tau|aggregation of alpha synuclein|aggregation of abeta|disaggregation", "Inhibition of amyloid beta 1-42 self-aggregation measured by thioflavin T fluorescence", "", "any"),
+    ("function", "Amyloid-beta production", "abeta42 production|abeta 42 production|abeta40 production|abeta 40 production|abeta production|abeta secretion|abeta42 secretion|abeta levels|amyloid beta production|amyloid beta secretion|amyloid beta 1 42 production|amyloid beta 1 40 production|amyloid beta 1 42 secretion|amyloid beta 1 42 release|abeta 1 42 production|sappbeta|sapp beta", "Reduction of amyloid beta 1-42 secreted by HEK293 cells expressing APP, measured by ELISA", "", "cell-based"),
+    ("technology", "Luminescent Glo assay", "p450 glo|pde glo|mao glo|mtase glo|gtpase glo|nad nadh glo|nadp nadph glo|amp glo|luciferin based|luminogenic substrate|luciferin ipa|luciferin be|luciferin h", "P450-Glo luminogenic substrate assay", "", "any"),
+    ("technology", "Absorbance / colorimetric", "absorbance|colorimetric|spectrophotometric|spectrophotometrically|ellman|dtnb|stopped flow|phenol red|p nitrophenyl|pnpp|malachite green", "Ellman colorimetric assay read at 412 nm", "", "any"),
+    ("technology", "Fluorescent nucleotide (BODIPY / mant)", "bodipy gdp|bodipy fl gdp|bodipy gtp|mant gdp|mant gtp|mant atp", "Nucleotide exchange followed with BODIPY-FL-GDP fluorescence", "", "any"),
 ]
+
+
+def label_hash():
+    """Cache key for labels: the term table's contents plus the version of the labeling rules in m2_label.py.
+    Editing either one makes the next run relabel from the files already downloaded (no downloads)."""
+    return file_hash(m2.TERM_TABLE) + getattr(m2, "RULES_VERSION", "")
 
 
 def ensure_terms():
@@ -950,16 +976,38 @@ def dedupe_campaigns(labeled):
         camp = record_campaign(r, original)
         if camp != (r.get("campaign") or r["id"]):
             merged += 1
-        c = camps.setdefault(camp, {"f": set(), "t": set(), "e": [], "x": set(), "r": set()})
+        c = camps.setdefault(camp, {"f": set(), "t": set(), "e": [], "x": set(), "r": set(), "ff": set(), "tf": set()})
         c["f"].update(split(r.get("function_labels")))
         c["t"].update(split(r.get("technology_labels")))
         c["e"].append(r.get("effect", ""))
         c["x"].add(r.get("context", ""))
         c["r"].add(r.get("role", ""))
+        if r.get("context") == "cell-free":
+            c["ff"].update(split(r.get("function_labels")))
+            c["tf"].update(split(r.get("technology_labels")))
+    # "x" is cell-based if ANY record is (unchanged). "ff" / "tf" = functions / technologies of the campaign's CELL-FREE
+    # records, so a paper with both a membrane binding assay and a cell assay still counts for cell-free entries,
+    # with only its cell-free technologies (see using_for).
     campaigns = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
-                  "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"])}
+                  "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]),
+                  "ff": sorted(v["ff"]), "tf": sorted(v["tf"])}
                  for k, v in camps.items()]
     return campaigns, merged
+
+
+def cell_free_functions(c):
+    """Functions a campaign measured cell-free. Summaries written before Nov 2026 have no 'ff':
+    then a cell-free campaign's functions all count and a cell-based one's do not (the old rule)."""
+    if "ff" in c:
+        return set(c["ff"])
+    return set(c.get("f") or []) if c.get("x") != "cell-based" else set()
+
+
+def cell_free_technologies(c):
+    """Technologies of a campaign's cell-free records (same fallback as cell_free_functions)."""
+    if "tf" in c:
+        return set(c["tf"])
+    return set(c.get("t") or []) if c.get("x") != "cell-based" else set()
 
 
 def scope_of(row, key, counts):
@@ -1113,14 +1161,18 @@ def merge_campaign_lists(a, b):
         m = out.get(c["c"])
         if m is None:
             out[c["c"]] = {"c": c["c"], "f": set(c["f"]), "t": set(c["t"]), "e": [c["e"]], "x": {c["x"]}, "r": set(c.get("r", [])),
-                           "p": set(c.get("p", [])), "k": dict(c.get("k") or {})}
+                           "p": set(c.get("p", [])), "k": dict(c.get("k") or {}), "ff": cell_free_functions(c),
+                           "tf": cell_free_technologies(c)}
         else:
             m["f"].update(c["f"]); m["t"].update(c["t"]); m["e"].append(c["e"]); m["x"].add(c["x"]); m["r"].update(c.get("r", []))
             m["p"].update(c.get("p", []))
+            m["ff"].update(cell_free_functions(c))
+            m["tf"].update(cell_free_technologies(c))
             for key, val in (c.get("k") or {}).items():
                 m["k"].setdefault(key, val)
     return [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
-             "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]), "p": sorted(v["p"]), "k": v["k"]}
+             "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]), "p": sorted(v["p"]), "k": v["k"],
+             "ff": sorted(v["ff"]), "tf": sorted(v["tf"])}
             for k, v in out.items()]
 
 
@@ -1286,6 +1338,16 @@ def aggregate(args, assays, classes_rows, stamp):
                  (os.path.join(SUMMARY, f) for f in sorted(os.listdir(SUMMARY)) if f.endswith(".json"))] \
         if os.path.isdir(SUMMARY) else []
     summaries = [s for s in summaries if s]
+    # Classes are recomputed from each protein's cached UniProt entry, so edits to data/function_classes.csv take
+    # effect with --aggregate-only (no relabeling, no downloads). Without a cached entry the stored classes are kept.
+    n_reclassed = 0
+    if classes_rows:
+        for s in summaries:
+            entry = read_json(os.path.join(m1.DATA, "uniprot_%s.json" % s["acc"]))
+            if entry:
+                new = [c for c in m4.classify(m4.summarize_entry(entry), classes_rows) if c != "generic"]
+                n_reclassed += new != s.get("classes")
+                s["classes"] = new
     n_plates = 0
     for s in summaries:                                         # plate formats found by plate_formats.py
         pl = read_json(os.path.join(PLATES_DIR, safe(s["acc"]) + ".json"))
@@ -1336,8 +1398,12 @@ def aggregate(args, assays, classes_rows, stamp):
                 continue                          # a kinase assay is not "used" for a protein that is not a kinase
             scope_text = (a.get("scope") or "").lower()
             want_cell = "cell-based" in scope_text and "free" not in scope_text
-            # a cell-based assay entry is only counted from cell-based campaigns, and a cell-free one from cell-free
-            using = [c for c in classifiable if wanted & set(c["f"]) and (c.get("x") == "cell-based") == want_cell]
+            # a cell-based assay entry is counted from cell-based campaigns; a cell-free one from the functions a campaign
+            # measured cell-free (so a paper with a membrane binding assay AND a cell assay counts for both kinds of entry)
+            if want_cell:
+                using = [c for c in classifiable if wanted & set(c["f"]) and c.get("x") == "cell-based"]
+            else:
+                using = [c for c in classifiable if wanted & cell_free_functions(c)]
             if using:
                 yield a, wanted, using
 
@@ -1372,8 +1438,11 @@ def aggregate(args, assays, classes_rows, stamp):
             tail = [source, "functions: " + "; ".join(sorted(wanted)), today, version, AUTO_ROW_NOTE + note_extra]
             sid = "%s-%s-%s" % (scope_id, a["entry_id"], EFFECT_SHORT[effect])
             out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""] + [total, len(classifiable), len(using), "", ""] + tail)))
-            tech = collections.Counter(t for c in using for t in set(c["t"]))
-            n_tech = sum(1 for c in using if c["t"])
+            # technologies: for a cell-free entry only those of the campaigns' cell-free records count
+            cell_entry = "cell-based" in (a.get("scope") or "").lower() and "free" not in (a.get("scope") or "").lower()
+            techs_of = (lambda c: set(c["t"])) if cell_entry else cell_free_technologies
+            tech = collections.Counter(t for c in using for t in techs_of(c))
+            n_tech = sum(1 for c in using if techs_of(c))
             for t, n in tech.most_common():
                 if n < args.min_readout and len(tech) >= 5:
                     continue                      # one-off technology labels are mostly text noise
@@ -1459,7 +1528,7 @@ def aggregate(args, assays, classes_rows, stamp):
               ["class_id", "function_label", "technology", "n_campaigns", "n_proteins_in_class",
                "playbook_entries_listing_it", "suggestion"])
     no_labels = [a["entry_id"] for a in assays if not (a.get("evidence_labels") or a.get("evidence_function"))]
-    return {"proteins": len(summaries), "with_bindingdb": n_bdb, "with_plates": n_plates, "with_conditions": n_conds, "condition_rows": len(cond_rows), "rows": len(unique),
+    return {"proteins": len(summaries), "reclassed": n_reclassed, "with_bindingdb": n_bdb, "with_plates": n_plates, "with_conditions": n_conds, "condition_rows": len(cond_rows), "rows": len(unique),
             "suggestions": sum(1 for s in suggestions if s["suggestion"] != "covered"),
             "entries_without_evidence_labels": no_labels}
 
@@ -1548,7 +1617,10 @@ def merge_into_data(replace_m2):
     pruned = 0
     final = []
     for r in existing:
-        if is_auto(r) and key_of(r) not in gen_keys and (r["scope_type"], r["scope_id"]) in regenerated:
+        # function-class rows are always fully regenerated (every class, every build), so an automatic class row the
+        # build no longer produces is out of date, including rows of a class that was retired or lost its members
+        if is_auto(r) and key_of(r) not in gen_keys and ((r["scope_type"], r["scope_id"]) in regenerated
+                                                         or r["scope_type"] == "function_class"):
             pruned += 1
             continue
         final.append(r)
@@ -1741,7 +1813,7 @@ def main(argv=None):
             log("  term table: added %d new terms for the wider playbook (see notes column)" % added)
         terms = m2.load_terms()
         embedder = EmbedderBox(not args.rules_only)
-        ctx = {"terms": terms, "term_hash": file_hash(m2.TERM_TABLE) + ("r" if args.rules_only else "m"),
+        ctx = {"terms": terms, "term_hash": label_hash() + ("r" if args.rules_only else "m"),
                "embedder": embedder, "abstracts": m2.load_abstracts(m1.DATA), "chembl_map": chembl_map,
                "classes_rows": classes_rows, "net_failures": 0, "net_failed": [], "scopes": scopes,
                "refresh": {g.strip().upper() for g in (args.refresh or "").split(",") if g.strip()},
@@ -1818,6 +1890,7 @@ def main(argv=None):
         res = aggregate(args, assays, classes_rows, stamp)
         log("  %d proteins summarized (%d with BindingDB campaigns) -> %d de-duplicated usage rows (build_output/usage_stats.generated.csv)"
             % (res["proteins"], res["with_bindingdb"], res["rows"]))
+        log("  function classes recomputed from data/function_classes.csv: %d proteins changed class" % res["reclassed"])
         log("  plate formats read for %d proteins%s" % (res["with_plates"], "" if res["with_plates"] else
             " (run scripts/plate_formats.py first to add them)"))
         log("  assay conditions read for %d proteins -> %d condition rows (build_output/condition_stats.generated.csv)%s"

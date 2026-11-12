@@ -192,8 +192,8 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <div class="step" id="hint"><b>Step 1 of 3</b>Choose the protein you want to screen.</div>
         <label class="lbl" for="prot">Protein</label>
         <div class="row"><input type="text" id="prot" list="protlist" placeholder="Gene name or UniProt accession" autocomplete="off" spellcheck="false" style="width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px"><button class="btn primary" id="lookup">Look up</button></div>
-        <datalist id="protlist"><option value="EGFR"><option value="WRN"><option value="HDAC1"><option value="BRD4"><option value="GLP1R"><option value="KCNH2"><option value="ESR1"></datalist>
-        <p class="note" id="lookupnote" aria-live="polite">Human proteins, looked up live in UniProt. Examples: EGFR, WRN, BRD4, or an accession such as P00533.</p>
+        <datalist id="protlist"></datalist>
+        <p class="note" id="lookupnote" aria-live="polite">Human proteins, looked up live in UniProt. Start typing a gene name for suggestions (proteins with campaign data), or enter any gene name or accession such as O60885.</p>
 
         <div class="stepblock" id="sb2" hidden>
           <div class="step"><b>Step 2 of 3</b>Drag the handles to set the residues your construct covers. Blue bands are annotated domains.</div>
@@ -270,7 +270,7 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
       <div id="results" hidden>
         <div class="summary" id="summary"></div>
         <div class="flow" id="flow"></div>
-        <div class="sortrow"><label for="sort">Order within each stage by</label><select id="sort"><option value="priority">development priority</option><option value="standard">campaign occurrence (most common first)</option></select></div>
+        <div class="sortrow"><label for="sort">Order within each stage by</label><select id="sort"><option value="relevance">relevance (campaign occurrence and biological relevance)</option><option value="priority">development priority</option><option value="standard">campaign occurrence (most common first)</option></select></div>
         <div id="out"></div>
       </div>
       <details class="defs" id="defs">
@@ -319,6 +319,31 @@ try{
   document.querySelector("main").innerHTML='<div class="welcome"><h2>Could not load the database</h2><p>'+String(e.message).replace(/</g,"&lt;")+'. Open this page from the published site (not as a local file) and check that docs/assay_db.json exists.</p></div>';
   return;
 }
+/* autosuggest: gene names of every protein with campaign data, plus the built-in examples.
+   UniProt accessions are not suggested (a few proteins without a gene symbol are stored under theirs),
+   but typing one still works: lookup() resolves it. P2RY* and B3G* are real gene symbols that look like accessions. */
+{
+  const ACC=/^([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2})$/, NOT_ACC=/^(P2RY\d|B3G)/;
+  const names=new Set(Object.keys(D.proteins||{}));
+  for(const u of D.usage) if(u.scope.type==="gene"&&u.scope.id) names.add(u.scope.id);
+  const opts=[...names].filter(n=>!ACC.test(n)||NOT_ACC.test(n)).sort((a,b)=>a.localeCompare(b,"en",{numeric:true}));
+  /* fill the dropdown only after the first character, with at most 30 names starting with what was typed */
+  const dl=document.getElementById("protlist"), box=document.getElementById("prot"), MAXSUG=30;
+  const suggest=()=>{
+    const q=box.value.trim().toUpperCase();
+    dl.textContent="";
+    if(!q) return;
+    const frag=document.createDocumentFragment();
+    for(const n of opts){
+      if(!n.toUpperCase().startsWith(q)) continue;
+      const o=document.createElement("option");o.value=n;frag.appendChild(o);
+      if(frag.childNodes.length>=MAXSUG) break;
+    }
+    dl.appendChild(frag);
+  };
+  box.addEventListener("input",suggest);
+  suggest();
+}
 const _lc=D.meta.last_curated;
 /* no playbook row has a reviewed_on date yet, so say so instead of showing the placeholder "YYYY-MM-DD" */
 document.querySelector(".dbdate").textContent=(_lc?"Curated assay database last reviewed "+_lc:"Curated assay database: no review date recorded yet")+(D.meta.built_on?" · data built "+D.meta.built_on:"");
@@ -331,7 +356,7 @@ const AVAIL = {kit:"Commercial kit available",method:"Method only (no kit record
 const FULLCOV = 0.9, PARTIALCOV = 0;
 const $ = id => document.getElementById(id);
 const INST_DEFAULT=["plate","htrf"];
-const S = {inst:new Set(INST_DEFAULT),prot:null,start:1,end:1,stage:0,effect:null,unspec:false,sort:'priority',scope:new Set(Object.keys(SCOPES)),avail:new Set(Object.keys(AVAIL)),cats:new Set(Object.keys(CATS)),plates:new Set(),plan:new Set(),open:new Set()};
+const S = {inst:new Set(INST_DEFAULT),prot:null,start:1,end:1,stage:0,effect:null,unspec:false,sort:'relevance',scope:new Set(Object.keys(SCOPES)),avail:new Set(Object.keys(AVAIL)),cats:new Set(Object.keys(CATS)),plates:new Set(),plan:new Set(),open:new Set()};
 const split = s => (s||"").split(/[;|]/).map(x=>x.trim()).filter(Boolean);
 const isCell = r => /cell/i.test(r.scope||"") && !/free/i.test(r.scope||"");
 const mainRole = r => (split(r.role.replace(/ or /g,";"))[0]||"primary").toLowerCase();
@@ -445,6 +470,21 @@ function caution(u){
   return tip?` <span class="caution" tabindex="0" role="img" aria-label="Caution: ${esc(tip)}" data-tip="${esc(tip)}">⚠</span>`:"";
 }
 const pct=x=>Math.round(x*100)+"%";
+/* Default order (decided 2026-11-11): most relevant assays first within each stage.
+   relevance = 0.6 x campaign occurrence, scaled so the most-used assay in the same stage counts 1
+               (occurrence is for THIS protein; a class-wide fallback counts half; no data counts 0)
+             + 0.4 x the assay's biological-relevance rating (1-5, scaled to 0-1).
+   Scaling within the stage keeps real usage in charge: a rating alone cannot lift an assay with no campaigns above
+   the assay most campaigns used. Generic checks (thermal shift, SPR, ITC, ...) come after the protein's own function
+   assays; ties: development priority. */
+const isGeneric=r=>split(r.classes).every(c=>c==="generic");
+function occurrence(r){
+  const u=usageFor(r), s=u&&u.top.standardness.score;
+  return (s==null||s===false)?0:s*(u.level==="class"?0.5:1);
+}
+function relevance(r,stageMax){
+  return 0.6*(stageMax>0?occurrence(r)/stageMax:0)+0.4*((LV[r.biological_relevance]||0)/5);
+}
 function stdMeter(r){
   const u=usageFor(r);
   if(!u) return `<div class="std none"><div class="l">Campaign occurrence</div><div class="v">no campaign data yet</div></div>`;
@@ -526,7 +566,12 @@ function render(){
     chosen.push({r,level,cl});
   }
   const sc=x=>{const u=usageFor(x.r);return u?u.top.standardness.score:-1};
-  chosen.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a.r))-ROLES.findIndex(x=>x[0]===mainRole(b.r))||(S.sort==='standard'?(sc(b)-sc(a)):0)||pnum(a.r)-pnum(b.r));
+  const stageMax={};                       /* highest occurrence per stage, for relevance() scaling */
+  chosen.forEach(x=>{const k=mainRole(x.r);stageMax[k]=Math.max(stageMax[k]||0,occurrence(x.r));});
+  const rel=x=>relevance(x.r,stageMax[mainRole(x.r)]);
+  const byOrder=S.sort==='relevance'?(a,b)=>(isGeneric(a.r)-isGeneric(b.r))||(rel(b)-rel(a))
+               :S.sort==='standard'?(a,b)=>sc(b)-sc(a):()=>0;
+  chosen.sort((a,b)=>ROLES.findIndex(x=>x[0]===mainRole(a.r))-ROLES.findIndex(x=>x[0]===mainRole(b.r))||byOrder(a,b)||pnum(a.r)-pnum(b.r));
   const tally={gene:0,class:0,any:0,none:0};
   chosen.forEach(x=>{const u=usageFor(x.r);if(!u)tally.none++;else if(u.effect==="any")tally.any++;else tally[u.level]++;});
   const eNote=(tally.gene+tally.class+tally.any+tally.none)===0?"":
@@ -672,8 +717,8 @@ function classifyProtein(info){
     for(const term of row.go_terms){const h=info.go.find(g=>normT(g).includes(normT(term)));if(h){why.push("GO '"+h+"'");break;}}
     const pats=row.domain_patterns.map(normT);const anchors=[];
     for(const f of info.features){if(pats.some(p=>p&&wordIn(p,normT(f.description)))){if(row.needs_domain&&f.type!=="Topological domain")continue;anchors.push(f);}}
+    if(row.needs_domain&&(!anchors.length||!why.length))continue;   /* domain required IN ADDITION to an EC / keyword / GO match (same rule as m4_recommend.classify) */
     if(anchors.length)why.push("domain '"+anchors[0].description+"'");
-    if(row.needs_domain&&!anchors.length)continue;
     if(why.length)found.set(row.class_id,{label:row.label,why:why.join("; "),anchors});
   }
   for(const row of D.function_classes){if(found.has(row.class_id)&&row.excludes.some(x=>found.has(x)))found.delete(row.class_id);}
@@ -754,6 +799,7 @@ const DEFS=[
 ["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
 ["Campaign occurrence","How often public screening campaigns for this protein (or its function class) studied the biological function this assay measures. A campaign is one independent study: one PubChem deposit, one paper or one patent, counted once even when ChEMBL, PubChem and BindingDB all hold a copy. The number is: campaigns whose text matches the assay's function (for example 'ion channel activity' or 'kinase activity'), divided by all campaigns whose function could be determined from their text. A cell-based assay is only counted from cell-based campaigns, and a cell-free assay from cell-free ones. It is NOT yet specific to the detection format: assays that measure the same function in the same setting (for example patch clamp, thallium flux and membrane-potential dye) show the same occurrence. The format split is under Show details ('readout shares'). Shares do not add to 100% because one campaign can study several functions. The bar is a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing, which is the case today). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Public assay text often does not name the function or technology, so the denominator is smaller than the number of campaigns found. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\"."],
 ["Inhibition, activation and unspecified results","Each campaign is labeled inhibition, activation, mixed (both) or unspecified (its text names no direction, as in many binding or plain activity assays). Campaign occurrence is recomputed for the direction you choose: inhibition counts campaigns labeled inhibition or mixed; activation counts campaigns labeled activation or mixed. Tick 'Include unspecified results' to add the unspecified campaigns to either direction. This is useful for inhibition, because binding and unlabeled assays are usually run to find inhibitors or binders. Direction labels come from keywords in the assay text and are not perfect."],
+["Order of assays","Within each stage (primary, confirmation, counterscreen) the most relevant assays come first. Relevance combines how often campaigns for this protein used the assay's function (campaign occurrence; a class-wide fallback counts half) with the assay's biological-relevance rating. Assays for the protein's own functions come before the generic checks that apply to any protein (thermal shift, SPR, ITC and so on). You can switch to ordering by development priority or by campaign occurrence alone."],
 ["Class-wide fallback (⚠)","If the protein has fewer than "+MINC+" classified campaigns for the chosen direction, the app shows the numbers for its whole function class instead, marked 'class-wide' with a ⚠ sign. Hover over or tab to the sign to see how many campaigns the protein itself has. The sign also appears when even the class has fewer than "+MINC+" campaigns (treat as anecdotal), and when only data pooled over all directions exist."],
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
 ["Reported conditions","Under Show details, 'Reported by campaigns' lists values that public assay texts state: buffer, pH, temperature, incubation time, detergent, reducing agent, DMSO, MgCl2, NaCl, ATP, BSA and assay volume. For each assay type the app shows the median and the middle half of the stated values (numbers) or the shares of each choice (buffers, detergents and so on). A value is the first one stated in a campaign's text, so a campaign that also mentions a detection buffer may be misread. n is the number of campaigns that state the value; protein-specific values need at least 10, class-wide values at least 5. These are descriptive statistics, not a recommendation."],
