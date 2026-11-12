@@ -335,292 +335,321 @@ enzyme_other,Covalent adduct formation,Thermal shift (DSF),5,1116,G1,covered
 enzyme_other,GTPase activity,Fluorogenic / FRET substrate,5,1116,ENZ1,covered
 enzyme_other,Cellular signaling,Luciferase reporter,5,1116,,NOT in any playbook readout list for this class
 enzyme_other,Reporter gene expression,SPR / BLI,5,1116,G2,covered
-ppi_domain,Kinase activity,TR-FRET / HTRF,643,472,PPI1,covered
-ppi_domain,Receptor radioligand binding,Radioligand binding,643,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Radiometric,542,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Western blot,374,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Mobility shift (Caliper / LabChip),290,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Fluorogenic / FRET substrate,280,472,,NOT in any playbook readout list for this class
-ppi_domain,Receptor radioligand binding,Radiometric,275,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Fluorescence polarization,259,472,PPI1,covered
-ppi_domain,Ligand binding affinity,Radioligand binding,250,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,Fluorescent calcium dye,236,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,ELISA / immunosorbent,229,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,SPR / BLI,220,472,G2; PPI3,covered
-ppi_domain,Kinome selectivity panel,KINOMEscan competition binding,204,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,LanthaScreen,185,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Luciferase reporter,169,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,TR-FRET / HTRF,141,472,PPI1,covered
-ppi_domain,Kinase activity,ADP-Glo luminescence,138,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Radiometric,128,472,,NOT in any playbook readout list for this class
-ppi_domain,Ion channel activity,Automated patch clamp,127,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,TR-FRET / HTRF,126,472,PPI1,covered
-ppi_domain,Ligand binding affinity,Western blot,122,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,ITC,117,472,G3,covered
-ppi_domain,Kinase activity,Fluorescence polarization,114,472,PPI1,covered
-ppi_domain,Kinase activity,KINOMEscan competition binding,107,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Fluorogenic / FRET substrate,96,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Fluorogenic / FRET substrate,89,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Thermal shift (DSF),86,472,G1,covered
-ppi_domain,Ligand binding affinity,KINOMEscan competition binding,86,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Mass spectrometry,73,472,G5; G7,covered
-ppi_domain,Histone methyltransferase activity,Radiometric,73,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,ELISA / immunosorbent,69,472,,NOT in any playbook readout list for this class
-ppi_domain,Protease activity,Fluorogenic / FRET substrate,66,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,Absorbance / colorimetric,66,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,Fluorogenic / FRET substrate,65,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,Radioligand binding,64,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Radiometric,60,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Luciferase reporter,57,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,Fluorescence polarization,56,472,PPI1,covered
-ppi_domain,Kinase activity,Mass spectrometry,52,472,G5; G7,covered
-ppi_domain,Kinase activity,AlphaScreen / AlphaLISA,52,472,PPI1,covered
-ppi_domain,Histone methyltransferase activity,Radioligand binding,50,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Radioligand binding,50,472,,NOT in any playbook readout list for this class
-ppi_domain,Ion channel activity,Fluorescent calcium dye,50,472,,NOT in any playbook readout list for this class
-ppi_domain,Receptor radioligand binding,Fluorescent calcium dye,49,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Fluorescence polarization,45,472,PPI1,covered
-ppi_domain,Kinase activity,Kinase-Glo luminescence,45,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Western blot,44,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,Radiometric,43,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,SPR / BLI,40,472,G2; PPI3,covered
-ppi_domain,Protein-DNA binding,Mobility shift (Caliper / LabChip),40,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,Western blot,39,472,,NOT in any playbook readout list for this class
-ppi_domain,Receptor radioligand binding,TR-FRET / HTRF,37,472,PPI1,covered
-ppi_domain,Ligand binding affinity,Gel-based (PAGE / EMSA),37,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-DNA binding,Fluorescence polarization,36,472,PPI1,covered
-ppi_domain,Histone methyltransferase activity,AlphaScreen / AlphaLISA,36,472,PPI1,covered
-ppi_domain,Kinase activity,Absorbance / colorimetric,36,472,,NOT in any playbook readout list for this class
-ppi_domain,Target engagement (cellular),CETSA,33,472,,NOT in any playbook readout list for this class
-ppi_domain,Covalent adduct formation,Mass spectrometry,32,472,G5; G7,covered
-ppi_domain,Ligand binding affinity,AlphaScreen / AlphaLISA,32,472,PPI1,covered
-ppi_domain,Cell proliferation / viability,Fluorogenic / FRET substrate,32,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Mobility shift (Caliper / LabChip),32,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Luciferase reporter,31,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,LanthaScreen,31,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,Luciferase reporter,31,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,Fluorogenic / FRET substrate,30,472,,NOT in any playbook readout list for this class
-ppi_domain,Apoptosis / DNA damage (cellular),Fluorogenic / FRET substrate,29,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,Fluorogenic / FRET substrate,29,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Absorbance / colorimetric,29,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Gel-based (PAGE / EMSA),29,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,BRET / NanoBRET,28,472,PPI2,covered
-ppi_domain,Kinase activity,Thermal shift (DSF),28,472,G1,covered
-ppi_domain,Ligand binding affinity,CETSA,28,472,,NOT in any playbook readout list for this class
-ppi_domain,Inositol phosphate accumulation,Radioligand binding,28,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone methyltransferase activity,TR-FRET / HTRF,26,472,PPI1,covered
-ppi_domain,Kinome selectivity panel,TR-FRET / HTRF,26,472,PPI1,covered
-ppi_domain,Ligand binding affinity,Fluorescent calcium dye,26,472,,NOT in any playbook readout list for this class
-ppi_domain,Time-dependent / covalent kinetics,TR-FRET / HTRF,26,472,PPI1,covered
-ppi_domain,Phosphatase activity,Western blot,26,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-DNA binding,Gel-based (PAGE / EMSA),26,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,TR-FRET / HTRF,25,472,PPI1,covered
-ppi_domain,Cellular signaling,TR-FRET / HTRF,25,472,PPI1,covered
-ppi_domain,Protein-DNA binding,Western blot,25,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,High-content imaging,24,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,Automated patch clamp,24,472,,NOT in any playbook readout list for this class
-ppi_domain,cAMP signaling,Radioligand binding,24,472,,NOT in any playbook readout list for this class
-ppi_domain,Target engagement (cellular),Thermal shift (DSF),23,472,G1,covered
-ppi_domain,Ligand binding affinity,Absorbance / colorimetric,23,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,Fluorescence polarization,22,472,PPI1,covered
-ppi_domain,Ligand binding affinity,BRET / NanoBRET,21,472,PPI2,covered
-ppi_domain,Inositol phosphate accumulation,Radiometric,21,472,,NOT in any playbook readout list for this class
-ppi_domain,Ubiquitination activity,TR-FRET / HTRF,20,472,PPI1,covered
-ppi_domain,Cellular histone modification,AlphaScreen / AlphaLISA,20,472,PPI1,covered
-ppi_domain,Inositol phosphate accumulation,TR-FRET / HTRF,20,472,PPI1,covered
-ppi_domain,Enzyme activity,SPR / BLI,19,472,G2; PPI3,covered
-ppi_domain,Kinase activity,ITC,19,472,G3,covered
-ppi_domain,Kinome selectivity panel,Radiometric,19,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Radioligand binding,19,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Western blot,19,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,Luciferase reporter,19,472,,NOT in any playbook readout list for this class
-ppi_domain,cAMP signaling,TR-FRET / HTRF,19,472,PPI1,covered
-ppi_domain,Ligand binding affinity,Mobility shift (Caliper / LabChip),19,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone methyltransferase activity,Western blot,18,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,ADP-Glo luminescence,18,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Mass spectrometry,17,472,G5; G7,covered
-ppi_domain,Kinome selectivity panel,Western blot,17,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,ELISA / immunosorbent,17,472,,NOT in any playbook readout list for this class
-ppi_domain,Time-dependent / covalent kinetics,Mass spectrometry,17,472,G5; G7,covered
-ppi_domain,Protease activity,KINOMEscan competition binding,17,472,,NOT in any playbook readout list for this class
-ppi_domain,cAMP signaling,Radiometric,17,472,,NOT in any playbook readout list for this class
-ppi_domain,Covalent adduct formation,Western blot,16,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,Western blot,16,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-DNA binding,ELISA / immunosorbent,16,472,,NOT in any playbook readout list for this class
-ppi_domain,ADP-ribosyltransferase activity,ELISA / immunosorbent,16,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinome selectivity panel,Fluorogenic / FRET substrate,15,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone methyltransferase activity,ITC,15,472,G3,covered
-ppi_domain,Calcium mobilization,TR-FRET / HTRF,15,472,PPI1,covered
-ppi_domain,Reporter gene expression,TR-FRET / HTRF,15,472,PPI1,covered
-ppi_domain,ATPase activity,Absorbance / colorimetric,15,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,Western blot,15,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-DNA binding,Radiometric,15,472,,NOT in any playbook readout list for this class
-ppi_domain,Covalent adduct formation,TR-FRET / HTRF,15,472,PPI1,covered
-ppi_domain,Phosphatase activity,KINOMEscan competition binding,15,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-DNA binding,KINOMEscan competition binding,15,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,ELISA / immunosorbent,14,472,,NOT in any playbook readout list for this class
-ppi_domain,Ubiquitination activity,Fluorescence polarization,14,472,PPI1,covered
-ppi_domain,Time-dependent / covalent kinetics,Western blot,14,472,,NOT in any playbook readout list for this class
-ppi_domain,Covalent adduct formation,Fluorogenic / FRET substrate,14,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,TR-FRET / HTRF,14,472,PPI1,covered
-ppi_domain,Chromatin reader binding,AlphaScreen / AlphaLISA,14,472,PPI1,covered
-ppi_domain,Target engagement (cellular),Western blot,14,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Fluorescent calcium dye,14,472,,NOT in any playbook readout list for this class
-ppi_domain,Apoptosis / DNA damage (cellular),Fluorescence polarization,14,472,PPI1,covered
-ppi_domain,Reporter gene expression,SPR / BLI,13,472,G2; PPI3,covered
-ppi_domain,Histone methyltransferase activity,Mass spectrometry,13,472,G5; G7,covered
-ppi_domain,Cell proliferation / viability,Mobility shift (Caliper / LabChip),13,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,ELISA / immunosorbent,13,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Fluorescence polarization,13,472,PPI1,covered
-ppi_domain,Protease activity,TR-FRET / HTRF,13,472,PPI1,covered
-ppi_domain,Time-dependent / covalent kinetics,Fluorogenic / FRET substrate,13,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,High-content imaging,13,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,ELISA / immunosorbent,12,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,Radiometric,12,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinome selectivity panel,BRET / NanoBRET,12,472,PPI2,covered
-ppi_domain,Protein-protein interaction,TR-FRET / HTRF,12,472,PPI1,covered
-ppi_domain,Enzyme activity,Thermal shift (DSF),11,472,G1,covered
-ppi_domain,Histone methyltransferase activity,Fluorogenic / FRET substrate,11,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,Mobility shift (Caliper / LabChip),11,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,Radiometric,11,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,Kinase-Glo luminescence,11,472,,NOT in any playbook readout list for this class
-ppi_domain,Protease activity,Western blot,11,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular histone modification,TR-FRET / HTRF,11,472,PPI1,covered
-ppi_domain,Protein-DNA binding,Fluorogenic / FRET substrate,11,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,SPR / BLI,11,472,G2; PPI3,covered
-ppi_domain,Covalent adduct formation,Fluorescence polarization,11,472,PPI1,covered
-ppi_domain,Histone methyltransferase activity,Fluorescence polarization,10,472,PPI1,covered
-ppi_domain,Enzyme activity,KINOMEscan competition binding,10,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone methyltransferase activity,ELISA / immunosorbent,10,472,,NOT in any playbook readout list for this class
-ppi_domain,Apoptosis / DNA damage (cellular),Luciferase reporter,10,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,AlphaScreen / AlphaLISA,10,472,PPI1,covered
-ppi_domain,Ion channel activity,Fluorogenic / FRET substrate,10,472,,NOT in any playbook readout list for this class
-ppi_domain,Protease activity,Fluorescence polarization,10,472,PPI1,covered
-ppi_domain,Protein-DNA binding,Luciferase reporter,10,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,Fluorescence polarization,10,472,PPI1,covered
-ppi_domain,ADP-ribosyltransferase activity,Fluorogenic / FRET substrate,10,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,Thermal shift (DSF),10,472,G1,covered
-ppi_domain,Protein-DNA binding,SPR / BLI,10,472,G2; PPI3,covered
-ppi_domain,Protein-DNA binding,TR-FRET / HTRF,9,472,PPI1,covered
-ppi_domain,Kinome selectivity panel,Mass spectrometry,9,472,G5; G7,covered
-ppi_domain,Kinome selectivity panel,LanthaScreen,9,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,KINOMEscan competition binding,9,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,AlphaScreen / AlphaLISA,9,472,PPI1,covered
-ppi_domain,Protease activity,ELISA / immunosorbent,9,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular histone modification,ELISA / immunosorbent,9,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone methyltransferase activity,SPR / BLI,9,472,G2; PPI3,covered
-ppi_domain,Time-dependent / covalent kinetics,ELISA / immunosorbent,9,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,CETSA,9,472,,NOT in any playbook readout list for this class
-ppi_domain,siRNA / RNAi screen,Western blot,9,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular histone modification,Mass spectrometry,9,472,G5; G7,covered
-ppi_domain,Enzyme activity,ITC,8,472,G3,covered
-ppi_domain,Kinome selectivity panel,ADP-Glo luminescence,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,ADP-Glo luminescence,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,LanthaScreen,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinome selectivity panel,Thermal shift (DSF),8,472,G1,covered
-ppi_domain,Kinome selectivity panel,ELISA / immunosorbent,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Fluorogenic / FRET substrate,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,Absorbance / colorimetric,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Ion channel activity,Radioligand binding,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Protease activity,Absorbance / colorimetric,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Absorbance / colorimetric,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Time-dependent / covalent kinetics,Radiometric,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Deubiquitinase activity,Fluorogenic / FRET substrate,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,Radiometric,8,472,,NOT in any playbook readout list for this class
-ppi_domain,Enzyme activity,AlphaScreen / AlphaLISA,7,472,PPI1,covered
-ppi_domain,Phosphatase activity,AlphaScreen / AlphaLISA,7,472,PPI1,covered
-ppi_domain,Histone methyltransferase activity,Thermal shift (DSF),7,472,G1,covered
-ppi_domain,Receptor radioligand binding,Fluorogenic / FRET substrate,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,Luciferase reporter,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,Fluorogenic / FRET substrate,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Chromatin reader binding,TR-FRET / HTRF,7,472,PPI1,covered
-ppi_domain,Reporter gene expression,Radioligand binding,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Radiometric,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Target engagement (cellular),TR-FRET / HTRF,7,472,PPI1,covered
-ppi_domain,Apoptosis / DNA damage (cellular),TR-FRET / HTRF,7,472,PPI1,covered
-ppi_domain,Cellular signaling,ELISA / immunosorbent,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,Fluorescence polarization,7,472,PPI1,covered
-ppi_domain,Protein-protein interaction,Fluorogenic / FRET substrate,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,Luciferase reporter,7,472,,NOT in any playbook readout list for this class
-ppi_domain,cAMP signaling,ELISA / immunosorbent,7,472,,NOT in any playbook readout list for this class
-ppi_domain,cAMP signaling,Fluorogenic / FRET substrate,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,High-content imaging,7,472,,NOT in any playbook readout list for this class
-ppi_domain,ADP-ribosyltransferase activity,Fluorescence polarization,7,472,PPI1,covered
-ppi_domain,ADP-ribosyltransferase activity,Radiometric,7,472,,NOT in any playbook readout list for this class
-ppi_domain,ADP-ribosyltransferase activity,TR-FRET / HTRF,7,472,PPI1,covered
-ppi_domain,Covalent adduct formation,Radiometric,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,ADP-Glo luminescence,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,High-content imaging,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,Radiometric,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular histone modification,ITC,7,472,G3,covered
-ppi_domain,Cellular histone modification,SPR / BLI,7,472,G2; PPI3,covered
-ppi_domain,Covalent adduct formation,Gel-based (PAGE / EMSA),7,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,ELISA / immunosorbent,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,ITC,7,472,G3,covered
-ppi_domain,Apoptosis / DNA damage (cellular),Western blot,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Beta-arrestin recruitment,Radioligand binding,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Beta-arrestin recruitment,Radiometric,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Beta-arrestin recruitment,Enzyme fragment complementation,7,472,,NOT in any playbook readout list for this class
-ppi_domain,ATPase activity,SPR / BLI,7,472,G2; PPI3,covered
-ppi_domain,Cellular signaling,Fluorescent calcium dye,7,472,,NOT in any playbook readout list for this class
-ppi_domain,Covalent adduct formation,SPR / BLI,6,472,G2; PPI3,covered
-ppi_domain,Phosphatase activity,SPR / BLI,6,472,G2; PPI3,covered
-ppi_domain,Ubiquitination activity,SPR / BLI,6,472,G2; PPI3,covered
-ppi_domain,Time-dependent / covalent kinetics,KINOMEscan competition binding,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Calcium mobilization,ELISA / immunosorbent,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,AlphaScreen / AlphaLISA,6,472,PPI1,covered
-ppi_domain,Cellular enzyme activity,KINOMEscan competition binding,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,Luciferase reporter,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,Western blot,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Chromatin reader binding,ELISA / immunosorbent,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,Thermal shift (DSF),6,472,G1,covered
-ppi_domain,Target engagement (cellular),BRET / NanoBRET,6,472,PPI2,covered
-ppi_domain,Cellular histone modification,Fluorescence polarization,6,472,PPI1,covered
-ppi_domain,Protein-DNA binding,Absorbance / colorimetric,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone demethylase activity,AlphaScreen / AlphaLISA,6,472,PPI1,covered
-ppi_domain,Cellular signaling,SPR / BLI,6,472,G2; PPI3,covered
-ppi_domain,Cellular signaling,Thermal shift (DSF),6,472,G1,covered
-ppi_domain,Time-dependent / covalent kinetics,Mobility shift (Caliper / LabChip),6,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,Thermal shift (DSF),6,472,G1,covered
-ppi_domain,Cellular histone modification,Western blot,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Chromatin reader binding,SPR / BLI,6,472,G2; PPI3,covered
-ppi_domain,Target engagement (cellular),ITC,6,472,G3,covered
-ppi_domain,Target engagement (cellular),SPR / BLI,6,472,G2; PPI3,covered
-ppi_domain,ADP-ribosyltransferase activity,Mass spectrometry,6,472,G5; G7,covered
-ppi_domain,Covalent adduct formation,LanthaScreen,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Time-dependent / covalent kinetics,Fluorescence polarization,6,472,PPI1,covered
-ppi_domain,G-protein activation (GTPgammaS),Radioligand binding,6,472,,NOT in any playbook readout list for this class
-ppi_domain,Covalent adduct formation,Thermal shift (DSF),5,472,G1,covered
-ppi_domain,Kinase activity,Automated patch clamp,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Ligand binding affinity,Automated patch clamp,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Kinase activity,Transcreener,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Bromodomain binding,AlphaScreen / AlphaLISA,5,472,PPI1,covered
-ppi_domain,Calcium mobilization,BRET / NanoBRET,5,472,PPI2,covered
-ppi_domain,Calcium mobilization,Western blot,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular enzyme activity,LanthaScreen,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Reporter gene expression,AlphaScreen / AlphaLISA,5,472,PPI1,covered
-ppi_domain,Reporter gene expression,Mobility shift (Caliper / LabChip),5,472,,NOT in any playbook readout list for this class
-ppi_domain,Target engagement (cellular),Radiometric,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Protease activity,Radioligand binding,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Protease activity,Radiometric,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular signaling,Absorbance / colorimetric,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Histone methyltransferase activity,High-content imaging,5,472,,NOT in any playbook readout list for this class
-ppi_domain,ADP-ribosyltransferase activity,AlphaScreen / AlphaLISA,5,472,PPI1,covered
-ppi_domain,ADP-ribosyltransferase activity,Radioligand binding,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein-protein interaction,Gel-based (PAGE / EMSA),5,472,,NOT in any playbook readout list for this class
-ppi_domain,Cell proliferation / viability,Mass spectrometry,5,472,G5; G7,covered
-ppi_domain,Phosphatase activity,Luciferase reporter,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Phosphatase activity,Mobility shift (Caliper / LabChip),5,472,,NOT in any playbook readout list for this class
-ppi_domain,Cellular protein degradation,Western blot,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Chromatin reader binding,Mass spectrometry,5,472,G5; G7,covered
-ppi_domain,Covalent adduct formation,ELISA / immunosorbent,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Beta-arrestin recruitment,Fluorescent calcium dye,5,472,,NOT in any playbook readout list for this class
-ppi_domain,ATPase activity,Fluorescence polarization,5,472,PPI1,covered
-ppi_domain,ATPase activity,ELISA / immunosorbent,5,472,,NOT in any playbook readout list for this class
-ppi_domain,cAMP signaling,Fluorescent calcium dye,5,472,,NOT in any playbook readout list for this class
-ppi_domain,G-protein activation (GTPgammaS),Radiometric,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Inositol phosphate accumulation,Fluorescent calcium dye,5,472,,NOT in any playbook readout list for this class
-ppi_domain,Protein aggregation,Fluorescent calcium dye,5,472,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,TR-FRET / HTRF,644,489,PPI1,covered
+ppi_domain,Receptor radioligand binding,Radioligand binding,643,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Radiometric,542,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Western blot,376,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Fluorescence polarization,350,489,PPI1,covered
+ppi_domain,Kinase activity,Mobility shift (Caliper / LabChip),290,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Fluorogenic / FRET substrate,287,489,,NOT in any playbook readout list for this class
+ppi_domain,Receptor radioligand binding,Radiometric,275,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Radioligand binding,251,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,SPR / BLI,244,489,G2; PPI3,covered
+ppi_domain,Calcium mobilization,Fluorescent calcium dye,236,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,ELISA / immunosorbent,230,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,Luciferase reporter,218,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinome selectivity panel,KINOMEscan competition binding,204,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,LanthaScreen,185,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,TR-FRET / HTRF,173,489,PPI1,covered
+ppi_domain,Ligand binding affinity,Western blot,149,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,ADP-Glo luminescence,138,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,ITC,131,489,G3,covered
+ppi_domain,Ligand binding affinity,Radiometric,129,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,TR-FRET / HTRF,127,489,PPI1,covered
+ppi_domain,Ion channel activity,Automated patch clamp,127,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone deacetylase activity,Fluorogenic / FRET substrate,116,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Fluorescence polarization,115,489,PPI1,covered
+ppi_domain,Ligand binding affinity,Fluorogenic / FRET substrate,110,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,KINOMEscan competition binding,107,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Fluorogenic / FRET substrate,96,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Thermal shift (DSF),95,489,G1,covered
+ppi_domain,Ligand binding affinity,KINOMEscan competition binding,86,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,ELISA / immunosorbent,78,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Mass spectrometry,77,489,G5; G7,covered
+ppi_domain,Histone methyltransferase activity,Radiometric,73,489,,NOT in any playbook readout list for this class
+ppi_domain,Protease activity,Fluorogenic / FRET substrate,68,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Absorbance / colorimetric,67,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Fluorogenic / FRET substrate,65,489,,NOT in any playbook readout list for this class
+ppi_domain,Calcium mobilization,Radioligand binding,64,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Radiometric,62,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,Fluorescence polarization,61,489,PPI1,covered
+ppi_domain,Kinase activity,Luciferase reporter,57,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Mass spectrometry,52,489,G5; G7,covered
+ppi_domain,Ubiquitination activity,Fluorescence polarization,52,489,PPI1,covered
+ppi_domain,Kinase activity,AlphaScreen / AlphaLISA,52,489,PPI1,covered
+ppi_domain,Reporter gene expression,Western blot,52,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,Radioligand binding,50,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Radioligand binding,50,489,,NOT in any playbook readout list for this class
+ppi_domain,Ion channel activity,Fluorescent calcium dye,50,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,TR-FRET / HTRF,49,489,PPI1,covered
+ppi_domain,Receptor radioligand binding,Fluorescent calcium dye,49,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,Mobility shift (Caliper / LabChip),48,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Fluorescence polarization,47,489,PPI1,covered
+ppi_domain,Kinase activity,Kinase-Glo luminescence,45,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Gel-based (PAGE / EMSA),44,489,,NOT in any playbook readout list for this class
+ppi_domain,Calcium mobilization,Radiometric,43,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,SPR / BLI,41,489,G2; PPI3,covered
+ppi_domain,Cellular signaling,Western blot,41,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,Fluorescence polarization,39,489,PPI1,covered
+ppi_domain,Receptor radioligand binding,TR-FRET / HTRF,37,489,PPI1,covered
+ppi_domain,Cell proliferation / viability,Luciferase reporter,36,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,AlphaScreen / AlphaLISA,36,489,PPI1,covered
+ppi_domain,Kinase activity,Absorbance / colorimetric,36,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Mass spectrometry,35,489,G5; G7,covered
+ppi_domain,Target engagement (cellular),CETSA,35,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Luciferase reporter,34,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,Fluorogenic / FRET substrate,34,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,AlphaScreen / AlphaLISA,33,489,PPI1,covered
+ppi_domain,Enzyme activity,Mobility shift (Caliper / LabChip),33,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,LanthaScreen,32,489,,NOT in any playbook readout list for this class
+ppi_domain,Apoptosis / DNA damage (cellular),Fluorescence polarization,32,489,PPI1,covered
+ppi_domain,Apoptosis / DNA damage (cellular),Fluorogenic / FRET substrate,32,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular signaling,Fluorogenic / FRET substrate,32,489,,NOT in any playbook readout list for this class
+ppi_domain,Calcium mobilization,Fluorogenic / FRET substrate,30,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Gel-based (PAGE / EMSA),30,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,Gel-based (PAGE / EMSA),30,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,CETSA,30,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Absorbance / colorimetric,29,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,BRET / NanoBRET,28,489,PPI2,covered
+ppi_domain,Kinase activity,Thermal shift (DSF),28,489,G1,covered
+ppi_domain,Cellular signaling,TR-FRET / HTRF,28,489,PPI1,covered
+ppi_domain,Deubiquitinase activity,Fluorogenic / FRET substrate,28,489,,NOT in any playbook readout list for this class
+ppi_domain,Inositol phosphate accumulation,Radioligand binding,28,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,TR-FRET / HTRF,27,489,PPI1,covered
+ppi_domain,Time-dependent / covalent kinetics,TR-FRET / HTRF,27,489,PPI1,covered
+ppi_domain,Kinome selectivity panel,TR-FRET / HTRF,26,489,PPI1,covered
+ppi_domain,Ligand binding affinity,Fluorescent calcium dye,26,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Western blot,26,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,Western blot,26,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,TR-FRET / HTRF,25,489,PPI1,covered
+ppi_domain,Protease activity,Fluorescence polarization,25,489,PPI1,covered
+ppi_domain,Protein-protein interaction,TR-FRET / HTRF,25,489,PPI1,covered
+ppi_domain,Enzyme activity,Mass spectrometry,24,489,G5; G7,covered
+ppi_domain,Kinase activity,High-content imaging,24,489,,NOT in any playbook readout list for this class
+ppi_domain,Calcium mobilization,Automated patch clamp,24,489,,NOT in any playbook readout list for this class
+ppi_domain,Target engagement (cellular),Thermal shift (DSF),24,489,G1,covered
+ppi_domain,Cellular signaling,Luciferase reporter,24,489,,NOT in any playbook readout list for this class
+ppi_domain,cAMP signaling,Radioligand binding,24,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Absorbance / colorimetric,24,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,Fluorescence polarization,23,489,PPI1,covered
+ppi_domain,Ligand binding affinity,BRET / NanoBRET,21,489,PPI2,covered
+ppi_domain,Ligand binding affinity,Mobility shift (Caliper / LabChip),21,489,,NOT in any playbook readout list for this class
+ppi_domain,Inositol phosphate accumulation,Radiometric,21,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,ELISA / immunosorbent,20,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,SPR / BLI,20,489,G2; PPI3,covered
+ppi_domain,Kinase activity,ITC,20,489,G3,covered
+ppi_domain,Enzyme activity,Radioligand binding,20,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Western blot,20,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular histone modification,AlphaScreen / AlphaLISA,20,489,PPI1,covered
+ppi_domain,Inositol phosphate accumulation,TR-FRET / HTRF,20,489,PPI1,covered
+ppi_domain,Kinome selectivity panel,Radiometric,19,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Western blot,19,489,,NOT in any playbook readout list for this class
+ppi_domain,cAMP signaling,TR-FRET / HTRF,19,489,PPI1,covered
+ppi_domain,Kinome selectivity panel,Fluorogenic / FRET substrate,18,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,Western blot,18,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,ADP-Glo luminescence,18,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinome selectivity panel,Western blot,17,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,ELISA / immunosorbent,17,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,Western blot,17,489,,NOT in any playbook readout list for this class
+ppi_domain,Time-dependent / covalent kinetics,Mass spectrometry,17,489,G5; G7,covered
+ppi_domain,Protease activity,KINOMEscan competition binding,17,489,,NOT in any playbook readout list for this class
+ppi_domain,cAMP signaling,Radiometric,17,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Fluorogenic / FRET substrate,16,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,Western blot,16,489,,NOT in any playbook readout list for this class
+ppi_domain,Protease activity,Western blot,16,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,ELISA / immunosorbent,16,489,,NOT in any playbook readout list for this class
+ppi_domain,Time-dependent / covalent kinetics,Fluorogenic / FRET substrate,16,489,,NOT in any playbook readout list for this class
+ppi_domain,ADP-ribosyltransferase activity,ELISA / immunosorbent,16,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,TR-FRET / HTRF,15,489,PPI1,covered
+ppi_domain,Histone methyltransferase activity,ITC,15,489,G3,covered
+ppi_domain,Calcium mobilization,TR-FRET / HTRF,15,489,PPI1,covered
+ppi_domain,Reporter gene expression,TR-FRET / HTRF,15,489,PPI1,covered
+ppi_domain,Target engagement (cellular),Western blot,15,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,AlphaScreen / AlphaLISA,15,489,PPI1,covered
+ppi_domain,Protease activity,TR-FRET / HTRF,15,489,PPI1,covered
+ppi_domain,Ligand binding affinity,High-content imaging,15,489,,NOT in any playbook readout list for this class
+ppi_domain,ATPase activity,Absorbance / colorimetric,15,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,Radiometric,15,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,TR-FRET / HTRF,15,489,PPI1,covered
+ppi_domain,Phosphatase activity,KINOMEscan competition binding,15,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-DNA binding,KINOMEscan competition binding,15,489,,NOT in any playbook readout list for this class
+ppi_domain,Time-dependent / covalent kinetics,Western blot,14,489,,NOT in any playbook readout list for this class
+ppi_domain,Chromatin reader binding,AlphaScreen / AlphaLISA,14,489,PPI1,covered
+ppi_domain,Kinase activity,Fluorescent calcium dye,14,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,Fluorescence polarization,14,489,PPI1,covered
+ppi_domain,Protein-DNA binding,Fluorogenic / FRET substrate,14,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,Western blot,14,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,SPR / BLI,13,489,G2; PPI3,covered
+ppi_domain,Histone methyltransferase activity,Mass spectrometry,13,489,G5; G7,covered
+ppi_domain,Cell proliferation / viability,Mobility shift (Caliper / LabChip),13,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Thermal shift (DSF),13,489,G1,covered
+ppi_domain,Cellular enzyme activity,ELISA / immunosorbent,13,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,ELISA / immunosorbent,13,489,,NOT in any playbook readout list for this class
+ppi_domain,Apoptosis / DNA damage (cellular),Western blot,13,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,ELISA / immunosorbent,12,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,Radiometric,12,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinome selectivity panel,BRET / NanoBRET,12,489,PPI2,covered
+ppi_domain,Protein-DNA binding,Luciferase reporter,12,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Gel-based (PAGE / EMSA),12,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Fluorescence polarization,12,489,PPI1,covered
+ppi_domain,Histone methyltransferase activity,Fluorogenic / FRET substrate,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,Mobility shift (Caliper / LabChip),11,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,Radiometric,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,Kinase-Glo luminescence,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,Fluorogenic / FRET substrate,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Protease activity,ELISA / immunosorbent,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,Absorbance / colorimetric,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular histone modification,TR-FRET / HTRF,11,489,PPI1,covered
+ppi_domain,ADP-ribosyltransferase activity,Fluorogenic / FRET substrate,11,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,SPR / BLI,11,489,G2; PPI3,covered
+ppi_domain,Histone methyltransferase activity,Fluorescence polarization,10,489,PPI1,covered
+ppi_domain,Enzyme activity,ITC,10,489,G3,covered
+ppi_domain,Enzyme activity,KINOMEscan competition binding,10,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,ELISA / immunosorbent,10,489,,NOT in any playbook readout list for this class
+ppi_domain,Apoptosis / DNA damage (cellular),Luciferase reporter,10,489,,NOT in any playbook readout list for this class
+ppi_domain,Apoptosis / DNA damage (cellular),TR-FRET / HTRF,10,489,PPI1,covered
+ppi_domain,Cellular signaling,AlphaScreen / AlphaLISA,10,489,PPI1,covered
+ppi_domain,Cellular signaling,Fluorescence polarization,10,489,PPI1,covered
+ppi_domain,Ion channel activity,Fluorogenic / FRET substrate,10,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Fluorescence polarization,10,489,PPI1,covered
+ppi_domain,Phosphatase activity,Thermal shift (DSF),10,489,G1,covered
+ppi_domain,Protein-DNA binding,SPR / BLI,10,489,G2; PPI3,covered
+ppi_domain,siRNA / RNAi screen,Western blot,10,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Thermal shift (DSF),9,489,G1,covered
+ppi_domain,Enzyme activity,AlphaScreen / AlphaLISA,9,489,PPI1,covered
+ppi_domain,Protein-DNA binding,TR-FRET / HTRF,9,489,PPI1,covered
+ppi_domain,Kinome selectivity panel,Mass spectrometry,9,489,G5; G7,covered
+ppi_domain,Kinome selectivity panel,LanthaScreen,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,KINOMEscan competition binding,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone deacetylase activity,Radiometric,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular histone modification,ELISA / immunosorbent,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,ELISA / immunosorbent,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,Absorbance / colorimetric,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,SPR / BLI,9,489,G2; PPI3,covered
+ppi_domain,Time-dependent / covalent kinetics,ELISA / immunosorbent,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,CETSA,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone deacetylase activity,Western blot,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone deacetylase activity,Mobility shift (Caliper / LabChip),9,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular histone modification,Mass spectrometry,9,489,G5; G7,covered
+ppi_domain,Deubiquitinase activity,Western blot,9,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,SPR / BLI,8,489,G2; PPI3,covered
+ppi_domain,Kinome selectivity panel,ADP-Glo luminescence,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,ADP-Glo luminescence,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Enzyme activity,LanthaScreen,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinome selectivity panel,Thermal shift (DSF),8,489,G1,covered
+ppi_domain,Kinome selectivity panel,ELISA / immunosorbent,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,Radioligand binding,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Ion channel activity,Radioligand binding,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Protease activity,Absorbance / colorimetric,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,Luciferase reporter,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,High-content imaging,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular protein degradation,Western blot,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Time-dependent / covalent kinetics,Radiometric,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,Mass spectrometry,8,489,G5; G7,covered
+ppi_domain,Reporter gene expression,High-content imaging,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular histone modification,SPR / BLI,8,489,G2; PPI3,covered
+ppi_domain,Phosphatase activity,ELISA / immunosorbent,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Radiometric,8,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,SPR / BLI,7,489,G2; PPI3,covered
+ppi_domain,Phosphatase activity,AlphaScreen / AlphaLISA,7,489,PPI1,covered
+ppi_domain,Ubiquitination activity,AlphaScreen / AlphaLISA,7,489,PPI1,covered
+ppi_domain,Deubiquitinase activity,Fluorescence polarization,7,489,PPI1,covered
+ppi_domain,Deubiquitinase activity,TR-FRET / HTRF,7,489,PPI1,covered
+ppi_domain,Histone methyltransferase activity,Thermal shift (DSF),7,489,G1,covered
+ppi_domain,Receptor radioligand binding,Fluorogenic / FRET substrate,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Calcium mobilization,Luciferase reporter,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,Fluorogenic / FRET substrate,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Chromatin reader binding,TR-FRET / HTRF,7,489,PPI1,covered
+ppi_domain,Reporter gene expression,Radiometric,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Target engagement (cellular),TR-FRET / HTRF,7,489,PPI1,covered
+ppi_domain,Cellular signaling,ELISA / immunosorbent,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone deacetylase activity,TR-FRET / HTRF,7,489,PPI1,covered
+ppi_domain,Protein-protein interaction,Fluorogenic / FRET substrate,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,Fluorogenic / FRET substrate,7,489,,NOT in any playbook readout list for this class
+ppi_domain,cAMP signaling,ELISA / immunosorbent,7,489,,NOT in any playbook readout list for this class
+ppi_domain,cAMP signaling,Fluorogenic / FRET substrate,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,Thermal shift (DSF),7,489,G1,covered
+ppi_domain,ADP-ribosyltransferase activity,Fluorescence polarization,7,489,PPI1,covered
+ppi_domain,ADP-ribosyltransferase activity,Radiometric,7,489,,NOT in any playbook readout list for this class
+ppi_domain,ADP-ribosyltransferase activity,TR-FRET / HTRF,7,489,PPI1,covered
+ppi_domain,Deubiquitinase activity,SPR / BLI,7,489,G2; PPI3,covered
+ppi_domain,Covalent adduct formation,Radiometric,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,ADP-Glo luminescence,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular signaling,Radiometric,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular histone modification,ITC,7,489,G3,covered
+ppi_domain,Target engagement (cellular),SPR / BLI,7,489,G2; PPI3,covered
+ppi_domain,Phosphatase activity,ITC,7,489,G3,covered
+ppi_domain,Beta-arrestin recruitment,Radioligand binding,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Beta-arrestin recruitment,Radiometric,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Beta-arrestin recruitment,Enzyme fragment complementation,7,489,,NOT in any playbook readout list for this class
+ppi_domain,ATPase activity,SPR / BLI,7,489,G2; PPI3,covered
+ppi_domain,Deubiquitinase activity,Gel-based (PAGE / EMSA),7,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular signaling,Fluorescent calcium dye,7,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,SPR / BLI,6,489,G2; PPI3,covered
+ppi_domain,Time-dependent / covalent kinetics,KINOMEscan competition binding,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Calcium mobilization,ELISA / immunosorbent,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Cell proliferation / viability,AlphaScreen / AlphaLISA,6,489,PPI1,covered
+ppi_domain,Cellular enzyme activity,KINOMEscan competition binding,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,Luciferase reporter,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,Western blot,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Chromatin reader binding,ELISA / immunosorbent,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,AlphaScreen / AlphaLISA,6,489,PPI1,covered
+ppi_domain,Reporter gene expression,Thermal shift (DSF),6,489,G1,covered
+ppi_domain,Target engagement (cellular),BRET / NanoBRET,6,489,PPI2,covered
+ppi_domain,Histone deacetylase activity,SPR / BLI,6,489,G2; PPI3,covered
+ppi_domain,Cellular histone modification,Fluorescence polarization,6,489,PPI1,covered
+ppi_domain,Protein-DNA binding,Absorbance / colorimetric,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Ubiquitination activity,ITC,6,489,G3,covered
+ppi_domain,Histone demethylase activity,AlphaScreen / AlphaLISA,6,489,PPI1,covered
+ppi_domain,Protease activity,Gel-based (PAGE / EMSA),6,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular signaling,SPR / BLI,6,489,G2; PPI3,covered
+ppi_domain,Cellular signaling,Thermal shift (DSF),6,489,G1,covered
+ppi_domain,Time-dependent / covalent kinetics,Mobility shift (Caliper / LabChip),6,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,Thermal shift (DSF),6,489,G1,covered
+ppi_domain,Cellular histone modification,Western blot,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Chromatin reader binding,SPR / BLI,6,489,G2; PPI3,covered
+ppi_domain,Target engagement (cellular),ITC,6,489,G3,covered
+ppi_domain,ADP-ribosyltransferase activity,Mass spectrometry,6,489,G5; G7,covered
+ppi_domain,Covalent adduct formation,LanthaScreen,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,ITC,6,489,G3,covered
+ppi_domain,Time-dependent / covalent kinetics,Fluorescence polarization,6,489,PPI1,covered
+ppi_domain,Time-dependent / covalent kinetics,SPR / BLI,6,489,G2; PPI3,covered
+ppi_domain,G-protein activation (GTPgammaS),Radioligand binding,6,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Automated patch clamp,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Ligand binding affinity,Automated patch clamp,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Kinase activity,Transcreener,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Bromodomain binding,AlphaScreen / AlphaLISA,5,489,PPI1,covered
+ppi_domain,Calcium mobilization,BRET / NanoBRET,5,489,PPI2,covered
+ppi_domain,Calcium mobilization,Western blot,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular enzyme activity,LanthaScreen,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Reporter gene expression,Mobility shift (Caliper / LabChip),5,489,,NOT in any playbook readout list for this class
+ppi_domain,Target engagement (cellular),Radiometric,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone deacetylase activity,Radioligand binding,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Protease activity,Radioligand binding,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Protease activity,Radiometric,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Apoptosis / DNA damage (cellular),ELISA / immunosorbent,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Cellular signaling,Absorbance / colorimetric,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Receptor radioligand binding,Luciferase reporter,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Time-dependent / covalent kinetics,Thermal shift (DSF),5,489,G1,covered
+ppi_domain,Enzyme activity,Gel-based (PAGE / EMSA),5,489,,NOT in any playbook readout list for this class
+ppi_domain,Histone methyltransferase activity,High-content imaging,5,489,,NOT in any playbook readout list for this class
+ppi_domain,ADP-ribosyltransferase activity,AlphaScreen / AlphaLISA,5,489,PPI1,covered
+ppi_domain,ADP-ribosyltransferase activity,Radioligand binding,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein-protein interaction,Gel-based (PAGE / EMSA),5,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Luciferase reporter,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Phosphatase activity,Mobility shift (Caliper / LabChip),5,489,,NOT in any playbook readout list for this class
+ppi_domain,Covalent adduct formation,Mobility shift (Caliper / LabChip),5,489,,NOT in any playbook readout list for this class
+ppi_domain,Chromatin reader binding,Mass spectrometry,5,489,G5; G7,covered
+ppi_domain,Receptor radioligand binding,SPR / BLI,5,489,G2; PPI3,covered
+ppi_domain,Covalent adduct formation,ELISA / immunosorbent,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Beta-arrestin recruitment,Fluorescent calcium dye,5,489,,NOT in any playbook readout list for this class
+ppi_domain,ATPase activity,Fluorescence polarization,5,489,PPI1,covered
+ppi_domain,ATPase activity,ELISA / immunosorbent,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Time-dependent / covalent kinetics,Gel-based (PAGE / EMSA),5,489,,NOT in any playbook readout list for this class
+ppi_domain,cAMP signaling,Fluorescent calcium dye,5,489,,NOT in any playbook readout list for this class
+ppi_domain,G-protein activation (GTPgammaS),Radiometric,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Inositol phosphate accumulation,Fluorescent calcium dye,5,489,,NOT in any playbook readout list for this class
+ppi_domain,Protein aggregation,Fluorescent calcium dye,5,489,,NOT in any playbook readout list for this class
 small_gtpase,Nucleotide exchange,Fluorescent nucleotide (BODIPY / mant),44,73,GTP1,covered
 small_gtpase,Nucleotide exchange,TR-FRET / HTRF,41,73,GTP1; GTP2; GTP4,covered
 small_gtpase,Kinase activity,Western blot,30,73,GTP4,covered

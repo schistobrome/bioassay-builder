@@ -311,20 +311,35 @@ def classify(info, classes, modalities=()):
     return found
 
 
+def anchor_blocks(anchors):
+    """Back-to-back anchors (for example Kelch 1-6, one beta-propeller) form one block; separate domains stay separate.
+    -> [(start, end, label)], same rule as anchorBlocks() in docs/index.html."""
+    blocks = []
+    for a in sorted(anchors, key=lambda a: (a["start"], a["end"])):
+        name = a.get("description") or a.get("type") or ""
+        if blocks and a["start"] <= blocks[-1][1] + 1:
+            blocks[-1][1] = max(blocks[-1][1], a["end"])
+            if name:
+                blocks[-1][2].append(name)
+        else:
+            blocks.append([a["start"], a["end"], [name] if name else []])
+    out = []
+    for s, e, names in blocks:
+        label = names[0] + " to " + names[-1] if len(names) > 1 else (names[0] if names else "domain")
+        out.append((s, e, "%s %d-%d" % (label, s, e)))
+    return out
+
+
 def coverage(anchors, start, end):
-    """Fraction of the class's domain residues inside the construct (union of its domains)."""
+    """Each domain block is scored on its own and the best-covered one counts: a PPI or reader assay needs one intact
+    interface, not every interface the protein has. -> (fraction of the best block inside the construct,
+    label of that block, labels of all blocks) or None when there is no anchor."""
     if not anchors:
         return None
-    spans = sorted((a["start"], a["end"]) for a in anchors)
-    merged = []
-    for s, e in spans:
-        if merged and s <= merged[-1][1] + 1:
-            merged[-1][1] = max(merged[-1][1], e)
-        else:
-            merged.append([s, e])
-    total = sum(e - s + 1 for s, e in merged)
-    inside = sum(max(0, min(e, end) - max(s, start) + 1) for s, e in merged)
-    return inside / float(total), merged
+    blocks = anchor_blocks(anchors)
+    frac = lambda b: max(0, min(b[1], end) - max(b[0], start) + 1) / float(b[1] - b[0] + 1)
+    best = max(blocks, key=frac)        # max() keeps the first block on ties
+    return frac(best), best[2], [b[2] for b in blocks]
 
 
 def kits_for(kits, entry_id, gene):
@@ -446,17 +461,18 @@ def main():
             say("  - %-28s %s; no domain range in UniProt, so construct coverage cannot be checked" % (
                 c["label"], "; ".join(c["why"])))
             continue
-        fraction, spans = cov
-        ranges = ", ".join("%d-%d" % tuple(s) for s in spans)
+        fraction, best, labels = cov
         if fraction >= FULL:
             status[cid] = ("applies", fraction)
-            note = "domain %s fully inside your construct" % ranges
+            note = "%s %s inside your construct" % (best, "fully" if fraction >= 1 else "%d%%" % round(100 * fraction))
         elif fraction > PARTIAL:
             status[cid] = ("partial", fraction)
-            note = "WARNING: only %d%% of domain %s is inside your construct" % (round(100 * fraction), ranges)
+            note = "WARNING: only %d%% of %s is inside your construct%s" % (
+                round(100 * fraction), best, " (the best covered of %d annotated domains)" % len(labels) if len(labels) > 1 else "")
         else:
             status[cid] = ("outside", 0.0)
-            note = "domain %s is OUTSIDE your construct, so these assays are dropped" % ranges
+            note = "%s your construct, so these assays are dropped" % (
+                "none of %s is inside" % ", ".join(labels) if len(labels) > 1 else best + " is OUTSIDE")
         say("  - %-28s %s; %s" % (c["label"], "; ".join(c["why"]), note))
 
     gene_evidence = {} if args.no_evidence else evidence_counts(info["gene"], playbook)

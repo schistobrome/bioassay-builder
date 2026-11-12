@@ -204,7 +204,7 @@ ARPC1B,O15143,ppi_domain,3,1,0,0,2,1
 ARPC2,O15144,,2,0,0,0,2,0
 ARPC3,O15145,,1,0,0,0,1,0
 MUSK,O15146,protein_kinase; receptor_ectodomain,177,137,0,0,40,10
-MDM4,O15151,e3_ligase,52,43,0,0,9,19
+MDM4,O15151,ppi_domain; e3_ligase,52,43,0,0,9,19
 POLR1C,O15160,,2,1,0,0,1,1
 TRIM24,O15164,epigenetic_reader; e3_ligase; nuclear_receptor,69,20,0,0,49,19
 AXIN1,O15169,e3_ligase,2,0,0,0,2,1
@@ -238,7 +238,7 @@ EIF3D,O15371,,2,0,0,0,2,0
 EIF3H,O15372,dub,1,0,0,0,1,0
 HDAC3,O15379,epigenetic_deacetylase,516,501,0,2,13,8
 BCAT2,O15382,enzyme_other,7,5,0,0,2,2
-BIRC5,O15392,,18,10,1,0,7,8
+BIRC5,O15392,ppi_domain,18,10,1,0,7,8
 TMPRSS2,O15393,protease,27,20,4,0,3,8
 IPO8,O15397,,1,0,0,0,1,0
 GRIN2D,O15399,ion_channel; ppi_domain,21,5,1,0,15,17
@@ -2425,7 +2425,7 @@ TPMT,P51580,enzyme_other,3,2,0,0,1,0
 P2RY4,P51582,gpcr,51,16,20,11,4,23
 CYP2J2,P51589,cytochrome_p450,26,15,0,0,11,1
 MECP2,P51608,,1,0,0,0,1,0
-HCFC1,P51610,,2,1,0,0,1,0
+HCFC1,P51610,ppi_domain,2,1,0,0,1,0
 IRAK1,P51617,protein_kinase,256,209,1,0,46,19
 ALDH3A2,P51648,enzyme_other,2,0,0,0,2,0
 ALDH5A1,P51649,enzyme_other,5,4,0,0,1,1
@@ -2590,7 +2590,7 @@ ITGA1,P56199,receptor_ectodomain,5,4,0,0,1,3
 P2RX3,P56373,ion_channel,72,62,0,2,8,45
 ATP5ME,P56385,,1,0,0,0,1,0
 LGALS4,P56470,,13,2,0,0,11,2
-HDAC4,P56524,epigenetic_deacetylase,433,423,0,3,7,74
+HDAC4,P56524,epigenetic_deacetylase; ppi_domain,433,423,0,3,7,74
 EIF6,P56537,,2,0,0,0,2,0
 CTBP2,P56545,,3,3,0,0,0,2
 PEX3,P56589,,1,0,0,0,1,0
@@ -2855,7 +2855,7 @@ SHC2,P98077,ppi_domain,1,1,0,0,0,1
 MUC5AC,P98088,,0,0,0,0,0,0
 HSPG2,P98160,,1,1,0,0,0,1
 PKD1,P98161,receptor_ectodomain,11,9,0,0,2,6
-XIAP,P98170,protease; e3_ligase,122,80,0,0,42,32
+XIAP,P98170,protease; ppi_domain; e3_ligase,122,80,0,0,42,32
 FGD1,P98174,ppi_domain; small_gtpase,1,0,0,0,1,0
 RBM3,P98179,rna_binding,2,0,0,0,2,0
 CYP4F8,P98187,cytochrome_p450,1,1,0,0,0,0
@@ -2879,7 +2879,7 @@ REEP5,Q00765,,1,0,0,0,1,0
 SORD,Q00796,enzyme_other,9,8,0,0,1,0
 HNRNPU,Q00839,,3,1,0,0,2,1
 CACNA1B,Q00975,ion_channel,77,59,1,2,15,24
-MDM2,Q00987,e3_ligase,211,156,2,1,52,45
+MDM2,Q00987,ppi_domain; e3_ligase,211,156,2,1,52,45
 PDE1B,Q01064,phosphodiesterase,92,88,1,0,3,3
 U2AF1,Q01081,rna_binding,2,1,0,0,1,0
 SPTBN1,Q01082,,2,1,0,0,1,1
@@ -3202,8 +3202,8 @@ TNK1,Q13470,protein_kinase; ppi_domain,98,68,1,0,29,3
 MADCAM1,Q13477,,2,1,0,0,1,2
 GAB1,Q13480,,1,1,0,0,0,0
 SMAD4,Q13485,transcription_factor,1,1,0,0,0,1
-BIRC3,Q13489,e3_ligase,43,23,1,0,19,18
-BIRC2,Q13490,e3_ligase,69,44,0,0,25,28
+BIRC3,Q13489,ppi_domain; e3_ligase,43,23,1,0,19,18
+BIRC2,Q13490,ppi_domain; e3_ligase,69,44,0,0,25,28
 PICALM,Q13492,,1,0,0,0,1,0
 SQSTM1,Q13501,autophagy,5,1,0,0,4,1
 MTX1,Q13505,,1,0,0,0,1,0
@@ -3553,7 +3553,7 @@ PRSS8,Q16651,protease,4,2,0,0,2,0
 PDK4,Q16654,protein_kinase,47,38,0,0,9,1
 FSCN1,Q16658,,6,5,0,0,1,4
 MAPK6,Q16659,protein_kinase,61,34,1,1,25,4
-HIF1A,Q16665,transcription_factor,93,67,9,3,14,38
+HIF1A,Q16665,ppi_domain; transcription_factor,93,67,9,3,14,38
 CYP1B1,Q16678,cytochrome_p450,63,50,1,0,12,1
 DUSP5,Q16690,protein_phosphatase,4,4,0,0,0,0
 CYP2A13,Q16696,cytochrome_p450,6,5,0,0,1,0
@@ -4211,7 +4211,7 @@ OSR1,Q8TAX0,transcription_factor,22,22,0,0,0,12
 DEPTOR,Q8TB45,ppi_domain,3,2,0,0,1,0
 SLC35B2,Q8TB61,solute_carrier,1,0,0,0,1,0
 PUM2,Q8TB72,rna_binding,1,0,0,0,1,0
-KLHDC4,Q8TBB5,,1,0,0,0,1,0
+KLHDC4,Q8TBB5,ppi_domain,1,0,0,0,1,0
 UBA3,Q8TBC4,enzyme_other,7,6,0,0,1,1
 NANP,Q8TBE9,enzyme_other,1,1,0,0,0,0
 PIP4K2C,Q8TBX8,lipid_kinase,70,51,1,0,18,10
@@ -4394,7 +4394,7 @@ FGF14,Q92915,secreted_ligand,1,0,0,0,1,0
 GPKOW,Q92917,,1,0,0,0,1,0
 MAP4K1,Q92918,protein_kinase,230,157,2,2,69,20
 SMARCC1,Q92922,chromatin_reader,2,1,0,0,1,0
-SMARCD2,Q92925,,2,1,0,0,1,1
+SMARCD2,Q92925,ppi_domain,2,1,0,0,1,1
 BAD,Q92934,ppi_domain,23,12,0,0,11,8
 KHSRP,Q92945,rna_binding,5,2,0,0,3,1
 GCDH,Q92947,enzyme_other,4,0,0,1,3,0
@@ -4409,7 +4409,7 @@ BRF1,Q92994,,1,0,0,0,1,0
 USP13,Q92995,dub; autophagy,5,3,0,0,2,0
 DVL3,Q92997,ppi_domain,2,2,0,0,0,0
 USP9X,Q93008,dub,18,17,0,0,1,2
-USP7,Q93009,dub,69,64,1,1,3,0
+USP7,Q93009,ppi_domain; dub,69,64,1,1,3,0
 CUL5,Q93034,e3_ligase,2,1,0,0,1,1
 STMN2,Q93045,,1,0,0,0,1,0
 MED12,Q93074,e3_ligase,1,1,0,0,0,1
@@ -4462,7 +4462,7 @@ TIMCC,Q96C01,,1,0,0,0,1,0
 EFHD2,Q96C19,,2,1,0,0,1,1
 PYCR2,Q96C36,enzyme_other,1,0,0,0,1,0
 DCPS,Q96C86,nuclease,12,7,0,1,4,1
-BIRC7,Q96CA5,e3_ligase,11,9,0,1,1,2
+BIRC7,Q96CA5,ppi_domain; e3_ligase,11,9,0,1,1,2
 GPR146,Q96CH1,gpcr,3,0,1,0,2,2
 ISOC1,Q96CN7,,1,1,0,0,0,1
 GRAMD1A,Q96CP6,autophagy,2,0,0,0,2,0
@@ -4510,7 +4510,7 @@ P2RY11,Q96G91,gpcr,20,7,6,4,3,10
 VMP1,Q96GC9,autophagy,1,0,0,0,1,0
 AURKB,Q96GD4,protein_kinase,719,647,2,1,69,50
 DCUN1D1,Q96GG9,,20,17,0,1,2,6
-SMARCD1,Q96GM5,,1,1,0,0,0,0
+SMARCD1,Q96GM5,ppi_domain,1,1,0,0,0,0
 TOE1,Q96GM8,nuclease; rna_binding,1,1,0,0,0,1
 MARS2,Q96GW9,enzyme_other,1,1,0,0,0,1
 MASTL,Q96GX5,protein_kinase,16,11,0,0,5,8
@@ -4572,7 +4572,7 @@ SLC46A1,Q96NT5,solute_carrier,12,9,0,0,3,3
 CAMK1G,Q96NX5,protein_kinase,94,59,0,0,35,10
 NECTIN4,Q96NY8,receptor_ectodomain,2,1,1,0,0,0
 PRAP1,Q96NZ9,,1,1,0,0,0,1
-BIRC8,Q96P09,e3_ligase,1,0,0,0,1,1
+BIRC8,Q96P09,ppi_domain; e3_ligase,1,0,0,0,1,1
 NSUN5,Q96P11,enzyme_other,2,1,0,0,1,0
 NLRP3,Q96P20,atpase,93,78,5,1,9,15
 SERPINB12,Q96P63,,1,1,0,0,0,1
@@ -5260,7 +5260,7 @@ SLTM,Q9NWH9,rna_binding,6,5,0,0,1,5
 SMOX,Q9NWM0,enzyme_other,11,10,0,0,1,1
 FKBP14,Q9NWM8,enzyme_other,1,1,0,0,0,1
 PAG1,Q9NWQ8,,1,0,0,0,1,0
-HIF1AN,Q9NWT6,epigenetic_demethylase,22,21,0,0,1,2
+HIF1AN,Q9NWT6,epigenetic_demethylase; ppi_domain,22,21,0,0,1,2
 AURKAIP1,Q9NWT8,,3,3,0,0,0,1
 CLN6,Q9NWW5,,1,0,0,0,1,0
 PLAAT2,Q9NWW9,enzyme_other,1,1,0,0,0,1
@@ -5697,7 +5697,7 @@ GDA,Q9Y2T3,enzyme_other,7,5,0,1,1,0
 GPR52,Q9Y2T5,gpcr,19,2,11,0,6,9
 GPR55,Q9Y2T6,gpcr,40,15,10,10,5,12
 MAP3K2,Q9Y2U5,protein_kinase,123,89,1,0,33,14
-KLHDC2,Q9Y2U9,e3_ligase,3,1,0,0,2,1
+KLHDC2,Q9Y2U9,ppi_domain; e3_ligase,3,1,0,0,2,1
 CARHSP1,Q9Y2V2,rna_binding,1,0,0,0,1,0
 COG6,Q9Y2V7,,2,0,0,0,2,0
 THRAP3,Q9Y2W1,,3,2,0,0,1,0

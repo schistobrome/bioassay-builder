@@ -13,7 +13,7 @@ epigenetic_writer,Histone methyltransferase (writer),2.1.1.43|2.1.1.319|2.1.1.32
 epigenetic_demethylase,Histone demethylase (eraser),1.14.11.27|1.14.11.65|1.14.11.66|1.14.11.67|1.14.11.68|1.14.11.69|1.14.99.66,,histone demethylase activity,jmjc,no,,,
 epigenetic_deacetylase,Histone deacetylase / sirtuin (eraser),3.5.1.98|2.3.1.286,,histone deacetylase activity|NAD dependent protein deacetylase activity,histone deacetylase|sirtuin,no,,,
 epigenetic_reader,Bromodomain reader,,Bromodomain,,bromo|bromodomain,no,,,
-ppi_domain,Protein-protein interaction domain,,,,sh2|sh3|pdz|ww|wd|ank|tpr|btb|poz|bh1|bh2|bh3|bh4,no,,,Broad on purpose: any protein with one of these interaction domains gets the PPI assays.
+ppi_domain,Protein-protein interaction domain,,,,sh2|sh3|pdz|ww|wd|ank|tpr|btb|poz|bh1|bh2|bh3|bh4|kelch|swib|mdm2|bir|14-3-3|vhl,no,,,Broad on purpose: any protein with one of these interaction domains gets the PPI assays.
 e3_ligase,"Ubiquitin ligase cascade (E3 ligases, plus E1 / E2 enzymes)",2.3.2.27|2.3.2.26|2.3.2.31|2.3.2.23|2.3.2.24|2.3.2.25|6.2.1.45,,ubiquitin protein ligase activity|ubiquitin-like ligase-substrate adaptor activity|ubiquitin ligase complex scaffold activity,hect|rbr|u box|ring type|f box,no,,epigenetic_deacetylase,
 dub,Deubiquitinase,3.4.19.12,,ubiquitin specific protease activity|cysteine type deubiquitinase activity|deubiquitinase activity,usp|uch|josephin|otu|mindy,no,,,
 degrader_modality,Targeted protein degradation project,,,,,no,degrader,,Only included when you pass --modality degrader.

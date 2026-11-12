@@ -306,6 +306,15 @@
        }
       }
      },
+     "quality": {
+      "type": "object",
+      "description": "curated from the NIH Assay Guidance Manual; the app holds the wording for each code",
+      "properties": {
+       "qc_metric": {"type": ["string", "null"], "enum": ["hts", "hcs", "potency", null], "description": "hts: Z' >= 0.4 or SW >= 2; hcs: 0 < Z' <= 0.5 acceptable; potency: replicate MSR < 3"},
+       "dmso_pct": {"type": ["string", "null"], "description": "curated starting point for final DMSO, a number (upper limit) or a range such as 1-2"},
+       "interference": {"type": "array", "items": {"type": "string", "enum": ["luciferase", "fluorescence", "absorbance", "proximity", "aggregation", "thiol_redox", "cytotoxicity", "imaging", "label_free"]}}
+      }
+     },
      "sources": {
       "type": "array",
       "description": "literature for this assay (not vendor kits)",

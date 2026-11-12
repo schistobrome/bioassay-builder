@@ -132,6 +132,24 @@ class ApplyReviewTest(unittest.TestCase):
         self.assertIn("PR1", [a["entry_id"] for a in assays])
         self.assertNotIn("PR9", [a["entry_id"] for a in assays])
 
+    def test_allowed_new_column_is_added_but_unknown_column_is_refused(self):
+        write(os.path.join(self.chunk, "entry_proposals.csv"), [
+            "entry_id,field,current_value,proposed_value,evidence,confidence,decision,your_note",
+            "X1,qc_metric,,hts,AGM,high,accept,",
+            "X2,dmso_pct,,1-2,AGM,high,accept,",
+            "X1,made_up_column,,x,e,high,accept,"], bom=False)       # not in NEW_COLUMNS -> error
+        out = self.run_tool("--apply")
+        self.assertIn("ERROR", out)
+        h, rows, lay = ar.read_table(os.path.join(self.data, "assays.csv"))
+        self.assertEqual(h[-2:], ["qc_metric", "dmso_pct"])
+        self.assertNotIn("interference", h)                         # only columns a proposal uses are added
+        self.assertNotIn("made_up_column", h)
+        r = {a["entry_id"]: a for a in rows}
+        self.assertEqual((r["X1"]["qc_metric"], r["X1"]["dmso_pct"]), ("hts", ""))
+        self.assertEqual((r["X2"]["qc_metric"], r["X2"]["dmso_pct"]), ("", "1-2"))
+        self.assertEqual(lay, {"bom": True, "eol": "\r\n"})
+        self.assertIn("Nothing to write", self.run_tool("--apply"))  # second run: already applied
+
     def test_unchanged_file_round_trips_byte_for_byte(self):
         path = os.path.join(self.data, "assays.csv")
         before = self.raw("assays.csv")

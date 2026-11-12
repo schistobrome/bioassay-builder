@@ -35,6 +35,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TABLES = {"assays": ("assays.csv", "entry_id"), "kits": ("kits.csv", "kit_id"),
           "classes": ("function_classes.csv", "class_id")}
+# Columns a chunk may introduce: when a proposal names one that the table does not have yet, the column is added
+# (empty for every other row). Any other unknown column is still an error.
+NEW_COLUMNS = {"assays": ["qc_metric", "dmso_pct", "interference"]}
 # (file in the chunk, kind, table). Classes first, then entries, then kits, so new rows can be referred to.
 OPERATIONS = [("new_classes.csv", "new", "classes"), ("class_updates.csv", "field", "classes"),
               ("new_entries.csv", "new", "assays"), ("entry_proposals.csv", "field", "assays"),
@@ -165,6 +168,10 @@ def main(argv=None):
         if not os.path.exists(path) or table not in tables:
             continue
         t, props = tables[table], read_table(path)[1]
+        for col in NEW_COLUMNS.get(table, []):
+            if col not in t["head"] and any((p.get("field") or "").strip() == col or col in p for p in props):
+                t["head"] = t["head"] + [col]
+                print("New column for data/%s: %s" % (TABLES[table][0], col))
         if kind == "field":
             plan = plan_entries(props, t["head"], t["rows"], key=t["key"])
             if table == "kits":                          # an updated applies_to_entries must still name real entries

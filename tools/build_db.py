@@ -21,6 +21,10 @@ USAGE_COLUMNS = ["entry_id", "scope_type", "scope_id", "stage", "effect", "reado
                  "using", "lit_total", "lit_using", "score", "level", "low_confidence", "source"]
 ASSAY_EFFECTS = {"", "both", "inhibition", "activation"}
 SCOPES = {"cell-free", "cell-based"}
+# Curated from the NIH Assay Guidance Manual (review chunk 07); the website holds the wording for each code.
+QC_METRICS = {"", "hts", "hcs", "potency"}
+INTERFERENCE = {"luciferase", "fluorescence", "absorbance", "proximity", "aggregation", "thiol_redox", "cytotoxicity",
+                "imaging", "label_free"}
 MAX_JSON_MB = 15          # docs/assay_db.json above this size gets a warning
 ERRORS, WARNINGS = [], []
 
@@ -111,6 +115,11 @@ def main():
             if not re.match(r"^(10\.\d{4,9}/\S+|https?://\S+)$", d): warn("assays.csv %s: '%s' does not look like a DOI" % (e, d))
         if not a["status"]: warn("assays.csv %s: no review status" % e)
         if a.get("effect", "").lower() not in ASSAY_EFFECTS: err("assays.csv %s: effect must be blank, both, inhibition or activation, got '%s'" % (e, a["effect"]))
+        if a.get("qc_metric", "") not in QC_METRICS: err("assays.csv %s: qc_metric must be blank or one of %s, got '%s'" % (e, sorted(QC_METRICS - {""}), a["qc_metric"]))
+        for t in lst(a.get("interference", "")):
+            if t not in INTERFERENCE: err("assays.csv %s: unknown interference code '%s' (allowed: %s)" % (e, t, ", ".join(sorted(INTERFERENCE))))
+        if a.get("dmso_pct") and not re.match(r"^\d+(\.\d+)?(-\d+(\.\d+)?)?$", a["dmso_pct"]):
+            err("assays.csv %s: dmso_pct must be a number or a range such as 1-2, got '%s'" % (e, a["dmso_pct"]))
 
     for k in kits:
         for e in lst(k["applies_to_entries"]):
@@ -176,6 +185,8 @@ def main():
             "evidence_labels": lst(a.get("evidence_labels", "")), "conditions": a["conditions"], "reagents": a["reagents"],
             "rationale": a["rationale"], "plate_formats": lst(a.get("plate_formats", "")),
             "mechanism": {"learn_more_url": a.get("learn_more_url") or None},
+            "quality": {"qc_metric": a.get("qc_metric") or None, "dmso_pct": a.get("dmso_pct") or None,
+                        "interference": lst(a.get("interference", ""))},
             "sources": [{"doi": d, **({k: cite_by_doi[d.lower()][k] for k in ("title", "year", "journal") if cite_by_doi.get(d.lower())})} for d in lst(a.get("sources_doi", ""))],
             "review": {"status": a["status"], "reviewer": a.get("reviewer") or None, "reviewed_on": a.get("reviewed_on") or None}} for a in assays],
         "kits": [{
