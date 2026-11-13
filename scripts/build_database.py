@@ -976,9 +976,15 @@ def dedupe_campaigns(labeled):
         camp = record_campaign(r, original)
         if camp != (r.get("campaign") or r["id"]):
             merged += 1
-        c = camps.setdefault(camp, {"f": set(), "t": set(), "e": [], "x": set(), "r": set(), "ff": set(), "tf": set()})
+        c = camps.setdefault(camp, {"f": set(), "t": set(), "e": [], "x": set(), "r": set(), "ff": set(), "tf": set(),
+                                    "tpf": collections.defaultdict(set), "tpc": collections.defaultdict(set)})
         c["f"].update(split(r.get("function_labels")))
         c["t"].update(split(r.get("technology_labels")))
+        techs = split(r.get("technology_labels"))
+        if techs:                       # readouts paired with the functions measured on the SAME record (see paired_technologies)
+            pairs = c["tpf"] if r.get("context") == "cell-free" else c["tpc"]
+            for fn in split(r.get("function_labels")):
+                pairs[fn].update(techs)
         c["e"].append(r.get("effect", ""))
         c["x"].add(r.get("context", ""))
         c["r"].add(r.get("role", ""))
@@ -990,7 +996,9 @@ def dedupe_campaigns(labeled):
     # with only its cell-free technologies (see using_for).
     campaigns = [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
                   "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]),
-                  "ff": sorted(v["ff"]), "tf": sorted(v["tf"])}
+                  "ff": sorted(v["ff"]), "tf": sorted(v["tf"]),
+                  "tpf": {fn: sorted(ts) for fn, ts in sorted(v["tpf"].items())},
+                  "tpc": {fn: sorted(ts) for fn, ts in sorted(v["tpc"].items())}}
                  for k, v in camps.items()]
     return campaigns, merged
 
@@ -1008,6 +1016,25 @@ def cell_free_technologies(c):
     if "tf" in c:
         return set(c["tf"])
     return set(c.get("t") or []) if c.get("x") != "cell-based" else set()
+
+
+PANEL_MIN = 20          # a campaign testing this many proteins or more is a selectivity panel (see panel_campaigns)
+ANY_FUNCTION = "*"      # in a pairing map: technologies of a summary written before pairing existed (count for any function)
+
+
+def pairing_maps(c):
+    """(cell-free, cell-based) maps function -> technologies measured on the same record. A summary written before
+    Nov 2026 has no maps: its technologies are kept under ANY_FUNCTION, so it counts exactly as it used to."""
+    if "tpf" in c:
+        return ({k: set(v) for k, v in c["tpf"].items()}, {k: set(v) for k, v in (c.get("tpc") or {}).items()})
+    return ({ANY_FUNCTION: cell_free_technologies(c)}, {ANY_FUNCTION: set(c.get("t") or [])})
+
+
+def paired_technologies(c, wanted, cell_entry):
+    """Readouts of the records in this campaign that measured one of the entry's functions, in the entry's context.
+    A paper with an HTRF kinase assay and a KINOMEscan binding panel credits HTRF to the kinase-activity entry only."""
+    pairs = pairing_maps(c)[1 if cell_entry else 0]
+    return set().union(*(pairs.get(fn, ()) for fn in set(wanted) | {ANY_FUNCTION}))
 
 
 def scope_of(row, key, counts):
@@ -1162,7 +1189,8 @@ def merge_campaign_lists(a, b):
         if m is None:
             out[c["c"]] = {"c": c["c"], "f": set(c["f"]), "t": set(c["t"]), "e": [c["e"]], "x": {c["x"]}, "r": set(c.get("r", [])),
                            "p": set(c.get("p", [])), "k": dict(c.get("k") or {}), "ff": cell_free_functions(c),
-                           "tf": cell_free_technologies(c)}
+                           "tf": cell_free_technologies(c), "tpf": collections.defaultdict(set),
+                           "tpc": collections.defaultdict(set)}
         else:
             m["f"].update(c["f"]); m["t"].update(c["t"]); m["e"].append(c["e"]); m["x"].add(c["x"]); m["r"].update(c.get("r", []))
             m["p"].update(c.get("p", []))
@@ -1170,9 +1198,15 @@ def merge_campaign_lists(a, b):
             m["tf"].update(cell_free_technologies(c))
             for key, val in (c.get("k") or {}).items():
                 m["k"].setdefault(key, val)
+        m = out[c["c"]]
+        for into, pairs in zip((m["tpf"], m["tpc"]), pairing_maps(c)):
+            for fn, ts in pairs.items():
+                into[fn].update(ts)
     return [{"c": k, "f": sorted(v["f"]), "t": sorted(v["t"]), "e": merge_effect(v["e"]),
              "x": "cell-based" if "cell-based" in v["x"] else "cell-free", "r": sorted(v["r"]), "p": sorted(v["p"]), "k": v["k"],
-             "ff": sorted(v["ff"]), "tf": sorted(v["tf"])}
+             "ff": sorted(v["ff"]), "tf": sorted(v["tf"]),
+             "tpf": {fn: sorted(ts) for fn, ts in v["tpf"].items() if ts},
+             "tpc": {fn: sorted(ts) for fn, ts in v["tpc"].items() if ts}}
             for k, v in out.items()]
 
 
@@ -1333,11 +1367,41 @@ def effect_subset(campaigns, effect):
     return [c for c in campaigns if c["e"] in wanted]
 
 
+def add_pairings(summary, path, labels_path):
+    """Summaries written before Nov 2026 pool a campaign's readouts. Rebuild the campaign list once from the label file
+    already on disk (no download, no relabeling) so each readout stays paired with the function it measured.
+    Returns True if the summary file was upgraded."""
+    camps = summary.get("campaigns") or []
+    if not camps or all("tpf" in c for c in camps) or not os.path.exists(labels_path):
+        return False
+    summary["campaigns"], _ = dedupe_campaigns(read_csv(labels_path))
+    write_json(path, summary)
+    return True
+
+
+def panel_campaigns(summaries, min_proteins):
+    """Campaigns that tested at least min_proteins proteins (selectivity panels, e.g. a CRO kinase panel). Their
+    readout is the panel provider's platform, not a choice made for the protein, so readout shares leave them out."""
+    if not min_proteins:
+        return set()
+    n = collections.Counter(k for s in summaries for k in {c["c"] for c in s["campaigns"]})
+    return {k for k, v in n.items() if v >= min_proteins}
+
+
 def aggregate(args, assays, classes_rows, stamp):
     summaries = [read_json(p) for p in
                  (os.path.join(SUMMARY, f) for f in sorted(os.listdir(SUMMARY)) if f.endswith(".json"))] \
         if os.path.isdir(SUMMARY) else []
     summaries = [s for s in summaries if s]
+    n_upgraded = 0
+    for s in summaries:                                         # one-time upgrade: readouts paired with functions
+        key = s.get("gene") or ""
+        n_upgraded += add_pairings(s, os.path.join(SUMMARY, safe(s["acc"]) + ".json"),
+                                   os.path.join(CACHE, "m2_data", key + "_labeled.csv"))
+        bpath = os.path.join(SUMMARY_BDB, safe(s["acc"]) + ".json")
+        b = read_json(bpath) if os.path.exists(bpath) else None
+        if b:
+            n_upgraded += add_pairings(b, bpath, os.path.join(CACHE, "m2_data_bdb", key + "_bdb_labeled.csv"))
     # Classes are recomputed from each protein's cached UniProt entry, so edits to data/function_classes.csv take
     # effect with --aggregate-only (no relabeling, no downloads). Without a cached entry the stored classes are kept.
     n_reclassed = 0
@@ -1375,6 +1439,9 @@ def aggregate(args, assays, classes_rows, stamp):
         n_bdb += bool(other)
         s["campaigns"] = merge_campaign_lists(own, other)
         s["n_campaigns"] = len(s["campaigns"])
+    panel_min = getattr(args, "panel_min", PANEL_MIN)
+    panels = panel_campaigns(summaries, panel_min)
+    panel_note = "; readout shares leave out selectivity panels (campaigns testing %d+ proteins)" % panel_min if panel_min else ""
     entries =[(a, set(split(a.get("evidence_labels") or a.get("evidence_function")))) for a in assays]
     entries = [(a, labels) for a, labels in entries if labels]
     version = "bd-" + stamp.replace("-", "")
@@ -1438,16 +1505,18 @@ def aggregate(args, assays, classes_rows, stamp):
             tail = [source, "functions: " + "; ".join(sorted(wanted)), today, version, AUTO_ROW_NOTE + note_extra]
             sid = "%s-%s-%s" % (scope_id, a["entry_id"], EFFECT_SHORT[effect])
             out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""] + [total, len(classifiable), len(using), "", ""] + tail)))
-            # technologies: for a cell-free entry only those of the campaigns' cell-free records count
+            # technologies: only those on the records that measured this entry's function, in the entry's context
+            # (cell-free or cell-based), and not from selectivity panels
             cell_entry = "cell-based" in (a.get("scope") or "").lower() and "free" not in (a.get("scope") or "").lower()
-            techs_of = (lambda c: set(c["t"])) if cell_entry else cell_free_technologies
-            tech = collections.Counter(t for c in using for t in techs_of(c))
-            n_tech = sum(1 for c in using if techs_of(c))
+            techs = [paired_technologies(c, wanted, cell_entry) for c in using if c["c"] not in panels]
+            tech = collections.Counter(t for ts in techs for t in ts)
+            n_tech = sum(1 for ts in techs if ts)
+            read_tail = tail[:-1] + [tail[-1] + panel_note]
             for t, n in tech.most_common():
                 if n < args.min_readout and len(tech) >= 5:
                     continue                      # one-off technology labels are mostly text noise
                 out.append(dict(zip(USAGE_COLUMNS, [sid + "-" + re.sub(r"\W+", "", t)[:12]] + base + [t]
-                                    + [total, n_tech, n, "", ""] + tail)))
+                                    + [total, n_tech, n, "", ""] + read_tail)))
             plate_c = [c for c in using if c.get("p")]           # campaigns whose text states a plate format
             for fmt, n in collections.Counter(p for c in plate_c for p in set(c["p"])).most_common():
                 out.append(dict(zip(USAGE_COLUMNS, [sid + "-plate" + fmt] + base + ["plate:" + fmt]
@@ -1528,7 +1597,8 @@ def aggregate(args, assays, classes_rows, stamp):
               ["class_id", "function_label", "technology", "n_campaigns", "n_proteins_in_class",
                "playbook_entries_listing_it", "suggestion"])
     no_labels = [a["entry_id"] for a in assays if not (a.get("evidence_labels") or a.get("evidence_function"))]
-    return {"proteins": len(summaries), "reclassed": n_reclassed, "with_bindingdb": n_bdb, "with_plates": n_plates, "with_conditions": n_conds, "condition_rows": len(cond_rows), "rows": len(unique),
+    return {"proteins": len(summaries), "upgraded": n_upgraded, "panels": len(panels), "panel_min": panel_min,
+            "reclassed": n_reclassed, "with_bindingdb": n_bdb, "with_plates": n_plates, "with_conditions": n_conds, "condition_rows": len(cond_rows), "rows": len(unique),
             "suggestions": sum(1 for s in suggestions if s["suggestion"] != "covered"),
             "entries_without_evidence_labels": no_labels}
 
@@ -1679,6 +1749,9 @@ def build_parser():
     ap.add_argument("--min-readout", type=int, default=2,
                     help="drop a technology row used by fewer campaigns than this (only when 5 or more technologies are seen)")
     ap.add_argument("--suggest-min", type=int, default=5, help="minimum campaigns for a readout suggestion")
+    ap.add_argument("--panel-min", type=int, default=PANEL_MIN,
+                    help="campaigns testing this many proteins or more are selectivity panels and are left out of "
+                         "readout shares (default %d; 0 keeps them)" % PANEL_MIN)
     ap.add_argument("--aggregate-only", action="store_true", help="skip downloading/labeling; just rebuild the output tables")
     ap.add_argument("--no-aggregate", action="store_true")
     ap.add_argument("--merge", action="store_true", help="add new rows to data/usage_stats.csv (backup is made)")
@@ -1890,6 +1963,11 @@ def main(argv=None):
         res = aggregate(args, assays, classes_rows, stamp)
         log("  %d proteins summarized (%d with BindingDB campaigns) -> %d de-duplicated usage rows (build_output/usage_stats.generated.csv)"
             % (res["proteins"], res["with_bindingdb"], res["rows"]))
+        if res["upgraded"]:
+            log("  readouts paired with their functions in %d summary files (one-time upgrade from the label files on disk)"
+                % res["upgraded"])
+        log("  readout shares leave out %d selectivity-panel campaigns (%s)" % (res["panels"],
+            "%d+ proteins each" % res["panel_min"] if res["panel_min"] else "--panel-min 0: panels kept"))
         log("  function classes recomputed from data/function_classes.csv: %d proteins changed class" % res["reclassed"])
         log("  plate formats read for %d proteins%s" % (res["with_plates"], "" if res["with_plates"] else
             " (run scripts/plate_formats.py first to add them)"))

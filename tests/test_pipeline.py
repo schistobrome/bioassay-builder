@@ -562,5 +562,71 @@ class TestCellFreeFunctions(FakeCache):
         self.assertEqual(k1_reads, {"TR-FRET"})                                  # no cell-assay technology leaks in
 
 
+def rec(rid, campaign, fn, tech, context="cell-free"):
+    return {"id": rid, "source": "ChEMBL", "campaign": campaign, "pubchem_aid": "", "context": context,
+            "function_labels": fn, "technology_labels": tech, "effect": "inhibition", "role": ""}
+
+
+class TestReadoutPairing(FakeCache):
+    """A readout counts for an entry only if it was on a record that measured the entry's function."""
+
+    def readouts(self, gene="KIN1", entry="K1"):
+        return {r["readout"]: r for r in self.usage() if r["entry_id"] == entry and r["scope_type"] == "gene"
+                and r["scope_id"] == gene and r["effect"] == "inhibition" and r["readout"]
+                and not r["readout"].startswith("plate:")}
+
+    def test_dedupe_pairs_readouts_with_functions(self):
+        (c,), _ = bd.dedupe_campaigns([rec("a1", "doc:D1", "Kinase activity", "TR-FRET / HTRF"),
+                                       rec("a2", "doc:D1", "Ligand binding affinity", "KINOMEscan competition binding"),
+                                       rec("a3", "doc:D1", "Kinase activity", "Western blot", "cell-based")])
+        self.assertEqual(c["tpf"], {"Kinase activity": ["TR-FRET / HTRF"],
+                                    "Ligand binding affinity": ["KINOMEscan competition binding"]})
+        self.assertEqual(c["tpc"], {"Kinase activity": ["Western blot"]})
+
+    def test_binding_readout_in_same_paper_does_not_count_for_activity_entry(self):
+        (c,), _ = bd.dedupe_campaigns([rec("a1", "doc:D1", "Kinase activity", "TR-FRET / HTRF"),
+                                       rec("a2", "doc:D1", "Ligand binding affinity", "KINOMEscan competition binding")])
+        self.summary("P1", "KIN1", [c])
+        self.run_aggregate()
+        reads = self.readouts()
+        self.assertEqual(set(reads), {"TR-FRET / HTRF"})
+        self.assertEqual(reads["TR-FRET / HTRF"]["n_campaigns_classifiable"], "1")
+
+    def test_panels_left_out_of_readout_shares_only(self):
+        panel = lambda: bd.dedupe_campaigns([rec("p", "doc:PANEL", "Kinase activity", "Radiometric")])[0][0]
+        own = bd.dedupe_campaigns([rec("a", "doc:D1", "Kinase activity", "TR-FRET / HTRF")])[0][0]
+        self.summary("P1", "KIN1", [own, panel()])
+        self.summary("P2", "KIN2", [panel()])
+        self.summary("P3", "KIN3", [panel()])
+        self.run_aggregate(panel_min=3)
+        reads = self.readouts()
+        self.assertEqual(set(reads), {"TR-FRET / HTRF"})                         # the 3-protein panel is left out
+        self.assertIn("selectivity panels", reads["TR-FRET / HTRF"]["notes"])
+        top = [r for r in self.usage() if r["entry_id"] == "K1" and r["scope_type"] == "gene" and r["scope_id"] == "KIN1"
+               and r["effect"] == "inhibition" and not r["readout"]][0]
+        self.assertEqual(top["n_campaigns_using"], "2")                          # function occurrence still counts it
+        self.run_aggregate(panel_min=0)
+        self.assertEqual(set(self.readouts()), {"TR-FRET / HTRF", "Radiometric"})
+
+    def test_old_summary_is_upgraded_once_from_label_file(self):
+        old = camp("doc:D1", f=["Kinase activity", "Ligand binding affinity"],
+                   t=["TR-FRET / HTRF", "KINOMEscan competition binding"])
+        self.summary("P1", "KIN1", [old])
+        path = os.path.join(bd.CACHE, "m2_data", "KIN1_labeled.csv")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        rows = [rec("a1", "doc:D1", "Kinase activity", "TR-FRET / HTRF"),
+                rec("a2", "doc:D1", "Ligand binding affinity", "KINOMEscan competition binding")]
+        with open(path, "w", newline="", encoding="utf-8") as handle:
+            w = csv.DictWriter(handle, fieldnames=list(rows[0]))
+            w.writeheader()
+            w.writerows(rows)
+        res = self.run_aggregate()
+        self.assertEqual(res["upgraded"], 1)
+        with open(os.path.join(bd.SUMMARY, "P1.json"), encoding="utf-8") as handle:
+            self.assertIn("tpf", json.load(handle)["campaigns"][0])
+        self.assertEqual(set(self.readouts()), {"TR-FRET / HTRF"})
+        self.assertEqual(self.run_aggregate()["upgraded"], 0)                    # nothing left to upgrade
+
+
 if __name__ == "__main__":
     unittest.main()
