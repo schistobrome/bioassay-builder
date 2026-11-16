@@ -1,0 +1,141 @@
+{
+  "_comment": "Search configuration for mining assay detail out of open-access papers. Built and tested against the Europe PMC REST API on 2026-11-15; see schema/PAPER_EXTRACTION.md. Europe PMC is used rather than PubChem or PubMed because it is the only one of the three that serves open-access FULL TEXT over an API, and section-scoped fields (METHODS:) are what make these queries selective.",
+  "version": "1.0",
+  "api": {
+    "search": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+    "fulltext": "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML",
+    "params": { "format": "json", "resultType": "core", "pageSize": 50 },
+    "user_agent": "bioassay-builder literature miner (research use)",
+    "pause_seconds": 1,
+    "notes": [
+      "Parse the full text with ElementTree itertext(), not element.text: on one test paper .text gave 24,754 characters and itertext() gave 78,240, because nested italic/sup tags drop the rest.",
+      "Methods subsection titles (<sec><title>) are the natural assay boundaries: one test paper split into 16 blocks, with the ATPase assay block at 1,922 characters, which fits a small model's context comfortably.",
+      "A subsection body repeats its own title at the start ('ATPase assayTo measure WRN...'); strip the title prefix before extraction.",
+      "Keep the license field. Facts can be extracted from any open-access paper, but cc-by-nc-nd text should not be redistributed."
+    ]
+  },
+
+  "query_template": "({target_names}) AND ({assay_terms}) AND (OPEN_ACCESS:y AND IN_EPMC:y) {exclusions}",
+  "target_name_field": "TITLE_ABS",
+  "assay_term_field": "METHODS",
+  "_field_comment": "The target goes in TITLE_ABS so the paper is actually about it; the assay terms go in METHODS so the match is a real protocol and not a passing mention in a discussion. Putting the target in free text instead returned 6,933 hits for WRN, topped by DNA-damage reviews; this form returns 22, topped by the WRN inhibitor papers.",
+
+  "sort": "",
+  "_sort_comment": "Leave sort empty (relevance). Do NOT sort by citation count: 'CITED desc' put 2009-2014 reviews above every assay paper in testing, because old reviews accumulate citations and mention every term.",
+
+  "exclusions": "NOT (TITLE_ABS:\"chimeric antigen receptor\" OR TITLE_ABS:\"CAR-T\" OR TITLE_ABS:\"bispecific\" OR TITLE_ABS:\"monoclonal antibody\" OR TITLE_ABS:ADCC OR TITLE_ABS:radioimmunotherapy OR TITLE_ABS:\"antibody-drug conjugate\" OR TITLE_ABS:radioligand) NOT (PUB_TYPE:\"Review\" OR PUB_TYPE:\"review-article\")",
+  "_exclusions_comment": "In the 75-paper sample, 20 papers were antibody / CAR-T / radioligand work and not one of them reached 5 of 6 assay-detail signals, against 22 of 53 small-molecule papers. Excluding them costs nothing and removes the bulk of the noise.",
+
+  "assay_terms_core": [
+    "\"assay buffer\"", "\"384-well\"", "\"1536-well\"", "\"96-well\"",
+    "\"Z-factor\"", "\"Z' factor\"", "\"signal-to-background\"",
+    "\"dose-response\"", "\"serial dilution\"", "\"final DMSO\"",
+    "\"EC50\"", "\"Emax\"", "\"fold induction\"", "\"maximal response\"",
+    "\"positive allosteric modulator\"", "\"allosteric modulator\"", "\"potentiator\"",
+    "\"agonist\"", "\"partial agonist\"", "\"inverse agonist\"", "\"enzyme activator\"",
+    "\"surface plasmon resonance\"", "\"isothermal titration calorimetry\"",
+    "\"thermal shift\"", "\"differential scanning fluorimetry\"",
+    "\"high-throughput screen\"", "\"recombinant protein\""
+  ],
+  "_core_comment": "Used for every target, and alone for classes with no specific block below. Ranked by how often the term appeared in the 75-paper sample: a detergent appeared in 72 papers, a named detection technology in 66, a buffer in 59, a plate format in 50, an explicit final DMSO in 26 and a Z-prime in only 4.",
+  "_activation_comment": "The agonist / PAM / potentiator / EC50 / Emax terms are not optional extras. 11 of the 73 readable sample papers were substantially activation studies (GLP-1R PAM and agonist screens, STAT6 and CDK2 activators, GPCR biased agonism), and an inhibitor-only term list misses them: 'potentiator' appeared in 9 papers and 'positive allosteric modulator' in 6, but neither would have matched any inhibition term. Do not add an exclusion for agonist or activator work.",
+
+  "assay_terms_by_class": {
+    "protein_kinase": ["\"ADP-Glo\"", "\"Kinase-Glo\"", "\"TR-FRET\"", "HTRF", "\"mobility shift\"", "LanthaScreen", "\"kinase activity assay\"", "\"ATP Km\"", "Transcreener"],
+    "lipid_kinase": ["\"ADP-Glo\"", "\"Kinase-Glo\"", "\"TR-FRET\"", "\"lipid kinase assay\"", "\"PIP2\""],
+    "kinase_regulatory_subunit": ["\"ADP-Glo\"", "\"TR-FRET\"", "\"isothermal titration calorimetry\"", "\"surface plasmon resonance\""],
+    "dna_helicase": ["\"ADP-Glo\"", "\"helicase unwinding\"", "\"ATPase activity assay\"", "\"fluorescence quenching\"", "\"forked duplex\"", "\"malachite green\""],
+    "atpase": ["\"ADP-Glo\"", "\"ATPase activity assay\"", "\"malachite green\"", "\"NADH-coupled\"", "Transcreener"],
+    "nuclease": ["\"fluorogenic substrate\"", "\"gel-based\"", "\"FRET substrate\"", "\"nuclease assay\""],
+    "topoisomerase": ["\"supercoiled\"", "\"plasmid relaxation\"", "\"gel-based\"", "\"decatenation\""],
+    "protease": ["\"fluorogenic substrate\"", "AMC", "\"FRET substrate\"", "\"protease assay\"", "\"Km determination\""],
+    "protein_phosphatase": ["\"malachite green\"", "DiFMUP", "\"phosphatase assay\"", "\"pNPP\""],
+    "gpcr": ["\"cAMP accumulation\"", "\"calcium mobilization\"", "\"beta-arrestin\"", "GloSensor", "\"IP-One\"", "GTPgammaS", "\"radioligand binding\"", "FLIPR", "\"NanoBiT\"", "\"EC20\"", "\"EC80\"", "\"triple-add\"", "\"three-phase assay\"", "\"biased agonism\""],
+    "ion_channel": ["\"patch clamp\"", "\"thallium flux\"", "\"membrane potential dye\"", "\"rubidium efflux\"", "\"calcium dye\"", "FLIPR", "\"automated electrophysiology\""],
+    "abc_transporter": ["\"calcein-AM\"", "\"rhodamine 123\"", "\"transport assay\"", "\"vesicular transport\"", "\"ATPase assay\""],
+    "solute_carrier": ["\"uptake assay\"", "\"radiolabeled substrate\"", "\"transport assay\"", "\"fluorescent substrate\""],
+    "nuclear_receptor": ["\"luciferase reporter\"", "\"coactivator recruitment\"", "\"TR-FRET\"", "\"fluorescence polarization\"", "\"ligand binding domain\""],
+    "transcription_factor": ["\"luciferase reporter\"", "\"fluorescence polarization\"", "EMSA", "\"DNA binding assay\"", "\"thermal shift\""],
+    "epigenetic_reader": ["AlphaScreen", "\"TR-FRET\"", "NanoBRET", "\"fluorescence polarization\"", "bromodomain", "\"acetylated peptide\""],
+    "chromatin_reader": ["AlphaScreen", "\"TR-FRET\"", "\"fluorescence polarization\"", "\"methylated peptide\"", "\"histone peptide\""],
+    "epigenetic_writer": ["\"radiometric\"", "\"tritiated SAM\"", "\"MTase-Glo\"", "\"SAH detection\"", "\"histone methyltransferase assay\""],
+    "nucleic_acid_methyltransferase": ["\"MTase-Glo\"", "\"tritiated SAM\"", "\"SAH detection\"", "\"methyltransferase assay\""],
+    "epigenetic_deacetylase": ["\"fluorogenic substrate\"", "\"acetyl-lysine\"", "\"HDAC-Glo\"", "\"deacetylase assay\"", "\"developer\""],
+    "epigenetic_demethylase": ["\"formaldehyde detection\"", "\"demethylase assay\"", "\"TR-FRET\"", "\"antibody detection\""],
+    "histone_acetyltransferase": ["\"acetyl-CoA\"", "\"CoA detection\"", "\"radiometric\"", "\"acetyltransferase assay\""],
+    "adp_ribosyltransferase": ["\"PAR ELISA\"", "\"NAD+ depletion\"", "\"auto-PARylation\"", "\"TR-FRET\"", "\"HPF1\""],
+    "e3_ligase": ["\"TR-FRET\"", "\"fluorescence polarization\"", "\"ubiquitination assay\"", "AlphaScreen", "\"tracer displacement\""],
+    "dub": ["\"ubiquitin-rhodamine\"", "\"ubiquitin-AMC\"", "\"deubiquitinase assay\"", "\"fluorescence polarization\""],
+    "degrader_modality": ["NanoBRET", "\"TR-FRET\"", "\"ternary complex\"", "HiBiT", "\"degradation assay\"", "\"DC50\""],
+    "ppi_domain": ["\"fluorescence polarization\"", "\"TR-FRET\"", "AlphaScreen", "\"peptide tracer\"", "\"surface plasmon resonance\""],
+    "small_gtpase": ["\"nucleotide exchange\"", "\"mant-GDP\"", "\"BODIPY\"", "\"GTPase-Glo\"", "\"RBD pulldown\"", "\"TR-FRET\""],
+    "phosphodiesterase": ["\"PDE-Glo\"", "\"radiometric\"", "\"cAMP\"", "\"cGMP\"", "\"IMAP\"", "\"TR-FRET\""],
+    "cytochrome_p450": ["\"LC-MS/MS\"", "\"P450-Glo\"", "\"Vivid substrate\"", "\"human liver microsomes\"", "\"NADPH\""],
+    "rna_binding": ["\"fluorescence polarization\"", "\"labeled RNA\"", "\"RNA binding assay\"", "\"surface plasmon resonance\""],
+    "protein_aggregation": ["\"thioflavin T\"", "\"aggregation assay\"", "\"turbidity\"", "\"tetramer dissociation\"", "\"light scattering\""],
+    "autophagy": ["\"LC3\"", "\"high-content imaging\"", "\"autophagic flux\"", "\"tandem fluorescent\""],
+    "receptor_ectodomain": ["\"surface plasmon resonance\"", "\"biolayer interferometry\"", "\"ELISA\"", "\"ligand binding\"", "\"TR-FRET\""],
+    "secreted_ligand": ["\"ELISA\"", "\"surface plasmon resonance\"", "\"HTRF\"", "\"neutralization assay\""],
+    "enzyme_other": ["\"enzyme activity assay\"", "\"absorbance\"", "\"fluorogenic substrate\"", "\"Km determination\"", "\"coupled assay\""],
+    "generic": []
+  },
+  "_class_comment": "Keyed on class_id in data/function_classes.csv, so a script can look up the classes the app already assigned to a protein and union the matching blocks with assay_terms_core. A protein in several classes gets several blocks.",
+
+  "target_names": {
+    "strategy": "For each protein, OR together: the HGNC gene symbol, the UniProt recommended protein name, and UniProt alternative names, all as TITLE_ABS phrases.",
+    "source": "build_cache/m1_data/uniprot_<accession>.json, already cached by the pipeline - proteinDescription.recommendedName.fullName.value plus alternativeNames[].fullName.value and genes[].synonyms[].value",
+    "rules": [
+      "Drop any synonym shorter than 3 characters, and any that is an English word (for example 'MAX', 'CAT', 'SET', 'REST', 'IMPACT'), or it will match thousands of unrelated papers.",
+      "Keep the common clinical alias even when it is not the HGNC symbol: hERG for KCNH2, GLP-1R for GLP1R, HER2 for ERBB2. These are what methods sections actually say.",
+      "Do not expand to family names ('kinase', 'bromodomain'), which would match the whole field."
+    ],
+    "examples": {
+      "WRN": ["WRN", "Werner syndrome helicase", "Werner syndrome ATP-dependent helicase"],
+      "ERBB2": ["ERBB2", "HER2", "receptor tyrosine-protein kinase erbB-2"],
+      "GLP1R": ["GLP1R", "GLP-1R", "glucagon-like peptide-1 receptor"],
+      "KCNH2": ["KCNH2", "hERG", "potassium voltage-gated channel subfamily H member 2"]
+    }
+  },
+
+  "ranking": {
+    "_comment": "Europe PMC relevance alone is not enough to pick a top 10: for CDK2 it put 'Benzoylaconine suppresses colorectal cancer' above the allosteric-inhibitor assay paper. Fetch a larger candidate pool, score each full text for assay detail, then keep the best 10. This scorer was checked against the 75-paper sample: 22 papers scored 5 or 6, and all 22 were small-molecule assay papers.",
+    "candidate_pool": 50,
+    "keep": 10,
+    "score_signals": {
+      "plate_format": { "weight": 1, "pattern": "\\b(96|384|1536)[- ]?well" },
+      "detection_technology": { "weight": 1, "pattern": "htrf|tr-fret|alphascreen|alphalisa|adp-glo|nanobret|\\bbret\\b|fluorescence polari|\\bspr\\b|biacore|\\bitc\\b|thermal shift|\\bdsf\\b|cetsa|patch clamp|fluorogenic|radiometric|celltiter|high-content" },
+      "buffer_composition": { "weight": 1, "pattern": "(hepes|tris)[^.]{0,60}(nacl|mgcl2|kcl)|assay buffer" },
+      "potency_output": { "weight": 1, "pattern": "\\bic50\\b|\\bec50\\b|\\bkd\\b|\\bki\\b|\\bemax\\b|fold[- ](induction|activation)" },
+      "activation_design": { "weight": 1, "pattern": "\\bec20\\b|\\bec80\\b|positive allosteric modulat|\\bpotentiat\\w+|\\bagonis\\w+|enzyme activator|basal (signal|activity)|constitutive activity", "note": "Scores the activator half of the literature. Without it a PAM screen that reports EC20 potentiation and Emax scores no higher than a paper that merely names a kit." },
+      "protein_construct": { "weight": 1, "pattern": "(residues?|aa)\\s+\\d{2,4}\\s?[-–]\\s?\\d{2,4}|helicase core|kinase domain|bromodomain|catalytic domain|ectodomain" },
+      "named_instrument": { "weight": 1, "pattern": "envision|pherastar|clariostar|spectramax|flipr|biacore|octet|labchip|echo|lightcycler|operetta" },
+      "quality_metric": { "weight": 2, "pattern": "z['′’][- ]?factor|signal[- ]to[- ](background|noise)|\\bs/b\\b" },
+      "explicit_dmso": { "weight": 2, "pattern": "\\d+(\\.\\d+)?\\s?%\\s?(final\\s?)?dmso|final dmso" }
+    },
+    "penalties": {
+      "biologic_only": { "weight": -3, "pattern": "\\b(mab|monoclonal antibod|car[- ]t|bispecific|chimeric antigen|adcc|adcp|radioimmun)\\b", "condition": "applies only when no small-molecule signal is present" }
+    },
+    "minimum_score_to_extract": 4,
+    "_minimum_comment": "Below 4 the paper usually names a kit and nothing else, so extraction produces a record that is almost all nulls. Fetch and score cheaply with regex; spend the model only on what passes."
+  },
+
+  "validated_examples": [
+    {
+      "target": "WRN",
+      "query": "(TITLE_ABS:\"WRN\" OR TITLE_ABS:\"Werner syndrome helicase\") AND (METHODS:\"384-well\" OR METHODS:\"assay buffer\" OR METHODS:\"ADP-Glo\" OR METHODS:\"thermal shift\" OR METHODS:\"surface plasmon resonance\") AND (OPEN_ACCESS:y AND IN_EPMC:y)",
+      "hits_on_2026_11_15": 18,
+      "top_results_were": [
+        "Microsatellite Instable Cancer Cells Acquire On-target Resistance Mutations to WRN Helicase Inhibitors",
+        "Structural insights into WRN helicase reveal conformational states and opportunities for MSI-H cancer",
+        "Identification of VVD-214/RO7589831, a Clinical-Stage, Covalent Allosteric Inhibitor of WRN Helicase",
+        "WRN structural flexibility showcased through fragment-based lead discovery of inhibitors"
+      ]
+    },
+    {
+      "target": "CD20 (negative control)",
+      "query": "(TITLE_ABS:\"CD20\" OR TITLE_ABS:\"MS4A1\") AND (<core assay terms>) AND (OPEN_ACCESS:y AND IN_EPMC:y) <exclusions>",
+      "hits_on_2026_11_15": 43,
+      "note": "Almost nothing usable, correctly. CD20 is an antibody target with no small-molecule assay literature, so the query returns little rather than returning noise. Expect this for CD19, BCMA, PSMA, CD3 and other biologics targets, and do not treat an empty result as a bug."
+    }
+  ]
+}

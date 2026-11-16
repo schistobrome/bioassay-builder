@@ -19,6 +19,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import build_database as bd          # noqa: E402
+import target_subject as tsub        # noqa: E402
 
 
 def write_json(path, data):
@@ -626,6 +627,93 @@ class TestReadoutPairing(FakeCache):
             self.assertIn("tpf", json.load(handle)["campaigns"][0])
         self.assertEqual(set(self.readouts()), {"TR-FRET / HTRF"})
         self.assertEqual(self.run_aggregate()["upgraded"], 0)                    # nothing left to upgrade
+
+
+class TestTargetSubject(unittest.TestCase):
+    """The subject-versus-biomarker filter, scripts/target_subject.py.
+
+    These tests do not depend on the alias index, which is a build artefact; they pass an explicit
+    index so the behaviour is pinned whether or not --build-index has been run."""
+
+    EMPTY = ({}, [])
+
+    def verdict(self, title, gene, extra=()):
+        return tsub.classify_title(title, [gene] + list(extra), gene=gene)
+
+    def test_biomarker_mention_is_not_subject(self):
+        for title in ("Discovery of selective PRMT5 inhibitors for MTAP-deleted cancers",
+                      "Loss of MTAP sensitises tumours to PRMT5 inhibition",
+                      "MTAP deletion confers dependency on PRMT5",
+                      "Targeting PRMT5 in MTAP-null glioblastoma"):
+            self.assertEqual(self.verdict(title, "MTAP"), "context", title)
+
+    def test_real_assay_paper_is_subject(self):
+        for title in ("Coupled-enzyme assay for MTAP activity in biological samples",
+                      "Transition state analogue inhibitors of human MTAP"):
+            self.assertEqual(self.verdict(title, "MTAP"), "subject", title)
+
+    def test_same_title_differs_by_which_gene_is_asked_about(self):
+        t = "ATR inhibition is selectively lethal in ATM-deficient tumour cells"
+        self.assertEqual(self.verdict(t, "ATR"), "subject")
+        self.assertEqual(self.verdict(t, "ATM"), "context")
+
+    def test_short_gene_symbol_is_never_dropped(self):
+        # Regression: a four-character floor dropped WRN, ATM and PLG whenever a longer alias
+        # survived, which silently removed the protein from its own literature.
+        kept = tsub.specific_aliases(["WRN", "Werner syndrome ATP-dependent helicase"],
+                                     gene="WRN", index=self.EMPTY)
+        self.assertIn("WRN", kept)
+        self.assertEqual(self.verdict("Fragment-based discovery of WRN helicase inhibitors",
+                                      "WRN", ["Werner syndrome ATP-dependent helicase"]), "subject")
+
+    def test_family_phrase_aliases_are_dropped(self):
+        for alias in ("Purinergic receptor", "ATP receptor", "protein kinase", "Peptidase M"):
+            self.assertFalse(tsub.alias_is_specific(alias, self.EMPTY), alias)
+
+    def test_unique_short_abbreviations_are_kept(self):
+        for alias in ("P53", "BRM", "PKR", "S2R"):
+            self.assertTrue(tsub.alias_is_specific(alias, self.EMPTY), alias)
+
+    def test_index_catches_names_claimed_by_two_proteins(self):
+        index = ({"ck1": 7}, [])
+        self.assertFalse(tsub.alias_is_specific("CK1", index))
+        self.assertTrue(tsub.alias_is_specific("CK1", self.EMPTY))  # unknowable without the index
+
+    def test_index_catches_family_stems(self):
+        index = ({}, sorted(["cpa1", "cpa2", "cpa3", "brms1"]))
+        self.assertFalse(tsub.alias_is_specific("CPA", index))
+        self.assertTrue(tsub.alias_is_specific("BRM", index))  # stem of one symbol only
+
+    def test_isogenic_pair_makes_cell_line_labels_context(self):
+        # "SDMA ELISA" beside "HCT116 MTAP cells" credited ELISA to MTAP before this rule.
+        prmt5 = ("hct116 mtap wt and hct116 mtap del cells were grown in dmem and hct116 mtap "
+                 "cells were implanted for sdma elisa")
+        pat = tsub.alias_pattern(["mtap"])
+        self.assertTrue(tsub.isogenic_pair(prmt5, pat))
+        self.assertEqual(tsub.subject_positions(prmt5, pat), [])
+
+    def test_expression_system_is_still_subject(self):
+        taar1 = "hek293 taar1 cells were plated and camp in taar1 cells was read by glosensor"
+        pat = tsub.alias_pattern(["taar1"])
+        self.assertFalse(tsub.isogenic_pair(taar1, pat))
+        self.assertEqual(len(tsub.subject_positions(taar1, pat)), 2)
+
+    def test_subject_fraction_is_shrunk_toward_one(self):
+        one_bad = ["Loss of MTAP in cancer", "An assay for MTAP activity"]
+        frac = tsub.subject_fraction(one_bad, ["MTAP"], gene="MTAP")[0]
+        self.assertGreater(frac, 0.6)       # one biomarker title must not halve a protein
+        all_bad = ["Loss of MTAP in cancer", "MTAP-deleted tumours", "MTAP deficiency",
+                   "MTAP-null cells", "MTAP status", "MTAP wild-type models"]
+        self.assertLess(tsub.subject_fraction(all_bad, ["MTAP"], gene="MTAP")[0], 0.3)
+        self.assertEqual(tsub.subject_fraction([], ["MTAP"], gene="MTAP")[0], 1.0)
+
+    def test_absent_is_not_a_penalty(self):
+        # The Europe PMC query matches title OR abstract, so a title need not name the protein.
+        self.assertEqual(self.verdict("Pyrazole inhibitors of ATP-competitive kinases", "MTAP"),
+                         "absent")
+        frac, n_sub, n_ctx, n_abs = tsub.subject_fraction(
+            ["Pyrazole inhibitors of ATP-competitive kinases"], ["MTAP"], gene="MTAP")
+        self.assertEqual((frac, n_sub, n_ctx, n_abs), (1.0, 0, 0, 1))
 
 
 if __name__ == "__main__":

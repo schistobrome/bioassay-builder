@@ -1,0 +1,478 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bioassay-builder/schema/paper_extraction.schema.json",
+  "title": "Assay extraction from one open-access paper",
+  "description": "One record per paper. Assay detail lives in the 'assays' array, one entry per distinct assay the paper describes (in practice one per methods subsection). Controlled vocabularies match the app's own tables: technology_labels and function_labels are the terms in scripts/term_table.csv, assay_category and role match data/assays.csv, and the keys under 'conditions' match COND_NUMERIC / COND_CATEGORICAL in scripts/build_database.py so extracted values merge into condition_stats.csv without translation. Rules for the extracting model: never guess. A field that the paper does not state is null, and its key is listed in assay.not_reported. Anything read off a figure rather than the text is marked in extraction_flags. Every assay carries at least one verbatim quote in 'evidence'.",
+  "type": "object",
+  "required": ["schema_version", "paper", "assays"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "_comment": { "type": "string", "description": "Free note about the record. Ignored by consumers." },
+
+    "paper": {
+      "type": "object",
+      "description": "Provenance and triage. Filled by the fetching script, not by the model, except paper_type/modality/target_genes.",
+      "required": ["pmcid", "title", "source", "retrieved_on"],
+      "additionalProperties": false,
+      "properties": {
+        "pmid": { "type": ["string", "null"] },
+        "pmcid": { "type": "string", "description": "e.g. PMC12770528. The key for the full-text fetch." },
+        "doi": { "type": ["string", "null"] },
+        "title": { "type": "string" },
+        "journal": { "type": ["string", "null"] },
+        "year": { "type": ["integer", "null"] },
+        "license": { "type": ["string", "null"], "description": "Verbatim from Europe PMC, e.g. 'cc by', 'cc by-nc-nd'. ND licences allow fact extraction but not redistribution of the text." },
+        "source": { "enum": ["europepmc_fulltext", "pmc_oa_package", "local_pdf"] },
+        "retrieved_on": { "type": "string", "format": "date" },
+        "target_genes": {
+          "type": "array",
+          "description": "HGNC symbols the paper is actually about, not every protein mentioned.",
+          "items": { "type": "string" }
+        },
+        "paper_type": {
+          "enum": ["assay_development", "inhibitor_discovery", "activator_modulator_discovery", "chemical_probe", "structural", "target_biology", "clinical_translational", "review", "other", null],
+          "description": "assay_development, inhibitor_discovery and activator_modulator_discovery are the three that carry usable assay detail. Null is allowed: the per-paper judgment is often made after the per-assay extraction, or left to the reviewer."
+        },
+        "modality": {
+          "type": "array",
+          "items": { "enum": ["small_molecule", "peptide", "fragment", "covalent", "protac_degrader", "antibody", "cell_therapy", "radioligand", "nucleic_acid", "other"] },
+          "description": "Papers with no small_molecule / fragment / covalent / protac_degrader entry rarely yield anything for the app."
+        },
+        "relevance_score": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 6,
+          "description": "Assay-detail density, set by the pre-filter script: one point each for a stated plate format, readout technology, buffer composition, potency output, protein construct and named instrument. Papers scoring 5-6 are where the detail is."
+        },
+        "extraction": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "model": { "type": ["string", "null"] },
+            "run_on": { "type": ["string", "null"], "format": "date-time" },
+            "passes": { "type": ["array", "null"], "items": { "type": "string" } },
+            "notes": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+
+    "assays": {
+      "type": "array",
+      "description": "One entry per distinct assay. A paper in this corpus described 1-10; the median was 2. Do not merge two assays that share a buffer, and do not split one assay across its optimisation steps.",
+      "items": { "$ref": "#/$defs/assay" }
+    },
+
+    "unmapped_terms": {
+      "type": "array",
+      "description": "Terms the paper used that do not match any controlled value, with the field they belong to. This is the curation queue: it is how the vocabularies grow, rather than the model inventing values.",
+      "items": {
+        "type": "object",
+        "required": ["field", "verbatim"],
+        "additionalProperties": false,
+        "properties": {
+          "assay_id": { "type": ["string", "null"] },
+          "field": { "type": "string" },
+          "verbatim": { "type": "string" },
+          "nearest_controlled_value": { "type": ["string", "null"] },
+          "quote": { "type": ["string", "null"] }
+        }
+      }
+    }
+  },
+
+  "$defs": {
+    "quantity": {
+      "type": ["object", "null"],
+      "description": "A number whose magnitude varies too much for a fixed-unit key. Keep the paper's own unit; do not convert.",
+      "required": ["value", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": ["number", "null"] },
+        "unit": { "enum": ["pM", "nM", "uM", "mM", "M", "pg/mL", "ng/mL", "ug/mL", "mg/mL", "%", "U/mL", null] },
+        "qualifier": { "enum": ["exact", "approximate", "range_low", "range_high", "final", "stock", null] },
+        "verbatim": { "type": ["string", "null"] }
+      }
+    },
+
+    "vendor_item": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": ["string", "null"] },
+        "vendor": { "type": ["string", "null"] },
+        "catalog_number": { "type": ["string", "null"] }
+      }
+    },
+
+    "assay": {
+      "type": "object",
+      "required": ["assay_id", "assay_name_verbatim", "scope", "technology_labels", "evidence", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "assay_id": { "type": "string", "description": "<pmcid>-A<n>, stable within the paper." },
+        "source_section": { "type": ["string", "null"], "description": "The methods subsection heading this came from, verbatim. In Europe PMC full text this is <sec><title>." },
+        "assay_name_verbatim": { "type": "string", "description": "What the paper calls it, e.g. 'ADP Glo ATPase assay'." },
+
+        "assay_category": {
+          "enum": ["biochemical_hts", "biophysical_binding", "cell_functional", "mechanistic_counterscreen", "orthogonal_confirmation", null],
+          "description": "Matches assay_category in data/assays.csv."
+        },
+        "scope": { "enum": ["cell-free", "cell-based"], "description": "Protein made in cells is still cell-free; an assay on membrane preparations is cell-free unless the readout needs living cells." },
+        "role": { "enum": ["primary", "confirmation", "counterscreen", "orthogonal", "selectivity_panel", "unclear", null] },
+        "function_labels": {
+          "type": "array",
+          "description": "From the 55 function terms in scripts/term_table.csv. What the assay measures, not what the paper concludes.",
+          "items": { "type": "string" }
+        },
+        "technology_labels": {
+          "type": "array",
+          "description": "From the 32 technology terms in scripts/term_table.csv. The detection format actually used.",
+          "items": { "type": "string" }
+        },
+        "effect_direction": {
+          "enum": ["inhibition", "activation", "both", "binding_only", "unclear", null],
+          "description": "The direction the assay was read for, matching the effect column the app aggregates on. 'both' is a real and common answer: a three-phase GPCR screen reads agonism, potentiation and antagonism in one plate."
+        },
+        "pharmacology": {
+          "type": "array",
+          "description": "The mechanism classes the assay was designed to detect. Separate from effect_direction because 'activation' covers several designs that are not interchangeable: a direct agonist screen runs on unstimulated cells, while a PAM screen only works against a sub-maximal agonist challenge.",
+          "items": { "enum": ["agonist", "partial_agonist", "inverse_agonist", "antagonist", "positive_allosteric_modulator", "negative_allosteric_modulator", "allosteric_agonist", "orthosteric_inhibitor", "allosteric_inhibitor", "covalent_inhibitor", "degrader", "stabiliser", "direct_enzyme_activator", "disruptor", "unclear"] }
+        },
+        "throughput": { "enum": ["single_point_hts", "dose_response", "kinetic", "low_throughput", null] },
+
+        "stimulation": {
+          "type": ["object", "null"],
+          "description": "Required whenever effect_direction is activation or both, and for antagonist-mode assays. Without the agonist challenge level, a reported EC50 from a potentiator screen cannot be compared with anything: potency at EC20 agonist is not potency at EC80.",
+          "additionalProperties": false,
+          "properties": {
+            "reference_agonist": { "type": ["string", "null"], "description": "The orthosteric ligand or stimulus used, e.g. 'GLP-1', 'glucagon', 'forskolin', 'EGF', 'ATP'." },
+            "agonist_level": {
+              "enum": ["unstimulated/basal", "EC20", "EC50", "EC80", "ECmax", "saturating", "other", null],
+              "description": "EC20 is the standard challenge for detecting potentiation, EC80 for detecting antagonism / negative modulation."
+            },
+            "agonist_concentration": { "$ref": "#/$defs/quantity" },
+            "constitutive_activity": { "type": ["boolean", "null"], "description": "Whether the paper notes basal / constitutive activity, which an inverse agonist needs." },
+            "notes": { "type": ["string", "null"] }
+          }
+        },
+
+        "protocol_additions": {
+          "type": "array",
+          "description": "Ordered liquid additions, when the paper describes a multi-add protocol. A triple-add GPCR screen (compound, then EC20 agonist, then EC80 agonist) is one assay with three reads, not three assays.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "step": { "type": ["integer", "null"] },
+              "added": { "type": ["string", "null"] },
+              "volume_ul": { "type": ["number", "null"] },
+              "read_window": { "type": ["string", "null"], "description": "e.g. 'fluorescence monitored for 2 min after each addition'." },
+              "detects": { "type": ["string", "null"], "description": "e.g. 'agonist', 'potentiation of EC20 response', 'antagonism of EC80 response'." }
+            }
+          }
+        },
+
+        "target": {
+          "type": ["object", "null"],
+          "description": "The protein as it went into this assay. This is the block that feeds the app's construct and domain logic.",
+          "additionalProperties": false,
+          "properties": {
+            "gene_symbol": { "type": ["string", "null"] },
+            "uniprot": { "type": ["string", "null"] },
+            "species": { "type": ["string", "null"] },
+            "construct_start": { "type": ["integer", "null"], "description": "First residue. Only from an explicit cue: 'residues 500-942', 'WRN (500-942)', 'helicase core (500-942)'. A bare parenthesised range is usually a citation year or page range - leave null." },
+            "construct_end": { "type": ["integer", "null"] },
+            "construct_verbatim": { "type": ["string", "null"], "description": "Required whenever construct_start is set, so the range can be audited." },
+            "domain_name": { "type": ["string", "null"], "description": "e.g. 'helicase core', 'BD1 bromodomain', 'kinase domain'." },
+            "full_length": { "type": ["boolean", "null"] },
+            "mutations": { "type": "array", "items": { "type": "string" }, "description": "e.g. ['G2019S'], ['T790M','C797S']. Only point mutations of the target itself." },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "tag": { "enum": ["His6", "GST", "MBP", "FLAG", "Strep", "Avi/biotin", "SUMO", "TEV-cleaved", "NanoLuc", "HaloTag", "GFP", "other"] },
+                  "terminus": { "enum": ["N", "C", "unclear", null] },
+                  "cleaved": { "type": ["boolean", "null"] }
+                }
+              }
+            },
+            "expression_host": { "enum": ["E. coli", "Sf9/Sf21 insect", "Hi5 insect", "HEK293", "Expi293", "CHO", "yeast", "in vitro translation", "other", null] },
+            "purification_steps": { "type": "array", "items": { "enum": ["Ni-NTA/His affinity", "GST affinity", "size exclusion", "ion exchange", "heparin", "amylose/MBP", "tag cleavage", "other"] } },
+            "provenance": { "enum": ["purified_in_house", "commercial", "unclear", null] },
+            "supplier": { "$ref": "#/$defs/vendor_item" },
+            "concentration": { "$ref": "#/$defs/quantity", "description": "Final in-assay concentration, e.g. 250 pM. Not the stock." },
+            "partner_proteins": {
+              "type": "array",
+              "description": "Obligate partners present in the assay, e.g. cyclin A for CDK2, a nucleosome for a reader domain.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": { "type": ["string", "null"] },
+                  "construct_verbatim": { "type": ["string", "null"] },
+                  "concentration": { "$ref": "#/$defs/quantity" }
+                }
+              }
+            }
+          }
+        },
+
+        "substrate": {
+          "type": ["object", "null"],
+          "description": "What the enzyme acts on, or the tracer/probe a binding assay competes against.",
+          "additionalProperties": false,
+          "properties": {
+            "description": { "type": ["string", "null"] },
+            "type": { "enum": ["ATP", "other nucleotide", "peptide", "protein", "ssDNA", "dsDNA/forked", "RNA", "nucleosome/histone", "lipid", "small-molecule tracer", "antibody", "other", null] },
+            "concentration": { "$ref": "#/$defs/quantity" },
+            "km": { "$ref": "#/$defs/quantity", "description": "Km the paper measured or cites for this substrate." },
+            "km_relation": { "enum": ["at_Km", "below_Km", "saturating", "unstated", null], "description": "Whether the assay ran at, below or above Km. Decides whether a reported IC50 is comparable with another paper's." },
+            "modifications": { "type": "array", "items": { "type": "string" }, "description": "e.g. ['TAMRA', 'BHQ2 quencher', 'biotin']." },
+            "supplier": { "$ref": "#/$defs/vendor_item" }
+          }
+        },
+
+        "conditions": {
+          "type": ["object", "null"],
+          "description": "Final in-assay values. Keys with a unit suffix are fixed-unit: convert into the stated unit, and if the paper gives something incompatible, leave null and record it in unmapped_terms. The first eight numeric keys and the four categorical ones match the app's existing condition_stats.csv parameters exactly.",
+          "additionalProperties": false,
+          "properties": {
+            "ph": { "type": ["number", "null"] },
+            "incubation_min": { "type": ["number", "null"] },
+            "dmso_pct": { "type": ["number", "null"], "description": "Final DMSO in the assay well, not the stock. 100% means the stock - leave null." },
+            "mgcl2_mm": { "type": ["number", "null"] },
+            "nacl_mm": { "type": ["number", "null"] },
+            "atp_um": { "type": ["number", "null"] },
+            "bsa_pct": { "type": ["number", "null"] },
+            "volume_ul": { "type": ["number", "null"] },
+            "temperature": { "type": ["string", "null"], "description": "Verbatim, e.g. 'room temperature', '37 C', '4 C'." },
+            "buffer": { "type": ["string", "null"], "description": "Buffering agent only, e.g. 'HEPES', 'Tris-HCl'." },
+            "detergent": { "type": ["string", "null"], "description": "e.g. 'Tween-20', 'Triton X-100', 'Brij-35'." },
+            "reducing_agent": { "type": ["string", "null"], "description": "e.g. 'DTT', 'TCEP'." },
+            "buffer_mm": { "type": ["number", "null"] },
+            "detergent_pct": { "type": ["number", "null"] },
+            "reducing_agent_mm": { "type": ["number", "null"] },
+            "kcl_mm": { "type": ["number", "null"] },
+            "mncl2_mm": { "type": ["number", "null"] },
+            "edta_egta_mm": { "type": ["number", "null"] },
+            "glycerol_pct": { "type": ["number", "null"] },
+            "carrier_protein": { "type": ["string", "null"], "description": "e.g. 'BSA', 'gelatin', 'casein'. Use bsa_pct for the amount of BSA." },
+            "preincubation_min": { "type": ["number", "null"], "description": "Enzyme plus compound before the reaction starts. Matters for covalent and slow-binding compounds." },
+            "quench": { "type": ["string", "null"], "description": "e.g. '10% SDS', 'EDTA', 'ADP-Glo reagent'." },
+            "other_components": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": { "type": "string" },
+                  "value": { "type": ["number", "null"] },
+                  "unit": { "type": ["string", "null"] }
+                }
+              }
+            }
+          }
+        },
+
+        "plate": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "format": { "enum": ["96", "384", "1536", "3456", "6144", "low-density", "cuvette/tube", "chip/flow-cell", null], "description": "The assay plate, not the compound source plate." },
+            "color": { "enum": ["black", "white", "clear", "clear-bottom", null] },
+            "surface": {
+              "type": "array",
+              "description": "Descriptors combine: 'all black NBS low-volume' is non-binding plus low-volume.",
+              "items": { "enum": ["non-binding", "tissue-culture-treated", "high-binding", "low-volume", "coated", "standard"] }
+            },
+            "coating": { "type": ["string", "null"], "description": "e.g. 'collagen', 'poly-D-lysine'." },
+            "supplier": { "$ref": "#/$defs/vendor_item", "description": "Catalogue number is worth keeping: 'Corning 3820' pins the exact plate." }
+          }
+        },
+
+        "cells": {
+          "type": ["object", "null"],
+          "description": "Only for scope = cell-based.",
+          "additionalProperties": false,
+          "properties": {
+            "line": { "type": ["string", "null"] },
+            "source": { "type": ["string", "null"], "description": "e.g. 'ATCC', 'in-house clone'." },
+            "cells_per_well": { "type": ["number", "null"] },
+            "media": { "type": ["string", "null"] },
+            "serum_pct": { "type": ["number", "null"] },
+            "expression_system": { "enum": ["endogenous", "stable overexpression", "transient transfection", "BacMam/viral transduction", "knock-in", "reporter line", "other", null] },
+            "selection_markers": { "type": "array", "items": { "type": "string" } },
+            "treatment_h": { "type": ["number", "null"] },
+            "co2_pct": { "type": ["number", "null"] },
+            "format_notes": { "type": ["string", "null"], "description": "e.g. '3D spheroid', 'tumoroid', 'primary'." }
+          }
+        },
+
+        "instrumentation": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "readers": { "type": "array", "items": { "$ref": "#/$defs/vendor_item" }, "description": "e.g. EnVision, PHERAstar, LightCycler 480, Biacore 8K+." },
+            "liquid_handling": { "type": "array", "items": { "$ref": "#/$defs/vendor_item" }, "description": "e.g. Echo acoustic dispenser, Multidrop, Bravo." },
+            "instrument_classes": {
+              "type": "array",
+              "description": "Mapped to the app's instrument keys in docs/index.html (INSTL), so an assay can be dimmed when the user lacks the kit.",
+              "items": { "enum": ["plate", "htrf", "alpha", "kinetic", "lcms", "spr", "mobility", "radio", "cell", "patch", "ecl", "impedance", "flow", "thermal", "itc", "gel", "washer", "nano", "disp", "handler", "multi"] }
+            },
+            "excitation_nm": { "type": ["number", "null"] },
+            "emission_nm": { "type": ["array", "null"], "items": { "type": "number" }, "description": "One or two values; ratiometric reads give two." },
+            "read_mode": { "type": ["string", "null"], "description": "e.g. 'endpoint', 'kinetic', 'ratio 520/495'." }
+          }
+        },
+
+        "compound_handling": {
+          "type": ["object", "null"],
+          "description": "How test compounds reached the well. Decides whether a potency number is comparable and whether DMSO was controlled.",
+          "additionalProperties": false,
+          "properties": {
+            "stock": { "$ref": "#/$defs/quantity" },
+            "dispense_volume_nl": { "type": ["number", "null"] },
+            "dispense_method": { "enum": ["acoustic", "pin tool", "pipette", "serial dilution in buffer", "other", null] },
+            "dilution_fold": { "type": ["number", "null"] },
+            "n_points": { "type": ["integer", "null"] },
+            "top_concentration": { "$ref": "#/$defs/quantity" },
+            "replicates": { "type": ["string", "null"], "description": "Verbatim, e.g. 'duplicate', 'n=2', 'three independent experiments'." }
+          }
+        },
+
+        "quality": {
+          "type": ["object", "null"],
+          "description": "Assay-performance numbers. Rare but high value: in a 75-paper sample only 4 papers stated a Z-prime and 26 stated a final DMSO.",
+          "additionalProperties": false,
+          "properties": {
+            "z_prime": { "type": ["number", "null"] },
+            "z_prime_context": { "type": ["string", "null"], "description": "e.g. 'screening plates, n=8', 'validation plate 1'." },
+            "signal_to_background": { "type": ["number", "null"] },
+            "signal_to_noise": { "type": ["number", "null"] },
+            "cv_pct": { "type": ["number", "null"] },
+            "signal_window": { "type": ["number", "null"] },
+            "dmso_tolerance_tested_pct": { "type": "array", "items": { "type": "number" }, "description": "Concentrations actually tested, e.g. [0.5, 1, 2]. A DMSO curve run to correct an instrument artefact, such as SPR refractive-index matching, is NOT a tolerance test - leave this empty and say so in the notes." },
+            "dmso_tolerance_max_pct": { "type": ["number", "null"], "description": "Highest concentration the paper found acceptable." },
+            "basal_signal": { "type": ["string", "null"], "description": "Raw or normalised unstimulated signal, verbatim. An activation assay with a high basal has little room to go up, which is the activation equivalent of a poor signal window." },
+            "fold_response": { "type": ["number", "null"], "description": "Maximal stimulated signal over basal, e.g. an 8-fold cAMP response to ECmax agonist." },
+            "qc_metric_code": { "enum": ["hts", "hcs", "potency", null], "description": "Which AGM expectation applies, matching the qc_metric column in data/assays.csv." }
+          }
+        },
+
+        "screening_campaign": {
+          "type": ["object", "null"],
+          "description": "Only when the paper ran an actual screen.",
+          "additionalProperties": false,
+          "properties": {
+            "library_name": { "type": ["string", "null"] },
+            "library_size": { "type": ["integer", "null"] },
+            "screen_concentration": { "$ref": "#/$defs/quantity" },
+            "hit_criterion": { "type": ["string", "null"] },
+            "hit_categories": { "type": "array", "items": { "type": "string" }, "description": "When one screen sorted compounds into mechanism classes, e.g. ['agonist','potentiator','antagonist']." },
+            "n_hits": { "type": ["integer", "null"] },
+            "hit_rate_pct": { "type": ["number", "null"] },
+            "cascade": { "type": "array", "items": { "type": "string" }, "description": "Assay names in the order they were used, e.g. ['primary ADP-Glo','unwinding','TdF','cell viability']." }
+          }
+        },
+
+        "controls": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "positive": { "type": "array", "items": { "type": "object", "additionalProperties": false, "properties": { "name": { "type": ["string", "null"] }, "concentration": { "$ref": "#/$defs/quantity" } } }, "description": "For an inhibition assay this is the full-inhibition control; for an activation assay it is the maximal-response control." },
+            "negative": { "type": "array", "items": { "type": "string" }, "description": "e.g. 'DMSO vehicle', 'no enzyme', 'substrate only'." },
+            "basal": { "type": "array", "items": { "type": "string" }, "description": "Unstimulated / vehicle-only wells that define the floor of an activation assay. Not the same as the negative control of an inhibition assay, where the floor is full inhibition." },
+            "max_stimulation": { "type": "array", "items": { "type": "object", "additionalProperties": false, "properties": { "name": { "type": ["string", "null"] }, "concentration": { "$ref": "#/$defs/quantity" } } }, "description": "The ceiling of an activation assay: ECmax agonist, forskolin, ionomycin or an equivalent. Needed to turn a raw signal into percent activation or Emax." },
+            "reference_compound": { "type": ["string", "null"], "description": "The known benchmark compound, inhibitor or activator, e.g. '(+)-JQ1', 'LRRK2-IN-1', 'staurosporine', 'exendin-4'." },
+            "normalisation": { "type": ["string", "null"], "description": "How percent inhibition was defined, verbatim." }
+          }
+        },
+
+        "interference_and_counterscreens": {
+          "type": ["object", "null"],
+          "description": "What the authors did about compounds that fake or hide activity.",
+          "additionalProperties": false,
+          "properties": {
+            "codes": {
+              "type": "array",
+              "description": "Matching the interference column in data/assays.csv.",
+              "items": { "enum": ["luciferase", "fluorescence", "absorbance", "proximity", "aggregation", "thiol_redox", "cytotoxicity", "imaging", "label_free"] }
+            },
+            "checks_performed": {
+              "type": "array",
+              "items": { "enum": ["no-enzyme control", "detergent sensitivity", "orthogonal assay", "counterscreen vs related target", "selectivity panel", "compound fluorescence check", "luciferase inhibition check", "reversibility/jump dilution", "time dependence", "cytotoxicity control", "aggregation check", "other"] }
+            },
+            "notes": { "type": ["string", "null"] }
+          }
+        },
+
+        "outputs": {
+          "type": "array",
+          "description": "Reported parameters. Keep the compound label the paper used; do not try to resolve it to a structure.",
+          "items": {
+            "type": "object",
+            "required": ["parameter"],
+            "additionalProperties": false,
+            "properties": {
+              "parameter": {
+                "enum": ["IC50", "EC50", "pEC50", "pIC50", "EC20", "EC80", "Kd", "Ki", "Kb", "Km", "kcat", "kinact/KI", "kon", "koff", "Tm", "dTm", "percent_inhibition", "percent_activation", "Emax", "fold_induction", "fold_shift", "hill_slope", "DC50", "Dmax", "other"],
+                "description": "Activation studies report EC50 with Emax or fold-induction, and a potentiator is often reported as a fold-shift of the agonist curve; an inhibition-only enum silently drops all of that."
+              },
+              "compound": { "type": ["string", "null"] },
+              "value": { "type": ["number", "null"] },
+              "unit": { "type": ["string", "null"] },
+              "error": { "type": ["string", "null"] },
+              "n": { "type": ["integer", "null"] }
+            }
+          }
+        },
+
+        "analysis": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "software": { "type": "array", "items": { "type": "string" }, "description": "e.g. 'GraphPad Prism 9.4.1', 'Spotfire', 'XLfit'." },
+            "fit_model": { "type": ["string", "null"], "description": "e.g. '4-parameter inhibition', 'sigmoidal variable slope'." }
+          }
+        },
+
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Verbatim quotes from the paper, each tied to the field it supports. At least one per assay. Quotes must be copied exactly, so a reviewer can check any number without reopening the PDF.",
+          "items": {
+            "type": "object",
+            "required": ["field", "quote"],
+            "additionalProperties": false,
+            "properties": {
+              "field": { "type": "string", "description": "Dotted path, e.g. 'conditions.dmso_pct', 'target.construct_start'." },
+              "quote": { "type": "string", "maxLength": 600 },
+              "section": { "type": ["string", "null"] }
+            }
+          }
+        },
+
+        "not_reported": {
+          "type": "array",
+          "description": "Fields genuinely absent from the paper, as dotted paths. Explicit absence is a finding: it is how the app learns which conditions the literature never states, and it stops a later run from treating a gap as a miss.",
+          "items": { "type": "string" }
+        },
+
+        "confidence": {
+          "enum": ["high", "medium", "low"],
+          "description": "high = conditions stated plainly in a methods subsection for this assay. medium = assembled from more than one place, or partly from a cited protocol. low = inferred, or the paper points to another paper for the method."
+        },
+
+        "extraction_flags": {
+          "type": "array",
+          "items": { "enum": ["method_by_reference", "values_from_figure", "values_from_supplementary", "kit_defaults_assumed", "multiple_assays_merged_in_source", "units_ambiguous", "construct_range_uncertain", "conflicting_values_in_paper"] },
+          "description": "method_by_reference is the commonest and most important: the paper says 'as described previously' and the conditions belong to the cited paper, not this one."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,321 @@
+{
+  "schema_version": "1.0",
+  "_comment": "Activator / potentiator worked example, to sit alongside paper_extraction.example.json (an inhibitor paper). Values are copied from the duplexed GLP-1R PAM screen in data/public/pdf/nihms580600.pdf. It exercises the fields an inhibition-only schema would have dropped: pharmacology, stimulation, protocol_additions, controls.basal, controls.max_stimulation, quality.fold_response and the EC20 / Emax / fold_induction outputs.",
+  "paper": {
+    "pmid": "24525869",
+    "pmcid": "PMC4530983",
+    "doi": "10.1177/1087057114520971",
+    "title": "A Duplexed High-Throughput Screen to Identify Allosteric Modulators of the Glucagon-Like Peptide 1 and Glucagon Receptors",
+    "journal": "Journal of Biomolecular Screening",
+    "year": 2014,
+    "license": null,
+    "source": "local_pdf",
+    "retrieved_on": "2026-11-15",
+    "target_genes": ["GLP1R", "GCGR"],
+    "paper_type": "assay_development",
+    "modality": ["small_molecule"],
+    "relevance_score": 5,
+    "extraction": {
+      "model": "<small-model-id>",
+      "run_on": "2026-11-15T00:00:00Z",
+      "passes": ["segment", "extract", "map_vocabulary"],
+      "notes": "Primary calcium screen and secondary GloSensor cAMP screen taken as two assays. Z-prime is stated for the primary screen only."
+    }
+  },
+
+  "assays": [
+    {
+      "assay_id": "PMC4530983-A1",
+      "source_section": "Primary duplexed calcium-mobilisation HTS",
+      "assay_name_verbatim": "duplexed high-throughput screen ... loaded with a calcium-sensitive dye, and probed in a three-phase assay",
+      "assay_category": "cell_functional",
+      "scope": "cell-based",
+      "role": "primary",
+      "function_labels": ["Calcium mobilization"],
+      "technology_labels": ["Fluorescent calcium dye"],
+      "effect_direction": "both",
+      "pharmacology": ["agonist", "antagonist", "positive_allosteric_modulator", "negative_allosteric_modulator"],
+      "throughput": "single_point_hts",
+
+      "stimulation": {
+        "reference_agonist": "GLP-1 (and glucagon for the duplexed glucagon receptor arm)",
+        "agonist_level": "EC20",
+        "agonist_concentration": { "value": 10, "unit": "nM", "qualifier": "approximate", "verbatim": "EC20 peptide (~10 nM)" },
+        "constitutive_activity": null,
+        "notes": "A second, EC80 addition (~1.0 uM) follows, so one plate reads potentiation of a sub-maximal response and antagonism of a near-maximal one. Potency is explicitly reported at the EC20 agonist concentration, so it is not comparable with an EC50 measured on unstimulated cells."
+      },
+
+      "protocol_additions": [
+        { "step": 1, "added": "test compound, 11-point concentration series", "volume_ul": null, "read_window": "fluorescence monitored for 2 min", "detects": "agonist activity on its own" },
+        { "step": 2, "added": "EC20 peptide (~10 nM GLP-1)", "volume_ul": null, "read_window": "fluorescence monitored for 2 min", "detects": "potentiation of the EC20 response (PAM)" },
+        { "step": 3, "added": "EC80 peptide (~1.0 uM GLP-1)", "volume_ul": null, "read_window": "fluorescence monitored for 2 min", "detects": "inhibition / negative modulation of the EC80 response" }
+      ],
+
+      "target": {
+        "gene_symbol": "GLP1R",
+        "uniprot": null,
+        "species": "human",
+        "construct_start": null,
+        "construct_end": null,
+        "construct_verbatim": null,
+        "domain_name": null,
+        "full_length": true,
+        "mutations": [],
+        "tags": [],
+        "expression_host": "HEK293",
+        "purification_steps": [],
+        "provenance": "commercial",
+        "supplier": { "name": "ChemiSCREEN human recombinant GLP-1 receptor cells, clonally selected (9-3-H), co-overexpressing a promiscuous G protein", "vendor": "Millipore", "catalog_number": "HTS163C" },
+        "concentration": null,
+        "partner_proteins": []
+      },
+
+      "substrate": null,
+
+      "conditions": {
+        "ph": null, "incubation_min": null, "dmso_pct": null, "mgcl2_mm": null, "nacl_mm": null,
+        "atp_um": null, "bsa_pct": null, "volume_ul": 20, "temperature": "37 C",
+        "buffer": "HEPES", "detergent": null, "reducing_agent": null,
+        "buffer_mm": 10, "detergent_pct": null, "reducing_agent_mm": null,
+        "kcl_mm": null, "mncl2_mm": null, "edta_egta_mm": null, "glycerol_pct": null,
+        "carrier_protein": null, "preincubation_min": null, "quench": null,
+        "other_components": [
+          { "name": "plating medium: DMEM, 4.0 mM glutamine, 10% FCS, 1X NEAA, 10.0 mM HEPES", "value": null, "unit": null },
+          { "name": "selection: geneticin and hygromycin B", "value": 500, "unit": "ug/mL" }
+        ]
+      },
+
+      "plate": { "format": "384", "color": "black", "surface": ["tissue-culture-treated"], "coating": null, "supplier": null },
+
+      "cells": {
+        "line": "HEK293-derived GLP-1R clone 9-3-H, co-plated with a glucagon receptor line",
+        "source": "Millipore ChemiSCREEN, clonally selected in house",
+        "cells_per_well": null,
+        "media": "DMEM with 10% FCS, 4.0 mM L-glutamine, 1X NEAA, 10.0 mM HEPES",
+        "serum_pct": 10,
+        "expression_system": "stable overexpression",
+        "selection_markers": ["geneticin", "hygromycin B"],
+        "treatment_h": null,
+        "co2_pct": 5,
+        "format_notes": "Duplexed: two receptor lines co-plated so non-selective compounds are flagged in the primary screen."
+      },
+
+      "instrumentation": {
+        "readers": [],
+        "liquid_handling": [],
+        "instrument_classes": ["kinetic", "cell"],
+        "excitation_nm": null,
+        "emission_nm": null,
+        "read_mode": "kinetic fluorescence with online liquid addition, 2 min per addition, normalised F/F0"
+      },
+
+      "compound_handling": {
+        "stock": null, "dispense_volume_nl": null, "dispense_method": null, "dilution_fold": null,
+        "n_points": 11,
+        "top_concentration": null,
+        "replicates": null
+      },
+
+      "quality": {
+        "z_prime": 0.68,
+        "z_prime_context": "stated for the primary screen, establishing that the assay can distinguish hits",
+        "signal_to_background": null, "signal_to_noise": null, "cv_pct": null, "signal_window": null,
+        "dmso_tolerance_tested_pct": [], "dmso_tolerance_max_pct": null,
+        "basal_signal": "raw values normalised as F/F0, so basal is the pre-addition baseline of each well",
+        "fold_response": null,
+        "qc_metric_code": "hts"
+      },
+
+      "screening_campaign": {
+        "library_name": null,
+        "library_size": 175000,
+        "screen_concentration": null,
+        "hit_criterion": "amplitudes (maximum minus initial minimum) for the time window after each of the three additions were used to assign a response category",
+        "hit_categories": ["agonist", "potentiator", "antagonist"],
+        "n_hits": 98,
+        "hit_rate_pct": 0.056,
+        "cascade": ["primary duplexed calcium three-phase screen", "concentration-response retest", "secondary GloSensor cAMP screen in INS-1 cells", "selectivity vs the glucagon receptor"]
+      },
+
+      "controls": {
+        "positive": [{ "name": "ECMAX peptide", "concentration": { "value": 5.0, "unit": "uM", "qualifier": "approximate", "verbatim": "ECMAX peptide (~5.0 uM)" } }],
+        "negative": [],
+        "basal": ["vehicle wells in row A and columns 1 and 24"],
+        "max_stimulation": [
+          { "name": "EC80 peptide", "concentration": { "value": 1.0, "unit": "uM", "qualifier": "approximate", "verbatim": "EC80 peptide (~1.0 uM)" } },
+          { "name": "ECMAX peptide", "concentration": { "value": 5.0, "unit": "uM", "qualifier": "approximate", "verbatim": "ECMAX peptide (~5.0 uM)" } }
+        ],
+        "reference_compound": null,
+        "normalisation": "The increase in the EC20 peptide response at each compound concentration was plotted as percentage of maximum of the log concentration value."
+      },
+
+      "interference_and_counterscreens": {
+        "codes": ["fluorescence", "cytotoxicity"],
+        "checks_performed": ["counterscreen vs related target", "compound fluorescence check"],
+        "notes": "The glucagon receptor line co-plated in the same well is the selectivity counterscreen. A calcium-dye kinetic read is vulnerable to autofluorescent compounds."
+      },
+
+      "outputs": [
+        { "parameter": "EC20", "compound": "GLP-1 (reference agonist)", "value": 10, "unit": "nM", "error": null, "n": null },
+        { "parameter": "EC80", "compound": "GLP-1 (reference agonist)", "value": 1.0, "unit": "uM", "error": null, "n": null },
+        { "parameter": "percent_activation", "compound": null, "value": null, "unit": "% of maximum", "error": null, "n": null }
+      ],
+
+      "analysis": {
+        "software": ["Pipeline Pilot (Accelrys)"],
+        "fit_model": "four-parameter logistic equation, fitted to the increase in the EC20 response"
+      },
+
+      "evidence": [
+        { "field": "effect_direction", "quote": "cell lines overexpressing either the GLP-1R or the glucagon receptor were coplated, loaded with a calcium-sensitive dye, and probed in a three-phase assay to identify agonists, antagonists, and potentiators of GLP-1, and potentiators of glucagon", "section": "Abstract" },
+        { "field": "stimulation.agonist_level", "quote": "The cells were treated with compound followed by the addition of an EC20 concentration (20% maximal effective concentration) of peptide, and, last, an EC80 concentration of the same peptide. After each addition, the fluorescence was monitored for 2 min.", "section": "Primary screen" },
+        { "field": "controls.max_stimulation", "quote": "On each testing plate, controls were in the top row (A) and columns 1 and 24 to provide a vehicle, EC20 peptide (~10 nM), EC80 peptide (~1.0 uM), and ECMAX peptide (~5.0 uM).", "section": "Primary screen" },
+        { "field": "controls.normalisation", "quote": "The increase in the EC20 peptide response at each compound concentration was plotted as percentage of maximum of the log concentration value, and the dose-response curves were fitted using a four-parameter logistic equation", "section": "Primary screen" },
+        { "field": "quality.z_prime", "quote": "Z' of 0.68", "section": "Assay optimisation" },
+        { "field": "screening_campaign.library_size", "quote": "175,000 compounds were initially screened, and progression through secondary assays yielded 98 compounds with a variety of activities at the GLP-1R.", "section": "Abstract" },
+        { "field": "screening_campaign.hit_categories", "quote": "Amplitudes (maximum values minus initial minimum values) for defined time regions after the first, second, and third sample additions were used to define categories for compound response (e.g., agonist, potentiatior, and antagonist).", "section": "Data Analysis" }
+      ],
+
+      "not_reported": [
+        "conditions.dmso_pct", "conditions.ph", "compound_handling.top_concentration",
+        "compound_handling.stock", "cells.cells_per_well", "instrumentation.readers",
+        "quality.signal_to_background", "quality.fold_response", "target.uniprot"
+      ],
+
+      "confidence": "high",
+      "extraction_flags": ["values_from_figure"]
+    },
+
+    {
+      "assay_id": "PMC4530983-A2",
+      "source_section": "Secondary GloSensor cAMP Screen",
+      "assay_name_verbatim": "Secondary GloSensor cAMP Screen",
+      "assay_category": "cell_functional",
+      "scope": "cell-based",
+      "role": "confirmation",
+      "function_labels": ["cAMP signaling"],
+      "technology_labels": ["Luciferase reporter"],
+      "effect_direction": "activation",
+      "pharmacology": ["positive_allosteric_modulator"],
+      "throughput": "kinetic",
+
+      "stimulation": {
+        "reference_agonist": "GLP-1",
+        "agonist_level": "EC20",
+        "agonist_concentration": null,
+        "constitutive_activity": null,
+        "notes": "Hits were tested for GLP-1R potentiation in the presence of EC20 and EC80 GLP-1, in a more native pancreatic background than the engineered primary line."
+      },
+
+      "protocol_additions": [
+        { "step": 1, "added": "GLO reagent at 4%, 10.0 uL per well, 2 h before compound", "volume_ul": 10.0, "read_window": "8 min of baseline data collected", "detects": "baseline luminescence" },
+        { "step": 2, "added": "test compounds", "volume_ul": null, "read_window": "luminescence every 3 s for 2 min", "detects": "direct agonism" },
+        { "step": 3, "added": "EC20 GLP-1", "volume_ul": null, "read_window": "2 min of luminescence monitoring", "detects": "potentiation" },
+        { "step": 4, "added": "EC80 GLP-1", "volume_ul": null, "read_window": "2 min of luminescence monitoring", "detects": "negative modulation" }
+      ],
+
+      "target": {
+        "gene_symbol": "GLP1R",
+        "uniprot": null, "species": "rat", "construct_start": null, "construct_end": null,
+        "construct_verbatim": null, "domain_name": null, "full_length": true,
+        "mutations": [], "tags": [], "expression_host": "other",
+        "purification_steps": [], "provenance": "commercial", "supplier": null,
+        "concentration": null, "partner_proteins": []
+      },
+
+      "substrate": null,
+
+      "conditions": {
+        "ph": null, "incubation_min": null, "dmso_pct": null, "mgcl2_mm": null, "nacl_mm": null,
+        "atp_um": null, "bsa_pct": null, "volume_ul": 20, "temperature": "37 C",
+        "buffer": null, "detergent": null, "reducing_agent": null,
+        "buffer_mm": null, "detergent_pct": null, "reducing_agent_mm": null,
+        "kcl_mm": null, "mncl2_mm": null, "edta_egta_mm": null, "glycerol_pct": null,
+        "carrier_protein": null, "preincubation_min": 120, "quench": null,
+        "other_components": [{ "name": "GLO reagent", "value": 4, "unit": "%" }]
+      },
+
+      "plate": { "format": "384", "color": "black", "surface": ["tissue-culture-treated"], "coating": null, "supplier": { "name": "384-well black-wall plates", "vendor": "Greiner Bio-One", "catalog_number": null } },
+
+      "cells": {
+        "line": "INS-1 (pancreatic beta cell)",
+        "source": null,
+        "cells_per_well": 15000,
+        "media": "RPMI-1640",
+        "serum_pct": null,
+        "expression_system": "stable overexpression",
+        "selection_markers": [],
+        "treatment_h": 48,
+        "co2_pct": 5,
+        "format_notes": "Stably transfected with the GloSensor cAMP reporter plasmid; chosen as a more native background than the engineered primary line."
+      },
+
+      "instrumentation": {
+        "readers": [{ "name": "FDSS6000", "vendor": "Hamamatsu", "catalog_number": null }],
+        "liquid_handling": [{ "name": "BRAVO liquid dispenser", "vendor": "Agilent", "catalog_number": null }],
+        "instrument_classes": ["kinetic", "cell", "plate", "disp"],
+        "excitation_nm": null, "emission_nm": null,
+        "read_mode": "kinetic luminescence, readings every 3 s for 2 min after each addition"
+      },
+
+      "compound_handling": {
+        "stock": null, "dispense_volume_nl": null, "dispense_method": null, "dilution_fold": null,
+        "n_points": null, "top_concentration": null, "replicates": null
+      },
+
+      "quality": {
+        "z_prime": null, "z_prime_context": null, "signal_to_background": null, "signal_to_noise": null,
+        "cv_pct": null, "signal_window": null,
+        "dmso_tolerance_tested_pct": [], "dmso_tolerance_max_pct": null,
+        "basal_signal": "8 min of baseline data collected before compound addition",
+        "fold_response": null, "qc_metric_code": "hts"
+      },
+
+      "screening_campaign": null,
+
+      "controls": {
+        "positive": [], "negative": [],
+        "basal": ["8 min pre-addition baseline per well"],
+        "max_stimulation": [{ "name": "EC80 GLP-1", "concentration": null }],
+        "reference_compound": null,
+        "normalisation": null
+      },
+
+      "interference_and_counterscreens": {
+        "codes": ["luciferase", "cytotoxicity"],
+        "checks_performed": ["orthogonal assay"],
+        "notes": "This cAMP assay is itself the orthogonal confirmation of the primary calcium screen: two different coupling modalities of the same receptor. Being a luciferase readout, it is open to luciferase inhibition artefacts."
+      },
+
+      "outputs": [],
+      "analysis": { "software": [], "fit_model": null },
+
+      "evidence": [
+        { "field": "effect_direction", "quote": "hits were tested for GLP-1R potentiation by measuring cAMP accumulation in the presence of EC20 and EC80 GLP-1", "section": "Secondary GloSensor cAMP Screen" },
+        { "field": "cells.cells_per_well", "quote": "pancreatic INS-1 cells stably transfected with the GloSensor plasmid were plated at 15,000 cells per well in 384-well black-wall plates (Greiner Bio-one) in 20 uL RPMI-1640 and incubated for 48 h at 37 C and 5% CO2", "section": "Secondary GloSensor cAMP Screen" },
+        { "field": "protocol_additions", "quote": "Eight minutes of baseline data were collected, followed by the addition of test compounds and luminescence readings every 3 s for 2 min. EC20 (add 2) and EC80 (add 3) concentrations of GLP-1 were added to each well", "section": "Secondary GloSensor cAMP Screen" }
+      ],
+
+      "not_reported": ["quality.z_prime", "conditions.dmso_pct", "compound_handling.n_points", "outputs", "controls.normalisation"],
+      "confidence": "high",
+      "extraction_flags": []
+    }
+  ],
+
+  "unmapped_terms": [
+    {
+      "assay_id": "PMC4530983-A1",
+      "field": "technology_labels",
+      "verbatim": "duplexed / co-plated two-receptor screen (two cell lines in one well)",
+      "nearest_controlled_value": "Fluorescent calcium dye",
+      "quote": "a duplexed high-throughput screen in which cell lines overexpressing either the GLP-1R or the glucagon receptor were coplated"
+    },
+    {
+      "assay_id": "PMC4530983-A2",
+      "field": "technology_labels",
+      "verbatim": "GloSensor cAMP biosensor (circularly permuted luciferase, live-cell kinetic)",
+      "nearest_controlled_value": "Luciferase reporter",
+      "quote": "pancreatic INS-1 cells stably transfected with the GloSensor reporter plasmid"
+    }
+  ]
+}

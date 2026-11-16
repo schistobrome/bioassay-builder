@@ -1,0 +1,476 @@
+{
+  "schema_version": "1.0",
+  "paper": {
+    "pmid": "41484101",
+    "pmcid": "PMC12770528",
+    "doi": "10.1038/s41467-025-66768-8",
+    "title": "WRN structural flexibility showcased through fragment-based lead discovery of inhibitors",
+    "journal": "Nature Communications",
+    "year": 2026,
+    "license": "cc by",
+    "source": "europepmc_fulltext",
+    "retrieved_on": "2026-11-15",
+    "target_genes": ["WRN", "BLM"],
+    "paper_type": "inhibitor_discovery",
+    "modality": ["fragment", "small_molecule"],
+    "relevance_score": 6,
+    "extraction": {
+      "model": "<small-model-id>",
+      "run_on": "2026-11-15T00:00:00Z",
+      "passes": ["segment", "extract", "map_vocabulary"],
+      "notes": "Three assay blocks taken from the Methods subsections. Tags and exact residue ranges per assay are in Supporting Table SI 1, which was not fetched."
+    }
+  },
+
+  "assays": [
+    {
+      "assay_id": "PMC12770528-A1",
+      "source_section": "ATPase assay",
+      "assay_name_verbatim": "ATPase assay",
+      "assay_category": "biochemical_hts",
+      "scope": "cell-free",
+      "role": "primary",
+      "function_labels": ["ATPase activity"],
+      "technology_labels": ["ADP-Glo luminescence"],
+      "effect_direction": "inhibition",
+      "throughput": "dose_response",
+
+      "target": {
+        "gene_symbol": "WRN",
+        "uniprot": "Q14191",
+        "species": "human",
+        "construct_start": 500,
+        "construct_end": 942,
+        "construct_verbatim": "WRN helicase core (500–942)",
+        "domain_name": "helicase core",
+        "full_length": false,
+        "mutations": [],
+        "tags": [],
+        "expression_host": "Sf9/Sf21 insect",
+        "purification_steps": [],
+        "provenance": "purified_in_house",
+        "supplier": null,
+        "concentration": { "value": 250, "unit": "pM", "qualifier": "final", "verbatim": "(250 pM, final) WRN helicase core (500–942)" },
+        "partner_proteins": []
+      },
+
+      "substrate": {
+        "description": "ATP, added at 1x Km to initiate the reaction",
+        "type": "ATP",
+        "concentration": { "value": 50, "unit": "uM", "qualifier": "final", "verbatim": "1X Km ATP (50 µM, final)" },
+        "km": { "value": 50, "unit": "uM", "qualifier": "exact", "verbatim": "1X Km ATP (50 µM, final)" },
+        "km_relation": "at_Km",
+        "modifications": [],
+        "supplier": null
+      },
+
+      "conditions": {
+        "ph": 7.3,
+        "incubation_min": 60,
+        "dmso_pct": 1,
+        "mgcl2_mm": 2,
+        "nacl_mm": 50,
+        "atp_um": 50,
+        "bsa_pct": null,
+        "volume_ul": 20,
+        "temperature": null,
+        "buffer": "HEPES",
+        "detergent": "Tween-20",
+        "reducing_agent": "TCEP",
+        "buffer_mm": 25,
+        "detergent_pct": 0.01,
+        "reducing_agent_mm": 0.5,
+        "kcl_mm": null,
+        "mncl2_mm": null,
+        "edta_egta_mm": null,
+        "glycerol_pct": null,
+        "carrier_protein": null,
+        "preincubation_min": 30,
+        "quench": "ADP-Glo kit reagents",
+        "other_components": [
+          { "name": "single-stranded DNA (required activator, 50-mer, IDT)", "value": 100, "unit": "nM" }
+        ]
+      },
+
+      "plate": {
+        "format": "384",
+        "color": "black",
+        "surface": ["non-binding", "low-volume"],
+        "coating": null,
+        "supplier": { "name": "all black NBS low-volume 384 well microplates", "vendor": "Corning", "catalog_number": "3820" }
+      },
+
+      "cells": null,
+
+      "instrumentation": {
+        "readers": [],
+        "liquid_handling": [{ "name": "Echo acoustic dispenser", "vendor": null, "catalog_number": null }],
+        "instrument_classes": ["plate", "nano"],
+        "excitation_nm": null,
+        "emission_nm": null,
+        "read_mode": "endpoint luminescence"
+      },
+
+      "compound_handling": {
+        "stock": null,
+        "dispense_volume_nl": 200,
+        "dispense_method": "acoustic",
+        "dilution_fold": 3,
+        "n_points": null,
+        "top_concentration": { "value": 100, "unit": "uM", "qualifier": "final", "verbatim": "three-fold serial dilution (100 µM, the Top highest concentration)" },
+        "replicates": null
+      },
+
+      "quality": {
+        "z_prime": null,
+        "z_prime_context": null,
+        "signal_to_background": null,
+        "signal_to_noise": null,
+        "cv_pct": null,
+        "signal_window": null,
+        "dmso_tolerance_tested_pct": [],
+        "dmso_tolerance_max_pct": null,
+        "qc_metric_code": "potency"
+      },
+
+      "screening_campaign": null,
+
+      "controls": {
+        "positive": [
+          { "name": "positive inhibition control (concentration as printed; 20 mM is implausible for an inhibitor control and the sister paper on the same assay states 20 µM)", "concentration": { "value": 20, "unit": "mM", "qualifier": "final", "verbatim": "WRN + Substrates + 20 mM positive inhibition control" } }
+        ],
+        "negative": ["enzyme + substrates + DMSO (max hydrolysis)", "substrates + DMSO (no enzyme)"],
+        "reference_compound": null,
+        "normalisation": "High luminescence (enzyme + substrates + DMSO) represents the signal from max ATP hydrolysis (no ATPase inhibition), while low luminescence ... represents no ATPase activity/complete inhibition."
+      },
+
+      "interference_and_counterscreens": {
+        "codes": ["luciferase"],
+        "checks_performed": ["no-enzyme control", "counterscreen vs related target"],
+        "notes": "The same ATPase format was run against BLM helicase core (642–1296) as the selectivity counterscreen. ADP-Glo is a luciferase-coupled readout, so luciferase interference applies."
+      },
+
+      "outputs": [],
+
+      "analysis": {
+        "software": ["Spotfire"],
+        "fit_model": "4-parameter (4P) inhibition model, giving IC50, Hill slope and % maximum inhibition"
+      },
+
+      "evidence": [
+        { "field": "technology_labels", "quote": "To measure WRN ATPase activity, the accumulation of ADP was quantitated via ADP-Glo Assay kit (Promega) in all black NBS low-volume 384 well microplates (Corning, 3820).", "section": "ATPase assay" },
+        { "field": "conditions", "quote": "All assay reaction solutions were prepared in 1X assay buffer (25 mM HEPES-NaOH, pH 7.3, 50 mM NaCl, 2 mM MgCl2, 0.01% Tween-20, 0.5 mM TCEP, 1% DMSO).", "section": "ATPase assay" },
+        { "field": "target.construct_start", "quote": "assembled in a final volume of 20 µL by preincubating (250 pM, final) WRN helicase core (500–942) with the respective compound", "section": "ATPase assay" },
+        { "field": "conditions.preincubation_min", "quote": "for 30 min in the presence of (100 nM, final) single stranded DNA ... which is required for ATP hydrolysis, prior to reaction initiation by the 1:1 addition of 1X Km ATP (50 µM, final)", "section": "ATPase assay" },
+        { "field": "conditions.incubation_min", "quote": "Both BLM and WRN ATPase reactions were run for 1 h prior to quenching by the addition of the ADP-Glo kit reagents.", "section": "ATPase assay" },
+        { "field": "target.uniprot", "quote": "The helicase domain of Human Werner-Syndrome (WRN) protein UniProt ID Q14191 for SPR, X-ray, biochemistry, and bioNMR was expressed using the residues and tags as described in the Supporting Table SI 1.", "section": "Gene expression and protein purification" }
+      ],
+
+      "not_reported": [
+        "conditions.temperature",
+        "conditions.bsa_pct",
+        "instrumentation.readers",
+        "compound_handling.stock",
+        "compound_handling.n_points",
+        "compound_handling.replicates",
+        "quality.z_prime",
+        "quality.signal_to_background",
+        "target.tags",
+        "outputs"
+      ],
+
+      "confidence": "high",
+      "extraction_flags": ["values_from_supplementary", "units_ambiguous"]
+    },
+
+    {
+      "assay_id": "PMC12770528-A2",
+      "source_section": "SPR binding assays",
+      "assay_name_verbatim": "SPR binding assays",
+      "assay_category": "biophysical_binding",
+      "scope": "cell-free",
+      "role": "primary",
+      "function_labels": ["Ligand binding affinity"],
+      "technology_labels": ["SPR / BLI"],
+      "effect_direction": "binding_only",
+      "throughput": "single_point_hts",
+
+      "target": {
+        "gene_symbol": "WRN",
+        "uniprot": "Q14191",
+        "species": "human",
+        "construct_start": 500,
+        "construct_end": 946,
+        "construct_verbatim": "N-terminal GST-PRE and C-terminal AVI-tagged human WRN (500–946) was cloned into pFastBac1",
+        "domain_name": "helicase domain",
+        "full_length": false,
+        "mutations": [],
+        "tags": [
+          { "tag": "GST", "terminus": "N", "cleaved": null },
+          { "tag": "Avi/biotin", "terminus": "C", "cleaved": false }
+        ],
+        "expression_host": "Sf9/Sf21 insect",
+        "purification_steps": [],
+        "provenance": "purified_in_house",
+        "supplier": null,
+        "concentration": { "value": 100, "unit": "ug/mL", "qualifier": "exact", "verbatim": "A solution of 100 μg/mL WRN ... was injected into flow cell 2 ... to achieve an immobilization density of ~3000 RU" },
+        "partner_proteins": []
+      },
+
+      "substrate": null,
+
+      "conditions": {
+        "ph": 7.4,
+        "incubation_min": null,
+        "dmso_pct": 1,
+        "mgcl2_mm": 5,
+        "nacl_mm": 150,
+        "atp_um": null,
+        "bsa_pct": null,
+        "volume_ul": 100,
+        "temperature": "20 C",
+        "buffer": "HEPES",
+        "detergent": "Tween-20",
+        "reducing_agent": "TCEP",
+        "buffer_mm": 10,
+        "detergent_pct": 0.01,
+        "reducing_agent_mm": 1,
+        "kcl_mm": null,
+        "mncl2_mm": null,
+        "edta_egta_mm": null,
+        "glycerol_pct": null,
+        "carrier_protein": null,
+        "preincubation_min": null,
+        "quench": null,
+        "other_components": [
+          { "name": "association phase (30 s at 40 uL/min)", "value": 30, "unit": "s" },
+          { "name": "dissociation phase in running buffer", "value": 45, "unit": "s" }
+        ]
+      },
+
+      "plate": { "format": "chip/flow-cell", "color": null, "surface": [], "coating": "Series S CAP sensor chip, biotin capture (Biotin Capture Kit, Cytiva)", "supplier": { "name": "Series S CAP Sensor chip / Biotin Capture Kit", "vendor": "Cytiva", "catalog_number": "28920234" } },
+
+      "cells": null,
+
+      "instrumentation": {
+        "readers": [{ "name": "Biacore 8K+ SPR system", "vendor": "Cytiva", "catalog_number": "29283382" }],
+        "liquid_handling": [{ "name": "Echo 655", "vendor": null, "catalog_number": null }],
+        "instrument_classes": ["spr", "nano"],
+        "excitation_nm": null,
+        "emission_nm": null,
+        "read_mode": "sensorgram, reference-cell corrected"
+      },
+
+      "compound_handling": {
+        "stock": { "value": 100, "unit": "mM", "qualifier": "stock", "verbatim": "compound stocks of 100 mM in 100% DMSO were diluted 100-fold in assay buffer" },
+        "dispense_volume_nl": null,
+        "dispense_method": "acoustic",
+        "dilution_fold": 2,
+        "n_points": 4,
+        "top_concentration": { "value": 1, "unit": "mM", "qualifier": "final", "verbatim": "4 concentration points for each fragment samples including 125 μM, 250 μM, 500 μM and 1000 μM" },
+        "replicates": "two independent trials (N = 2)"
+      },
+
+      "quality": {
+        "z_prime": null,
+        "z_prime_context": null,
+        "signal_to_background": null,
+        "signal_to_noise": null,
+        "cv_pct": null,
+        "signal_window": null,
+        "dmso_tolerance_tested_pct": [],
+        "dmso_tolerance_max_pct": null,
+        "qc_metric_code": null
+      },
+
+      "screening_campaign": {
+        "library_name": "internal non-fluorine containing fragment collection (diversity set)",
+        "library_size": 500,
+        "screen_concentration": { "value": 1, "unit": "mM", "qualifier": "final", "verbatim": "diluted 100-fold in assay buffer to a 1 mM final test concentration with 1% DMSO" },
+        "hit_criterion": "binding occupancy vs the 1:1 theoretical maximum; hits with less than 20% occupancy were deprioritized, then clustered by kinetic profile and only ranks 1 and 2 progressed",
+        "n_hits": null,
+        "hit_rate_pct": null,
+        "cascade": ["SPR primary single-point screen", "SPR Tier 2 dose-response (4 concentrations, top 1 mM)"]
+      },
+
+      "controls": {
+        "positive": [],
+        "negative": ["flow cell 1 reserved as the reference cell for reference cell correction"],
+        "reference_compound": null,
+        "normalisation": "Binding occupancy for each test fragment was calculated using the ratio of observed binding RU (at the end of each test fragment injection) and the theoretical maximum occupancy based on a 1:1 binding model."
+      },
+
+      "interference_and_counterscreens": {
+        "codes": ["label_free"],
+        "checks_performed": ["other"],
+        "notes": "A DMSO solvent correction was applied for refractive-index mismatch, using a standard curve of five concentrations in 0.5% steps from 0% to 2% DMSO. This is an instrument artefact correction, NOT a DMSO tolerance experiment, so quality.dmso_tolerance_tested_pct is deliberately left empty."
+      },
+
+      "outputs": [{ "parameter": "Kd", "compound": null, "value": null, "unit": null, "error": null, "n": null }],
+
+      "analysis": {
+        "software": ["Biacore Insight evaluation software, version 5.0.18.22102"],
+        "fit_model": "1:1 steady-state affinity binding model"
+      },
+
+      "evidence": [
+        { "field": "instrumentation.readers", "quote": "The SPR binding assays were carried out using a high-throughput Biacore 8 K + SPR system (Cytiva), with biotinylated WRN protein immobilized to the biosensor chip surface using a proprietary biotin capture method (Biotin Capture Kit; Cytiva).", "section": "SPR binding assays" },
+        { "field": "conditions", "quote": "The sensor chip was subsequently equilibrated at 20 °C in running buffer (10 mM HEPES-NaOH, pH 7.4, 150 mM NaCl, 5 mM MgCl2, 1 mM TCEP, 0.01% Tween 20, 1% DMSO) prior to analysis of test compounds.", "section": "SPR binding assays" },
+        { "field": "screening_campaign.library_size", "quote": "The diversity set of 500 fragments from our internal non-fluorine containing collection was subjected to a series of SPR binding assays.", "section": "SPR binding assays" },
+        { "field": "target.tags", "quote": "For SPR measurements, the N-terminal GST-PRE and C-terminal AVI-tagged human WRN (500–946) was cloned into pFastBac1.", "section": "Gene expression and protein purification" }
+      ],
+
+      "not_reported": ["quality.z_prime", "screening_campaign.n_hits", "screening_campaign.hit_rate_pct", "outputs.value"],
+      "confidence": "high",
+      "extraction_flags": ["multiple_assays_merged_in_source"]
+    },
+
+    {
+      "assay_id": "PMC12770528-A3",
+      "source_section": "BioNMR 19F fragment screening",
+      "assay_name_verbatim": "BioNMR 19F fragment screening",
+      "assay_category": "biophysical_binding",
+      "scope": "cell-free",
+      "role": "primary",
+      "function_labels": ["Ligand binding affinity"],
+      "technology_labels": [],
+      "effect_direction": "binding_only",
+      "throughput": "single_point_hts",
+
+      "target": {
+        "gene_symbol": "WRN",
+        "uniprot": "Q14191",
+        "species": "human",
+        "construct_start": null,
+        "construct_end": null,
+        "construct_verbatim": null,
+        "domain_name": "helicase domain",
+        "full_length": false,
+        "mutations": [],
+        "tags": [],
+        "expression_host": "Sf9/Sf21 insect",
+        "purification_steps": [],
+        "provenance": "purified_in_house",
+        "supplier": null,
+        "concentration": { "value": 10, "unit": "uM", "qualifier": "final", "verbatim": "protein concentration at 10 µM" },
+        "partner_proteins": []
+      },
+
+      "substrate": null,
+
+      "conditions": {
+        "ph": 7.4,
+        "incubation_min": null,
+        "dmso_pct": 2.5,
+        "mgcl2_mm": 2,
+        "nacl_mm": 50,
+        "atp_um": null,
+        "bsa_pct": null,
+        "volume_ul": null,
+        "temperature": "295 K",
+        "buffer": "HEPES",
+        "detergent": null,
+        "reducing_agent": null,
+        "buffer_mm": 25,
+        "detergent_pct": null,
+        "reducing_agent_mm": null,
+        "kcl_mm": null,
+        "mncl2_mm": null,
+        "edta_egta_mm": null,
+        "glycerol_pct": null,
+        "carrier_protein": null,
+        "preincubation_min": null,
+        "quench": null,
+        "other_components": [{ "name": "DMSO-d6 (deuterated, matched across all samples)", "value": 2.5, "unit": "%" }]
+      },
+
+      "plate": { "format": "cuvette/tube", "color": null, "surface": [], "coating": null, "supplier": null },
+      "cells": null,
+
+      "instrumentation": {
+        "readers": [{ "name": "AVANCE III 600 MHz NMR spectrometer with 5 mm QCI-F cryoprobe", "vendor": "Bruker", "catalog_number": null }],
+        "liquid_handling": [],
+        "instrument_classes": [],
+        "excitation_nm": null,
+        "emission_nm": null,
+        "read_mode": "19F CPMG T2 relaxation, 20 ms and 160 ms total relaxation time, 112 scans, proton decoupling"
+      },
+
+      "compound_handling": {
+        "stock": null,
+        "dispense_volume_nl": null,
+        "dispense_method": null,
+        "dilution_fold": null,
+        "n_points": 1,
+        "top_concentration": { "value": 50, "unit": "uM", "qualifier": "final", "verbatim": "each mixture component at 50 µM" },
+        "replicates": null
+      },
+
+      "quality": {
+        "z_prime": null, "z_prime_context": null, "signal_to_background": null, "signal_to_noise": null,
+        "cv_pct": null, "signal_window": null,
+        "dmso_tolerance_tested_pct": [], "dmso_tolerance_max_pct": null, "qc_metric_code": null
+      },
+
+      "screening_campaign": {
+        "library_name": "internal fluorine-containing fragment collection, pooled in mixtures of up to 21 compounds",
+        "library_size": 1020,
+        "screen_concentration": { "value": 50, "unit": "uM", "qualifier": "final", "verbatim": "each mixture component at 50 µM" },
+        "hit_criterion": "signal intensity change with Qbind < 0.5, then singleton confirmation by 1H T2 CPMG, STD and waterLOGSY",
+        "n_hits": null,
+        "hit_rate_pct": null,
+        "cascade": ["19F CPMG mixture screen", "19F CPMG singleton confirmation", "1H T2 CPMG / STD / waterLOGSY"]
+      },
+
+      "controls": {
+        "positive": [],
+        "negative": ["control samples of each mixture component without protein", "compound QC samples at 200 uM in buffer with 2.5% DMSO-d6"],
+        "reference_compound": null,
+        "normalisation": "peak intensities in the presence of protein compared with reference spectra for the individual compounds in buffer"
+      },
+
+      "interference_and_counterscreens": {
+        "codes": ["aggregation"],
+        "checks_performed": ["aggregation check", "other"],
+        "notes": "Fragments were pre-selected for purity >90%, solubility >250 uM and lack of aggregation at 50 uM in CPMG experiments."
+      },
+
+      "outputs": [],
+      "analysis": { "software": ["Topspin 3.5pl7 (Fragment-Based Screening module)"], "fit_model": null },
+
+      "evidence": [
+        { "field": "screening_campaign.library_size", "quote": "The 1020 fragments from internal fluorine-containing collection were selected based on their measured 19F chemical shifts, purity >90%, solubility >250 µM, and lack of aggregation at 50 µM in the CPMG experiments.", "section": "BioNMR 19F fragment screening" },
+        { "field": "conditions", "quote": "Samples to evaluate binding were prepared in 25 mM HEPES-NaOH, 50 mM NaCl, 2 mM MgCl2, pH 7.4 buffer with protein concentration at 10 µM and each mixture component at 50 µM, with DMSO-D6 concentration matched to 2.5% final volume in each sample.", "section": "BioNMR 19F fragment screening" },
+        { "field": "technology_labels", "quote": "The 19F CPMG relaxation experiments were recorded at 295 K on a Bruker AVANCE III 600 MHz NMR spectrometer equipped with a 5 mm QCI-F cryoprobe.", "section": "BioNMR 19F fragment screening" }
+      ],
+
+      "not_reported": ["target.construct_start", "conditions.volume_ul", "quality.z_prime", "outputs"],
+      "confidence": "high",
+      "extraction_flags": ["values_from_supplementary"]
+    }
+  ],
+
+  "unmapped_terms": [
+    {
+      "assay_id": "PMC12770528-A3",
+      "field": "technology_labels",
+      "verbatim": "19F CPMG relaxation NMR, with STD and waterLOGSY confirmation",
+      "nearest_controlled_value": null,
+      "quote": "The 19F CPMG relaxation experiments were recorded at 295 K on a Bruker AVANCE III 600 MHz NMR spectrometer"
+    },
+    {
+      "assay_id": "PMC12770528-A3",
+      "field": "instrumentation.instrument_classes",
+      "verbatim": "600 MHz NMR spectrometer with cryoprobe",
+      "nearest_controlled_value": null,
+      "quote": "Bruker AVANCE III 600 MHz NMR spectrometer equipped with a 5 mm QCI-F cryoprobe"
+    },
+    {
+      "assay_id": "PMC12770528-A1",
+      "field": "conditions.other_components",
+      "verbatim": "single stranded DNA (IDT; 5'-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTCGTACCCGATGTGTTCGTTC-'3), which is required for ATP hydrolysis",
+      "nearest_controlled_value": "substrate.type = ssDNA",
+      "quote": "in the presence of (100 nM, final) single stranded DNA ... which is required for ATP hydrolysis"
+    }
+  ]
+}

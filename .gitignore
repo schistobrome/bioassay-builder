@@ -9,3 +9,6 @@ scripts/term_table_old_*.csv
 /scripts/bindingdb_test
 review/
 docs/Bookshelf_NBK53196.pdf
+build_output/
+
+
