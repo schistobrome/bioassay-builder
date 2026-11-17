@@ -28,7 +28,6 @@ Lists inside a cell are separated by `;`. Levels are exactly: very_low, low, mod
 
 ## Running the data pipeline (Windows PowerShell)
 
-Run the steps in this order from the repo folder (`cd "C:\Users\xanox\Documents\GitHub\bioassay-builder"`).
 Every step can be stopped (Ctrl+C) and rerun: finished work is skipped. `build_cache/`, `build_output/` and
 `data/public/` are large and can be regenerated, so never commit them.
 
