@@ -10,5 +10,6 @@ scripts/term_table_old_*.csv
 review/
 docs/Bookshelf_NBK53196.pdf
 build_output/
+data/backup/
 
 

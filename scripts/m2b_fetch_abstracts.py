@@ -5,10 +5,19 @@ One ChEMBL call fetches up to 50 papers, and every paper is saved once as
 m1_data/chembl_docs/<ID>.json, so later runs call nothing for papers you have.
 
 How to run (after M1):
-    .\\.venv\\Scripts\\python.exe m2b_fetch_abstracts.py
-    (or only one gene:  m2b_fetch_abstracts.py egfr)
+    py scripts\\m2b_fetch_abstracts.py --crawled    every gene in crawl/targets.csv (~12,900 papers)
+    py scripts\\m2b_fetch_abstracts.py --all        every gene in the m1 cache (~47,600 papers)
+    py scripts\\m2b_fetch_abstracts.py egfr wrn     named genes only
 Then run m2_label.py again. It reads these files automatically.
 It only READS public data. Uses only Python's built-in libraries.
+
+Why `doi` and `pubmed_id` matter beyond abstracts
+-------------------------------------------------
+These two fields are the only join between a campaign and a paper. Campaign keys look like
+`doc:CHEMBL1155814`; a mined paper carries a PMID and a DOI, and nothing on disk connected the two
+until this ran. schema/PAPER_INTEGRATION.md treats that map as a prerequisite for any claim that
+counts papers and campaigns together, because a mined paper may already BE one of the campaigns.
+Until the map exists, the separate-tier design is what keeps the numbers honest.
 """
 
 import csv
@@ -21,8 +30,14 @@ import urllib.parse
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-M1 = os.path.join(HERE, "m1_data")
+ROOT = os.path.dirname(HERE)
+# The cache moved to build_cache/ when this stopped being a standalone two-protein script. The old
+# location is still accepted so an existing scripts/m1_data keeps working.
+M1 = (os.path.join(ROOT, "build_cache", "m1_data")
+      if os.path.isdir(os.path.join(ROOT, "build_cache", "m1_data"))
+      else os.path.join(HERE, "m1_data"))
 OUT = os.path.join(M1, "chembl_docs")
+CRAWL_TARGETS = os.path.join(ROOT, "crawl", "targets.csv")
 HEADERS = {"User-Agent": "assay-planner-m2b/0.1 (personal side project)", "Accept": "application/json"}
 BASE = "https://www.ebi.ac.uk/chembl/api/data/document.json"
 KEEP = ("document_chembl_id", "title", "abstract", "pubmed_id", "doi", "journal", "year", "doc_type")
@@ -52,19 +67,49 @@ def fetch_batch(ids):
 
 
 def wanted_ids(genes):
-    ids = set()
+    ids, missing = set(), []
     for gene in genes:
         path = os.path.join(M1, "chembl_%s_assays.csv" % gene)
         if not os.path.exists(path):
-            print("  No %s - run M1 first." % path)
+            missing.append(gene)
             continue
         with open(path, newline="", encoding="utf-8-sig") as handle:
-            ids.update(r["document"] for r in csv.DictReader(handle) if r.get("document"))
+            ids.update(r["document"] for r in csv.DictReader(handle)
+                       if (r.get("document") or "").startswith("CHEMBL"))
+    if missing:
+        print("  no m1 file for %d gene(s): %s%s"
+              % (len(missing), ", ".join(missing[:8]), " ..." if len(missing) > 8 else ""))
     return sorted(ids)
 
 
+def genes_from_cache():
+    """Every gene the m1 cache holds ChEMBL assays for."""
+    out = []
+    for name in os.listdir(M1):
+        if name.startswith("chembl_") and name.endswith("_assays.csv"):
+            out.append(name[len("chembl_"):-len("_assays.csv")].upper())
+    return sorted(set(out))
+
+
+def genes_from_crawl():
+    """Every target the paper crawl has picked, which is where dedup actually matters first."""
+    if not os.path.exists(CRAWL_TARGETS):
+        raise SystemExit("no %s: pass gene names instead" % CRAWL_TARGETS)
+    with open(CRAWL_TARGETS, newline="", encoding="utf-8-sig") as handle:
+        return sorted({r["gene"].upper() for r in csv.DictReader(handle) if r.get("gene")})
+
+
 def main():
-    genes = [g.upper() for g in sys.argv[1:]] or ["WRN", "EGFR"]
+    args = [a for a in sys.argv[1:]]
+    if "--all" in args:
+        genes = genes_from_cache()
+    elif "--crawled" in args:
+        genes = genes_from_crawl()
+    else:
+        genes = [g.upper() for g in args if not g.startswith("-")]
+    if not genes:
+        raise SystemExit(__doc__)
+    print("Genes: %d. Cache: %s" % (len(genes), M1))
     ids = wanted_ids(genes)
     os.makedirs(OUT, exist_ok=True)
     todo = [i for i in ids if not os.path.exists(os.path.join(OUT, i + ".json"))]

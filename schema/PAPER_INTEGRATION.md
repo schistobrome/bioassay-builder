@@ -12,8 +12,11 @@ folded into the campaign counts.
 That is not fastidiousness, it is correctness. The card says "measures a function used in 87% of 1,847
 campaigns", and `usage_stats.csv` defines that share as *campaigns using / campaigns classifiable*.
 Adding papers to the numerator would change what the sentence means while leaving the sentence alone.
-Worse, we cannot currently tell whether a mined paper **is already** one of those campaigns (see
-"Deduplication" below), so folding them in would double count by an unknown amount.
+That reason stands on its own, and it is the whole reason: a paper is not a campaign, so it does not
+belong in a count of campaigns. Double counting is a second, lesser worry, and as of 2026-11-18 it is
+measured rather than assumed — 1 mined paper in 220 is a ChEMBL document behind a campaign for the same
+protein (see "Deduplication" below). Small, but not zero, so the arithmetic objection is reduced rather
+than removed. The semantic one is untouched.
 
 So: papers get their own tables, their own aggregation, and their own labelled row in the UI. Where
 they feed curated columns in `data/assays.csv`, they do it the way everything else does — as a review
@@ -89,6 +92,51 @@ Two of those stages are new code (`papers_aggregate.py`, `papers_to_review.py`).
 existing machinery unchanged, which is the point: this plugs into the review workflow that chunks 01–07
 already use, rather than inventing a second way to change curated data.
 
+### Built, 2026-11-18 — and what the plan above got wrong
+
+`tools/papers_aggregate.py` and `tools/papers_to_review.py` now exist and were proven end to end on
+batches 0–3 (408 records → `review/09_papers_batches_0_3`, then an accepted row through
+`apply_review.py` and `build_db.py` against a copy of `data/`). Three corrections to the plan above:
+
+1. **The counting tier was already built.** `scripts/literature_stats.py` turns the same records into
+   `data/literature_stats.csv` — the "60% of 25 papers" number, per protein — and it works today
+   (138 proposals from 220 extractions). So `papers_aggregate.py` does *not* duplicate it. It covers
+   the other half: changes to `data/assays.csv` itself, which `literature_stats.py` cannot make.
+2. **The input is `crawl/evidence.csv`, not the raw JSONs.** `scripts/paper_crawl.py log` has already
+   resolved each record's protein classes, matched playbook entries and scope. Re-deriving that from
+   `build_output/papers/*.json` would mean re-implementing the matching rule and risking it drifting.
+3. **A new entry cannot be proposed without its ratings.** `build_db.py` refuses to build
+   `docs/assay_db.json` *at all* if `screening_suitability` or `biological_relevance` is blank, so a
+   single accepted row would take down the whole site build one step after the decision that caused
+   it. `apply_review.py` now refuses such a row itself (`check_entry`), mirroring `build_db`'s
+   vocabulary for `role`, `assay_category` and `scope` too. Papers cannot settle a rating — that is an
+   expert judgement about whether an assay is worth running, not whether it is used — so the generator
+   leaves both blank deliberately and the row is blocked until a person fills them in. This is the
+   intended gate, not a defect.
+
+The three candidate kinds the aggregator emits, in increasing cost to the owner: a **readout** is one
+cell on an existing row; a **new entry** is a row that needs rating; a **term** needs the full m2
+relabel and is not an `apply_review` operation at all.
+
+### The `system` column, 2026-11-18
+
+`data/assays.csv` gained a `system` column: the biological preparation an assay runs in — a Ba/F3
+cytokine-independence line, HepaRG, an individual-donor microsome panel, an iPSC liver organoid. It is
+distinct from `scope`, which says only cell-free or cell-based, and from `reagents`, which lists what
+goes in the well. It is in `apply_review.py`'s `NEW_COLUMNS`, so the first accepted `system` proposal
+creates it; `build_db.py` publishes it as `systems`; `docs/index.html` renders a **Systems used** line.
+
+**Nothing can fill it yet, and the reason matters.** All 17 system and counter-screen values the crawl
+found rest on **exactly one paper each**. That is not a shortage of papers but the shape of the
+evidence: a methods section names its preparation once, and two papers on the same target rarely pick
+the same one. Corroboration needs more papers *of the same class*, not more papers overall. This is the
+strongest single argument for choosing later batches by empty class rather than by campaign count.
+
+The literature *counting* tier needed no schema work at all: `data/usage_stats.csv` already has
+`n_literature_total` and `n_literature_using`, `build_db.py` already folds them into the weighted
+score at the `config.json` weight, and `docs/index.html` already renders "12% in papers" with an
+outlined bar. Only the content was missing.
+
 ### Aggregation rules, so one paper cannot move a default
 
 - A value reaches a review proposal only with **at least 3 papers agreeing**, and the proposal carries
@@ -118,23 +166,49 @@ already use, rather than inventing a second way to change curated data.
 
 ## Three things that will go wrong if ignored
 
-### 1. Deduplication — and the map does not exist yet
+### 1. Deduplication — measured 2026-11-18: the overlap is real but rare
 
 A mined paper may already be a campaign. Campaign keys look like `doc:CHEMBL1155814` or `pc:686994`;
-paper records carry a PMID and a DOI. **There is no DOI/PMID to ChEMBL-document map on disk** —
-`build_cache/m1_data/chembl_docs/` does not exist.
+paper records carry a PMID and a DOI, so the question needs a DOI/PMID to ChEMBL-document map. That map
+now exists: `scripts/m2b_fetch_abstracts.py --crawled` has cached **all 12,867** documents behind the 80
+crawled genes' campaigns (ChEMBL returns intermittent 500s, so it took three passes; each re-run
+retries only the gaps and the third reported `1250 saved, 0 failed`). `tools/paper_campaign_overlap.py`
+does the join.
 
-The fix is already written but has never been run: `scripts/m2b_fetch_abstracts.py` fetches ChEMBL
-document metadata and keeps `document_chembl_id`, `doi` and `pubmed_id`. Running it builds exactly the
-join we need. **Treat that as a prerequisite** for anything that counts papers and campaigns together.
+**Result at complete coverage: 1 of 220 mined papers is a ChEMBL document behind a campaign for the
+same protein.** That paper is PMC11215726 / PMID 38843875, `10.1021/acs.jmedchem.4c00197`, mined for
+JAK2, curated by ChEMBL as CHEMBL5500392 with campaigns for JAK1, JAK2, JAK3 and TYK2.
 
-Until then the separate-tier design keeps us honest: double counting cannot happen if papers never
-enter the campaign denominator.
+The rate is low, not zero, and the distinction was earned the hard way: at 9,200 of the 12,867
+documents the count was 0, and the next 2,417 produced the match (the final 1,250 added none). **Do not
+read a zero from a partial cache as an absence of overlap.** The tool prints identifier coverage on
+both sides, so a real absence can be told from a join with nothing to work with — but coverage of the
+*document set* is the limit that actually bit, and that one is not visible from inside the join.
 
-Scale of the risk, for one protein: TAAR1's 46 campaigns are 22 `doc:CHEMBL*` and 24 `pc:*`, with
-ChEMBL document IDs in the CHEMBL1155814–CHEMBL2203234 range, roughly 2010–2013. The ten papers we
-mined are 2021–2026, so overlap there is probably nil. That is one protein and not evidence about the
-other 5,139 — a heavily published target like EGFR, with 1,817 campaigns, will overlap much more.
+What this number does and does not cover: the cache holds the documents behind the **crawled genes'**
+campaigns. Mined papers are mined for crawled genes, so the `same_gene` count is complete. The
+`other_gene` count is not — a mined paper could sit behind a campaign for a gene outside the crawl set
+and would show as `no_match`. Closing that needs `--all` (47,583 documents), and it matters only if the
+tiers are ever combined, since an `other_gene` hit is not a double count for the protein we mined.
+
+Why it is rare, with the mechanism stated correctly:
+
+- **Years.** 134 of the 220 mined papers are 2025–2026. ChEMBL has 264 documents from 2025 and none
+  from 2026 — curation lags publication by years. This half shrinks as ChEMBL catches up.
+- **Journals.** ChEMBL's documents are medicinal-chemistry SAR papers: J Med Chem (3,152), Bioorg Med
+  Chem Lett (2,618), Eur J Med Chem (1,029), Bioorg Med Chem, ACS Med Chem Lett. The crawl draws on the
+  PMC open-access subset, which is biology and methods: Nature Communications, Science Advances, PLoS
+  One, Scientific Reports, iScience. The corpora *mostly* miss each other — but the one match is itself
+  a **J Med Chem** paper, because some ACS articles are open access and reach PMC. So the mechanism is
+  "PMC open access rarely carries med-chem journals", not "never". Treat the overlap as a low rate to
+  be measured, not a structural impossibility.
+
+This still corrects the guess that stood here before, that a heavily published target like EGFR "will
+overlap much more". At 1 in 220 it does not, and JAK2 — 1,000+ campaigns — is the one that hit.
+
+Keep the tiers separate. Re-run `tools/paper_campaign_overlap.py` after any batch, and especially after
+any change in where papers come from: a crawl that reaches closed-access med-chem papers would land
+squarely in ChEMBL's corpus and the rate would climb.
 
 ### 2. Adding a vocabulary term forces a relabel
 
@@ -156,15 +230,56 @@ the proposal was written.
 
 ## Suggested order of work
 
-1. **`tools/papers_aggregate.py`** on the records we already have. Cheap, no network, and it shows
-   what the yield per paper really is before more are mined.
-2. **Run `scripts/m2b_fetch_abstracts.py`** to build the DOI/PMID join. Needed before any claim about
-   papers and campaigns together, and it also unlocks the publication-year question left open from the
-   readout work (whether radiometric leads for EGFR only because the literature spans 30 years).
+**Status 2026-11-18: steps 1, 2 and 4 are done; step 3 is under way.** Steps 5 and 6 are open. The
+crawl covered 80 targets across 4 batches, which is 15 of the 37 classes `data/assays.csv` is keyed
+by — so step 3 is chosen **by empty class**, not from the top of `survey.csv`: another kinase informs
+the same `K1` row as the first one did.
+
+**Two of the 37 classes are not crawlable, and are not gaps.** No protein in `survey.csv` (5,852 rows)
+carries either label, by design:
+
+- `generic` — "Any protein (biophysical and interference checks)", noted "Always applies". It is
+  applied to every protein, so no protein is labelled with it.
+- `degrader_modality` — "Targeted protein degradation project", noted "Only included when you pass
+  `--modality degrader`". It is selected by modality, not by what the protein is.
+
+So the real denominator is **35 crawlable classes**, and the 22 "empty" ones are 20 gaps plus these
+two. Counting them as gaps overstates the work and invites a search for proteins that cannot exist.
+
+**Batch 4 (2026-11-18)** takes one target from each of the 20 reachable empty classes, which moves
+class coverage from 15/35 to 35/35. Breadth first is deliberate: it measures yield per class before
+committing the remaining slots. The plan beyond it is roughly three targets per class, because the
+`system` evidence showed corroboration needs several papers **of the same class** — so batches 5 and 6
+add depth to the classes batch 4 shows to be productive, rather than more breadth.
+
+Targets were chosen for whether the class's characteristic assay will appear in the papers, not by hit
+count, and the top-ranked candidate was often wrong for that: `SHH` ranks second in `nuclease` and is
+not a nuclease, `COIL` ranks second in `chromatin_reader` and is not a reader, `HMGB1` and `FOXO1` top
+`autophagy` without being autophagy machinery, and `NLRP3` tops `atpase` with 3,984 hits but its ATPase
+activity is rarely the thing assayed. The picks are ABCB1, PARP1, HSPA5, SQSTM1, CBX8, BLM, USP7,
+KDM1A, BRD4, EZH2, KAT8, CCND1, SPHK1, ESR1, APEX1, DNMT1, PDE5A, SNCA, KRAS, TOP1.
+
+1. ~~**`tools/papers_aggregate.py`** on the records we already have.~~ Done. Cheap, no network, and it
+   shows what the yield per paper really is before more are mined.
+2. ~~**Run `scripts/m2b_fetch_abstracts.py`** to build the DOI/PMID join.~~ Done 2026-11-18. The
+   dedup answer is above: 1 overlap in 220, at complete coverage. The join also unlocks the
+   publication-year question left open from the readout work (whether radiometric leads for EGFR only
+   because the literature spans 30 years) — the cache now carries a year per document.
+
+   *2026-11-18:* the script's input path was stale — it looked for `scripts/m1_data`, while the cache
+   has been at `build_cache/m1_data` since it stopped being a two-protein prototype, and it defaulted
+   to the genes `WRN, EGFR`. It now takes `--crawled` (every target in `crawl/targets.csv`, ~12,900
+   documents) or `--all` (every gene in the cache, ~47,600). `tools/paper_campaign_overlap.py` then
+   answers the actual question and writes `build_output/papers/campaign_overlap.csv`: per mined paper,
+   whether it is already a campaign for the same protein (`same_gene`, a real double count waiting to
+   happen), for a different one (`other_gene`, not a double count — papers assay several targets), or
+   absent.
 3. **Mine 10–20 proteins from the top of `survey.csv`** with the agent, giving a seed set good enough
    to judge the local model against.
-4. **`tools/papers_to_review.py`** and the first paper-derived review chunk — conditions only, because
-   it is the highest volume and the least contentious.
+4. ~~**`tools/papers_to_review.py`** and the first paper-derived review chunk~~ Done, as
+   `review/09_papers_batches_0_3`: readouts and new entries rather than conditions, because the crawl
+   records carry function and technology labels but not `conditions.*`. Conditions remain the highest
+   volume prize and still need either a crawl schema that captures them or the raw-JSON path.
 5. **The site tier**, once there is enough in `paper_conditions.csv` to be worth rendering.
 6. **Literature constructs on the slider** last: it is the most valuable but the only one that needs
    real UI work rather than a new row in a panel.

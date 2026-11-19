@@ -183,6 +183,11 @@ def main():
             "screening_suitability": a["screening_suitability"], "biological_relevance": a["biological_relevance"],
             "rating_notes": a["rating_notes"], "measures": a["measures"], "readouts": lst(a["readouts"]),
             "evidence_labels": lst(a.get("evidence_labels", "")), "conditions": a["conditions"], "reagents": a["reagents"],
+            # The biological preparation an assay runs in (a Ba/F3 line, HepaRG, a donor microsome
+            # panel, an organoid). Separate from `scope`, which only says cell-free or cell-based,
+            # and from `reagents`, which lists what goes into the well. Blank for most entries:
+            # campaign descriptions rarely state it, so this fills from the literature.
+            "systems": lst(a.get("system", "")),
             "rationale": a["rationale"], "plate_formats": lst(a.get("plate_formats", "")),
             "mechanism": {"learn_more_url": a.get("learn_more_url") or None},
             "quality": {"qc_metric": a.get("qc_metric") or None, "dmso_pct": a.get("dmso_pct") or None,

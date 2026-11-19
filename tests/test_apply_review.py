@@ -132,6 +132,47 @@ class ApplyReviewTest(unittest.TestCase):
         self.assertIn("PR1", [a["entry_id"] for a in assays])
         self.assertNotIn("PR9", [a["entry_id"] for a in assays])
 
+    def test_new_entry_must_satisfy_the_rules_build_db_enforces(self):
+        """A new entry with a blank rating or an off-vocabulary role/category/scope is refused.
+
+        build_db.py refuses to build docs/assay_db.json at all when assays.csv breaks these, so one
+        accepted row would take down the whole site build a step after the decision that caused it.
+        """
+        cols = ("entry_id,assay_name,classes,assay_category,scope,role,"
+                "screening_suitability,biological_relevance")
+        write(os.path.join(self.data, "assays.csv"),
+              [cols, "X1,Assay one,kin,biochemical_hts,cell-free,primary,high,high"])
+        write(os.path.join(self.data, "function_classes.csv"), ["class_id,label", "kin,Kinase"])
+        write(os.path.join(self.chunk, "entry_proposals.csv"), [
+            "entry_id,field,current_value,proposed_value,evidence,confidence,decision,your_note"],
+            bom=False)
+        write(os.path.join(self.chunk, "new_entries.csv"), [cols + ",decision,your_note",
+            "N1,No ratings,kin,cell_functional,cell-based,primary,,,accept,",
+            "N2,Bad role,kin,cell_functional,cell-based,sideways,high,high,accept,",
+            "N3,Bad category,kin,nonsense,cell-based,primary,high,high,accept,",
+            "N4,Bad scope,kin,cell_functional,in-vivo,primary,high,high,accept,",
+            "N5,Good row,kin,cell_functional,cell-based,primary,moderate,high,accept,"], bom=False)
+        out = self.run_tool("--apply")
+        self.assertIn("screening_suitability, biological_relevance must be one of", out)
+        self.assertIn("role must be one of", out)
+        self.assertIn("assay_category must be one of", out)
+        self.assertIn("scope must be one of", out)
+        _, assays, _ = ar.read_table(os.path.join(self.data, "assays.csv"))
+        self.assertEqual([a["entry_id"] for a in assays], ["X1", "N5"])
+
+    def test_new_entry_rules_are_skipped_when_the_table_lacks_those_columns(self):
+        """The reduced assays.csv used elsewhere in these tests has no rating columns at all, and a
+        missing column must not be reported as a bad value."""
+        write(os.path.join(self.chunk, "entry_proposals.csv"), [
+            "entry_id,field,current_value,proposed_value,evidence,confidence,decision,your_note"],
+            bom=False)
+        write(os.path.join(self.chunk, "new_entries.csv"), [
+            "entry_id,assay_name,plate_formats,rationale,decision,your_note",
+            "N1,Minimal row,,why,accept,"], bom=False)
+        self.run_tool("--apply")
+        _, assays, _ = ar.read_table(os.path.join(self.data, "assays.csv"))
+        self.assertIn("N1", [a["entry_id"] for a in assays])
+
     def test_allowed_new_column_is_added_but_unknown_column_is_refused(self):
         write(os.path.join(self.chunk, "entry_proposals.csv"), [
             "entry_id,field,current_value,proposed_value,evidence,confidence,decision,your_note",
