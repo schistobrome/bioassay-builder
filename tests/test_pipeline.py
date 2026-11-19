@@ -716,5 +716,121 @@ class TestTargetSubject(unittest.TestCase):
         self.assertEqual((frac, n_sub, n_ctx, n_abs), (1.0, 0, 0, 1))
 
 
+class TestLiteratureStats(FakeCache):
+    """data/literature_stats.csv -> the two usage columns that have always been empty."""
+
+    def write_lit(self, rows):
+        path = os.path.join(bd.DATA, "literature_stats.csv")
+        os.makedirs(bd.DATA, exist_ok=True)
+        with open(path, "w", newline="", encoding="utf-8") as h:
+            w = csv.DictWriter(h, fieldnames=bd.LITERATURE_COLUMNS, extrasaction="ignore")
+            w.writeheader()
+            for r in rows:
+                w.writerow(r)
+        return path
+
+    def setUp(self):
+        super().setUp() if hasattr(super(), "setUp") else None
+        self._data = bd.DATA
+        bd.DATA = tempfile.mkdtemp()
+
+    def tearDown(self):
+        shutil.rmtree(bd.DATA, ignore_errors=True)
+        bd.DATA = self._data
+
+    def test_missing_file_is_not_an_error(self):
+        self.assertEqual(bd.read_literature_stats(), {})
+
+    def test_row_is_keyed_the_way_a_usage_row_is_keyed(self):
+        self.write_lit([{"lit_id": "x", "entry_id": "G1", "scope_type": "gene",
+                         "scope_id": "GPBAR1", "effect": "activation", "readout": "SPR / BLI",
+                         "n_papers_total": "25", "n_papers_using": "3"}])
+        got = bd.read_literature_stats()
+        self.assertEqual(got[("G1", "gene", "GPBAR1", "activation", "SPR / BLI")],
+                         {"n_papers_total": 25, "n_papers_using": 3})
+
+    def test_star_effect_expands_to_every_view(self):
+        # A binding measurement has no direction, so it must count under every effect view;
+        # otherwise it is invisible whenever the user switches the inhibition/activation toggle.
+        self.write_lit([{"lit_id": "x", "entry_id": "G1", "scope_type": "gene",
+                         "scope_id": "GPBAR1", "effect": bd.LIT_ALL_EFFECTS, "readout": "CETSA",
+                         "n_papers_total": "25", "n_papers_using": "2"}])
+        got = bd.read_literature_stats()
+        self.assertEqual(len(got), len(bd.EFFECTS))
+        for view in bd.EFFECTS:
+            self.assertIn(("G1", "gene", "GPBAR1", view, "CETSA"), got)
+
+    def test_bad_rows_are_skipped_not_fatal(self):
+        # A six-hour build must not die on one malformed row.
+        self.write_lit([
+            {"lit_id": "ok", "entry_id": "G1", "scope_type": "gene", "scope_id": "A",
+             "effect": "activation", "readout": "", "n_papers_total": "10", "n_papers_using": "4"},
+            {"lit_id": "nan", "entry_id": "G1", "scope_type": "gene", "scope_id": "B",
+             "effect": "activation", "readout": "", "n_papers_total": "lots", "n_papers_using": "4"},
+            {"lit_id": "inverted", "entry_id": "G1", "scope_type": "gene", "scope_id": "C",
+             "effect": "activation", "readout": "", "n_papers_total": "3", "n_papers_using": "9"},
+        ])
+        got = bd.read_literature_stats()
+        self.assertEqual(list(got), [("G1", "gene", "A", "activation", "")])
+
+
+class TestPaperCrawl(unittest.TestCase):
+    """scripts/paper_crawl.py: the two rules that decide what a paper's record is allowed to claim."""
+
+    @classmethod
+    def setUpClass(cls):
+        import paper_crawl
+        cls.pc = paper_crawl
+
+    def entry(self, entry_id, classes, readouts):
+        return {"entry_id": entry_id, "classes": set(classes), "readouts": set(readouts),
+                "labels": {"Ligand binding affinity"}, "cell": False}
+
+    def test_generic_entry_needs_its_own_technique(self):
+        # One MST binding result must not link the DSF, SPR, ITC and MS entries at once just
+        # because all four answer to "Ligand binding affinity".
+        dsf = self.entry("G1", ["generic"], ["Thermal shift (DSF)"])
+        spr = self.entry("G2", ["generic"], ["SPR / BLI"])
+        self.assertFalse(self.pc.generic_tech_ok(dsf, ["SPR / BLI"]))
+        self.assertTrue(self.pc.generic_tech_ok(spr, ["SPR / BLI"]))
+
+    def test_generic_entry_with_no_technology_label_links_nothing(self):
+        # An unmapped technique (MST) carries no technology_labels, so no generic entry may claim it.
+        for eid, readout in (("G1", "Thermal shift (DSF)"), ("G5", "Mass spectrometry")):
+            self.assertFalse(self.pc.generic_tech_ok(self.entry(eid, ["generic"], [readout]), []))
+
+    def test_class_entry_is_not_gated_on_technique(self):
+        # Only the generic G-entries are defined by one technique; a class entry lists several.
+        k3 = self.entry("K3", ["protein_kinase"], ["KINOMEscan competition binding"])
+        self.assertTrue(self.pc.generic_tech_ok(k3, ["SPR / BLI"]))
+
+    def test_record_rejects_a_quote_that_is_not_in_the_block(self):
+        # The quote is the whole audit trail: a paraphrase must not reach evidence.csv.
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+        block = os.path.join(tmp, "b.txt")
+        with open(block, "w", encoding="utf-8") as h:
+            h.write("The enzyme  activity\nwas read by ADP-Glo luminescence.")
+        spec = os.path.join(tmp, "spec.json")
+        rows = [{"assay_id": "PMC1-A1", "pmcid": "PMC1", "gene": "X", "chars": "1", "section": "s",
+                 "flag": "subject", "block_path": os.path.relpath(block, self.pc.ROOT),
+                 "write_to": os.path.relpath(os.path.join(tmp, "out.json"), self.pc.ROOT)}]
+        self.pc.write_rows(os.path.join(tmp, "batch_09.csv"), self.pc.WORK_COLS, rows)
+        orig = self.pc.WORKLISTS
+        self.pc.WORKLISTS = tmp
+        self.addCleanup(setattr, self.pc, "WORKLISTS", orig)
+
+        def run(quote):
+            with open(spec, "w", encoding="utf-8") as h:
+                json.dump([{"assay_id": "PMC1-A1", "scope": "cell-free",
+                            "evidence": [{"field": "technology_labels", "quote": quote}]}], h)
+            self.pc.cmd_record(argparse.Namespace(spec=spec))
+            return os.path.exists(os.path.join(tmp, "out.json"))
+
+        self.assertFalse(run("was measured with ADP-Glo"))
+        # Whitespace differences are fine; the wording must match.
+        self.assertTrue(run("The enzyme activity was read by ADP-Glo luminescence."))
+
+
 if __name__ == "__main__":
     unittest.main()

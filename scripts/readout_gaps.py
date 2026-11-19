@@ -132,9 +132,24 @@ def readout_confirmed(term, norm_text):
     return True if guard is None else bool(guard.search(norm_text))
 
 
+# ELISA, luciferase reporter and the "fluorescence based" family were added after measuring a
+# stratified random sample of 20 proteins. They accounted for 30 of the 37 reported gaps and for 14
+# of the 18 proteins that appeared to gain something. Reading the text showed 5 of 7 sampled claims
+# were the technique measuring a DIFFERENT analyte in the same paper:
+#   GSR   + ELISA        the ELISA measures TGF-beta; GSR activity used a separate kit
+#   ACLY  + ELISA        acetyl-CoA and IL-6 ELISA kits
+#   MGMT  + luciferase   an MGMT PROMOTER reporter, so transcription, not the enzyme
+#   KCNQ4 + fluorogenic  "fluorescence based thallium flux assay", an ion-channel assay
+# The two real ones were GZMB and TNFSF10 ELISA, both secreted proteins an ELISA genuinely
+# quantifies. The distinction is semantic, not positional: tightening the proximity window from 600
+# to 80 characters kept 2 of the 4 false claims and cost real ones, because a genuine
+# "concentration of GZMB ... ELISA kits" sits about 70 characters apart.
+# So these cannot be decided by keyword. Deciding them needs a reader that can say what the assay
+# measured: schema/paper_extraction.schema.json and fetch_papers.py --extract.
 GENERIC_TECHNIQUES = {
     "Western blot", "Gel-based (PAGE / EMSA)", "Absorbance / colorimetric",
     "High-content imaging", "Mass spectrometry", "Crystallography / cryo-EM",
+    "ELISA / immunosorbent", "Luciferase reporter", "Fluorogenic / FRET substrate",
 }
 
 

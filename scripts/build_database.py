@@ -85,6 +85,13 @@ LABEL_FIELDS = ["context", "role", "effect", "mutant", "in_v1_scope", "construct
 USAGE_COLUMNS = ["stat_id", "entry_id", "scope_type", "scope_id", "stage", "effect", "readout", "n_campaigns_total",
                  "n_campaigns_classifiable", "n_campaigns_using", "n_literature_total", "n_literature_using",
                  "source", "query", "retrieved_on", "method_version", "notes"]
+# Paper-derived evidence, reviewed and accepted by the owner into data/literature_stats.csv. It is an
+# INPUT to generation, never a hand-edited row in usage_stats.csv: usage rows must stay automatic so
+# their campaign counts keep regenerating, and a hand row would freeze them (see merge_into_data).
+LITERATURE_COLUMNS = ["lit_id", "entry_id", "scope_type", "scope_id", "effect", "readout",
+                      "n_papers_total", "n_papers_using", "pmcids", "evidence", "confidence",
+                      "source", "retrieved_on", "method_version", "notes"]
+LIT_ALL_EFFECTS = "*"     # a literature row with no direction counts under every effect view
 PUBCHEM_COLUMNS = ["aid", "source", "title", "found_by", "summary_text", "full_description", "protocol", "targets"]
 CHEMBL_COLUMNS = ["assay_chembl_id", "assay_type", "description", "bao_label", "assay_category", "cell_type",
                   "organism", "mutation", "confidence_score", "document", "src_id", "src_assay_id"]
@@ -1447,6 +1454,10 @@ def aggregate(args, assays, classes_rows, stamp):
     version = "bd-" + stamp.replace("-", "")
     source = "build_database.py (ChEMBL + PubChem%s, labeled by m2)" % (" + BindingDB" if n_bdb else "")
     today = datetime.now().strftime("%Y-%m-%d")
+    litstats = read_literature_stats()
+    assay_by_id = {a["entry_id"]: a for a in assays}
+    if litstats:
+        log("  %d accepted literature row(s) from data/literature_stats.csv" % len(litstats))
     stat_rows, effect_rows, cond_rows = [], [], []
 
     def rows_for(scope_type, scope_id, campaigns_all, note_extra="", classes=()):
@@ -1500,11 +1511,19 @@ def aggregate(args, assays, classes_rows, stamp):
         out = []
         total = len(campaigns)
         classifiable = [c for c in campaigns if c["f"]]
+        covered = set()          # entries that campaigns support, so literature does not duplicate them
         for a, wanted, using in using_for(scope_type, scope_id, campaigns, classes):
             base = [a["entry_id"], scope_type, scope_id, "any", effect]
             tail = [source, "functions: " + "; ".join(sorted(wanted)), today, version, AUTO_ROW_NOTE + note_extra]
             sid = "%s-%s-%s" % (scope_id, a["entry_id"], EFFECT_SHORT[effect])
-            out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""] + [total, len(classifiable), len(using), "", ""] + tail)))
+
+            def lit(readout):
+                """Accepted paper counts for this (entry, scope, effect, readout), or ('', '')."""
+                r = litstats.get((a["entry_id"], scope_type, scope_id, effect, readout))
+                return (r["n_papers_total"], r["n_papers_using"]) if r else ("", "")
+
+            out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""]
+                                + [total, len(classifiable), len(using)] + list(lit("")) + tail)))
             # technologies: only those on the records that measured this entry's function, in the entry's context
             # (cell-free or cell-based), and not from selectivity panels
             cell_entry = "cell-based" in (a.get("scope") or "").lower() and "free" not in (a.get("scope") or "").lower()
@@ -1512,15 +1531,65 @@ def aggregate(args, assays, classes_rows, stamp):
             tech = collections.Counter(t for ts in techs for t in ts)
             n_tech = sum(1 for ts in techs if ts)
             read_tail = tail[:-1] + [tail[-1] + panel_note]
+            written = set()
             for t, n in tech.most_common():
                 if n < args.min_readout and len(tech) >= 5:
                     continue                      # one-off technology labels are mostly text noise
+                written.add(t)
                 out.append(dict(zip(USAGE_COLUMNS, [sid + "-" + re.sub(r"\W+", "", t)[:12]] + base + [t]
-                                    + [total, n_tech, n, "", ""] + read_tail)))
+                                    + [total, n_tech, n] + list(lit(t)) + read_tail)))
+            # Readouts the papers show that no campaign for this scope states. This is the case the
+            # whole paper-mining exercise exists for: GPBAR1 has 68 campaigns and not one records
+            # SPR, BLI, DSF or CETSA, while the literature uses all four. The campaign count is a
+            # true zero, so the row is honest about resting on literature alone.
+            for (eid, st, sid_, eff, rd), r in sorted(litstats.items()):
+                if (eid, st, sid_, eff) != (a["entry_id"], scope_type, scope_id, effect) or not rd \
+                        or rd in written:
+                    continue
+                out.append(dict(zip(USAGE_COLUMNS, [sid + "-" + re.sub(r"\W+", "", rd)[:12]] + base + [rd]
+                                    + [total, n_tech, 0, r["n_papers_total"], r["n_papers_using"]]
+                                    + read_tail[:-1] + [read_tail[-1] + "; readout from papers only, "
+                                                        "no campaign for this protein states it"])))
+            covered.add(a["entry_id"])
             plate_c = [c for c in using if c.get("p")]           # campaigns whose text states a plate format
             for fmt, n in collections.Counter(p for c in plate_c for p in set(c["p"])).most_common():
                 out.append(dict(zip(USAGE_COLUMNS, [sid + "-plate" + fmt] + base + ["plate:" + fmt]
                                     + [total, len(plate_c), n, "", ""] + tail)))
+
+        # Entries that papers support and campaigns do not support AT ALL. GPBAR1 is the worked
+        # example: its papers run SPR, BLI, DSF and CETSA, but not one of its 68 campaigns measured
+        # a cell-free binding function, so using_for yields no biophysical entry and there is no row
+        # above to attach to. Without this block the most valuable findings land nowhere. Both the
+        # entry-level row and its readout rows are written, because docs/index.html drops readout
+        # rows whose entry-level row is missing.
+        lit_only = collections.defaultdict(list)
+        for (eid, st, sid_, eff, rd), r in sorted(litstats.items()):
+            if (st, sid_, eff) == (scope_type, scope_id, effect) and eid not in covered:
+                lit_only[eid].append((rd, r))
+        for eid, items in sorted(lit_only.items()):
+            if eid not in assay_by_id:
+                continue
+            entry_classes = set(split(assay_by_id[eid].get("classes")))
+            if scope_type == "gene" and not (entry_classes & (set(classes) | {"generic"})):
+                continue              # a kinase entry is not evidence for a protein that is no kinase
+            base = [eid, scope_type, scope_id, "any", effect]
+            sid = "%s-%s-%s" % (scope_id, eid, EFFECT_SHORT[effect])
+            note = (AUTO_ROW_NOTE + note_extra +
+                    "; no campaign for this protein measures this entry's function, so the counts "
+                    "below rest on papers alone")
+            tail = [source, "literature only", today, version, note]
+            top = next((r for rd, r in items if not rd), None)
+            if top is None:       # no entry-level row proposed: use the best-supported readout row
+                top = max((r for _, r in items), key=lambda r: r["n_papers_using"])
+            out.append(dict(zip(USAGE_COLUMNS, [sid] + base + [""]
+                                + [total, len(classifiable), 0,
+                                   top["n_papers_total"], top["n_papers_using"]] + tail)))
+            for rd, r in items:
+                if not rd:
+                    continue
+                out.append(dict(zip(USAGE_COLUMNS, [sid + "-" + re.sub(r"\W+", "", rd)[:12]] + base
+                                    + [rd] + [total, len(classifiable), 0,
+                                              r["n_papers_total"], r["n_papers_using"]] + tail)))
         return out
 
     class_campaigns = collections.defaultdict(list)    # class -> campaigns of all its proteins (merged below)
@@ -1649,6 +1718,36 @@ def summarized_scopes():
             if s:
                 out.add(("gene", summary_scope(s)))
                 out.update(("function_class", c) for c in s.get("classes", []))
+    return out
+
+
+def read_literature_stats():
+    """Accepted paper evidence, keyed the way a usage row is keyed.
+
+    Empty, missing or malformed means no literature evidence, never an error: the file is optional
+    and the build must work for anyone who has not run the paper pipeline. A row whose counts do not
+    parse is skipped with a warning rather than failing a six-hour build."""
+    path = os.path.join(DATA, "literature_stats.csv")
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for r in read_csv(path):
+        try:
+            total, using = int(r["n_papers_total"]), int(r["n_papers_using"])
+        except (KeyError, TypeError, ValueError):
+            log("  literature_stats.csv: skipping %s, counts are not numbers" % (r.get("lit_id") or "?"))
+            continue
+        if using > total:
+            log("  literature_stats.csv: skipping %s, n_papers_using exceeds n_papers_total"
+                % (r.get("lit_id") or "?"))
+            continue
+        # "*" means the finding has no direction (a binding measurement is the same experiment
+        # whichever way a compound acts), so it is registered under every effect view.
+        eff = r.get("effect") or LIT_ALL_EFFECTS
+        views = EFFECTS if eff == LIT_ALL_EFFECTS else (eff,)
+        for view in views:
+            key = (r["entry_id"], r["scope_type"], r["scope_id"], view, r.get("readout") or "")
+            out[key] = {"n_papers_total": total, "n_papers_using": using}
     return out
 
 

@@ -158,6 +158,8 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
 .std .l{font:11px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .sbar{height:10px;background:var(--surface2);border-radius:2px;margin:3px 0;overflow:hidden}
 .sbar i{display:block;height:100%;background:var(--avail)}
+/* Paper-derived share: outlined, not filled, so it never reads as campaign evidence at a glance. */
+.sbar i.lit{background:transparent;border:1.5px solid var(--avail);box-sizing:border-box}
 .std .v{font-size:12px}
 .std.none .v{color:var(--muted)}
 /* caution mark: tooltip on hover or keyboard focus (D5) */
@@ -315,7 +317,7 @@ try{
   const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
   D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:expandUsage(db.usage_stats),conds:db.condition_stats||[],meta:db.meta,
    playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,effect:a.effect||"",development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||"",
-     qc_metric:(a.quality||{}).qc_metric||"",dmso_pct:(a.quality||{}).dmso_pct||"",interference:asStr((a.quality||{}).interference)})),
+     qc_metric:(a.quality||{}).qc_metric||"",dmso_pct:(a.quality||{}).dmso_pct||"",interference:asStr((a.quality||{}).interference),systems:asStr(a.systems)})),
    kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
 }catch(e){
   document.querySelector("main").innerHTML='<div class="welcome"><h2>Could not load the database</h2><p>'+String(e.message).replace(/</g,"&lt;")+'. Open this page from the published site (not as a local file) and check that docs/assay_db.json exists.</p></div>';
@@ -441,6 +443,18 @@ function effView(){
   if(S.effect==="inhibition") return S.unspec?"inhibition":"inhibition_labeled";
   return S.unspec?"activation_with_unspecified":"activation";
 }
+/* A readout's share, and where it came from. Campaigns are preferred; papers are the fallback for a
+   readout no campaign for this protein states, which is exactly what the paper pipeline exists to
+   surface. Without this a paper-only readout sorts last on a 0% campaign bar and reads as unused. */
+function rSrc(x){
+  if(x.campaigns.classifiable&&x.campaigns.using) return {v:x.campaigns.share,from:"campaigns"};
+  if(x.literature.total) return {v:x.literature.share,from:"papers"};
+  return {v:x.campaigns.share!=null?x.campaigns.share:-1,from:"campaigns"};
+}
+const rShare=x=>{const s=rSrc(x);return s.v==null?-1:s.v;};
+/* "12%" or "12% in papers", so a reader is never shown a share without knowing what it is of. */
+function rPct(x){const s=rSrc(x);return pct(s.v)+(s.from==="papers"?" in papers":"");}
+
 function usageFor(r){
   const key=r.entry_id+"|"+S.prot+"|"+effView();
   if(key in _ucache) return _ucache[key];
@@ -456,7 +470,7 @@ function usageFor(r){
     if(!tops.length) continue;
     const top=tops[0];
     if(lvl==="gene"&&ef===eff) geneN=top.campaigns.classifiable||0;
-    const hit={top,reads:pool.filter(u=>u.readout&&u.scope.id===top.scope.id).sort((a,b)=>b.campaigns.using-a.campaigns.using),
+    const hit={top,reads:pool.filter(u=>u.readout&&u.scope.id===top.scope.id).sort((a,b)=>rShare(b)-rShare(a)),
       plates:pool.filter(u=>u.plate&&u.scope.id===top.scope.id).sort((a,b)=>b.campaigns.using-a.campaigns.using),level:lvl,effect:ef};
     if(!first) first=hit;
     if((top.campaigns.classifiable||0)>=MINC){found=hit;break;}
@@ -584,14 +598,15 @@ function readShare(text,u){       /* the usage row of the most-used technology t
 function rankedReadouts(r){        /* curated readouts, most used for this protein first; ones with no data keep their curated order */
   const items=split(r.readouts), u=usageFor(r);
   if(!u||!u.reads.length) return items.map(t=>({t,x:null}));
-  const sh=o=>o.x?o.x.campaigns.share:-1;
+  const sh=o=>o.x?rShare(o.x):-1;
   return items.map((t,i)=>({t,i,x:readShare(t,u)})).sort((a,b)=>(sh(b)-sh(a))||a.i-b.i);
 }
-function mostUsed(r){              /* one line on the card: the readouts campaigns used most for this assay and protein */
+function mostUsed(r){              /* one line on the card: the readouts used most for this assay and protein */
   const u=usageFor(r); if(!u||!u.reads.length) return "";
   const n=u.reads[0].campaigns.classifiable||0, who=u.level==="gene"?"for "+esc(S.prot):"across the "+esc(u.top.scope.id)+" class";
-  return `<div class="mostused"><b>Most used ${who}:</b> ${u.reads.slice(0,3).map(x=>esc(x.readout)+" "+pct(x.campaigns.share)).join(" · ")}
-    <span class="meta">(of ${n.toLocaleString("en-US")} campaign${n===1?"":"s"} that state this assay's readout${n<MINC?"; too few to rank reliably":""})</span></div>`;
+  const lit=u.reads.slice(0,3).some(x=>rSrc(x).from==="papers");
+  return `<div class="mostused"><b>Most used ${who}:</b> ${u.reads.slice(0,3).map(x=>esc(x.readout)+" "+rPct(x)).join(" · ")}
+    <span class="meta">(of ${n.toLocaleString("en-US")} campaign${n===1?"":"s"} that state this assay's readout${n<MINC?"; too few to rank reliably":""}${lit?"; shares marked “in papers” come from the published methods, where no campaign for this protein states the readout":""})</span></div>`;
 }
 function instNeed(r){            /* the assay can run if any ONE of these alternatives is available; readouts the app cannot classify are ignored */
   const alts=new Set();
@@ -677,12 +692,13 @@ function render(){
         <div class="always">${esc(r.measures)}${mostUsed(r)}</div>
         ${open?`<div class="body"><dl class="dl">
           <dt>Why use it</dt><dd>${esc(r.rationale)}</dd>
-          <dt>Readouts</dt><dd>${(()=>{const rr=rankedReadouts(r),u=usageFor(r);return rr.map(o=>esc(o.t)+(o.x?` <span class="meta">(${pct(o.x.campaigns.share)})</span>`:"")).join(" · ")
+          <dt>Readouts</dt><dd>${(()=>{const rr=rankedReadouts(r),u=usageFor(r);return rr.map(o=>esc(o.t)+(o.x?` <span class="meta">(${rPct(o.x)})</span>`:"")).join(" · ")
             +(rr.some(o=>o.x)?`<div class="meta">Most used first, with the share of campaigns using it (${esc(basis(u))}). Readouts without a share have no usage data and keep the curated order.</div>`:"")})()}</dd>
           <dt>Typical conditions</dt><dd>${esc(r.conditions)}</dd>
           ${(()=>{const c=condFor(r);if(!c.length)return "";return `<dt>Reported by campaigns</dt><dd><div class="ubreak" style="grid-template-columns:120px minmax(0,1fr)">${c.map(x=>`<span>${CLABEL[x.k]}</span><span>${condText(x.u)} <span class="meta">n=${x.u.n_stating}${x.lvl==="class"?", class-wide":""}</span></span>`).join("")}</div><div class="meta">Values stated in public assay texts (first value stated per campaign; n = campaigns that state it, out of ${c[0].u.n_using} for this assay type). Use as a starting point; the curated text above is the reviewed recommendation.</div></dd>`})()}
           <dt>Reagents</dt><dd>${esc(r.reagents)}</dd>
-          ${(()=>{const u=usageFor(r);if(!u||u.top.standardness.score==null)return "";const t=u.top;return `<dt>Function occurrence</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type measured the function this assay measures (${t.campaigns.using} did; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns using this assay that state the readout of this measurement (a readout used for another assay in the same paper is not counted). Selectivity panels that tested 20 or more proteins are left out, because their readout is the panel provider's platform.</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
+          ${(()=>{const s=split(r.systems);return s.length?`<dt>Systems used</dt><dd>${s.map(esc).join(" · ")}<div class="meta">The biological preparation this assay is run in, from methods sections rather than campaign data. Campaign descriptions almost never state it, so this is sparse by nature: absence here means nobody recorded it, not that any cell line will do.</div></dd>`:""})()}
+          ${(()=>{const u=usageFor(r);if(!u||u.top.standardness.score==null)return "";const t=u.top;return `<dt>Function occurrence</dt><dd>${pct(t.campaigns.share)} of ${t.campaigns.classifiable} HTS campaigns with a determinable assay type measured the function this assay measures (${t.campaigns.using} did; ${t.campaigns.total} found in total)${t.literature.total?`; ${pct(t.literature.share)} of ${t.literature.total} papers`:""}. Weighted score ${pct(t.standardness.score)} = <b>${t.standardness.level.replace("_"," ")}</b>. Counts are for ${esc(basis(u))}.${t.is_example?" <b>EXAMPLE NUMBERS, not real data.</b>":""}${u.reads.length?`<div class="ubreak">${u.reads.map(x=>`<span>${esc(x.readout)}</span><div class="sbar"><i class="${rSrc(x).from==="papers"?"lit":""}" style="width:${pct(rSrc(x).v)}"></i></div><span>${rPct(x)}</span>`).join("")}</div><div class="meta">Readout shares are of the ${u.reads[0].campaigns.classifiable} campaigns using this assay that state the readout of this measurement (a readout used for another assay in the same paper is not counted). Selectivity panels that tested 20 or more proteins are left out, because their readout is the panel provider's platform.${u.reads.some(x=>rSrc(x).from==="papers")?" A share marked “in papers” is of the open-access papers mined for this protein, shown because no campaign for it states that readout; its bar is outlined rather than filled.":""}</div>`:""}</dd>`})()}<dt>Plate formats</dt><dd>${pf.list.join(", ")}-well${pf.src==="est"?" <span class='meta'>(estimated from the HTS suitability rating; no plate data for this group)</span>":pf.src==="data"?" <span class='meta'>(formats used by at least "+pct(PLATE_SHARE)+" of campaigns that state one)</span>":" <span class='meta'>(curated)</span>"}${(()=>{const u=usageFor(r);if(!u||!u.plates.length)return "";const n=u.plates[0].campaigns.classifiable;return `<div class="ubreak">${u.plates.map(x=>`<span>${PLABEL[x.plate]||esc(x.plate)}</span><div class="sbar"><i style="width:${pct(x.campaigns.share)}"></i></div><span>${pct(x.campaigns.share)}</span>`).join("")}</div><div class="meta">Of ${n} campaigns whose text states a plate format${n<MINP?" (too few to rely on)":""}; a campaign can state more than one. ${esc(basis(u))}.</div>`})()}</dd>
           <dt>Instruments</dt><dd>${instNeed(r).alts.length?"Readouts here need "+instNeed(r).alts.map(a=>INSTL[a]).join(" or ")+" (any one is enough).":"No special instrument beyond basic lab equipment."}${need.length?" <b>Not covered by your selection.</b>":""}</dd>
           ${QC[r.qc_metric]?`<dt>Quality target</dt><dd>${esc(QC[r.qc_metric][0])}${agmLink(QC[r.qc_metric][1])}</dd>`:""}
           ${r.dmso_pct?`<dt>DMSO</dt><dd>${esc(dmsoTxt(r.dmso_pct))} <span class="meta">(curated starting point; confirm with your own ${isCell(r)?"cells":"protein"} and readout)</span></dd>`:""}
@@ -878,7 +894,7 @@ const DEFS=[
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
 ["Reported conditions","Under Show details, 'Reported by campaigns' lists values that public assay texts state: buffer, pH, temperature, incubation time, detergent, reducing agent, DMSO, MgCl2, NaCl, ATP, BSA and assay volume. For each assay type the app shows the median and the middle half of the stated values (numbers) or the shares of each choice (buffers, detergents and so on). A value is the first one stated in a campaign's text, so a campaign that also mentions a detection buffer may be misread. n is the number of campaigns that state the value; protein-specific values need at least 10, class-wide values at least 5. These are descriptive statistics, not a recommendation."],
 ["Liquid and plate handling","These items do not dim assays. They only produce notes: for example 1536-well work usually needs nanoliter compound transfer plus a bulk dispenser, and assays with wash steps (ELISA, filtration) are flagged when no plate washer is ticked. Which equipment public campaigns actually mention is listed by scripts/equipment_scan.py (build_output/equipment_mentions.csv)."],
-["Most used readouts","The readouts that public campaigns for this protein used most for this assay, with the share of campaigns that used each (the same campaigns as function occurrence, limited to those that state a readout). Only the readout of the measurement itself counts: a paper with an HTRF kinase assay and a binding panel credits HTRF to the kinase assay only. Selectivity panels (campaigns that tested 20 or more proteins) are left out, because they use the panel provider's platform whatever the protein. With too few campaigns for the protein, the numbers come from its function class. This is how often a readout was used, not a judgment of which is best. The curated readout list under Show details is sorted the same way."],
+["Most used readouts","The readouts that public campaigns for this protein used most for this assay, with the share of campaigns that used each (the same campaigns as function occurrence, limited to those that state a readout). Only the readout of the measurement itself counts: a paper with an HTRF kinase assay and a binding panel credits HTRF to the kinase assay only. Selectivity panels (campaigns that tested 20 or more proteins) are left out, because they use the panel provider's platform whatever the protein. With too few campaigns for the protein, the numbers come from its function class. This is how often a readout was used, not a judgment of which is best. The curated readout list under Show details is sorted the same way. A share marked \'in papers\' comes from open-access papers mined for this protein and is shown only where no campaign for it states that readout: ChEMBL and PubChem record what a campaign measured far more reliably than how it was measured, so a method can be standard in the literature and invisible in the campaign data. Paper shares are of the papers mined, never mixed into the campaign percentages, and their bars are outlined rather than filled."],
 ["Instruments","Each readout listed for an assay needs an instrument (for example TR-FRET needs an HTRF reader, calcium dye assays need a kinetic reader). An assay is dimmed when none of its readouts can run with the instruments you ticked; cell-based assays also need cell culture. Readouts that name no instrument the app knows are ignored, and entries that say \'same readout as X\' use the readouts of X. The mapping is keyword based and not curated, so check the readout list."],
 ["Draft","Entries marked draft were written by Claude and have not been reviewed by an expert. Unmarked entries were edited by the expert reviewer (name and date not yet recorded). The header line counts how many entries are still drafts."],
 ["Quality target","From the NIH Assay Guidance Manual (AGM). Primary screens: Z′ ≥ 0.4 or signal window ≥ 2 on every validation plate, with max, mid and min signal CVs of 20% or less; Z′ ≥ 0.5 is the common cutoff. Image-based screens: Z′ between 0 and 0.5 is often acceptable for complex phenotypes. Dose-response (confirmation and counterscreen) assays: two independent runs should agree within 3-fold (replicate-experiment minimum significant ratio, MSR, below 3). These are targets to validate against, not values measured for this assay."],

@@ -1,0 +1,268 @@
+﻿fetch_papers.py: 20 protein(s); pool 50, keep 10, min score 4
+
+=== ADORA1: 30 hits, considering 30
+  PMC6345259 full text FAILED: HTTP Error 500: 
+  scored 29 papers with full text; keeping 10
+   [6] PMC13027536 skip     not the subject (absent title, 0/2 blocks name it)  Integrating Transcriptomics and 3D Spheroid Mo
+   [5] PMC12349724 extract  9 blocks (2 name the target)  A novel combination therapy with Uridine and Praziqu
+   [5] PMC10956435 extract  8 blocks (2 name the target)  Beyond the Nucleus: Plastic Chemicals Activate G Pro
+   [5] PMC9304768 extract  4 blocks (1 name the target)  Feeding desensitizes A1 adenosine receptors in adipo
+   [4] PMC13004594 skip     not the subject (absent title, 0/6 blocks name it)  Specific GPCRs elicit unique extracellular ves
+   [4] PMC5622154 extract  5 blocks (1 name the target)  Genomic Programming of Human Neonatal Dendritic Cell
+   [3] PMC12789147 skip     7 blocks (2 name the target)  Selective antagonism of adenosine A2A receptor reduc
+   [3] PMC10563797 skip     5 blocks (1 name the target)  Ultrasonic-induced synthesis of novel diverse arylid
+   [3] PMC11397041 skip     not the subject (absent title, 0/1 blocks name it)  Effects of Ketogenic Diet on Increased Ethanol
+   [3] PMC4939168 skip     not the subject (absent title, 0/1 blocks name it)  Contractile effects and receptor analysis of a
+
+=== AFF1: 155 hits, considering 50
+  scored 48 papers with full text; keeping 10
+   [5] PMC13231080 extract 11 blocks (4 name the target)  FusionTarget: Computational framework for drug repur
+   [5] PMC10380293 extract  6 blocks (1 name the target)  A FRET-Based Assay for the Identification of PCNA In
+   [5] PMC11387401 skip     not the subject (absent title, 0/1 blocks name it)  Interactome of the HIV-1 proteome and human ho
+   [4] PMC13231121 skip     not the subject (absent title, 0/3 blocks name it)  A small molecule inhibitor of RNA-binding prot
+   [4] PMC11772344 extract  4 blocks (3 name the target)  MLL-AF4 upregulates 5-lipoxygenase expression in t(4
+   [4] PMC9223756 skip     not the subject (absent title, 0/3 blocks name it)  Mathematical Modeling Reveals That Sucrose Reg
+   [4] PMC8344022 extract  1 blocks (1 name the target)  Small-molecule inhibitor of AF9/ENL-DOT1L/AF4/AFF4 i
+   [4] PMC10504488 extract  6 blocks (2 name the target)  The human leukemic oncogene MLL-AF4 promotes hyperpl
+   [4] PMC11830341 skip     not the subject (absent title, 0/7 blocks name it)  CADD-based discovery of novel oligomeric modul
+   [4] PMC8853663 extract 12 blocks (2 name the target)  An empirical energy landscape reveals mechanism of p
+
+=== AKR1C1: 155 hits, considering 50
+  family alias(es) not used for subject tests: DDH1
+  scored 50 papers with full text; keeping 10
+   [7] PMC8965451 extract  9 blocks (2 name the target)  Natural Product Alantolactone Targeting AKR1C1 Suppr
+   [6] PMC11059152 extract  6 blocks (3 name the target)  Discovery of an Aldo-Keto reductase 1C3 (AKR1C3) deg
+   [6] PMC6202482 extract  0 blocks (0 name the target)  Wentilactone A induces cell apoptosis by targeting A
+   [5] PMC12562546 extract  3 blocks (2 name the target)  Metabolic activation of flunitrazepam via nitroreduc
+   [5] PMC12947632 extract  1 blocks (1 name the target)  Directed C-H activation of 13α-estrone: a pathway to
+   [4] PMC13296439 extract  2 blocks (1 name the target)  Targeting Steroid-Metabolizing Enzymes with 15β-Subs
+   [4] PMC10177075 extract  9 blocks (1 name the target)  Genome-Wide Screening Identifies Gene AKR1C1 Critica
+   [3] PMC11894074 skip     9 blocks (3 name the target)  The AKR1C1-CYP1B1-cAMP signaling axis controls tumor
+   [3] PMC13188000 skip     5 blocks (3 name the target)  Targeting AKR1C1 overcomes lenvatinib resistance in 
+   [3] PMC6558898 skip     4 blocks (2 name the target)  AKR1C1 controls cisplatin-resistance in head and nec
+
+=== AOC3: 40 hits, considering 40
+  scored 40 papers with full text; keeping 10
+   [4] PMC6685929 extract  3 blocks (2 name the target)  Zinc-α2-glycoprotein as an inhibitor of amine oxidas
+   [4] PMC13490858 skip     not the subject (absent title, 0/3 blocks name it)  The Fungal Pathogen Fusarium graminearum Can H
+   [4] PMC11716213 skip     not the subject (absent title, 0/3 blocks name it)  LOX-induced tubulointerstitial fibrosis via th
+   [3] PMC10628239 skip     2 blocks (2 name the target)  A randomised Phase IIa trial of amine oxidase copper
+   [3] PMC13144515 skip     6 blocks (2 name the target)  VAP1 promotes cardiac fibrosis by enabling PDGFR sig
+   [3] PMC8329917 skip     0 blocks (0 name the target)  Amine oxidase, copper containing 3 exerts anti‑mesen
+   [3] PMC8301340 skip     not the subject (absent title, 0/5 blocks name it)  Proof-of-Concept for the Analgesic Effect and 
+   [3] PMC12824011 skip     not the subject (absent title, 0/4 blocks name it)  Exploratory research on therapeutic agents com
+   [3] PMC6130853 skip     not the subject (absent title, 0/6 blocks name it)  Copper-dependent amino oxidase 3 governs selec
+   [2] PMC12196869 skip     not the subject (absent title, 0/2 blocks name it)  Integrative Spatial Proteomics and Single-Cell
+
+=== CALM2: 23 hits, considering 23
+  family alias(es) not used for subject tests: CAM2
+  scored 23 papers with full text; keeping 10
+   [5] PMC3689682 skip     not the subject (absent title, 0/5 blocks name it)  Identification of Host Kinase Genes Required f
+   [4] PMC12189513 skip     not the subject (absent title, 0/1 blocks name it)  Restorative Effects of Synbiotics on Colonic U
+   [4] PMC6323261 skip     not the subject (absent title, 0/1 blocks name it)  miR‑223‑3p/TIAL1 interaction is involved in th
+   [3] PMC3426304 skip     0 blocks (0 name the target)  Endothelium-Dependent Vasorelaxant Effect of Butanol
+   [2] PMC9060481 skip     not the subject (absent title, 0/0 blocks name it)  Engineered CaM2 modulates nuclear calcium osci
+   [2] PMC9145465 skip     not the subject (absent title, 0/2 blocks name it)  De novo transcriptome assembly of the cotyledo
+   [2] PMC6538785 skip     2 blocks (1 name the target)  Efficacy of Oral Encochleated Amphotericin B in a Mo
+   [2] PMC6415600 skip     1 blocks (0 name the target)  The pequi pulp oil (Caryocar brasiliense Camb.) prov
+   [2] PMC4255682 skip     not the subject (absent title, 0/3 blocks name it)  Evaluation of the cytotoxicity and phototoxici
+   [1] PMC12562227 skip     3 blocks (0 name the target)  Pequi (&lt;i&gt;Caryocar brasiliense&lt;/i&gt;, Camb
+
+=== FADS2: 116 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [5] PMC11947613 extract 15 blocks (4 name the target)  Orchestrated desaturation reprogramming from stearoy
+   [5] PMC10635827 skip     not the subject (absent title, 0/4 blocks name it)  Engineered human hepatocyte organoids enable C
+   [5] PMC8733004 extract  8 blocks (5 name the target)  STING orchestrates the crosstalk between polyunsatur
+   [5] PMC4718762 skip     not the subject (absent title, 0/6 blocks name it)  Correlating chemical sensitivity and basal gen
+   [5] PMC11223218 extract  5 blocks (1 name the target)  An RNA Helicase DHX33 Inhibitor Shows Broad Anticanc
+   [4] PMC12391508 extract  7 blocks (2 name the target)  Differential regulation of FADS2 by EZH2 reveals a m
+   [4] PMC10361602 extract  3 blocks (1 name the target)  Fatty acid desaturase 2 determines the lipidomic lan
+   [3] PMC11392809 skip     5 blocks (3 name the target)  Zeb1 mediates EMT/plasticity-associated ferroptosis 
+   [3] PMC12749274 skip     4 blocks (1 name the target)  Novel organoid-based exploration reveals the role of
+   [3] PMC9065188 skip     9 blocks (1 name the target)  SCD1/FADS2 fatty acid desaturases equipoise lipid me
+
+=== GDF15: 1043 hits, considering 50
+  family alias(es) not used for subject tests: PDF
+  scored 50 papers with full text; keeping 10
+   [7] PMC13715715 extract  8 blocks (2 name the target)  Induced-fit anti-GFRAL antibody ameliorates cancer c
+   [5] PMC13338363 extract  8 blocks (4 name the target)  Structure-guided identification of small molecules p
+   [4] PMC13339307 extract 11 blocks (10 name the target)  De Novo Designed Minibinders Targeting the GDF15-GFR
+   [4] PMC12586721 extract  6 blocks (1 name the target)  GDF15 regulates development and growth of sympatheti
+   [3] PMC13409253 skip     4 blocks (2 name the target)  Osteocyte-Derived GDF15 Promotes Paclitaxel Resistan
+   [3] PMC13241508 skip     7 blocks (1 name the target)  The Gdf15-xenobiotic receptor axis shapes NK cell ma
+   [3] PMC13352486 skip     3 blocks (1 name the target)  Gdf15 expression in thermogenic adipocytes regulates
+   [2] PMC13165276 skip     0 blocks (0 name the target)  Evaluation of Growth Differentiation Factor 15 as an
+   [2] PMC13524768 skip     not the subject (absent title, 0/2 blocks name it)  Uridine and pyruvate supplementation is associ
+   [2] PMC12522818 skip     5 blocks (2 name the target)  GFRAL-Fc disarms GDF15 to reprogram tumor immunity a
+
+=== GRIN1: 85 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [6] PMC11439915 skip     not the subject (absent title, 0/1 blocks name it)  Establishment of human pluripotent stem cell-d
+   [6] PMC11621364 skip     not the subject (absent title, 0/1 blocks name it)  ICU patient-on-a-chip emulating orchestration 
+   [5] PMC11780861 extract  3 blocks (2 name the target)  Ligand distances as key predictors of pathogenicity 
+   [5] PMC10973091 skip     not the subject (absent title, 0/3 blocks name it)  De novo GRIN variants in M3 helix associated w
+   [5] PMC8369916 extract  5 blocks (1 name the target)  A <i>de novo GRIN1</i> Variant Associated With Myocl
+   [5] PMC5837214 extract  1 blocks (0 name the target)  De novo mutations in GRIN1 cause extensive bilateral
+   [5] PMC10311837 extract  8 blocks (2 name the target)  Electroacupuncture protective effects after cerebral
+   [4] PMC10952597 extract  2 blocks (0 name the target)  GRIN1 variants associated with neurodevelopmental di
+   [4] PMC8283169 extract  4 blocks (0 name the target)  Recurrent seizure-related GRIN1 variant: Molecular m
+   [4] PMC10849963 extract 15 blocks (2 name the target)  Synaptic-like transmission between neural axons and 
+
+=== GZMA: 1149 hits, considering 50
+  scored 49 papers with full text; keeping 10
+   [7] PMC12711971 skip     not the subject (absent title, 0/16 blocks name it)  Disruption of heme homeostasis by nuclear rece
+   [6] PMC13707659 skip     not the subject (absent title, 0/3 blocks name it)  &lt;i&gt;Prunus mume&lt;/i&gt; Extract Coopera
+   [6] PMC13035909 skip     not the subject (absent title, 0/6 blocks name it)  Lytic IFNγ is stored in cytotoxic granules and
+   [6] PMC12161327 skip     not the subject (absent title, 0/7 blocks name it)  Osteoclast-expanded supercharged NK cells perf
+   [5] PMC13528017 skip     not the subject (absent title, 0/9 blocks name it)  S-propargyl-cysteine remodels the HCC microenv
+   [5] PMC13002968 skip     not the subject (absent title, 0/9 blocks name it)  Teriflunomide modulates the PD-1/PD-L1 axis an
+   [5] PMC9321427 extract  5 blocks (1 name the target)  Granzyme K initiates IL-6 and IL-8 release from epit
+   [5] PMC13493310 skip     not the subject (absent title, 0/10 blocks name it)  Berberine induces PD-L1 degradation via the au
+   [5] PMC12609824 skip     not the subject (absent title, 0/2 blocks name it)  Immunomodulatory Effects of a High-CBD Cannabi
+   [4] PMC12645622 skip     not the subject (absent title, 0/5 blocks name it)  Development of a novel &lt;sup&gt;18&lt;/sup&g
+
+=== HNRNPM: 28 hits, considering 28
+  scored 28 papers with full text; keeping 10
+   [7] PMC8346284 extract  6 blocks (5 name the target)  HNRNPM controls circRNA biogenesis and splicing fide
+   [7] PMC11519470 extract 11 blocks (3 name the target)  5'-tRNA&lt;sup&gt;Gly(GCC)&lt;/sup&gt; halves genera
+   [6] PMC11283696 extract 12 blocks (0 name the target)  Oncogenic LINC00698 suppresses apoptosis of melanoma
+   [5] PMC11791083 extract  6 blocks (1 name the target)  RNA-binding proteins hnRNPM and ELAVL1 promote type-
+   [4] PMC4052765 extract  4 blocks (2 name the target)  Cell type-restricted activity of hnRNPM promotes bre
+   [4] PMC6981122 extract  8 blocks (4 name the target)  The RNA-binding protein AKAP8 suppresses tumor metas
+   [3] PMC8938476 skip     9 blocks (6 name the target)  Targeting HNRNPM Inhibits Cancer Stemness and Enhanc
+   [3] PMC10066201 skip     8 blocks (0 name the target)  circPTPN12 promotes the progression and sunitinib re
+   [3] PMC11045219 skip     8 blocks (1 name the target)  KIS counteracts PTBP2 and regulates alternative exon
+   [3] PMC7072589 skip     6 blocks (3 name the target)  Poison-Exon Inclusion in DHX9 Reduces Its Expression
+
+=== IGFBP6: 38 hits, considering 38
+  scored 38 papers with full text; keeping 10
+   [6] PMC2746911 extract  4 blocks (0 name the target)  Gli1 maintains cell survival by up-regulating IGFBP6
+   [5] PMC9322660 skip     not the subject (absent title, 0/2 blocks name it)  Insulin-Like Growth Factor Binding Protein (IG
+   [4] PMC12307719 extract  6 blocks (3 name the target)  Pantothenic acid ameliorates hepatic fibrosis by tar
+   [4] PMC9880435 extract  5 blocks (0 name the target)  <i>ELOVL5</i> and <i>IGFBP6</i> genes modulate sensi
+   [4] PMC3583816 extract  7 blocks (2 name the target)  Response to inhibition of smoothened in diverse epit
+   [3] PMC13364574 skip     not the subject (absent title, 0/2 blocks name it)  IGFBP-6 regulates SH2D4A expression to promote
+   [3] PMC12860944 skip     not the subject (absent title, 0/5 blocks name it)  IGFBP-6 regulates breast cancer cell cycle pro
+   [3] PMC8206645 skip     6 blocks (1 name the target)  Effect of the Expression of <i>ELOVL5</i> and <i>IGF
+   [3] PMC5618785 skip     6 blocks (0 name the target)  Insulin-Like Growth Factor Binding Protein-6 Alters 
+   [3] PMC7413518 skip     not the subject (absent title, 0/2 blocks name it)  Plasma biomarkers of the amyloid pathway are a
+
+=== JUND: 96 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [8] PMC9458432 extract  9 blocks (6 name the target)  Chemically targeting the redox switch in AP1 transcr
+   [5] PMC8310672 extract 12 blocks (3 name the target)  JunD accentuates arecoline-induced disruption of tig
+   [5] PMC5737521 extract  2 blocks (1 name the target)  Activator Protein-1: redox switch controlling struct
+   [4] PMC12398621 skip     not the subject (absent title, 0/9 blocks name it)  Targeting DDX3X suppresses progression of KRAS
+   [4] PMC9597577 extract  6 blocks (2 name the target)  Mutant Ras and inflammation-driven skin tumorigenesi
+   [3] PMC13746572 skip     7 blocks (2 name the target)  JUND-DNAJB1-p21 axis drives fibroblast senescence to
+   [3] PMC13085888 skip    10 blocks (3 name the target)  TIM-4&lt;sup&gt;+&lt;/sup&gt; skeletal muscle Reside
+   [3] PMC13601434 skip     7 blocks (2 name the target)  The DCBLD2 super-enhancer drives colorectal cancer p
+   [3] PMC11729558 skip     3 blocks (0 name the target)  JARID1D-dependent androgen receptor and JunD signali
+   [3] PMC6959298 skip     7 blocks (1 name the target)  Enhanced JunD/RSK3 signalling due to loss of BRD4/FO
+
+=== LETM1: 20 hits, considering 20
+  PMC8785211 full text FAILED: HTTP Error 500: Internal Server Error
+  PMC7526510 full text FAILED: HTTP Error 502: Bad Gateway
+  PMC5382978 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  PMC4231948 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  scored 16 papers with full text; keeping 10
+   [6] PMC9724676 extract 11 blocks (1 name the target)  TMBIM5 is the Ca&lt;sup&gt;2+&lt;/sup&gt; /H&lt;sup&
+   [5] PMC12945686 extract 12 blocks (6 name the target)  Mitochondrial Ca&lt;sup&gt;2+&lt;/sup&gt; efflux con
+   [4] PMC5037442 extract  3 blocks (2 name the target)  Leucine zipper-EF-hand containing transmembrane prot
+   [3] PMC5680261 skip     8 blocks (4 name the target)  PINK1-mediated phosphorylation of LETM1 regulates mi
+   [2] PMC7859436 skip     4 blocks (3 name the target)  LETM1 Knockdown Promotes Autophagy and Apoptosis Thr
+   [2] PMC12003058 skip     not the subject (absent title, 0/5 blocks name it)  Defective brown adipose tissue thermogenesis a
+   [2] PMC9271802 skip     not the subject (absent title, 0/2 blocks name it)  High Expression of TMEM33 Predicts Poor Progno
+   [1] PMC8806762 skip     6 blocks (1 name the target)  LETM1 (leucine zipper-EF-hand-containing transmembra
+   [1] PMC9502063 skip     3 blocks (0 name the target)  Bi-allelic LETM1 variants perturb mitochondrial ion 
+   [1] PMC7311216 skip     7 blocks (2 name the target)  LETM1 Promotes Gastric Cancer Cell Proliferation, Mi
+  LYPLA1     search FAILED: HTTP Error 503: Service Temporarily Unavailable
+  NTRK3      search FAILED: HTTP Error 503: Service Temporarily Unavailable
+
+=== OGT: 301 hits, considering 50
+  PMC13669215 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  PMC13605618 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  PMC13393265 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  PMC13282704 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  PMC13676730 full text FAILED: HTTP Error 503: Service Temporarily Unavailable
+  scored 44 papers with full text; keeping 10
+   [6] PMC11574022 extract 10 blocks (0 name the target)  KDM2B regulates stroke injury by modulating OGT-medi
+   [5] PMC12894984 extract  4 blocks (3 name the target)  Small molecule splicing modulators that disrupt O-Gl
+   [5] PMC13387492 extract  9 blocks (2 name the target)  B cell TET2 recruits OGT for nuclear TET2 and H2B O-
+   [5] PMC12890163 extract  3 blocks (1 name the target)  Reducing OGT and O-GlcNAcylation enhance the antican
+   [4] PMC12365020 extract 10 blocks (5 name the target)  O-GlcNAc transferase plays dual antiviral roles by i
+   [4] PMC11784489 extract  2 blocks (2 name the target)  Exploiting O-GlcNAc dyshomeostasis to screen O-GlcNA
+   [4] PMC11980313 extract  8 blocks (1 name the target)  Kaempferol inhibits cardiomyocyte pyroptosis via pro
+   [4] PMC12789530 extract  7 blocks (2 name the target)  O-GlcNAcylation of DDB1 at Ser-764 by OGT promotes c
+   [4] PMC12099056 extract 17 blocks (6 name the target)  Targeting the Exonic Circular &lt;i&gt;OGT&lt;/i&gt;
+   [4] PMC13310628 extract  9 blocks (2 name the target)  Hexosamine biosynthesis drives hemocyanin O-GlcNAcyl
+
+=== PRKAA2: 5440 hits, considering 50
+  family alias(es) not used for subject tests: Acetyl-CoA carboxylase kinase; Hydroxymethylglutaryl-CoA reductase kinase; AMPK
+  scored 50 papers with full text; keeping 10
+   [10] PMC12372887 skip     not the subject (absent title, 0/8 blocks name it)  Mechanism and cellular actions of the potent A
+   [7] PMC13654189 skip     not the subject (absent title, 0/12 blocks name it)  Reversal of Chronic Stress-Induced Inflammagin
+   [6] PMC13142926 skip     not the subject (absent title, 0/4 blocks name it)  Binding of 14-3-3 stabilises recombinant AMPKγ
+   [6] PMC12948975 skip     not the subject (absent title, 0/4 blocks name it)  mTOR-driven autophagy suppression defines meta
+   [5] PMC13453865 skip     not the subject (absent title, 0/3 blocks name it)  Wogonin, a bioactive flavonoid from Scutellari
+   [5] PMC13544254 skip     not the subject (absent title, 0/4 blocks name it)  AMPK phosphorylation proceeds through hierarch
+   [5] PMC13324344 skip     not the subject (absent title, 0/7 blocks name it)  Inhibiting Fatty Acid Oxidation Reverses Autop
+   [5] PMC12905822 skip     not the subject (absent title, 0/10 blocks name it)  Therapeutic targeting of the AMPK-Has1 complex
+   [5] PMC13686833 skip     not the subject (absent title, 0/3 blocks name it)  Dibucaine induces autophagic flux and reduces 
+   [5] PMC13714316 skip     not the subject (absent title, 0/9 blocks name it)  Ginsenoside Rb1 alleviates uterine aging via A
+
+=== RPS15: 829 hits, considering 50
+  scored 49 papers with full text; keeping 10
+   [10] PMC13680500 extract  6 blocks (5 name the target)  Discovery of direct-acting small-molecule RIG-I agon
+   [7] PMC13157012 extract  7 blocks (3 name the target)  Quercetin potentially suppresses HBV activity throug
+   [7] PMC12571054 extract 10 blocks (3 name the target)  Pharmacological targeting of RIG-I can selectively a
+   [7] PMC13616384 skip     not the subject (absent title, 0/12 blocks name it)  Sarbecoviruses Suppress Innate Immunity by Rec
+   [7] PMC12424427 extract  6 blocks (5 name the target)  Argonaute 2 inhibits RIG-I signaling via competition
+   [6] PMC13463801 extract  8 blocks (1 name the target)  Benzothiazole derivatives target oligoadenylate synt
+   [6] PMC13179341 skip     not the subject (absent title, 0/9 blocks name it)  Betrixaban activates cGAS and ERVs to promote 
+   [6] PMC8882870 extract  4 blocks (2 name the target)  A Cell-Based Screen Identifies HDAC Inhibitors as Ac
+   [5] PMC13290906 extract  8 blocks (1 name the target)  OLFML3 negatively regulates RIG-I signaling in RNA v
+   [5] PMC13220864 extract  7 blocks (1 name the target)  DHX36 is a regulatory switch in the interferon-media
+
+=== STRA6: 30 hits, considering 30
+  scored 30 papers with full text; keeping 10
+   [4] PMC13524720 extract 12 blocks (3 name the target)  STRA6-mediated ferroptosis and its potential associa
+   [4] PMC4376794 extract  4 blocks (3 name the target)  Production of functional human vitamin A transporter
+   [4] PMC8589649 skip     not the subject (absent title, 0/3 blocks name it)  Clozapine modulates retinoid homeostasis in hu
+   [3] PMC12128968 skip     not the subject (absent title, 0/1 blocks name it)  Vitamin A retinoic acid contributes to muscle 
+   [3] PMC4207704 skip     not the subject (absent title, 0/3 blocks name it)  Fenretinide: a novel treatment for endometrial
+   [2] PMC12535577 skip     5 blocks (1 name the target)  ARNT2-driven transcriptional activation of STRA6 rep
+   [2] PMC12940945 skip     not the subject (absent title, 0/3 blocks name it)  FOXC1 Regulates Cytokine Signaling, Inflammato
+   [2] PMC10887181 skip     4 blocks (0 name the target)  <i>ANLN</i> Promotes the Proliferation and Migration
+   [2] PMC9992173 skip     7 blocks (2 name the target)  Mapping of the extracellular RBP4 ligand binding dom
+   [2] PMC11117505 skip     not the subject (absent title, 0/1 blocks name it)  Risk and Resilience Variants in the Retinoic A
+
+=== UBA6: 22 hits, considering 22
+  scored 22 papers with full text; keeping 10
+   [6] PMC13200455 skip     not the subject (absent title, 0/6 blocks name it)  Quantum dot-DNA microsphere aptamer biosensor 
+   [5] PMC13572539 extract  5 blocks (4 name the target)  Structural determinants for FAT10 activation and tra
+   [5] PMC12999496 extract  8 blocks (5 name the target)  UBA6 specificity for ubiquitin E2 conjugating enzyme
+   [5] PMC9391358 extract  8 blocks (2 name the target)  Crystal structures reveal catalytic and regulatory m
+   [5] PMC8452654 extract  6 blocks (1 name the target)  Multi-level inhibition of coronavirus replication by
+   [3] PMC13190965 skip     3 blocks (1 name the target)  UBA6 serves as a prognostic biomarker and promotes t
+   [3] PMC12310546 skip     8 blocks (2 name the target)  Characterization of E1 enzyme dependencies in mutant
+   [3] PMC9478149 skip    10 blocks (6 name the target)  Inhibition of UBA6 by inosine augments tumour immuno
+   [3] PMC6863627 skip     7 blocks (1 name the target)  Negative regulation of autophagy by UBA6-BIRC6-media
+   [3] PMC9378703 skip     3 blocks (2 name the target)  Structures of UBA6 explain its dual specificity for 
+
+--- summary ---
+  papers_kept        76
+  blocks             515
+  not_subject        60
+  below_threshold    44
+  search_failed      2
+  queued_blocks      515
+  index: build_output\papers\index.json
+
+Queued 515 assay block(s) for the Claude Code agent (515 still to do).
+  build_output\papers\agent_queue\TASKS.md
+
+In Claude Code, say:
+  "Work the queue in build_output/papers/agent_queue/TASKS.md"
+Then merge and validate what the agent wrote:
+  py scripts\fetch_papers.py --agent-merge

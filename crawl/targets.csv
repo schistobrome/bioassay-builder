@@ -1,0 +1,101 @@
+gene,batch,picked_on,primary_class,status,papers,papers_with_subject,blocks,records,skipped,new_entry_links,new_readouts,new_terms,notes
+ACLY,0,2026-11-16,enzyme_other,read,12,8,78,13,65,ENZ3,CETSA; ITC; Radiometric; SPR / BLI,1,"yield sample (seed 20261116, actionable pool)"
+CASP4,0,2026-11-16,protease,read,12,6,44,15,29,,Fluorescence polarization,2,"yield sample (seed 20261116, actionable pool)"
+CPB1,0,2026-11-16,protease,no_papers,12,0,0,0,0,,,0,"yield sample (seed 20261116, actionable pool)"
+CTSZ,0,2026-11-16,protease,read,12,3,19,3,16,,SPR / BLI,1,"yield sample (seed 20261116, actionable pool)"
+FPGS,0,2026-11-16,enzyme_other,read,12,1,3,1,2,,,0,"yield sample (seed 20261116, actionable pool)"
+G6PC1,0,2026-11-16,enzyme_other,read,12,0,3,0,3,,,0,"yield sample (seed 20261116, actionable pool)"
+GLO1,0,2026-11-16,enzyme_other,read,12,6,34,8,26,ENZ3,,1,"yield sample (seed 20261116, actionable pool)"
+GSR,0,2026-11-16,enzyme_other,read,12,4,29,1,28,ENZ3,,0,"yield sample (seed 20261116, actionable pool)"
+GZMB,0,2026-11-16,protease,read,12,9,68,5,63,,,0,"yield sample (seed 20261116, actionable pool)"
+KCNQ4,0,2026-11-16,ion_channel,read,12,3,13,6,7,,SPR / BLI,3,"yield sample (seed 20261116, actionable pool)"
+LARS1,0,2026-11-16,enzyme_other,read,12,1,5,1,4,,,1,"yield sample (seed 20261116, actionable pool)"
+MGMT,0,2026-11-16,enzyme_other,read,12,4,37,3,34,ENZ3,Luminescent Glo assay,1,"yield sample (seed 20261116, actionable pool)"
+NEK8,0,2026-11-16,protein_kinase,read,12,3,26,3,23,G2; K3,Kinase-Glo luminescence; SPR / BLI,0,"yield sample (seed 20261116, actionable pool)"
+PLA2G6,0,2026-11-16,ppi_domain,read,12,1,9,0,9,,,0,"yield sample (seed 20261116, actionable pool)"
+PTPRM,0,2026-11-16,protein_phosphatase,read,12,1,1,0,1,,,0,"yield sample (seed 20261116, actionable pool)"
+RGS4,0,2026-11-16,unclassified,read,12,9,58,9,49,,AlphaScreen / AlphaLISA; BRET / NanoBRET,0,"yield sample (seed 20261116, actionable pool)"
+SERPINA6,0,2026-11-16,unclassified,no_papers,12,0,0,0,0,,,0,"yield sample (seed 20261116, actionable pool)"
+SRD5A1,0,2026-11-16,enzyme_other,read,12,7,36,3,33,ENZ3,,3,"yield sample (seed 20261116, actionable pool)"
+STRADA,0,2026-11-16,protein_kinase,read,12,1,9,0,9,,,0,"yield sample (seed 20261116, actionable pool)"
+TNFSF10,0,2026-11-16,secreted_ligand,read,12,5,32,7,25,,,1,"yield sample (seed 20261116, actionable pool)"
+ZFP91,1,2026-11-16,e3_ligase,read,10,4,25,6,19,G5; U1,CETSA; TR-FRET / HTRF,1,
+CYB5R3,1,2026-11-16,enzyme_other,read,10,5,36,4,32,G7,CETSA,1,
+ACTC1,1,2026-11-16,enzyme_other,read,10,3,14,2,12,,Thermal shift (DSF),2,
+GALNS,1,2026-11-16,enzyme_other,read,10,1,5,1,4,,,0,
+F13A1,1,2026-11-16,enzyme_other,read,10,2,9,2,7,ENZ1,,1,
+DRD1,1,2026-11-16,gpcr,read,10,2,25,11,16,,,2,
+KCNH1,1,2026-11-16,ion_channel,read,10,3,16,2,14,G2; IC4,SPR / BLI,0,
+KCTD11,1,2026-11-16,ppi_domain,no_papers,10,0,0,0,0,,,0,
+CTSF,1,2026-11-16,protease,no_papers,10,0,0,0,0,,,0,
+MAPK13,1,2026-11-16,protein_kinase,no_papers,10,0,0,0,0,,,0,
+PIK3CB,1,2026-11-16,protein_kinase,read,10,3,15,1,14,,,0,
+CD209,1,2026-11-16,receptor_ectodomain,no_papers,10,0,0,0,0,,,0,
+ALYREF,1,2026-11-16,rna_binding,read,10,5,43,4,39,,,4,
+INHA,1,2026-11-16,secreted_ligand,read,10,6,53,1,52,,,0,
+SLC2A2,1,2026-11-16,solute_carrier,read,10,3,21,0,21,,,0,
+MEIS1,1,2026-11-16,transcription_factor,read,10,6,30,2,28,TF1,,1,
+UNC119,1,2026-11-16,unclassified,read,10,7,65,0,65,,,0,
+DBN1,1,2026-11-16,unclassified,read,10,3,12,0,12,,,0,
+ZYX,1,2026-11-16,unclassified,read,10,3,26,0,26,,,0,
+SERPINA2,1,2026-11-16,unclassified,no_papers,10,0,0,0,0,,,0,
+UBA6,2,2026-11-17,e3_ligase,read,10,4,27,13,14,G3; U1; U6,Fluorescence polarization; ITC; Thermal shift (DSF),1,
+FADS2,2,2026-11-17,enzyme_other,read,10,5,38,4,32,ENZ3,,4,
+LYPLA1,2,2026-11-17,enzyme_other,no_papers,0,0,0,0,0,,,0,
+AOC3,2,2026-11-17,enzyme_other,read,10,1,3,4,2,ENZ3,,1,
+AKR1C1,2,2026-11-17,enzyme_other,read,10,6,30,10,19,ENZ3,CETSA; SPR / BLI,4,
+ADORA1,2,2026-11-17,gpcr,read,10,4,26,7,19,GPCR3,CETSA,2,
+GRIN1,2,2026-11-17,ion_channel,read,10,4,38,10,28,,,6,
+OGT,2,2026-11-17,ppi_domain,read,10,9,79,16,64,ENZ3; PPI2,ITC; Luminescent Glo assay; Thermal shift (DSF),8,
+GZMA,2,2026-11-17,protease,read,10,1,5,1,2,,,1,
+PRKAA2,2,2026-11-17,protein_kinase,no_papers,10,0,0,0,0,,,0,
+NTRK3,2,2026-11-17,protein_kinase,no_papers,0,0,0,0,0,,,0,
+STRA6,2,2026-11-17,receptor_ectodomain,read,10,2,16,1,15,,SPR / BLI,0,
+HNRNPM,2,2026-11-17,rna_binding,read,10,5,47,12,34,RNA1; RNA2,Radiometric; SPR / BLI,6,
+GDF15,2,2026-11-17,secreted_ligand,read,10,4,33,4,28,G2; R1; R2,SPR / BLI,0,
+LETM1,2,2026-11-17,solute_carrier,read,10,3,26,5,21,T4,Fluorescent calcium dye,6,
+JUND,2,2026-11-17,transcription_factor,read,10,4,29,8,21,G3; TF1; TF2,Fluorescence polarization; ITC,0,
+CALM2,2,2026-11-17,unclassified,no_papers,10,0,0,0,0,,,0,
+RPS15,2,2026-11-17,unclassified,read,10,8,56,0,47,,,0,
+AFF1,2,2026-11-17,unclassified,read,10,6,40,2,38,,CETSA,0,
+IGFBP6,2,2026-11-17,unclassified,read,10,2,22,3,19,,CETSA,2,
+KCNH2,3,2026-11-17,ion_channel,no_papers,10,0,0,3,0,,,2,
+CYP3A4,3,2026-11-17,cytochrome_p450,read,10,8,40,8,30,,ITC; PXR / CAR / AhR reporter-gene assay; label-free mass spectrometry (e.g. RapidFire); luminogenic P450-Glo,3,
+CYP2D6,3,2026-11-17,cytochrome_p450,read,10,8,35,3,29,,LC-MS/MS; fluorogenic Vivid substrates with recombinant CYPs; luminogenic P450-Glo,2,
+CYP2C9,3,2026-11-17,cytochrome_p450,read,10,8,33,1,28,,LC-MS/MS of probe metabolites in human liver microsomes,1,
+CYP1A2,3,2026-11-17,cytochrome_p450,read,10,7,35,6,28,,luminogenic P450-Glo; qPCR of CYP mRNA,1,
+EGFR,3,2026-11-17,protein_kinase,read,10,8,54,13,41,,Flow cytometry; HTRF / TR-FRET; NADH-coupled (pyruvate kinase / LDH); mobility shift (Caliper / LabChip); pull-down; thiol-reactivity probe,3,
+CYP2C19,3,2026-11-17,cytochrome_p450,read,10,8,37,6,30,,LC-MS/MS; LC-MS/MS of probe metabolites in human liver microsomes; fluorogenic Vivid substrates with recombinant CYPs; luminogenic P450-Glo; qPCR of CYP mRNA,1,
+KDR,3,2026-11-17,protein_kinase,read,10,9,65,16,49,R3,BRET / FRET; Flow cytometry; IMAP fluorescence polarization or TR-FRET; Luminescent ATP-depletion detection; high-content imaging; mobility shift (Caliper / LabChip); pull-down,5,
+SRC,3,2026-11-17,protein_kinase,read,10,4,34,6,29,,mobility shift (Caliper / LabChip); pull-down,1,
+JAK2,3,2026-11-17,protein_kinase,read,10,9,56,11,46,,Flow cytometry; HTRF / TR-FRET,1,
+DRD2,3,2026-11-17,gpcr,read,10,4,44,13,31,,AlphaLISA SureFire / HTRF pERK; BRET; CETSA; Flow cytometry; HTRF / TR-FRET cAMP; Split-luciferase complementation; immunofluorescence / high-content imaging; surface antibody detection,3,
+FLT3,3,2026-11-17,protein_kinase,read,10,9,56,9,44,,CETSA; CellTiter-Glo viability in 2D or 3D spheroids; HTRF / TR-FRET; Luminescent ATP-depletion detection; NanoBRET target engagement; TR-FRET fluorescent-ligand binding,2,
+GSK3B,3,2026-11-17,protein_kinase,read,10,3,35,6,29,,CETSA,1,
+LCK,3,2026-11-17,protein_kinase,read,10,8,50,10,39,PPI1; PPI2; PPI3; Ph1; Ph2,"CellTiter-Glo viability in 2D or 3D spheroids; Dephosphorylation of a fluorogenic phosphate ester (e.g., DiFMUP); Flow cytometry; HiBiT or other tag-based luminescence; high-content imaging; immunofluorescence / high-content imaging; pull-down",1,
+AKT1,3,2026-11-17,protein_kinase,read,10,7,47,8,39,,high-content imaging; in-cell western,2,
+ABL1,3,2026-11-17,protein_kinase,read,10,3,31,5,24,PPI2,Flow cytometry; mobility shift (Caliper / LabChip),3,
+MAPK14,3,2026-11-17,protein_kinase,read,10,5,40,8,32,,ITC; NanoBRET target engagement,1,
+HDAC1,3,2026-11-17,epigenetic_deacetylase,read,10,9,68,18,50,,CellTiter-Glo viability in 2D or 3D spheroids; Flow cytometry; Fluorescence polarization; Fluorogenic acetyl-lysine substrate with developer; TR-FRET; jump-dilution recovery; viability or proliferation,4,
+JAK3,3,2026-11-17,protein_kinase,read,10,6,57,10,44,,"ADP detection (ADP-Glo, Transcreener); AlphaLISA / TR-FRET phospho-ERK; Flow cytometry; HTRF / TR-FRET",3,
+MET,3,2026-11-17,protein_kinase,read,10,6,50,9,36,,DNA thermal melting; pull-down,4,
+ABCB1,4,2026-11-18,abc_transporter,read,10,8,48,2,46,,,2,
+PARP1,4,2026-11-18,adp_ribosyltransferase,read,10,10,82,4,76,,,4,
+HSPA5,4,2026-11-18,atpase,read,10,7,63,3,60,,,2,
+SQSTM1,4,2026-11-18,autophagy,read,10,6,48,2,46,AUTO1,,2,
+CBX8,4,2026-11-18,chromatin_reader,read,10,8,55,1,54,,,2,
+BLM,4,2026-11-18,dna_helicase,read,10,9,79,3,76,,,1,
+USP7,4,2026-11-18,dub,read,10,8,58,4,54,,Enzyme fragment complementation,2,
+KDM1A,4,2026-11-18,epigenetic_demethylase,read,10,4,42,1,41,,,1,
+BRD4,4,2026-11-18,epigenetic_reader,read,10,10,126,4,122,,Enzyme fragment complementation,3,
+EZH2,4,2026-11-18,epigenetic_writer,read,10,8,59,2,58,,,1,
+KAT8,4,2026-11-18,histone_acetyltransferase,read,10,7,50,3,47,,,3,
+CCND1,4,2026-11-18,kinase_regulatory_subunit,read,10,2,13,0,13,,,0,
+SPHK1,4,2026-11-18,lipid_kinase,read,10,8,45,2,43,,,1,
+ESR1,4,2026-11-18,nuclear_receptor,read,10,1,24,2,22,,,1,
+APEX1,4,2026-11-18,nuclease,read,10,7,46,2,44,,,1,
+DNMT1,4,2026-11-18,nucleic_acid_methyltransferase,read,10,7,57,1,56,,Luminescent Glo assay,0,
+PDE5A,4,2026-11-18,phosphodiesterase,read,10,7,50,1,49,,,0,
+SNCA,4,2026-11-18,protein_aggregation,read,10,6,41,1,40,,,1,
+KRAS,4,2026-11-18,small_gtpase,read,10,9,84,3,81,,,2,
+TOP1,4,2026-11-18,topoisomerase,read,10,5,57,9,48,,,8,

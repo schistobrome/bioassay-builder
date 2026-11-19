@@ -1,0 +1,281 @@
+﻿fetch_papers.py: 20 protein(s); pool 50, keep 10, min score 4
+
+=== ACTC1: 39 hits, considering 39
+  scored 39 papers with full text; keeping 10
+   [7] PMC11088876 extract  5 blocks (3 name the target)  Activin E is a transforming growth factor β ligand t
+   [6] PMC9224996 extract  5 blocks (3 name the target)  The orphan ligand, activin C, signals through activi
+   [5] PMC11708414 extract  4 blocks (4 name the target)  A gradient of force generation at rest differentiate
+   [4] PMC5882176 skip     not the subject (absent title, 0/0 blocks name it)  Simplified Footprint-Free Cas9/CRISPR Editing 
+   [3] PMC10709143 skip     5 blocks (2 name the target)  Regenerating human skeletal muscle forms an emerging
+   [3] PMC11203858 skip     not the subject (absent title, 0/6 blocks name it)  Class I and II Histone Deacetylase Inhibitors 
+   [3] PMC10465332 skip     not the subject (absent title, 0/2 blocks name it)  Effect of Xenogeneic Substances on the Glycan 
+   [3] PMC7402340 skip     not the subject (absent title, 0/6 blocks name it)  Histone Deacetylase Inhibitor Suberoylanilide 
+   [3] PMC3348139 skip     4 blocks (3 name the target)  Subdomain location of mutations in cardiac actin cor
+   [3] PMC4823107 skip     not the subject (absent title, 0/2 blocks name it)  Unique roles of Akt1 and Akt2 in IGF-IR mediat
+
+=== ALYREF: 105 hits, considering 50
+  scored 48 papers with full text; keeping 10
+   [5] PMC12631900 extract 11 blocks (4 name the target)  Preservation of ALYREF Phase Separation Mitigates Do
+   [5] PMC12297799 extract  9 blocks (1 name the target)  Copy number amplification of TTPAL promotes choleste
+   [4] PMC12811383 extract 10 blocks (4 name the target)  ALYREF condensation stabilizes m&lt;sup&gt;5&lt;/sup
+   [4] PMC11512073 extract  9 blocks (3 name the target)  ALYREF recruits ELAVL1 to promote colorectal tumorig
+   [4] PMC13091547 skip     not the subject (absent title, 0/7 blocks name it)  Robust single-molecule tracking of RNA abundan
+   [4] PMC11225205 extract  4 blocks (2 name the target)  NSUN6-mediated 5-methylcytosine modification of NDRG
+   [3] PMC13586137 skip     9 blocks (2 name the target)  Extracellular signal-regulated kinase 3 forms a nucl
+   [3] PMC13081630 skip    11 blocks (3 name the target)  CASC19 stabilization by ALYREF via m5C modification 
+   [3] PMC10750289 skip     6 blocks (3 name the target)  ALYREF-mediated RNA 5-Methylcytosine modification Pr
+   [3] PMC12827963 skip     8 blocks (1 name the target)  Multi-omics analysis reveals that ALYREF-mediated m&
+
+=== CD209: 114 hits, considering 50
+  scored 47 papers with full text; keeping 10
+   [6] PMC8655052 skip     not the subject (absent title, 0/6 blocks name it)  Carbohydrates from Pseudomonas aeruginosa biof
+   [4] PMC13163745 skip     not the subject (absent title, 0/3 blocks name it)  AI-Driven Secondary Immunomodulatory Effects o
+   [4] PMC13708499 skip     not the subject (absent title, 0/0 blocks name it)  Synthesis of Antiproliferative &lt;i&gt;N&lt;/
+   [3] PMC12606641 skip     4 blocks (1 name the target)  Surface Density of Mono- and Trivalent High-Mannan-D
+   [3] PMC13752216 skip     not the subject (absent title, 0/5 blocks name it)  Defective macrophage plasticity exacerbates pr
+   [3] PMC13313891 skip     3 blocks (2 name the target)  Decoding antidengue serotype-3 (DENV-3) mechanism of
+   [3] PMC9868599 skip     5 blocks (1 name the target)  Secretomes derived from osteogenically differentiate
+   [3] PMC8103542 skip     5 blocks (2 name the target)  A positive feedback loop reinforces the allergic imm
+   [2] PMC12484019 skip     not the subject (absent title, 0/3 blocks name it)  Serum matters: human platelet lysate enables p
+   [2] PMC12567591 skip     3 blocks (1 name the target)  B7 Family Molecule VSIG4 Regulates Pulmonary Anti-In
+
+=== CTSF: 20 hits, considering 20
+  scored 20 papers with full text; keeping 10
+   [4] PMC12567500 skip     not the subject (absent title, 0/4 blocks name it)  Activity-Based Profiling of Papain-like Cystei
+   [3] PMC4687129 skip     2 blocks (0 name the target)  Molecular characterization of a cathepsin F-like pro
+   [3] PMC5591513 skip     not the subject (absent title, 0/6 blocks name it)  Transcriptome profiling of antiviral immune an
+   [3] PMC5004184 skip     not the subject (absent title, 0/5 blocks name it)  Role of Cathepsins in Mycobacterium tuberculos
+   [2] PMC13225455 skip     not the subject (absent title, 0/5 blocks name it)  The Role of NAT10-Mediated ac4C Modification i
+   [2] PMC11864649 skip     not the subject (absent title, 0/6 blocks name it)  Simultaneous activation and blockade of autoph
+   [2] PMC7844561 skip     5 blocks (3 name the target)  Cathepsin F Knockdown Induces Proliferation and Inhi
+   [2] PMC10893644 skip     not the subject (absent title, 0/2 blocks name it)  Identification of circRNA-associated ceRNA net
+   [2] PMC3421991 skip     5 blocks (1 name the target)  A cathepsin F-like peptidase involved in barley grai
+   [2] PMC2654340 skip     2 blocks (0 name the target)  Cathepsin F cysteine protease of the human liver flu
+
+=== CYB5R3: 22 hits, considering 22
+  scored 21 papers with full text; keeping 10
+   [6] PMC13721028 extract 12 blocks (2 name the target)  Targeting Mitochondrial Redox Signaling Promotes Neu
+   [6] PMC12913011 extract  7 blocks (2 name the target)  Beta arrestin 1 is a key regulator of pulmonary vasc
+   [5] PMC10077481 extract  2 blocks (1 name the target)  CYB5R3 in type II alveolar epithelial cells protects
+   [4] PMC9772183 extract  6 blocks (5 name the target)  The UFM1 system regulates ER-phagy through the ufmyl
+   [4] PMC9616997 extract  1 blocks (0 name the target)  CYB5R3 overexpression preserves skeletal muscle mito
+   [4] PMC7031142 extract  8 blocks (1 name the target)  Cyb5r3 links FoxO1-dependent mitochondrial dysfuncti
+   [3] PMC8577475 skip     1 blocks (0 name the target)  Cooperation between CYB5R3 and NOX4 via coenzyme Q m
+   [3] PMC10371349 skip     6 blocks (0 name the target)  A Syx-RhoA-Dia1 signaling axis regulates cell cycle 
+   [3] PMC12013442 skip     not the subject (absent title, 0/6 blocks name it)  The Epstein-Barr virus deubiquitinase BPLF1 re
+   [2] PMC13291357 skip     not the subject (absent title, 0/3 blocks name it)  Cytochrome b&lt;sub&gt;5&lt;/sub&gt; reductase
+
+=== DBN1: 27 hits, considering 27
+  scored 27 papers with full text; keeping 10
+   [7] PMC6778111 extract  4 blocks (1 name the target)  Arctigenin attenuates diabetic kidney disease throug
+   [5] PMC11594062 extract  5 blocks (1 name the target)  Inhibition of IRAP Enhances the Expression of Pro-Co
+   [4] PMC8365428 extract  3 blocks (3 name the target)  NMDA receptor-dependent and -independent effects of 
+   [4] PMC9999531 skip     not the subject (absent title, 0/5 blocks name it)  A novel rhein-huprine hybrid ameliorates disea
+   [3] PMC13465013 skip     2 blocks (1 name the target)  Integrated Systemic and Neurobiological Effects of a
+   [3] PMC6742638 skip     6 blocks (2 name the target)  A novel role for the actin-binding protein drebrin i
+   [3] PMC3681500 skip     not the subject (absent title, 0/4 blocks name it)  Development of an orally-administrative MELK-t
+   [3] PMC3825632 skip     not the subject (absent title, 0/5 blocks name it)  SPIN90 dephosphorylation is required for cofil
+   [3] PMC3464147 skip     2 blocks (1 name the target)  Dose-dependent changes in neuroinflammatory and arac
+   [2] PMC12627054 skip     3 blocks (0 name the target)  Phosphoprofile reorganization of the actin binding p
+
+=== DRD1: 166 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [8] PMC13686013 skip     not the subject (absent title, 0/7 blocks name it)  Multiple allosteric sites allow for synergisti
+   [7] PMC13218150 extract  5 blocks (0 name the target)  Structure-guided discovery of non-catechol dopamine 
+   [7] PMC12232300 skip     not the subject (absent title, 0/4 blocks name it)  Estimation of Dopamine D&lt;sub&gt;1&lt;/sub&g
+   [7] PMC11317008 extract  7 blocks (2 name the target)  The dopamine analogue CA140 alleviates AD pathology,
+   [7] PMC5193077 extract  2 blocks (1 name the target)  An Allosteric Potentiator of the Dopamine D1 Recepto
+   [6] PMC11067452 skip     not the subject (absent title, 0/13 blocks name it)  Single-chain fluorescent integrators for mappi
+   [6] PMC12433356 skip     not the subject (absent title, 0/5 blocks name it)  Unraveling Predominantly Inattentive ADHD (ADH
+   [5] PMC12478865 extract  4 blocks (0 name the target)  Virtual Compound Screening for Discovery of Dopamine
+   [5] PMC12084000 extract  7 blocks (0 name the target)  Characterization of Gα&lt;sub&gt;s&lt;/sub&gt; and G
+   [5] PMC12571840 skip     not the subject (absent title, 0/6 blocks name it)  Reducing stress and alcohol-related behaviors 
+
+=== F13A1: 31 hits, considering 31
+  scored 31 papers with full text; keeping 10
+   [4] PMC9935735 extract  2 blocks (2 name the target)  Comparative Study of Elabela and Apelin on Apelin Re
+   [4] PMC5329011 extract  4 blocks (3 name the target)  [Pyr&lt;sup&gt;1&lt;/sup&gt;]Apelin-13&lt;sub&gt;(1-
+   [4] PMC6973046 extract  3 blocks (0 name the target)  Novel inhibitor ZED3197 as potential drug candidate 
+   [2] PMC11782901 skip     6 blocks (1 name the target)  Functional analysis of key members affecting egg pro
+   [2] PMC13594100 skip     not the subject (absent title, 0/6 blocks name it)  Paratuberculosis vaccination induces a phenoty
+   [2] PMC8125802 skip     4 blocks (2 name the target)  Alterations of the Platelet Proteome in Lung Cancer:
+   [2] PMC10380275 skip     not the subject (absent title, 0/10 blocks name it)  Transglutaminase 2 Facilitates Murine Wound He
+   [2] PMC9109558 skip     not the subject (absent title, 0/3 blocks name it)  Can Scoliotic Discs Be Controls for Molecular 
+   [2] PMC6823876 skip     not the subject (absent title, 0/0 blocks name it)  Coagulation FXIII-A Protein Expression Defines
+   [2] PMC6514982 skip     not the subject (absent title, 0/5 blocks name it)  Disruption of Structural Disulfides of Coagula
+
+=== GALNS: 30 hits, considering 30
+  scored 30 papers with full text; keeping 10
+   [4] PMC12994457 extract  5 blocks (2 name the target)  Development and characterization of a model of mucop
+   [3] PMC11215262 skip     1 blocks (1 name the target)  Novel human recombinant N-acetylgalactosamine-6-sulf
+   [2] PMC13695577 skip     2 blocks (2 name the target)  Comprehensive characterization and translational imp
+   [2] PMC12072265 skip     6 blocks (1 name the target)  CRISPR/nCas9-Edited CD34+ Cells Rescue Mucopolysacch
+   [2] PMC12295186 skip     3 blocks (2 name the target)  Integrase-Deficient Lentiviral Vector as a Platform 
+   [2] PMC9602411 skip     0 blocks (0 name the target)  Exome Sequencing Identifies a Biallelic GALNS Varian
+   [2] PMC10501037 skip     6 blocks (2 name the target)  Identification of galactosamine-(N-acetyl)-6-sulfata
+   [2] PMC6998831 skip     3 blocks (1 name the target)  Newborn screening for Morquio disease and other lyso
+   [2] PMC5725016 skip     9 blocks (1 name the target)  Chondroitin sulfatases differentially regulate Wnt s
+   [2] PMC6747109 skip     not the subject (absent title, 0/2 blocks name it)  Development of Substrate Degradation Enzyme Th
+
+=== INHA: 118 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [8] PMC11865472 extract 17 blocks (2 name the target)  Structures of TGF-β with betaglycan and signaling re
+   [7] PMC13234193 skip     not the subject (absent title, 0/7 blocks name it)  Alpibectir-Ethionamide combination (AlpE) for 
+   [7] PMC12624723 extract  3 blocks (1 name the target)  A Multiplexed, Target-Based Phenotypic Screening Pla
+   [7] PMC6238539 extract  5 blocks (1 name the target)  Discovery of a cofactor-independent inhibitor of <i>
+   [7] PMC7232676 extract  3 blocks (3 name the target)  Fragment-Based Design of <i>Mycobacterium tuberculos
+   [6] PMC13000758 extract  3 blocks (1 name the target)  Investigation of Potent Anti-&lt;i&gt;Mycobacterium 
+   [6] PMC11539229 extract  7 blocks (0 name the target)  Contribution of direct InhA inhibitors to novel drug
+   [5] PMC12467433 extract  4 blocks (2 name the target)  Isoniazid-Derived Hydrazones Featuring Piperazine/Pi
+   [4] PMC10936210 extract  8 blocks (0 name the target)  Inducing vulnerability to InhA inhibition restores i
+   [4] PMC12862043 extract  3 blocks (0 name the target)  Discovery of pyridomycin derivatives as InhA inhibit
+
+=== KCNH1: 148 hits, considering 50
+  PMC3910112 full text FAILED: HTTP Error 500: 
+  scored 48 papers with full text; keeping 10
+   [7] PMC13461354 extract  4 blocks (1 name the target)  Amitriptyline inhibits EAG1 channels by binding to t
+   [7] PMC6637479 extract  5 blocks (3 name the target)  Identification of undecylenic acid as EAG channel in
+   [5] PMC12449327 extract  5 blocks (1 name the target)  Apoptotic and senolytic effects of hERG/Eag1 channel
+   [5] PMC9917835 extract  2 blocks (0 name the target)  The Phytochemical α-Mangostin Inhibits Cervical Canc
+   [5] PMC9501377 skip     not the subject (absent title, 0/4 blocks name it)  New Diarylamine K<sub>V</sub>10.1 Inhibitors a
+   [4] PMC10349847 skip     not the subject (absent title, 0/4 blocks name it)  Design of ion channel blocking, toxin-like Kun
+   [3] PMC10687071 skip     2 blocks (1 name the target)  Molecular mechanism of EAG1 channel inhibition by im
+   [3] PMC13705561 skip     2 blocks (2 name the target)  Odorant Receptors Mediating Benzaldehyde Detection i
+   [3] PMC13660981 skip     4 blocks (0 name the target)  Forward genetics reveals a conserved CNBHD-CNBHD int
+   [3] PMC13204327 skip     not the subject (absent title, 0/10 blocks name it)  The Antihistamine Astemizole Potentiates the A
+
+=== KCTD11: 77 hits, considering 50
+  family alias(es) not used for subject tests: REN
+  scored 50 papers with full text; keeping 10
+   [6] PMC12297698 skip     not the subject (absent title, 0/1 blocks name it)  Salidroside ameliorates diabetic amyotrophy by
+   [5] PMC11355449 skip     not the subject (absent title, 0/6 blocks name it)  The Discovery and Characterization of a Potent
+   [5] PMC5363531 skip     not the subject (absent title, 0/5 blocks name it)  Dasatinib modulates sensitivity to pemetrexed 
+   [4] PMC9277680 skip     not the subject (absent title, 0/6 blocks name it)  DNA Damage Increases Secreted Aβ40 and Aβ42 in
+   [4] PMC7012910 skip     not the subject (absent title, 0/3 blocks name it)  Non-secretory renin reduces oxidative stress a
+   [4] PMC8926352 skip     not the subject (absent title, 0/2 blocks name it)  Vasorelaxant Activities and its Underlying Mec
+   [4] PMC11336029 skip     not the subject (absent title, 0/3 blocks name it)  Sex-specific cardiovascular remodeling leads t
+   [4] PMC4388676 skip     not the subject (absent title, 0/6 blocks name it)  Cullin3-BTB interface: a novel target for stap
+   [3] PMC10850099 skip     4 blocks (0 name the target)  SALL4 is a CRL3<sup>REN/KCTD11</sup> substrate that 
+   [3] PMC13507210 skip     not the subject (absent title, 0/3 blocks name it)  Metabolic activation of LDHA by ERRα represses
+
+=== MAPK13: 26 hits, considering 26
+  scored 24 papers with full text; keeping 10
+   [4] PMC9110413 skip     not the subject (absent title, 0/8 blocks name it)  Hyperphosphorylated tau self-assembles into am
+   [3] PMC13302522 skip     4 blocks (2 name the target)  Floridoside as a Hinge-Targeted Inhibitor of MAPK13:
+   [3] PMC12697242 skip     7 blocks (3 name the target)  MAPK13 promotes the progression of papillary thyroid
+   [3] PMC7738879 skip     not the subject (absent title, 0/5 blocks name it)  Phosphoproteomics identify arachidonic-acid-re
+   [3] PMC8609849 skip     not the subject (absent title, 0/4 blocks name it)  The role of MAPK11/12/13/14 (p38 MAPK) protein
+   [2] PMC12249927 skip     2 blocks (1 name the target)  Molecular Study from the Signaling Pathways of Four 
+   [2] PMC13321702 skip     1 blocks (1 name the target)  Clinical and Functional Significance of p38δ (MAPK13
+   [2] PMC10400073 skip     not the subject (absent title, 0/5 blocks name it)  p38γ and p38δ modulate innate immune response 
+   [2] PMC11575122 skip     not the subject (absent title, 0/6 blocks name it)  Transcriptional and post-transcriptional regul
+   [2] PMC11576181 skip     not the subject (absent title, 0/3 blocks name it)  Macrophage-derived extracellular vesicles from
+
+=== MEIS1: 84 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [5] PMC13465501 extract  6 blocks (1 name the target)  Effect of the Proteasome Inhibitor, Bortezomib, on H
+   [5] PMC11497016 extract  4 blocks (3 name the target)  Meis1 Targets Protein Tyrosine Phosphatase Receptor 
+   [5] PMC12498098 skip     not the subject (absent title, 0/6 blocks name it)  KAT6A and KAT7 Histone Acetyltransferase Compl
+   [5] PMC8124917 extract  6 blocks (1 name the target)  Nuclear FGFR2 Interacts with the MLL-AF4 Oncogenic C
+   [4] PMC13434301 extract  3 blocks (1 name the target)  Targeting Menin in T-lineage Acute Lymphoblastic Leu
+   [4] PMC11497402 extract  5 blocks (1 name the target)  The E3 ubiquitin ligase Herc1 modulates the response
+   [4] PMC11419783 skip     not the subject (absent title, 0/1 blocks name it)  Preclinical efficacy of the potent, selective 
+   [4] PMC10650850 skip     not the subject (absent title, 0/5 blocks name it)  Discovery, Structure-Activity Relationship and
+   [4] PMC7545097 extract  6 blocks (2 name the target)  Mapping the native interaction surfaces of PREP1 wit
+   [4] PMC8528416 skip     not the subject (absent title, 0/4 blocks name it)  Retinoic acid rewires the adrenergic core regu
+
+=== PIK3CB: 58 hits, considering 50
+  PMC8997914 full text FAILED: HTTP Error 500: 
+  scored 49 papers with full text; keeping 10
+   [7] PMC12645755 skip     not the subject (absent title, 0/8 blocks name it)  Therapeutic effects of ginseng and its major c
+   [7] PMC5740215 extract  5 blocks (2 name the target)  Functional characterization of a novel somatic oncog
+   [6] PMC11282061 skip     not the subject (absent title, 0/8 blocks name it)  Identification of kinase inhibitors as potenti
+   [6] PMC8220107 skip     not the subject (absent title, 0/5 blocks name it)  p85β alters response to EGFR inhibitor in ovar
+   [5] PMC13266102 skip     not the subject (absent title, 0/9 blocks name it)  Bruceine D attenuates prostate cancer growth a
+   [5] PMC7486343 skip     not the subject (absent title, 0/1 blocks name it)  A Semi-automated and Scalable 3D Spheroid Assa
+   [4] PMC10861831 extract  7 blocks (5 name the target)  SP1 Mediated PIK3CB Upregulation Promotes Gastric Ca
+   [4] PMC11643994 extract  3 blocks (1 name the target)  An 8-Week Very Low-Calorie Ketogenic Diet (VLCKD) Al
+   [4] PMC5354802 skip     not the subject (absent title, 0/4 blocks name it)  Endometrial cancer cells exhibit high expressi
+   [3] PMC13017803 skip     6 blocks (2 name the target)  Mesenchymal stem cells ameliorate Sjögren disease by
+
+=== SERPINA2: 1744 hits, considering 50
+  family alias(es) not used for subject tests: ATR
+  scored 48 papers with full text; keeping 10
+   [9] PMC12582362 skip     not the subject (absent title, 0/9 blocks name it)  Shining light on drug discovery: optogenetic s
+   [7] PMC12684391 skip     not the subject (absent title, 0/16 blocks name it)  Mechanistic insights into the monotherapy and 
+   [7] PMC13664140 skip     not the subject (absent title, 0/7 blocks name it)  Chk1/2 Inhibition by AZD7762 Enhances Androgra
+   [7] PMC13003149 skip     not the subject (absent title, 0/5 blocks name it)  Targeting replication stress in neuroblastoma 
+   [7] PMC11850283 skip     not the subject (absent title, 0/6 blocks name it)  PPP2R1A mutations cause ATR inhibitor sensitiv
+   [6] PMC11876601 skip     not the subject (absent title, 0/5 blocks name it)  Gemcitabine and ATR inhibitors synergize to ki
+   [6] PMC12700547 skip     not the subject (absent title, 0/5 blocks name it)  Auranofin attenuates TOPBP1-mediated ATR repli
+   [5] PMC13583986 skip     not the subject (absent title, 0/11 blocks name it)  SPHINX31 acts as a SRPK1 inhibitor targeting t
+   [5] PMC13679154 skip     not the subject (absent title, 0/4 blocks name it)  Inhibition of the ATR-CHK1 signaling pathway s
+   [5] PMC13256543 skip     not the subject (absent title, 0/6 blocks name it)  Multifunctional Bioactivity of Halolactones De
+
+=== SLC2A2: 210 hits, considering 50
+  scored 49 papers with full text; keeping 10
+   [7] PMC12787591 extract  8 blocks (1 name the target)  1-Deoxynojirimycin Combined with Theaflavins Targets
+   [4] PMC13567443 extract 10 blocks (2 name the target)  A Combination of &lt;i&gt;Psidium guajava&lt;/i&gt; 
+   [4] PMC12837478 skip     not the subject (absent title, 0/4 blocks name it)  Effects of Dietary Paramylon on Nutrient Diges
+   [4] PMC12840026 extract  3 blocks (1 name the target)  Influence of Extraction Method on the Bioactivity of
+   [3] PMC12073725 skip     5 blocks (4 name the target)  Luminal Sweet Sensing and Enteric Nervous System Par
+   [3] PMC13714090 skip     not the subject (absent title, 0/0 blocks name it)  Harmine selectively enhances human beta cell i
+   [3] PMC12943771 skip     4 blocks (1 name the target)  PPAR-γ Activation Alleviates Intestinal Dysfunction 
+   [3] PMC12936078 skip     not the subject (absent title, 0/5 blocks name it)  Bee pollen-derived peptide with dual DPP-IV In
+   [3] PMC11860254 skip     7 blocks (2 name the target)  Autophagy regulator ATG5 preserves cerebellar functi
+   [3] PMC12365419 skip     4 blocks (1 name the target)  VAMP8 Is an Endosomal v-SNARE That Supports GLP-1 Re
+
+=== UNC119: 59 hits, considering 50
+  scored 50 papers with full text; keeping 10
+   [7] PMC13311188 extract 14 blocks (2 name the target)  Mitochondrial-generated G-quadruplex-forming lncRNAs
+   [7] PMC6964506 skip     not the subject (absent title, 0/9 blocks name it)  PDE6D Inhibitors with a New Design Principle S
+   [6] PMC10484673 skip     not the subject (absent title, 0/6 blocks name it)  Genetically encoded RNA-based sensors with Pep
+   [5] PMC13501134 extract  3 blocks (2 name the target)  Massively parallel characterization of RNA G-quadrup
+   [5] PMC12407096 extract 15 blocks (2 name the target)  TDP-43 binds to RNA G-quadruplex structure and regul
+   [5] PMC11314421 extract  7 blocks (2 name the target)  Identification of G-quadruplex structures in MALAT1 
+   [5] PMC8754661 extract  8 blocks (2 name the target)  Alternative splicing modulation mediated by G-quadru
+   [5] PMC8931161 extract  8 blocks (3 name the target)  RNA G-quadruplex in TMPRSS2 reduces SARS-CoV-2 infec
+   [5] PMC11564809 skip     not the subject (absent title, 0/9 blocks name it)  DHX36 binding induces RNA structurome remodeli
+   [4] PMC13421873 extract 10 blocks (4 name the target)  RNA G-quadruplex structure recognition by chimeric p
+
+=== ZFP91: 25 hits, considering 25
+  scored 25 papers with full text; keeping 10
+   [10] PMC5458144 extract  4 blocks (3 name the target)  pSILAC mass spectrometry reveals ZFP91 as IMiD-depen
+   [8] PMC9667253 extract 10 blocks (3 name the target)  Atypical E3 ligase ZFP91 promotes small-molecule-ind
+   [4] PMC8795797 extract  6 blocks (3 name the target)  ZFP91 promotes cell proliferation and inhibits cell 
+   [4] PMC8088462 extract  5 blocks (1 name the target)  Zinc finger protein 91 accelerates tumour progressio
+   [3] PMC7520255 skip     3 blocks (3 name the target)  Zinc finger protein 91 loss induces cardiac hypertro
+   [2] PMC7026158 skip     3 blocks (2 name the target)  lncRNA MALAT1 modulates oxaliplatin resistance of ga
+   [2] PMC5095020 skip     6 blocks (3 name the target)  Zinc finger protein 91 (ZFP91) activates HIF-1α via 
+   [2] PMC10740889 skip     not the subject (absent title, 0/5 blocks name it)  Low-Dose Ionizing Radiation-Crosslinking Immun
+   [2] PMC7408170 skip     8 blocks (3 name the target)  Roles of miR-640 and Zinc Finger Protein 91 (ZFP91) 
+   [2] PMC5128685 skip     1 blocks (1 name the target)  ZFP91: A Noncanonical NF-<i>κ</i>B Signaling Pathway
+
+=== ZYX: 52 hits, considering 50
+  scored 49 papers with full text; keeping 10
+   [6] PMC8520529 extract  6 blocks (3 name the target)  Essential role of zyxin in platelet biogenesis and g
+   [5] PMC9809962 skip     not the subject (absent title, 0/15 blocks name it)  Identification of HPCAL1 as a specific autopha
+   [5] PMC7789614 skip     not the subject (absent title, 0/4 blocks name it)  Synergism between the phosphatidylinositol 3-k
+   [4] PMC11323796 extract 10 blocks (2 name the target)  Leveraging biotin-based proximity labeling to identi
+   [4] PMC9820364 skip     not the subject (absent title, 0/6 blocks name it)  The Role of Bromodomain and Extraterminal (BET
+   [4] PMC4599528 extract 10 blocks (4 name the target)  Loss of the mechanotransducer zyxin promotes a synth
+   [3] PMC11294437 skip     2 blocks (2 name the target)  Decreased expression of p53 is associated with down 
+   [3] PMC13155341 skip     4 blocks (3 name the target)  Reconstituted nascent adhesion condensates drive act
+   [3] PMC11535546 skip     7 blocks (2 name the target)  TBK1-Zyxin signaling controls tumor-associated macro
+   [3] PMC12730878 skip     5 blocks (2 name the target)  Reversing the Irreversible: miRNA-Targeting Mesyl Ph
+
+--- summary ---
+  papers_kept        65
+  blocks             395
+  not_subject        82
+  below_threshold    53
+  queued_blocks      395
+  index: build_output\papers\index.json
+
+Queued 395 assay block(s) for the Claude Code agent (395 still to do).
+  build_output\papers\agent_queue\TASKS.md
+
+In Claude Code, say:
+  "Work the queue in build_output/papers/agent_queue/TASKS.md"
+Then merge and validate what the agent wrote:
+  py scripts\fetch_papers.py --agent-merge

@@ -1,0 +1,15 @@
+gene,alias,kind,collides_with,papers_lost,hits,alias_only_hits,alias_only_share,found_in_batch,action,note
+UNC119,RG4,alias,RNA G-quadruplex (rG4),7,50,46,0.92,1,open,retinal protein 4; the alias carries the whole search
+INHA,INHA,species,M. tuberculosis InhA (enoyl-ACP reductase),8,,,,1,open,"same symbol, different organism; needs a species gate in the query, not an alias change"
+ACTC1,ACTC,family,activin C (INHBC),2,39,8,0.21,1,open,ACTC is a legitimate old symbol for ACTC1
+F13A1,F13A,mutation_notation,apelin-13(F13A) peptide analogue,2,31,13,0.42,1,open,"matches a point-mutation label, not a protein name"
+GZMB,CSPB,alias,bacterial protease CspB,2,50,2,0.04,0,open,from batch 0
+GSR,GluR,alias,glutamate receptors,1,50,4,0.08,0,open,from batch 0
+STRADA,LYK5,alias,plant receptor kinase LYK5,1,23,7,0.3,0,open,from batch 0; cost every paper
+TNFSF10,TRAIL,family,TRAIL-R2 / DR5 receptor,1,50,22,0.44,0,open,ligand name matches its receptor
+AFF1,AF4,alias,Asymmetrical flow field-flow fractionation (AF4),4,50,17,0.34,2,open,separation technique abbreviation; also matches unrelated proteasome and PCNA papers
+RPS15,RIG,alias,RIG-I / DDX58 (retinoic acid-inducible gene I),8,50,46,0.92,2,open,all 10 papers were RIG-I studies; RPS15 itself was never assayed
+MET,Met,alias,"methionine, methionyl-tRNA synthetase (MetRS) and metformin (Met)",3,,,,3,open,"3 of 6 queued papers were not about c-Met: a delta opioid receptor study (Met-enkephalin), a bacterial MetRS inhibitor study, and a curcumin-metformin niosome study"
+SRC,SRC1,family,"NCOA1/SRC-1, the steroid receptor coactivator family",1,50,6,0.12,3,open,fetched SRC papers included PPAR and ER coactivator-recruitment studies; the fetch log also notes SRC1 was dropped from subject tests
+BLM,BLM,alias,"bleomycin (BLM), the drug",0,,,,4,open,"bleomycin is abbreviated BLM; 4 of the 9 queued BLM papers are about the drug, not Bloom syndrome helicase: PMC12996937 (bronchoalveolar macrophages/bleomycin), PMC13198257 (BLM-induced pulmonary fibrosis), PMC12384627 (doxorubicin+bleomycin in Hodgkin's), PMC12916164 (bleomycin pulmonary fibrosis model). Genuine helicase papers: PMC7924943, PMC12241633, PMC12176262"
+CBX8,PC3,alias,PC-3 prostate cancer cell line,0,50,45,0.9,4,open,"CBX8 alias 'pc3' (polycomb 3) matches the PC-3 cell line; PMC13712433 is a [177Lu]Lu-PSMA-617 radioligand paper using PC3 cells, not about CBX8"

@@ -1,0 +1,1021 @@
+pmcid,gene,batch,year,title_verdict,score,n_blocks,subject_blocks,title
+PMC9032125,CASP4,0,2022,subject,9,7,3,A Fluorescence-Polarization-Based Lipopolysaccharide-Caspase-4 Interaction Assay for the Development of Inhibitors.
+PMC12757046,CASP4,0,2026,absent,8,7,4,LPS-induced structural reorganization and polymerization drive noncanonical inflammasome activation.
+PMC13676704,CASP4,0,2026,absent,6,0,0,Protocol for high-throughput identification of genes involved in pyroptotic cell death by live microscopy.
+PMC12361528,CASP4,0,2025,subject,5,6,2,Cardiolipin inhibits the non-canonical inflammasome by preventing LPS binding to caspase-4/11.
+PMC10412805,CASP4,0,2023,subject,5,4,3,Caspase-4 dimerisation and D289 auto-processing elicit an interleukin-1β-converting enzyme.
+PMC12069520,CASP4,0,2025,subject,5,5,0,Gasdermin-D pores induce an inactivating caspase-4 cleavage that limits IL-18 production in the intestinal epithelium.
+PMC12671432,CASP4,0,2025,subject,4,8,4,Recognition of &lt;i&gt;Porphyromonas gingivalis&lt;/i&gt; lipopolysaccharide by human caspase-4 depends on lipopolysaccharide purity and guanylate-binding protein 1.
+PMC13143181,CASP4,0,2026,absent,4,0,0,Human non-canonical inflammasomes activate CASP3 to limit intracellular Salmonella replication in macrophages.
+PMC12508482,CASP4,0,2025,subject,4,7,2,Streptococcus pyogenes EVs induce the alternative inflammasome via caspase-4/-5 in human monocytes.
+PMC11161495,CASP4,0,2024,subject,3,0,0,Caspase-4 promotes metastasis and interferon-γ-induced pyroptosis in lung adenocarcinoma.
+PMC10104580,CASP4,0,2023,subject,3,0,0,<i>Shigella</i> IpaH9.8 limits GBP1-dependent LPS release from intracytosolic bacteria to suppress caspase-4 activation.
+PMC13395004,CASP4,0,2026,absent,3,0,0,Integrated PANoptosis Profiling Identifies Immunosuppressive Subtypes and a Prognostic Signature With Functional Validation of MLKL in Glioblastoma.
+PMC13737875,CPB1,0,2026,absent,6,0,0,Nitrile-Based &lt;i&gt;Leishmania&lt;/i&gt; Cysteine Protease B Inhibitors with In Vivo Efficacy against Visceral Leishmaniasis.
+PMC9775234,CPB1,0,2022,absent,6,0,0,Novel Selective and Low-Toxic Inhibitor of <i>Lm</i>CPB2.8ΔCTE (CPB) One Important Cysteine Protease for <i>Leishmania</i> Virulence.
+PMC13688569,CPB1,0,2026,absent,5,0,0,Synthetic Flavonoid Analogues as CatB/CatL Inhibitors with Potential Anti-SARS-CoV‑2 Activity.
+PMC13701782,CPB1,0,2026,absent,5,0,0,BK&lt;sub&gt;Ca&lt;/sub&gt; Channel Activation Increases Mitochondrial Supercomplexes and Improves Cardiac Recovery in a Large Animal Model of Myocardial Stunning Following Cardioplegic Arrest and Car
+PMC12705920,CPB1,0,2025,absent,3,0,0,Effects of perioperative dexmedetomidine on renal vascular function and renovascular histopathology in ovine cardiopulmonary bypass.
+PMC13305352,CPB1,0,2026,absent,3,0,0,Evaluation of Antileishmanial and Antibacterial Activity of Bioconjugate Guanidine-Temporin.
+PMC12964528,CPB1,0,2026,absent,3,0,0,The Entomotoxic Fungal Lectin &lt;i&gt;Marasmius oreades&lt;/i&gt; Agglutinin Disrupts the Midgut Epithelium of Colorado Potato Beetle Larvae.
+PMC12428422,CPB1,0,2025,absent,3,0,0,Heart Failure Impacts Endothelial Cell Responses to Cardiac Surgery on Cardiopulmonary Bypass.
+PMC11763281,CPB1,0,2025,absent,3,0,0,"Shrimp White Spot Viral Infections Are Attenuated by Organic Acids by Regulating the Expression of HO-1 Oxygenase and β-1,3-Glucan-Binding Protein."
+PMC11251415,CPB1,0,2024,absent,3,0,0,Assessing proteases and enzymes of the trypanothione system in subpopulations of Leishmania (Viannia) braziliensis Thor strain during macrophage infection.
+PMC12857465,CPB1,0,2026,absent,2,0,0,Combined Antithrombin and Heparin Supplementation to Blood for Restoring Heparin Responsiveness After Andexanet Alfa Exposure: An In Vitro Model.
+PMC13467006,CPB1,0,2026,absent,2,0,0,Differential Regulation of Neutrophil Elastase Release vs. NET Generation After Cardiopulmonary Bypass.
+PMC9718795,SRD5A1,0,2022,absent,6,4,3,"Caffeic acid N-[3,5-bis(trifluoromethyl)phenyl] amide as a non-steroidal inhibitor for steroid 5α-reductase type 1 using a human keratinocyte cell-based assay and molecular dynamics."
+PMC13610621,SRD5A1,0,2026,absent,5,8,2,Tri-Culture Fermentation of Neem (&lt;i&gt;Azadirachta indica&lt;/i&gt;) Leaves Induces Phytochemical Remodeling and Enhances Multi-Target Bioactivities Relevant to Androgenetic Alopecia.
+PMC12771450,SRD5A1,0,2025,absent,5,0,0,Comprehensive Evaluation of &lt;i&gt;Tectona grandis&lt;/i&gt; L.f.: Integrated &lt;i&gt;In Vitro&lt;/i&gt; and &lt;i&gt;In Silico&lt;/i&gt; Analysis of Steroid 5α-Reductase Inhibition and Anti-Inflam
+PMC13352861,SRD5A1,0,2026,subject,4,3,2,Human SRD5A1 as a case of gene expression indel-resistance in triple-coding region.
+PMC12575309,SRD5A1,0,2025,absent,4,2,1,Alkaloid-driven multi-target synergy of &lt;i&gt;Tripterygium wilfordii&lt;/i&gt; polyglycosides overcomes cisplatin resistance in ovarian cancer by coordinated inhibition of PTPN11/EGFR/JAK signaling
+PMC12315889,SRD5A1,0,2025,subject,4,5,1,Inhibition of Colorectal Cancer by Perillaldehyde Through Targeting SRD5A1 to Induce Autophagy via the PI3K/AKT Pathway.
+PMC12391935,SRD5A1,0,2025,absent,4,5,3,"Natural Product-Inspired Bis(trifluoromethyl) Phenyl Hydroxycinnamate Derivatives as Promising Nonsteroidal Inhibitors of Human Steroid 5α-Reductase Type-1: Synthesis, &lt;i&gt;In Vitro&lt;/i&gt;, and"
+PMC11932574,SRD5A1,0,2025,absent,4,0,0,Inhibition of Steroidogenesis in Prostate Cancer Cells by Both a Natural and Another Synthetic Steroid.
+PMC8303483,SRD5A1,0,2021,subject,4,9,2,"Differential but Concerted Expression of HSD17B2, HSD17B3, SHBG and SRD5A1 Testosterone Tetrad Modulate Therapy Response and Susceptibility to Disease Relapse in Patients with Prostate Cancer."
+PMC7484213,SRD5A1,0,2020,absent,4,0,0,Steroid 5α-Reductase Type I Induces Cell Viability and Migration via Nuclear Factor-κB/Vascular Endothelial Growth Factor Signaling Pathway in Colorectal Cancer.
+PMC13565882,SRD5A1,0,2026,absent,3,0,0,Mixed-Culture Fermentation of Coffee Pulp Induces Metabolomic Changes and Enhances Multi-Target Bioactivity Relevant to Androgenetic Alopecia.
+PMC10636143,SRD5A1,0,2023,subject,3,0,0,"Cloning, computational analysis and expression profiling of steroid 5 alpha-reductase 1 (SRD5A1) gene during reproductive phases and ovatide stimulation in endangered catfish, Clarias magur."
+PMC13150074,ACLY,0,2026,subject,6,6,0,ACLY Safeguards Copper Homeostasis to Sustain Brown Adipose Tissue Thermogenesis and Restrain Diet-Induced Obesity.
+PMC12422966,ACLY,0,2025,subject,6,12,5,ACLY inhibition promotes tumour immunity and suppresses liver cancer.
+PMC12823391,ACLY,0,2026,absent,6,0,0,Cytosolic acetyl-coenzyme A is a signalling metabolite to control mitophagy.
+PMC13723505,ACLY,0,2026,subject,5,7,2,Dual targeting of ACSS2 and ACLY by a novel inhibitor S8588 suppresses oncogenic lipogenesis and overcomes metabolic compensation in oral squamous cell carcinoma.
+PMC11984407,ACLY,0,2025,subject,5,10,4,A natural small molecule isoginkgetin alleviates hypercholesterolemia and atherosclerosis by targeting ACLY.
+PMC13168382,ACLY,0,2026,subject,5,10,2,Astrocytic EAAT1 suppression by EV-ACLY underlies glutamate imbalance and cognitive impairment in POCD.
+PMC13564810,ACLY,0,2026,absent,5,10,1,Targeting LOXL4-driven matrix stiffening with acetyldigoxin restores CD8&lt;sup&gt;+&lt;/sup&gt; T cell function in lung cancer.
+PMC13483473,ACLY,0,2026,absent,5,6,1,"Rotavirus-NSP5 interacts with and hijacks host ATP citrate lyase to viroplasms, enhancing lipid biosynthesis for facilitating rotavirus infection."
+PMC11615372,ACLY,0,2024,absent,5,0,0,Role of ATP citrate lyase and its complementary partner on fatty acid synthesis in gastric cancer.
+PMC12399764,ACLY,0,2025,absent,4,15,2,Focal adhesion kinase/Src family kinase axis-mediated tyrosine phosphorylation of metabolic enzymes facilitates tumor metastasis.
+PMC13157367,ACLY,0,2026,absent,4,2,1,White Adipose Tissue as a Functional Target of Secondary Bile Acids in Rainbow Trout (Oncorhynchus mykiss).
+PMC13564977,ACLY,0,2026,absent,3,0,0,Acetyl-CoA-dependent processes are preferentially supported by local metabolite synthesis.
+PMC11840771,SERPINA6,0,2025,absent,6,0,0,Cannabinoids as Promising Inhibitors of HER2-Tyrosine Kinase: A Novel Strategy for Targeting HER2-Positive Ovarian Cancer.
+PMC13416285,SERPINA6,0,2026,absent,6,0,0,"A Comparative Analysis of the Action Mechanisms of Cannabidiol, Cannabigerol, and Cannabinol in Human Cholangiocarcinoma Cell Lines."
+PMC13632109,SERPINA6,0,2026,absent,6,0,0,Calcium signaling in human and mouse microglia exhibit differential susceptibility to phytocannabinoids.
+PMC13197944,SERPINA6,0,2026,absent,5,0,0,Pharmacokinetic and pharmacodynamic properties of cannabigerol in male mice.
+PMC11944375,SERPINA6,0,2025,absent,5,0,0,Immunomodulatory Effects of Copper Bis-Glycinate In Vitro.
+PMC13005223,SERPINA6,0,2026,absent,5,0,0,Development of Membrane-Targeting Cannabigerol Derivatives as Potent Broad-Spectrum Antibacterial Agents.
+PMC9820932,SERPINA6,0,2023,absent,5,0,0,Anti-Inflammatory Effects of Cannabigerol in Rheumatoid Arthritis Synovial Fibroblasts and Peripheral Blood Mononuclear Cell Cultures Are Partly Mediated by TRPA1.
+PMC11676644,SERPINA6,0,2024,absent,5,0,0,The Anticancer Activity of Cannabinol (CBN) and Cannabigerol (CBG) on Acute Myeloid Leukemia Cells.
+PMC11941704,SERPINA6,0,2025,absent,5,0,0,"Anti-Infective Screening of Selected Nine Cannabinoids Against &lt;i&gt;Clostridium perfringens&lt;/i&gt; and Influenza A (H5N1) Neuraminidases, and SARS-CoV-2 Main Protease and Spike Protein Interact"
+PMC13118493,SERPINA6,0,2026,absent,4,0,0,Cannabigerol (CBG) Modulates Neutrophil Activity and Ameliorates Rheumatoid Arthritis Pathogenesis.
+PMC13466516,SERPINA6,0,2026,absent,4,0,0,Synergistic In Vitro Effects of Minor Phytocannabinoids and Melatonin Combinations Against Human Glioblastoma Cells.
+PMC12722920,SERPINA6,0,2025,absent,4,0,0,Pharmacokinetics and pharmacodynamics of cannabigerol (CBG) in the C57BL/6Crl mouse.
+PMC8535176,LARS1,0,2021,absent,9,0,0,Efficacy of epetraborole against Mycobacterium abscessus is increased with norvaline.
+PMC13600621,LARS1,0,2026,absent,8,0,0,Discovery of repurposed drugs that disrupt intracellular replication of Burkholderia pseudomallei and Burkholderia mallei and protect against lethal aerosol infection.
+PMC13101216,LARS1,0,2026,absent,6,0,0,LARS promotes osteosarcoma proliferation through leucine-dependent PRIM2 translation and DNA replication activation.
+PMC5038320,LARS1,0,2016,absent,6,0,0,Cryptosporidium and Toxoplasma Parasites Are Inhibited by a Benzoxaborole Targeting Leucyl-tRNA Synthetase.
+PMC9917560,LARS1,0,2023,absent,5,0,0,"Design, Synthesis and Antimicrobial Evaluation of New <i>N</i>-(1-Hydroxy-1,3-dihydrobenzo[<i>c</i>][1,2]oxaborol-6-yl)(hetero)aryl-2-carboxamides as Potential Inhibitors of Mycobacterial Leucyl-tRNA "
+PMC5622079,LARS1,0,2017,absent,5,0,0,Control of leucine-dependent mTORC1 pathway through chemical intervention of leucyl-tRNA synthetase and RagD interaction.
+PMC7782748,LARS1,0,2021,absent,5,0,0,Site-specific incorporation of citrulline into proteins in mammalian cells.
+PMC11235159,LARS1,0,2024,absent,4,0,0,Targeting a microbiota &lt;i&gt;Wolbachian&lt;/i&gt; aminoacyl-tRNA synthetase to block its pathogenic host.
+PMC8260868,LARS1,0,2021,absent,4,5,1,Protocol for improving diffraction quality of leucyl-tRNA synthetase 1 with methylation and post-crystallization soaking and cooling in cryoprotectants.
+PMC8977047,LARS1,0,2022,absent,4,0,0,Leucyl-tRNA synthetase is a tumour suppressor in breast cancer and regulates codon-dependent translation dynamics.
+PMC8092876,LARS1,0,2023,absent,4,0,0,A Leucyl-tRNA Synthetase Inhibitor with Broad-Spectrum Anti-Mycobacterial Activity.
+PMC9487484,LARS1,0,2022,absent,4,0,0,"A Novel Leucyl-tRNA Synthetase Inhibitor, MRX-6038, Expresses Anti-Mycobacterium abscessus Activity <i>In Vitro</i> and <i>In Vivo</i>."
+PMC8849047,GLO1,0,2022,absent,7,4,1,Salicylate metal-binding isosteres as fragments for metalloenzyme inhibition.
+PMC10102174,GLO1,0,2023,absent,6,6,2,Development of pathway-oriented screening to identify compounds to control 2-methylglyoxal metabolism in tumor cells.
+PMC11367650,GLO1,0,2024,subject,5,6,6,Loss of NAMPT and SIRT2 but not SIRT1 attenuate GLO1 expression and activity in human skeletal muscle.
+PMC11986619,GLO1,0,2025,subject,5,8,2,Protein post-translational modification crotonylation of TXN and GLO1 in artery and vein grafts for coronary artery surgery.
+PMC11722285,GLO1,0,2025,absent,5,0,0,Exploring the Potential of Malvidin and Echiodinin as Probable Antileishmanial Agents Through In Silico Analysis and In Vitro Efficacy.
+PMC13204515,GLO1,0,2026,absent,4,1,1,Elucidating the Urothelial-Dependent and -Independent Mechanisms Involved in the Mouse Bladder Contractility Alterations by Acute Methylglyoxal Exposure.
+PMC12527173,GLO1,0,2025,subject,4,3,1,"Cytotoxic, anti-inflammatory, antioxidant, and anti-glyoxalase-I evaluation of chelating substances: In silico and in vitro study."
+PMC13022346,GLO1,0,2026,subject,4,6,0,Discovery of hydroxytriazole as a potential glyoxalase-I inhibitor utilizing computer-aided drug design techniques.
+PMC12982171,GLO1,0,2026,absent,4,0,0,A putative &lt;i&gt;Mycobacterium tuberculosis&lt;/i&gt; glyoxalase Rv0801 promotes bacterial fitness by alleviating methylglyoxal stress and blunts NRF2-mediated antioxidant defenses.
+PMC12643534,GLO1,0,2025,subject,3,0,0,Ryanodine receptor 2-mediated calcium leak is associated with increased glyoxalase I in the aging brain.
+PMC12382748,GLO1,0,2025,absent,3,0,0,"Glyoxalase 1 Inducer, &lt;i&gt;trans&lt;/i&gt;-Resveratrol and Hesperetin-Dietary Supplement with Multi-Modal Health Benefits."
+PMC13599471,GLO1,0,2026,absent,3,0,0,Glyoxalase 1 Regulates Methylglyoxal-Derived Nucleic Acid Adduct Burden.
+PMC12604930,GSR,0,2025,absent,6,3,1,Differential modulation of cisplatin efficacy by montelukast sodium and desloratadine in lung cancer.
+PMC13307922,GSR,0,2026,absent,5,0,0,Cyclopiazonic Acid Induces Mitochondrial Oxidative Stress in SH-SY5Y Cells: Protective Effects of Extra Virgin Olive Oil Phenolics.
+PMC13207538,GSR,0,2026,absent,5,0,0,"Evaluating the Antioxidant, Cytoprotective and Wound-Healing-Associated Effects of &lt;i&gt;Haberlea rhodopensis&lt;/i&gt; Ethanolic Extract in Human Skin Keratinocytes."
+PMC11244707,GSR,0,2024,absent,5,0,0,"The most commonly used spices in Thai traditional medicine: <i>in vitro</i> evaluation of anti-hyperglycemic, antioxidant, polyphenol content, and nitric oxide production inhibitory activities."
+PMC12529521,GSR,0,2025,absent,4,8,4,Glutamate receptor-T cell receptor signaling potentiates full CD8&lt;sup&gt;+&lt;/sup&gt; T cell activation and effector function in tumor immunity.
+PMC13206169,GSR,0,2026,absent,4,0,0,Redox Disruption Induced by Saquayamycin B1 Promotes Cytotoxicity in Resistant Melanoma Cells.
+PMC9837139,GSR,0,2023,absent,4,11,1,SLC27A5 promotes sorafenib-induced ferroptosis in hepatocellular carcinoma by downregulating glutathione reductase.
+PMC11247100,GSR,0,2024,absent,4,0,0,Early oxidative stress and DNA damage in Aβ-burdened hippocampal neurons in an Alzheimer's-like transgenic rat model.
+PMC10618284,GSR,0,2023,absent,4,0,0,A genome-scale metabolic model of parasitic whipworm.
+PMC10770371,GSR,0,2024,absent,4,7,1,MUC1-C is a target of salinomycin in inducing ferroptosis of cancer stem cells.
+PMC13531920,GSR,0,2026,absent,3,0,0,Glutathione reductase deficiency potentiates the immunogenicity of ferroptosis and cuproptosis via amplified reactive oxygen species accumulation and cGAS-STING pathway activation.
+PMC13099523,GSR,0,2026,absent,3,0,0,Mitochondrial redox homeostasis links organellar stress surveillance to germline and somatic integrity in Caenorhabditis elegans.
+PMC12933830,STRADA,0,2026,absent,7,0,0,ADGRG1-targeted hypoxia preconditioned extracellular vesicles ameliorate intervertebral disc degeneration by delivering taurine to disrupt the oxidative stress feedback loop-driven ferroptosis in nucl
+PMC11728481,STRADA,0,2024,absent,5,0,0,"Polyphenol Profile and Antioxidant, Antityrosinase, and Anti-Melanogenesis Activities of Ethanol Extract of Bee Pollen."
+PMC12127108,STRADA,0,2025,absent,4,0,0,"Decursin, Identified via High-Throughput Chemical Screening, Enhances Plant Disease Resistance via Two Independent Mechanisms."
+PMC10766984,STRADA,0,2024,absent,4,0,0,Josephin domain containing 2 (JOSD2) promotes lung cancer by inhibiting LKB1 (Liver kinase B1) activity.
+PMC6776436,STRADA,0,2019,absent,4,9,3,Anion channel SLAH3 is a regulatory target of chitin receptor-associated kinase PBL27 in microbial stomatal closure.
+PMC6761205,STRADA,0,2019,absent,4,0,0,Tankyrase disrupts metabolic homeostasis and promotes tumorigenesis by inhibiting LKB1-AMPK signalling.
+PMC333410,STRADA,0,2003,absent,4,0,0,"Complexes between the LKB1 tumor suppressor, STRAD alpha/beta and MO25 alpha/beta are upstream kinases in the AMP-activated protein kinase cascade."
+PMC2686265,STRADA,0,2009,absent,4,0,0,ATP and MO25alpha regulate the conformational state of the STRADalpha pseudokinase and activation of the LKB1 tumour suppressor.
+PMC11591840,STRADA,0,2024,absent,3,0,0,LKB1 and STRADα Promote Epithelial Ovarian Cancer Spheroid Cell Invasion.
+PMC9576617,STRADA,0,2022,absent,3,0,0,"A new LKB1 activator, piericidin analogue S14, retards renal fibrosis through promoting autophagy and mitochondrial homeostasis in renal tubular epithelial cells."
+PMC4356144,STRADA,0,2014,subject,3,0,0,The kinase LYK5 is a major chitin receptor in Arabidopsis and forms a chitin-induced complex with related kinase CERK1.
+PMC6296350,STRADA,0,2018,absent,3,0,0,CAB39L elicited an anti-Warburg effect via a LKB1-AMPK-PGC1α axis to inhibit gastric tumorigenesis.
+PMC3633906,RGS4,0,2013,absent,7,5,3,A high throughput screen for RGS proteins using steady state monitoring of free phosphate formation.
+PMC12526720,RGS4,0,2025,absent,6,11,2,Hydralazine inhibits cysteamine dioxygenase to treat preeclampsia and senesce glioblastoma.
+PMC11259961,RGS4,0,2024,absent,6,7,4,Redox-modulated SNX25 as a novel regulator of GPCR-G protein signaling from endosomes.
+PMC9214785,RGS4,0,2022,absent,5,6,1,Circulating microRNAs predispose to takotsubo syndrome following high-dose adrenaline exposure.
+PMC13144082,RGS4,0,2026,subject,4,7,1,Integrating single-cell and bulk RNA sequencing data reveals RGS4 as a functional driver in a proliferative subgroup of SF-1 lineage PitNETs.
+PMC11065749,RGS4,0,2024,subject,4,2,1,RGS4 controls airway hyperresponsiveness through GAP-independent mechanisms.
+PMC7285472,RGS4,0,2020,subject,4,5,0,"Regulators of G-protein signaling, RGS2 and RGS4, inhibit protease-activated receptor 4-mediated signaling by forming a complex with the receptor and Gα in live cells."
+PMC9346518,RGS4,0,2022,subject,4,4,1,Bisphenol-A impairs synaptic formation and function by RGS4-mediated regulation of BDNF signaling in the cerebral cortex.
+PMC4844536,RGS4,0,2013,absent,4,0,0,Glucocorticoid feedback uncovers retrograde opioid signaling at hypothalamic synapses.
+PMC3335800,RGS4,0,2012,subject,4,5,4,MEKK1-MKK4-JNK-AP1 pathway negatively regulates Rgs4 expression in colonic smooth muscle cells.
+PMC3990635,RGS4,0,2014,subject,4,6,3,Regulator of G protein signaling 2 (RGS2) and RGS4 form distinct G protein-dependent complexes with protease activated-receptor 1 (PAR1) in live cells.
+PMC10886878,RGS4,0,2024,subject,3,0,0,Modulation of Type 5 Metabotropic Glutamate Receptor-Mediated Intracellular Calcium Mobilization by Regulator of G Protein Signaling 4 (RGS4) in Cultured Astrocytes.
+PMC12924190,KCNQ4,0,2026,subject,5,6,5,HAP1 interaction with KCNQ4 attenuates channel surface expression and function.
+PMC10167218,KCNQ4,0,2023,subject,5,4,1,Overlooked KCNQ4 variants augment the risk of hearing loss.
+PMC12703183,KCNQ4,0,2025,absent,4,0,0,Antisense oligonucleotide therapy mitigates autosomal dominant progressive hearing loss in a murine model of human DFNA2.
+PMC13542272,KCNQ4,0,2026,absent,4,0,0,K&lt;sub&gt;V&lt;/sub&gt;7 channel activation inhibits human and murine myometrium contractility and delays delivery in a mouse model of preterm birth.
+PMC6802650,KCNQ4,0,2019,subject,4,3,2,Rare KCNQ4 variants found in public databases underlie impaired channel activity that may contribute to hearing impairment.
+PMC4295873,KCNQ4,0,2015,absent,4,0,0,Overexpression of tau downregulated the mRNA levels of Kv channels and improved proliferation in N2A cells.
+PMC7585595,KCNQ4,0,2020,absent,3,0,0,The agonistic action of URO-K10 on Kv7.4 and 7.5 channels is attenuated by co-expression of KCNE4 ancillary subunit.
+PMC2737226,KCNQ4,0,2009,absent,3,0,0,Distinct subdomains of the KCNQ1 S6 segment determine channel modulation by different KCNE subunits.
+PMC3386236,KCNQ4,0,2012,absent,3,0,0,Parallel evolution of auditory genes for echolocation in bats and toothed whales.
+PMC13270111,KCNQ4,0,2026,absent,2,0,0,Long-term restoration of auditory function in a DFNA2 mouse model by adenine base editing.
+PMC13405287,KCNQ4,0,2026,absent,2,0,0,Fibrillarin-mediated 2'-O-methylation serves as a translation brake on uncapped enterovirus RNA.
+PMC8899569,KCNQ4,0,2022,subject,2,0,0,<i>In vivo</i> outer hair cell gene editing ameliorates progressive hearing loss in dominant-negative <i>Kcnq4</i> murine model.
+PMC12140054,TNFSF10,0,2025,subject,9,3,2,Small glycomimetic antagonists of the cytomegalovirus glycoprotein UL141 prevent binding to TRAIL death receptor.
+PMC13026985,TNFSF10,0,2026,absent,7,0,0,Fimepinostat Promotes Apoptosis and Decreases Cytokine Secretion in &lt;i&gt;NF2&lt;/i&gt;-Related Human Schwannoma Cells.
+PMC13605116,TNFSF10,0,2026,subject,5,3,2,Rat TNF-Related Apoptosis-Inducing Ligand (rTRAIL)-Expressing Rat-Adipose-Derived Stem Cells (rADSC) Moderately Limit Growth of Rat Mammary Cancer Cells-A Pilot Study.
+PMC13006433,TNFSF10,0,2026,subject,5,14,4,HIF-activated priming of TRAIL-induced cell death determines epigenetic vulnerability in kidney cancer.
+PMC12267878,TNFSF10,0,2025,subject,5,8,6,Chrysoeriol Chemosensitized Renal Cell Carcinoma (RCC) Cell Lines to Trigger TRAIL Induced Apoptosis In Vitro by Up-Regulating Pro-Apoptotic and Down-Regulating Anti-Apoptotic Genetic Factors.
+PMC13551800,TNFSF10,0,2026,subject,5,4,4,Curcumin enhances the effects of TRAIL in TRAIL-resistant non-small cell lung cancer cell lines.
+PMC12110968,TNFSF10,0,2025,absent,3,0,0,"Ionizing Radiation Increases Death Receptor 5 (DR5)-Mediated Cell Death, but Not Death Receptor 4 (DR4)-Mediated Cell Death in 3D Tumor Spheroids."
+PMC12025107,TNFSF10,0,2025,absent,3,0,0,ONC201 (Dordaviprone) Induces Integrated Stress Response and Death in Cervical Cancer Cells.
+PMC12997878,TNFSF10,0,2026,absent,3,0,0,Inhibition of death-ligand-induced apoptosis in Epstein-Barr virus-encoded small RNAs-expressing human T-cell line.
+PMC12861110,TNFSF10,0,2026,subject,3,0,0,Trichostatin A Sensitizes Tumor Cells to Apoptosis Induced by Soluble Trimeric TRAIL-Expressing Human Mesenchymal Stromal Cells.
+PMC13127565,TNFSF10,0,2026,absent,3,0,0,Genetically engineered human cell-based microrobots for selective cancer cell death.
+PMC13243481,TNFSF10,0,2026,absent,2,0,0,βIII-tubulin can act as a brake on extrinsic apoptosis in pancreatic cancer.
+PMC12126513,G6PC1,0,2025,absent,5,0,0,Decreased expression of insulin-degrading enzyme increases gluconeogenesis and glucose production in cultured hepatocytes administered with glucagon.
+PMC13411879,G6PC1,0,2026,absent,4,0,0,Structural basis for substrate recognition and inhibition of human glucose-6-phosphate transporter SLC37A4.
+PMC10501888,G6PC1,0,2023,subject,4,3,0,Hepatic retinaldehyde deficiency is involved in diabetes deterioration by enhancing PCK1- and G6PC-mediated gluconeogenesis.
+PMC12552596,G6PC1,0,2025,absent,3,0,0,Structural basis for transport and inhibition of the human glucose-6-phosphate transporter G6PT.
+PMC12899306,G6PC1,0,2026,subject,3,0,0,&lt;i&gt;Ent&lt;/i&gt;-Clerodane Diterpenoid Inhibitors of Glucose-6-phosphatase from &lt;i&gt;Croton guatemalensis&lt;/i&gt; Lotsy.
+PMC13631308,G6PC1,0,2026,absent,3,0,0,Liver androgen receptor knockout protects female mice from high fat diet-induced insulin resistance.
+PMC12487852,G6PC1,0,2025,absent,3,0,0,Efficacious genome editing in infant mice with glycogen storage disease type Ia.
+PMC12814430,G6PC1,0,2026,absent,3,0,0,The pivotal role of endoplasmic reticulum in cancer glucose metabolism.
+PMC10257313,G6PC1,0,2023,subject,3,0,0,MiR-494 induces metabolic changes through G6pc targeting and modulates sorafenib response in hepatocellular carcinoma.
+PMC11640315,G6PC1,0,2024,absent,3,0,0,The Molecular Mechanism of Farnesoid X Receptor Alleviating Glucose Intolerance in Turbot (<i>Scophthalmus maximus</i>).
+PMC13074964,G6PC1,0,2026,absent,3,0,0,"Divergent Liver and Kidney Metabolic Responses to Ketogenic, High-Fat, and Sucrose-Enriched Diets in Mice."
+PMC12264158,G6PC1,0,2025,subject,2,0,0,The induced-fit and catalytic mechanisms of human G6PC1.
+PMC5597618,CTSZ,0,2017,absent,6,0,0,Identification and characterization of the novel reversible and selective cathepsin X inhibitors.
+PMC9016010,CTSZ,0,2022,absent,5,0,0,Cysteine Peptidase Cathepsin X as a Therapeutic Target for Simultaneous TLR3/4-mediated Microglia Activation.
+PMC12326790,CTSZ,0,2025,subject,4,8,4,The CTSZ-TRA2A-IL32 axis defines a targetable macrophage-dependent pathway in metastatic prostate cancer.
+PMC12824247,CTSZ,0,2025,absent,4,0,0,Probing the activity of cysteine cathepsins in inflammatory bowel diseases.
+PMC8753182,CTSZ,0,2022,subject,4,6,3,Extracellular cathepsin Z signals through the α<sub>5</sub> integrin and augments NLRP3 inflammasome activation.
+PMC8836869,CTSZ,0,2022,absent,4,0,0,Upregulation of Cathepsin X in Glioblastoma: Interplay with γ-Enolase and the Effects of Selective Cathepsin X Inhibitors.
+PMC11111660,CTSZ,0,2024,absent,4,5,1,Cellular depletion of major cathepsin proteases reveals their concerted activities for lysosomal proteolysis.
+PMC8707301,CTSZ,0,2021,absent,3,0,0,Cathepsin X Activity Does Not Affect NK-Target Cell Synapse but Is Rather Distributed to Cytotoxic Granules.
+PMC7714997,CTSZ,0,2020,absent,3,0,0,Neuroinflammation-Induced Upregulation of Glial Cathepsin X Expression and Activity <i>in vivo</i>.
+PMC9021192,CTSZ,0,2022,absent,3,0,0,The caspase-2 substrate p54nrb exhibits a multifaceted role in tumor cell death susceptibility via gene regulatory functions.
+PMC4567178,CTSZ,0,2015,absent,3,0,0,Cathepsin X Cleaves Profilin 1 C-Terminal Tyr139 and Influences Clathrin-Mediated Endocytosis.
+PMC5732804,CTSZ,0,2017,absent,3,0,0,Sorcin induces gastric cancer cell migration and invasion contributing to STAT3 activation.
+PMC13195097,NEK8,0,2026,subject,5,16,8,NEK8 kinase-mediated lactate increase impairs antitumor immunity decreasing radiotherapy sensitivity in colorectal cancer.
+PMC13422279,NEK8,0,2026,absent,5,3,1,Combining fruquintinib with TAS-102 as a promising strategy: antitumor activity in preclinical colorectal and gastric cancer xenograft models.
+PMC10133229,NEK8,0,2023,absent,5,7,4,"Never in mitosis gene A-related kinase-8 promotes proliferation, migration, invasion, and stemness of breast cancer cells via β-catenin signalling activation."
+PMC3689682,NEK8,0,2013,absent,5,0,0,Identification of Host Kinase Genes Required for Influenza Virus Replication and the Regulatory Role of MicroRNAs.
+PMC12929418,NEK8,0,2026,subject,3,0,0,Multi-omics profiling of sodium-overload (NECSO) programs identifies NEK8 as a central driver of colorectal cancer progression through single-cell and spatial transcriptomics.
+PMC12603372,NEK8,0,2025,subject,3,0,0,Harnessing Rimocidins-Producing &lt;i&gt;Streptomyces&lt;/i&gt; sp. JCK-6116 as a Sustainable Fungicide for Biocontrol of Cucumber Soil-Borne Diseases.
+PMC13066809,NEK8,0,2026,subject,2,0,0,Characterization of Rhizosphere Streptomyces hachijoensis JCK-6068 as a Multifunctional Agent for the Control of Soil-Borne Fungal and Oomycete Diseases.
+PMC11297156,NEK8,0,2024,absent,2,0,0,Glucosylceramide synthase modulation ameliorates murine renal pathologies and promotes macrophage effector function in vitro.
+PMC13321703,NEK8,0,2026,absent,2,0,0,Analysis of Formimidoyltransferase Cyclodeaminase as a Potential Prognostic Biomarker and Therapeutic Target in Colorectal Cancer.
+PMC8651706,NEK8,0,2021,absent,2,0,0,Nematicidal Activity of Cyclopiazonic Acid Derived From <i>Penicillium commune</i> Against Root-Knot Nematodes and Optimization of the Culture Fermentation Process.
+PMC5324754,NEK8,0,2017,subject,2,0,0,NEK8 regulates DNA damage-induced RAD51 foci formation and replication fork protection.
+PMC9164087,NEK8,0,2022,absent,2,0,0,Laminin 511-E8 Fragment Offers Superior Adhesion Properties for Gastric Cancer Cells Compared with Full-Length Laminin 511.
+PMC9640194,PTPRM,0,2022,absent,6,0,0,Molecular mechanism of Afadin substrate recruitment to the receptor phosphatase PTPRK via its pseudophosphatase domain.
+PMC5823647,PTPRM,0,2018,absent,6,0,0,PTPRG and PTPRC modulate nilotinib response in chronic myeloid leukemia cells.
+PMC9800333,PTPRM,0,2023,subject,4,1,1,Determinants of receptor tyrosine phosphatase homophilic adhesion: Structural comparison of PTPRK and PTPRM extracellular domains.
+PMC11816665,PTPRM,0,2025,absent,3,0,0,Loss of Tyrosine Phosphatase Mu Promotes Scoliosis Progression Through Osteopontin-α5β1 Integrin Signaling and PIPK1γ90 Activity.
+PMC7443137,PTPRM,0,2020,subject,3,0,0,High expression of PTPRM predicts poor prognosis and promotes tumor growth and lymph node metastasis in cervical cancer.
+PMC6949220,PTPRM,0,2020,subject,2,0,0,DDIAS promotes STAT3 activation by preventing STAT3 recruitment to PTPRM in lung cancer cells.
+PMC6687034,PTPRM,0,2019,subject,2,0,0,"PTPRM, a candidate tumor suppressor gene in small intestinal neuroendocrine tumors."
+PMC9776984,PTPRM,0,2022,absent,2,0,0,Transcriptome Analysis Reveals Vimentin-Induced Disruption of Cell-Cell Associations Augments Breast Cancer Cell Migration.
+PMC10039525,PTPRM,0,2023,absent,2,0,0,Low-dose arecoline regulates distinct core signaling pathways in oral submucous fibrosis and oral squamous cell carcinoma.
+PMC5009684,PTPRM,0,2016,absent,2,0,0,Comprehensive protein tyrosine phosphatase mRNA profiling identifies new regulators in the progression of glioma.
+PMC13695318,PTPRM,0,2026,subject,1,0,0,H3K18 lactylation promotes Treg/Th17 imbalance via PTPRM-STAT3 axis in hepatocellular carcinoma.
+PMC12709749,PTPRM,0,2025,absent,1,0,0,Effects of composite yeast culture on the expression of immune-related genes in the splenic tissue of weaned lambs.
+PMC12700548,GZMB,0,2025,absent,8,7,7,A positive allosteric modulator of the β1AR with antagonist activity for catecholaminergic polymorphic ventricular tachycardia.
+PMC12711971,GZMB,0,2025,subject,7,16,2,Disruption of heme homeostasis by nuclear receptor Nur77 induces pyroptosis through granzyme B-dependent GSDMC cleavage.
+PMC13381550,GZMB,0,2026,absent,6,0,0,A robust cell-based infection model for Rhinovirus C research and antiviral drug discovery.
+PMC13035909,GZMB,0,2026,subject,6,6,2,Lytic IFNγ is stored in cytotoxic granules and coreleased with granzyme B to mediate cytotoxic T lymphocyte killing.
+PMC13707659,GZMB,0,2026,absent,6,0,0,&lt;i&gt;Prunus mume&lt;/i&gt; Extract Cooperates with Cisplatin to Induce Melanoma Apoptosis and Regulate Immune Responses.
+PMC13528017,GZMB,0,2026,absent,5,9,1,S-propargyl-cysteine remodels the HCC microenvironment and potentiates anti-PD-1 therapy through CSE/H&lt;sub&gt;2&lt;/sub&gt;S-linked vascular and immune reprogramming.
+PMC13392556,GZMB,0,2026,absent,5,10,2,ATO alleviates T-cell immunosuppression by inducing apoptosis-associated secretion of IL-2 in FLT3-ITD-mutated acute myeloid leukemia.
+PMC12388884,GZMB,0,2025,absent,5,6,1,Discovery of Small-Molecule PD-L1 Inhibitors via Virtual Screening and Their Immune-Mediated Anti-Tumor Effects.
+PMC13002968,GZMB,0,2026,absent,5,0,0,Teriflunomide modulates the PD-1/PD-L1 axis and enhances antitumor immunity in colorectal cancer.
+PMC13434707,GZMB,0,2026,absent,4,5,2,Structure of core assembly of the Clostridioides difficile germinosome.
+PMC12541618,GZMB,0,2025,subject,4,4,2,Natural killer cell-derived granzyme B as a therapeutic target for alleviating graft injury during liver transplantation.
+PMC12645622,GZMB,0,2025,subject,4,5,1,Development of a novel &lt;sup&gt;18&lt;/sup&gt;F-labeled radiotracer targeting granzyme B for imaging early tumor responses to immunotherapy.
+PMC7028918,PLA2G6,0,2020,subject,5,6,0,Azoramide protects iPSC-derived dopaminergic neurons with PLA2G6 D331Y mutation through restoring ER function and CREB signaling.
+PMC9806645,PLA2G6,0,2023,subject,4,3,1,Momordicine I alleviates isoproterenol-induced cardiomyocyte hypertrophy through suppression of PLA2G6 and DGK-ζ.
+PMC11973445,PLA2G6,0,2025,subject,3,0,0,Altered Mitochondrial Bioenergetics and Calcium Kinetics in Young-Onset PLA2G6 Parkinson's Disease iPSCs.
+PMC8750243,PLA2G6,0,2021,subject,3,0,0,Aspirin Inhibition of Group VI Phospholipase A2 Induces Synthetic Lethality in AAM Pathway Down-Regulated Gingivobuccal Squamous Carcinoma.
+PMC9406281,PLA2G6,0,2022,subject,3,0,0,Serum metabolomic characterization of PLA2G6-associated dystonia-parkinsonism: A case-control biomarker study.
+PMC8948425,PLA2G6,0,2022,subject,3,0,0,<i>PLA2G6</i> Silencing Suppresses Melanoma Progression and Affects Ferroptosis Revealed by Quantitative Proteomics.
+PMC7161550,PLA2G6,0,2020,absent,3,0,0,Preclinical pharmacological evaluation of the fatty acid amide hydrolase inhibitor BIA 10-2474.
+PMC2563010,PLA2G6,0,2008,absent,3,0,0,Phospholipase A2 regulation of bovine endometrial (BEND) cell prostaglandin production.
+PMC1868772,PLA2G6,0,2007,absent,3,0,0,Distinct phospholipase A2 enzymes regulate prostaglandin E2 and F2alpha production by bovine endometrial epithelial cells.
+PMC13272647,PLA2G6,0,2026,subject,2,0,0,Parkinson's disease-associated PLA2G6 protects IP3R1 protein to control ER-mitochondria tethering and Ca&lt;sup&gt;2+&lt;/sup&gt; transfer.
+PMC13204994,PLA2G6,0,2026,subject,2,0,0,Gut-Derived Lipid Mediators Orchestrate Ovarian Metabolic Homeostasis and Clutch Persistence in Aging Laying Hens via the PLA2G6-ALOX15B-AGPAT3 Axis.
+PMC13137845,PLA2G6,0,2026,absent,2,0,0,PAF Triggered Pyroptotic NETosis Aggravates Myocardial Ischemia/Reperfusion Injury.
+PMC13232633,MGMT,0,2026,absent,9,3,3,A demethylation-activated fluorescent DNA aptamer strategy for visualising DNA alkylation repair in living cells.
+PMC13631577,MGMT,0,2026,absent,8,0,0,Rewiring mitotic checkpoint control via Mps1 inhibition overcomes DNA repair-mediated resistance in glioblastoma.
+PMC12349883,MGMT,0,2025,absent,7,11,2,Isovalerylspiramycin I Reprograms the Immunosuppressive and Temozolomide-Resistant Microenvironment by Inhibiting the Frizzled-5/Wnt/β-Catenin Pathway in Glioblastoma.
+PMC12247293,MGMT,0,2025,subject,7,6,1,Siramesine induced cell death of glioblastoma through inactivating the STAT3-MGMT signaling pathway.
+PMC13633624,MGMT,0,2026,absent,6,0,0,CDK2/9 blockade remodels chromatin and drives phenotypic plasticity in glioblastoma organoids.
+PMC12464313,MGMT,0,2025,subject,6,3,0,A novel HPβCD-Cu(DDC)&lt;sub&gt;2&lt;/sub&gt; delivery system in patient derived orthotopic xenograft targeting MGMT-mediated temozolomide resistance in glioblastoma.
+PMC12309708,MGMT,0,2025,absent,6,6,2,Multiplexed epigenetic memory editing using CRISPRoff sensitizes glioblastoma to chemotherapy.
+PMC13400186,MGMT,0,2026,absent,5,0,0,Patient-derived organoids predict personalized drug response and reveal alternative therapeutic options in glioblastoma.
+PMC13704723,MGMT,0,2026,absent,4,0,0,Reduced DDB2 Expression Is Associated with Temozolomide Resistance in Glioblastoma Cells.
+PMC13478684,MGMT,0,2026,subject,4,8,0,20(S)-protopanaxadiol enhances temozolomide responsiveness in MGMT-expressing glioblastoma: Wnt/β-catenin attenuation and MGMT downregulation.
+PMC13024248,MGMT,0,2026,absent,4,0,0,The Time-Dependent Effects of Temozolomide on Autophagy Gene Expression in Glioblastoma Cells.
+PMC13296477,MGMT,0,2026,absent,4,0,0,Culture Dimensionality Modulates Gallium Maltolate Response in Glioblastoma: Comparative Analyses in 2D and 3D Models.
+PMC7415262,FPGS,0,2020,absent,5,3,1,Histone deacetylase inhibition enhances the therapeutic effects of methotrexate on primary central nervous system lymphoma.
+PMC10435995,FPGS,0,2023,context,3,0,0,A novel antifolate suppresses growth of FPGS-deficient cells and overcomes methotrexate resistance.
+PMC6267663,FPGS,0,2018,absent,3,0,0,Relationship between folate concentration and expression of folate-associated genes in tissue and plasma after intraoperative administration of leucovorin in patients with colorectal cancer.
+PMC3031902,FPGS,0,2011,absent,3,0,0,Single agent and combination studies of pralatrexate and molecular correlates of sensitivity.
+PMC2886085,FPGS,0,2010,absent,3,0,0,Cellular and molecular mechanisms for the synergistic cytotoxicity elicited by oxaliplatin and pemetrexed in colon cancer cell lines.
+PMC7937028,FPGS,0,2021,absent,2,0,0,Association of altered folylpolyglutamate synthetase pre-mRNA splicing with methotrexate unresponsiveness in early rheumatoid arthritis.
+PMC8325835,FPGS,0,2021,absent,2,0,0,Characterization of newly established Pralatrexate-resistant cell lines and the mechanisms of resistance.
+PMC3861605,FPGS,0,2014,absent,2,0,0,Significance of thymidylate synthase expression for resistance to pemetrexed in pulmonary adenocarcinoma.
+PMC13493376,FPGS,0,2026,absent,1,0,0,Rapid on-off effects of methotrexate on lymphocytes may facilitate recovery of suppressed vaccine immunogenicity after its short-term methotrexate discontinuation in rheumatoid arthritis.
+PMC11651746,FPGS,0,2024,absent,1,0,0,Construction of ferroptosis and pyroptosis model to assess the prognosis of gastric cancer patients based on bioinformatics.
+PMC9818718,FPGS,0,2022,absent,1,0,0,Increasing Dosage of Leucovorin Results in Pharmacokinetic and Gene Expression Differences When Administered as Two-Hour Infusion or Bolus Injection to Patients with Colon Cancer.
+PMC8777502,FPGS,0,2021,absent,1,0,0,Intratumoral gene expression of dihydrofolate reductase and folylpoly-c-glutamate synthetase affects the sensitivity to 5-fluorouracil in non-small cell lung cancer.
+PMC11088876,ACTC1,1,2024,absent,7,5,3,Activin E is a transforming growth factor β ligand that signals specifically through activin receptor-like kinase 7.
+PMC9224996,ACTC1,1,2022,absent,6,5,3,"The orphan ligand, activin C, signals through activin receptor-like kinase 7."
+PMC11708414,ACTC1,1,2022,absent,5,4,4,A gradient of force generation at rest differentiates cardiomyopathy outcomes with variants of actin located at the same residue.
+PMC5882176,ACTC1,1,2018,absent,4,0,0,Simplified Footprint-Free Cas9/CRISPR Editing of Cardiac-Associated Genes in Human Pluripotent Stem Cells.
+PMC10709143,ACTC1,1,2023,absent,3,0,0,Regenerating human skeletal muscle forms an emerging niche in vivo to support PAX7 cells.
+PMC11203858,ACTC1,1,2024,absent,3,0,0,Class I and II Histone Deacetylase Inhibitors as Therapeutic Modulators of Dilated Cardiac Tissue-Derived Mesenchymal Stem/Stromal Cells.
+PMC10465332,ACTC1,1,2023,absent,3,0,0,Effect of Xenogeneic Substances on the Glycan Profiles and Electrophysiological Properties of Human Induced Pluripotent Stem Cell-Derived Cardiomyocytes.
+PMC7402340,ACTC1,1,2020,absent,3,0,0,Histone Deacetylase Inhibitor Suberoylanilide Hydroxamic Acid Improves Energetic Status and Cardiomyogenic Differentiation of Human Dilated Myocardium-Derived Primary Mesenchymal Cells.
+PMC3348139,ACTC1,1,2012,absent,3,0,0,Subdomain location of mutations in cardiac actin correlate with type of functional change.
+PMC4823107,ACTC1,1,2016,absent,3,0,0,Unique roles of Akt1 and Akt2 in IGF-IR mediated lung tumorigenesis.
+PMC12631900,ALYREF,1,2025,subject,5,11,4,Preservation of ALYREF Phase Separation Mitigates Doxorubicin-Induced Cardiomyocyte DNA Damage and Cardiotoxicity.
+PMC12297799,ALYREF,1,2025,absent,5,9,1,Copy number amplification of TTPAL promotes cholesterol biosynthesis and esophageal squamous cell carcinoma progression via elevating NSUN2-mediated m5C modification of SREBP2 mRNA.
+PMC12811383,ALYREF,1,2026,subject,4,10,4,ALYREF condensation stabilizes m&lt;sup&gt;5&lt;/sup&gt;C-modified PARP10 mRNA and promotes PI3K-AKT signaling in ovarian cancer.
+PMC11512073,ALYREF,1,2024,subject,4,9,3,ALYREF recruits ELAVL1 to promote colorectal tumorigenesis via facilitating RNA m5C recognition and nuclear export.
+PMC13091547,ALYREF,1,2026,absent,4,0,0,Robust single-molecule tracking of RNA abundance and dynamics via TSSOT.
+PMC11225205,ALYREF,1,2024,absent,4,4,2,NSUN6-mediated 5-methylcytosine modification of NDRG1 mRNA promotes radioresistance in cervical cancer.
+PMC13586137,ALYREF,1,2026,subject,3,0,0,Extracellular signal-regulated kinase 3 forms a nuclear complex with Aly/REF export factor and the splicing factor proline and glutamine rich to exacerbate pathological cardiac remodeling due to press
+PMC13081630,ALYREF,1,2026,subject,3,0,0,CASC19 stabilization by ALYREF via m5C modification and its impact on SCD in colorectal cancer cell aggressiveness and stemness.
+PMC10750289,ALYREF,1,2024,subject,3,0,0,ALYREF-mediated RNA 5-Methylcytosine modification Promotes Hepatocellular Carcinoma Progression Via Stabilizing EGFR mRNA and pSTAT3 activation.
+PMC12827963,ALYREF,1,2025,subject,3,0,0,Multi-omics analysis reveals that ALYREF-mediated m&lt;sup&gt;5&lt;/sup&gt;C modification promotes platinum resistance in ovarian cancer via the NSUN2/ALYREF/LGR4 axis.
+PMC8655052,CD209,1,2021,absent,6,0,0,Carbohydrates from Pseudomonas aeruginosa biofilms interact with immune C-type lectins and interfere with their receptor function.
+PMC13163745,CD209,1,2026,absent,4,0,0,AI-Driven Secondary Immunomodulatory Effects of Conventional Drugs on Patient-Derived Macrophages.
+PMC13708499,CD209,1,2026,absent,4,0,0,Synthesis of Antiproliferative &lt;i&gt;N&lt;/i&gt;-Chalconyl Imidazolidones and Mechanistic Evaluation of Prototype &lt;i&gt;N&lt;/i&gt;-CIMZ 1 as a Macrophage-Modulating Antimitotic Agent.
+PMC12606641,CD209,1,2025,absent,3,0,0,Surface Density of Mono- and Trivalent High-Mannan-Derived Targeting Structures with Different Affinities Impacts Cellular Uptake of Human Serum Albumin-Derived Nanocarriers.
+PMC13752216,CD209,1,2026,absent,3,0,0,Defective macrophage plasticity exacerbates progression of inflammation in patients with rheumatoid arthritis.
+PMC13313891,CD209,1,2026,absent,3,0,0,"Decoding antidengue serotype-3 (DENV-3) mechanism of natural glycosides from &lt;i&gt;Alpinia purpurata&lt;/i&gt;: Molecular docking and &lt;i&gt;in vitro&lt;/i&gt; insights into viral entry, cytokine"
+PMC9868599,CD209,1,2022,absent,3,0,0,Secretomes derived from osteogenically differentiated jaw periosteal cells inhibit phenotypic and functional maturation of CD14<sup>+</sup> monocyte-derived dendritic cells.
+PMC8103542,CD209,1,2021,absent,3,0,0,A positive feedback loop reinforces the allergic immune response in human peanut allergy.
+PMC12484019,CD209,1,2025,absent,2,0,0,Serum matters: human platelet lysate enables physiological modeling of HIV-1 infection in dendritic cells.
+PMC12567591,CD209,1,2025,absent,2,0,0,B7 Family Molecule VSIG4 Regulates Pulmonary Anti-Influenza Immune Responses via C-Type Lectin Signal Pathway.
+PMC12567500,CTSF,1,2025,absent,4,0,0,Activity-Based Profiling of Papain-like Cysteine Proteases During Late-Stage Leaf Senescence in Barley.
+PMC4687129,CTSF,1,2015,subject,3,0,0,Molecular characterization of a cathepsin F-like protease in Trichinella spiralis.
+PMC5591513,CTSF,1,2017,absent,3,0,0,Transcriptome profiling of antiviral immune and dietary fatty acid dependent responses of Atlantic salmon macrophage-like cells.
+PMC5004184,CTSF,1,2016,absent,3,0,0,Role of Cathepsins in Mycobacterium tuberculosis Survival in Human Macrophages.
+PMC13225455,CTSF,1,2026,absent,2,0,0,The Role of NAT10-Mediated ac4C Modification in Osteoblast Function and Bone Formation: Insights from Integrative Bioinformatics and Experimental Validation.
+PMC11864649,CTSF,1,2024,absent,2,0,0,Simultaneous activation and blockade of autophagy to fight hepatocellular carcinoma.
+PMC7844561,CTSF,1,2018,subject,2,0,0,Cathepsin F Knockdown Induces Proliferation and Inhibits Apoptosis in Gastric Cancer Cells.
+PMC10893644,CTSF,1,2024,absent,2,0,0,Identification of circRNA-associated ceRNA networks in the longissimus dorsi of yak under different feeding systems.
+PMC3421991,CTSF,1,2012,subject,2,0,0,"A cathepsin F-like peptidase involved in barley grain protein mobilization, HvPap-1, is modulated by its own propeptide and by cystatins."
+PMC2654340,CTSF,1,2009,subject,2,0,0,"Cathepsin F cysteine protease of the human liver fluke, Opisthorchis viverrini."
+PMC13721028,CYB5R3,1,2026,absent,6,12,2,Targeting Mitochondrial Redox Signaling Promotes Neuroregeneration and Functional Recovery in a Multiple Sclerosis Model.
+PMC12913011,CYB5R3,1,2026,absent,6,7,2,Beta arrestin 1 is a key regulator of pulmonary vascular tone.
+PMC10077481,CYB5R3,1,2023,subject,5,2,1,CYB5R3 in type II alveolar epithelial cells protects against lung fibrosis by suppressing TGF-β1 signaling.
+PMC9772183,CYB5R3,1,2022,subject,4,6,5,The UFM1 system regulates ER-phagy through the ufmylation of CYB5R3.
+PMC9616997,CYB5R3,1,2022,subject,4,1,0,CYB5R3 overexpression preserves skeletal muscle mitochondria and autophagic signaling in aged transgenic mice.
+PMC7031142,CYB5R3,1,2020,subject,4,8,1,Cyb5r3 links FoxO1-dependent mitochondrial dysfunction with β-cell failure.
+PMC8577475,CYB5R3,1,2021,subject,3,0,0,Cooperation between CYB5R3 and NOX4 via coenzyme Q mitigates endothelial inflammation.
+PMC10371349,CYB5R3,1,2023,subject,3,0,0,"A Syx-RhoA-Dia1 signaling axis regulates cell cycle progression, DNA damage, and therapy resistance in glioblastoma."
+PMC12013442,CYB5R3,1,2025,absent,3,0,0,The Epstein-Barr virus deubiquitinase BPLF1 regulates stress-induced ribosome UFMylation and reticulophagy.
+PMC13291357,CYB5R3,1,2026,absent,2,0,0,Cytochrome b&lt;sub&gt;5&lt;/sub&gt; reductase-3 overexpression reduces renal damage associated to intravascular hemolysis.
+PMC6778111,DBN1,1,2019,absent,7,4,1,Arctigenin attenuates diabetic kidney disease through the activation of PP2A in podocytes.
+PMC11594062,DBN1,1,2024,subject,5,5,1,Inhibition of IRAP Enhances the Expression of Pro-Cognitive Markers Drebrin and MAP2 in Rat Primary Neuronal Cells.
+PMC8365428,DBN1,1,2021,subject,4,3,3,NMDA receptor-dependent and -independent effects of natural compounds and crude drugs on synaptic states as revealed by drebrin imaging analysis.
+PMC9999531,DBN1,1,2023,absent,4,0,0,A novel rhein-huprine hybrid ameliorates disease-modifying properties in preclinical mice model of Alzheimer's disease exacerbated with high fat diet.
+PMC13465013,DBN1,1,2026,absent,3,0,0,Integrated Systemic and Neurobiological Effects of a Multi-Form Magnesium Supplement Compared to Single Magnesium Forms in Rats.
+PMC6742638,DBN1,1,2019,subject,3,0,0,A novel role for the actin-binding protein drebrin in regulating opiate addiction.
+PMC3681500,DBN1,1,2012,absent,3,0,0,Development of an orally-administrative MELK-targeting inhibitor that suppresses the growth of various types of human cancer.
+PMC3825632,DBN1,1,2013,absent,3,0,0,SPIN90 dephosphorylation is required for cofilin-mediated actin depolymerization in NMDA-stimulated hippocampal neurons.
+PMC3464147,DBN1,1,2012,absent,3,0,0,Dose-dependent changes in neuroinflammatory and arachidonic acid cascade markers with synaptic marker loss in rat lipopolysaccharide infusion model of neuroinflammation.
+PMC12627054,DBN1,1,2025,subject,2,0,0,Phosphoprofile reorganization of the actin binding protein Drebrin during long term depression.
+PMC13686013,DRD1,1,2026,absent,8,0,0,Multiple allosteric sites allow for synergistic enhancement of GPCR signaling.
+PMC13218150,DRD1,1,2026,subject,7,5,0,Structure-guided discovery of non-catechol dopamine D1 receptor ligands with biased agonism and antagonism.
+PMC12232300,DRD1,1,2025,absent,7,0,0,Estimation of Dopamine D&lt;sub&gt;1&lt;/sub&gt; Receptor Agonist Binding Kinetics Using Time-Resolved Functional Assays: Relation to Agonist-Induced Receptor Internalization by Investigational Antipa
+PMC11317008,DRD1,1,2024,subject,7,7,2,"The dopamine analogue CA140 alleviates AD pathology, neuroinflammation, and rescues synaptic/cognitive functions by modulating DRD1 signaling or directly binding to Abeta."
+PMC5193077,DRD1,1,2017,subject,7,2,1,An Allosteric Potentiator of the Dopamine D1 Receptor Increases Locomotor Activity in Human D1 Knock-In Mice without Causing Stereotypy or Tachyphylaxis.
+PMC11067452,DRD1,1,2024,absent,6,0,0,Single-chain fluorescent integrators for mapping G-protein-coupled receptor agonists.
+PMC12433356,DRD1,1,2025,absent,6,0,0,Unraveling Predominantly Inattentive ADHD (ADHD-PI): Insights from Proteomic Analysis of the Striatum of Thyroid Hormone-Responsive Protein (THRSP)-Overexpressing Mice.
+PMC12478865,DRD1,1,2025,subject,5,4,0,Virtual Compound Screening for Discovery of Dopamine D1 Receptor Biased Allosteric Modulators.
+PMC12084000,DRD1,1,2025,subject,5,7,0,Characterization of Gα&lt;sub&gt;s&lt;/sub&gt; and Gα&lt;sub&gt;olf&lt;/sub&gt; activation by catechol and non-catechol dopamine D1 receptor agonists.
+PMC12571840,DRD1,1,2025,absent,5,0,0,Reducing stress and alcohol-related behaviors by targeting D1-CRHR1 receptor interactions in the amygdala.
+PMC9935735,F13A1,1,2023,absent,4,2,2,Comparative Study of Elabela and Apelin on Apelin Receptor Activation Through β-Arrestin Recruitment.
+PMC5329011,F13A1,1,2017,absent,4,4,3,[Pyr&lt;sup&gt;1&lt;/sup&gt;]Apelin-13&lt;sub&gt;(1-12)&lt;/sub&gt; Is a Biologically Active ACE2 Metabolite of the Endogenous Cardiovascular Peptide [Pyr&lt;sup&gt;1&lt;/sup&gt;]Apelin-13.
+PMC6973046,F13A1,1,2020,subject,4,3,0,Novel inhibitor ZED3197 as potential drug candidate in anticoagulation targeting coagulation FXIIIa (F13a).
+PMC11782901,F13A1,1,2025,absent,2,0,0,Functional analysis of key members affecting egg production in the transglutaminase gene family in chickens.
+PMC13594100,F13A1,1,2026,absent,2,0,0,Paratuberculosis vaccination induces a phenotype consistent with trained immunity in bovine neutrophils.
+PMC8125802,F13A1,1,2021,subject,2,0,0,Alterations of the Platelet Proteome in Lung Cancer: Accelerated F13A1 and ER Processing as New Actors in Hypercoagulability.
+PMC10380275,F13A1,1,2023,absent,2,0,0,Transglutaminase 2 Facilitates Murine Wound Healing in a Strain-Dependent Manner.
+PMC9109558,F13A1,1,2022,absent,2,0,0,Can Scoliotic Discs Be Controls for Molecular Studies in Intervertebral Disc Research? Insights From Proteomics.
+PMC6823876,F13A1,1,2019,absent,2,0,0,Coagulation FXIII-A Protein Expression Defines Three Novel Sub-populations in Pediatric B-Cell Progenitor Acute Lymphoblastic Leukemia Characterized by Distinct Gene Expression Signatures.
+PMC6514982,F13A1,1,2019,absent,2,0,0,Disruption of Structural Disulfides of Coagulation FXIII-B Subunit; Functional Implications for a Rare Bleeding Disorder.
+PMC12994457,GALNS,1,2026,absent,4,5,2,Development and characterization of a model of mucopolysaccharidosis type IVA for evaluating therapies targeting bone disease.
+PMC11215262,GALNS,1,2024,absent,3,0,0,Novel human recombinant N-acetylgalactosamine-6-sulfate sulfatase produced in a glyco-engineered <i>Escherichia coli</i> strain.
+PMC13695577,GALNS,1,2026,subject,2,0,0,Comprehensive characterization and translational implications of the Galns&lt;sup&gt;R384C&lt;/sup&gt; mouse model of Mucopolysaccharidosis IVA.
+PMC12072265,GALNS,1,2025,absent,2,0,0,CRISPR/nCas9-Edited CD34+ Cells Rescue Mucopolysaccharidosis IVA Fibroblasts Phenotype.
+PMC12295186,GALNS,1,2025,absent,2,0,0,Integrase-Deficient Lentiviral Vector as a Platform for Efficient CRISPR/Cas9-Mediated Gene Editing for Mucopolysaccharidosis IVA.
+PMC9602411,GALNS,1,2022,subject,2,0,0,Exome Sequencing Identifies a Biallelic GALNS Variant (p.Asp233Asn) Causing Mucopolysaccharidosis Type IVA in a Pakistani Consanguineous Family.
+PMC10501037,GALNS,1,2023,subject,2,0,0,Identification of galactosamine-(N-acetyl)-6-sulfatase (GALNS) as a novel therapeutic target in progression of nasopharyngeal carcinoma.
+PMC6998831,GALNS,1,2020,absent,2,0,0,"Newborn screening for Morquio disease and other lysosomal storage diseases: results from the 8-plex assay for 70,000 newborns."
+PMC5725016,GALNS,1,2017,absent,2,0,0,"Chondroitin sulfatases differentially regulate Wnt signaling in prostate stem cells through effects on SHP2, phospho-ERK1/2, and Dickkopf Wnt signaling pathway inhibitor (DKK3)."
+PMC6747109,GALNS,1,2019,absent,2,0,0,Development of Substrate Degradation Enzyme Therapy for Mucopolysaccharidosis IVA Murine Model.
+PMC11865472,INHA,1,2025,absent,8,17,2,Structures of TGF-β with betaglycan and signaling receptors reveal mechanisms of complex assembly and signaling.
+PMC13234193,INHA,1,2026,absent,7,0,0,Alpibectir-Ethionamide combination (AlpE) for the treatment of tuberculosis.
+PMC12624723,INHA,1,2025,absent,7,3,1,"A Multiplexed, Target-Based Phenotypic Screening Platform Using CRISPR Interference in &lt;i&gt;Mycobacterium abscessus&lt;/i&gt;."
+PMC6238539,INHA,1,2018,subject,7,5,1,Discovery of a cofactor-independent inhibitor of <i>Mycobacterium tuberculosis</i> InhA.
+PMC7232676,INHA,1,2020,subject,7,3,3,Fragment-Based Design of <i>Mycobacterium tuberculosis</i> InhA Inhibitors.
+PMC13000758,INHA,1,2026,subject,6,3,1,"Investigation of Potent Anti-&lt;i&gt;Mycobacterium tuberculosis&lt;/i&gt; Agents Derived from Pyridine Derivatives Targeting the Enoyl Acyl Carrier Protein Reductase (InhA): Design, Synthesis, and Co"
+PMC11539229,INHA,1,2024,subject,6,7,0,Contribution of direct InhA inhibitors to novel drug regimens in a mouse model of tuberculosis.
+PMC12467433,INHA,1,2025,absent,5,4,2,"Isoniazid-Derived Hydrazones Featuring Piperazine/Piperidine Rings: Design, Synthesis, and Investigation of Antitubercular Activity."
+PMC10936210,INHA,1,2024,subject,4,8,0,Inducing vulnerability to InhA inhibition restores isoniazid susceptibility in drug-resistant &lt;i&gt;Mycobacterium tuberculosis&lt;/i&gt;.
+PMC12862043,INHA,1,2026,subject,4,3,0,Discovery of pyridomycin derivatives as InhA inhibitors from actinomycetes through molecular networking and an In-House tandem mass library.
+PMC13461354,KCNH1,1,2026,subject,7,4,1,Amitriptyline inhibits EAG1 channels by binding to their PAS domains and exerts EAG1-dependent anti-tumorigenic effects.
+PMC6637479,KCNH1,1,2019,subject,7,5,3,Identification of undecylenic acid as EAG channel inhibitor using surface plasmon resonance-based screen of KCNH channels.
+PMC12449327,KCNH1,1,2025,subject,5,5,1,Apoptotic and senolytic effects of hERG/Eag1 channel blockers in combination with temozolomide in human glioblastoma cells.
+PMC9917835,KCNH1,1,2023,subject,5,2,0,The Phytochemical α-Mangostin Inhibits Cervical Cancer Cell Proliferation and Tumor Growth by Downregulating E6/E7-HPV Oncogenes and <i>KCNH1</i> Gene Expression.
+PMC9501377,KCNH1,1,2022,absent,5,0,0,New Diarylamine K<sub>V</sub>10.1 Inhibitors and Their Anticancer Potential.
+PMC10349847,KCNH1,1,2023,absent,4,0,0,"Design of ion channel blocking, toxin-like Kunitz inhibitor peptides from the tapeworm, Echinococcus granulosus, with potential anti-cancer activity."
+PMC10687071,KCNH1,1,2023,subject,3,0,0,Molecular mechanism of EAG1 channel inhibition by imipramine binding to the PAS domain.
+PMC13705561,KCNH1,1,2026,absent,3,0,0,Odorant Receptors Mediating Benzaldehyde Detection in &lt;i&gt;Mythimna separata&lt;/i&gt;: Functional Identification and Ligand Selectivity.
+PMC13660981,KCNH1,1,2026,subject,3,0,0,Forward genetics reveals a conserved CNBHD-CNBHD interface that restrains EAG channel activation to regulate sleep.
+PMC13204327,KCNH1,1,2026,absent,3,0,0,"The Antihistamine Astemizole Potentiates the Antitumor Efficacy of Sorafenib in Hepatocellular Carcinoma by Suppressing Proliferation, Metastasis, and Angiogenesis."
+PMC12297698,KCTD11,1,2025,absent,6,0,0,Salidroside ameliorates diabetic amyotrophy by targeting Caspase-3 to inhibit apoptosis.
+PMC11355449,KCTD11,1,2024,absent,5,0,0,The Discovery and Characterization of a Potent DPP-IV Inhibitory Peptide from Oysters for the Treatment of Type 2 Diabetes Based on Computational and Experimental Studies.
+PMC5363531,KCTD11,1,2016,absent,5,0,0,Dasatinib modulates sensitivity to pemetrexed in malignant pleural mesothelioma cell lines.
+PMC9277680,KCTD11,1,2022,absent,4,0,0,DNA Damage Increases Secreted Aβ40 and Aβ42 in Neuronal Progenitor Cells: Relevance to Alzheimer's Disease.
+PMC7012910,KCTD11,1,2020,absent,4,0,0,Non-secretory renin reduces oxidative stress and increases cardiomyoblast survival during glucose and oxygen deprivation.
+PMC8926352,KCTD11,1,2022,absent,4,0,0,Vasorelaxant Activities and its Underlying Mechanisms of Magnolia Volatile Oil on Rat Thoracic Aorta Based on Network Pharmacology.
+PMC11336029,KCTD11,1,2024,absent,4,0,0,Sex-specific cardiovascular remodeling leads to a divergent sex-dependent development of heart failure in aged hypertensive rats.
+PMC4388676,KCTD11,1,2015,absent,4,0,0,Cullin3-BTB interface: a novel target for stapled peptides.
+PMC10850099,KCTD11,1,2024,subject,3,0,0,SALL4 is a CRL3<sup>REN/KCTD11</sup> substrate that drives Sonic Hedgehog-dependent medulloblastoma.
+PMC13507210,KCTD11,1,2026,absent,3,0,0,Metabolic activation of LDHA by ERRα represses inflammasome-dependent pyroptosis and promotes ovarian cancer chemoresistance.
+PMC9110413,MAPK13,1,2022,absent,4,0,0,Hyperphosphorylated tau self-assembles into amorphous aggregates eliciting TLR4-dependent responses.
+PMC13302522,MAPK13,1,2026,subject,3,0,0,Floridoside as a Hinge-Targeted Inhibitor of MAPK13: Atomistic Insights from Molecular Dynamics Simulations.
+PMC12697242,MAPK13,1,2025,subject,3,0,0,MAPK13 promotes the progression of papillary thyroid cancer.
+PMC7738879,MAPK13,1,2021,absent,3,0,0,Phosphoproteomics identify arachidonic-acid-regulated signal transduction pathways modulating macrophage functions with implications for ovarian cancer.
+PMC8609849,MAPK13,1,2021,absent,3,0,0,The role of MAPK11/12/13/14 (p38 MAPK) protein in dopamine agonist-resistant prolactinomas.
+PMC12249927,MAPK13,1,2025,subject,2,0,0,"Molecular Study from the Signaling Pathways of Four Potential &lt;i&gt;asthma triggers&lt;/i&gt;: AKT1, MAPK13, STAT1, and TLR4."
+PMC13321702,MAPK13,1,2026,subject,2,0,0,Clinical and Functional Significance of p38δ (MAPK13) in Lung Cancer.
+PMC10400073,MAPK13,1,2023,absent,2,0,0,p38γ and p38δ modulate innate immune response by regulating MEF2D activation.
+PMC11575122,MAPK13,1,2024,absent,2,0,0,Transcriptional and post-transcriptional regulation of CARMN and its anti-tumor function in cervical cancer through autophagic flux blockade and MAPK cascade inhibition.
+PMC11576181,MAPK13,1,2024,absent,2,0,0,"Macrophage-derived extracellular vesicles from &lt;i&gt;Ascaris lumbricoides&lt;/i&gt; antigen exposure enhance &lt;i&gt;Mycobacterium tuberculosis&lt;/i&gt; growth control, reduce IL-1β, and contain "
+PMC13465501,MEIS1,1,2026,absent,5,6,1,"Effect of the Proteasome Inhibitor, Bortezomib, on Histone Modifications in Human Leukemic Cell Lines."
+PMC11497016,MEIS1,1,2024,subject,5,4,3,Meis1 Targets Protein Tyrosine Phosphatase Receptor J in Fibroblast to Retard Chronic Kidney Disease Progression.
+PMC12498098,MEIS1,1,2025,absent,5,0,0,KAT6A and KAT7 Histone Acetyltransferase Complexes Are Molecular Dependencies and Therapeutic Targets in NUP98-Rearranged Acute Myeloid Leukemia.
+PMC8124917,MEIS1,1,2021,absent,5,6,1,Nuclear FGFR2 Interacts with the MLL-AF4 Oncogenic Chimera and Positively Regulates &lt;i&gt;HOXA9&lt;/i&gt; Gene Expression in t(4;11) Leukemia Cells.
+PMC13434301,MEIS1,1,2026,absent,4,3,1,Targeting Menin in T-lineage Acute Lymphoblastic Leukemia.
+PMC11497402,MEIS1,1,2024,absent,4,5,1,The E3 ubiquitin ligase Herc1 modulates the response to nucleoside analogs in acute myeloid leukemia.
+PMC11419783,MEIS1,1,2024,absent,4,0,0,"Preclinical efficacy of the potent, selective menin-KMT2A inhibitor JNJ-75276617 (bleximenib) in KMT2A- and NPM1-altered leukemias."
+PMC10650850,MEIS1,1,2023,absent,4,0,0,"Discovery, Structure-Activity Relationship and In Vitro Anticancer Activity of Small-Molecule Inhibitors of the Protein-Protein Interactions between AF9/ENL and AF4 or DOT1L."
+PMC7545097,MEIS1,1,2020,absent,4,6,2,Mapping the native interaction surfaces of PREP1 with PBX1 by cross-linking mass-spectrometry and mutagenesis.
+PMC8528416,MEIS1,1,2021,absent,4,0,0,Retinoic acid rewires the adrenergic core regulatory circuitry of childhood neuroblastoma.
+PMC12645755,PIK3CB,1,2025,absent,7,0,0,Therapeutic effects of ginseng and its major components on ischaemic stroke in vitro and in silico.
+PMC5740215,PIK3CB,1,2017,subject,7,5,2,Functional characterization of a novel somatic oncogenic mutation of <i>PIK3CB</i>.
+PMC11282061,PIK3CB,1,2024,absent,6,0,0,Identification of kinase inhibitors as potential host-directed therapies for intracellular bacteria.
+PMC8220107,PIK3CB,1,2021,absent,6,0,0,p85β alters response to EGFR inhibitor in ovarian cancer through p38 MAPK-mediated regulation of DNA repair.
+PMC13266102,PIK3CB,1,2026,absent,5,0,0,Bruceine D attenuates prostate cancer growth and motility by suppressing PI3K/AKT signaling and downregulating CXCL16: implications for skeletal metastasis in orthopedic oncology.
+PMC7486343,PIK3CB,1,2020,absent,5,0,0,A Semi-automated and Scalable 3D Spheroid Assay to Study Neuroblast Migration.
+PMC10861831,PIK3CB,1,2024,subject,4,7,5,SP1 Mediated PIK3CB Upregulation Promotes Gastric Carcinogenesis.
+PMC11643994,PIK3CB,1,2024,absent,4,3,1,"An 8-Week Very Low-Calorie Ketogenic Diet (VLCKD) Alters the Landscape of Obese-Derived Small Extracellular Vesicles (sEVs), Redefining Hepatic Cell Phenotypes."
+PMC5354802,PIK3CB,1,2017,absent,4,0,0,"Endometrial cancer cells exhibit high expression of p110β and its selective inhibition induces variable responses on PI3K signaling, cell survival and proliferation."
+PMC13017803,PIK3CB,1,2026,subject,3,0,0,Mesenchymal stem cells ameliorate Sjögren disease by suppressing B cells through the Pik3cb/Akt/mTOR pathway.
+PMC12582362,SERPINA2,1,2025,absent,9,0,0,Shining light on drug discovery: optogenetic screening for TopBP1 biomolecular condensate inhibitors.
+PMC12684391,SERPINA2,1,2025,absent,7,0,0,Mechanistic insights into the monotherapy and combination potential of FEN1 inhibition in cancer therapy.
+PMC13664140,SERPINA2,1,2026,absent,7,0,0,"Chk1/2 Inhibition by AZD7762 Enhances Andrographolide-Induced DNA Damage, Impairs DNA Repair, and Promotes Apoptosis in Head and Neck Squamous Cell Carcinoma CAL-33 Cells."
+PMC13003149,SERPINA2,1,2026,absent,7,0,0,Targeting replication stress in neuroblastoma by exploiting the synergistic potential of second generation RRM2 and CHK1 inhibitors.
+PMC11850283,SERPINA2,1,2025,absent,7,0,0,PPP2R1A mutations cause ATR inhibitor sensitivity in ovarian clear cell carcinoma.
+PMC11876601,SERPINA2,1,2025,absent,6,0,0,Gemcitabine and ATR inhibitors synergize to kill PDAC cells by blocking DNA damage response.
+PMC12700547,SERPINA2,1,2025,absent,6,0,0,Auranofin attenuates TOPBP1-mediated ATR replication stress response and improves chemotherapeutic response in breast tumor models.
+PMC13583986,SERPINA2,1,2026,absent,5,0,0,SPHINX31 acts as a SRPK1 inhibitor targeting the ATR/DNA-PKcs/CHK1 replicative checkpoint to inhibit cell growth in non-small cell lung cancer.
+PMC13679154,SERPINA2,1,2026,absent,5,0,0,Inhibition of the ATR-CHK1 signaling pathway sensitizes MCPyV-positive Merkel cell carcinoma to gemcitabine.
+PMC13256543,SERPINA2,1,2026,absent,5,0,0,Multifunctional Bioactivity of Halolactones Derived from Vanillin and Their Effects on Lipid Membranes: Biological and Biophysical Evaluation.
+PMC12787591,SLC2A2,1,2025,absent,7,8,1,1-Deoxynojirimycin Combined with Theaflavins Targets PTGS2/MMP9 to Exert a Synergistic Hypoglycemic Effect.
+PMC13567443,SLC2A2,1,2026,subject,4,10,2,A Combination of &lt;i&gt;Psidium guajava&lt;/i&gt; and &lt;i&gt;Seriphium plumosum&lt;/i&gt; Modulates Glucose Metabolism and Reduces Hepatic GLUT2 Expression Through Additive-to-Synergistic Interact
+PMC12837478,SLC2A2,1,2026,absent,4,0,0,Effects of Dietary Paramylon on Nutrient Digestion and Absorption and Intestinal Health of Weaned Piglets.
+PMC12840026,SLC2A2,1,2026,absent,4,3,1,Influence of Extraction Method on the Bioactivity of <i>Pistacia vera</i> L. Extracts: Metabolic and Gene Expression Changes in Colorectal Cancer Cells.
+PMC12073725,SLC2A2,1,2025,subject,3,0,0,"Luminal Sweet Sensing and Enteric Nervous System Participate in Regulation of Intestinal Glucose Transporter, GLUT2."
+PMC13714090,SLC2A2,1,2026,absent,3,0,0,Harmine selectively enhances human beta cell identity markers and function via protein kinase A pathways.
+PMC12943771,SLC2A2,1,2026,absent,3,0,0,PPAR-γ Activation Alleviates Intestinal Dysfunction and Lactose Malabsorption in Experimental Food Allergy Rats.
+PMC12936078,SLC2A2,1,2026,absent,3,0,0,Bee pollen-derived peptide with dual DPP-IV Inhibition and glucose transport modulation.
+PMC11860254,SLC2A2,1,2025,absent,3,0,0,Autophagy regulator ATG5 preserves cerebellar function by safeguarding its glycolytic activity.
+PMC12365419,SLC2A2,1,2025,absent,3,0,0,VAMP8 Is an Endosomal v-SNARE That Supports GLP-1 Receptor Recycling in Pancreatic β-Cells.
+PMC13311188,UNC119,1,2026,absent,7,14,2,Mitochondrial-generated G-quadruplex-forming lncRNAs regulate heme homeostasis.
+PMC6964506,UNC119,1,2020,absent,7,0,0,PDE6D Inhibitors with a New Design Principle Selectively Block K-Ras Activity.
+PMC10484673,UNC119,1,2023,absent,6,0,0,Genetically encoded RNA-based sensors with Pepper fluorogenic aptamer.
+PMC13501134,UNC119,1,2026,absent,5,3,2,Massively parallel characterization of RNA G-quadruplex stability and molecular recognition.
+PMC12407096,UNC119,1,2025,absent,5,15,2,TDP-43 binds to RNA G-quadruplex structure and regulates mRNA stability and translation.
+PMC11314421,UNC119,1,2023,absent,5,7,2,Identification of G-quadruplex structures in MALAT1 lncRNA that interact with nucleolin and nucleophosmin.
+PMC8754661,UNC119,1,2022,absent,5,8,2,Alternative splicing modulation mediated by G-quadruplex structures in MALAT1 lncRNA.
+PMC8931161,UNC119,1,2022,absent,5,8,3,RNA G-quadruplex in TMPRSS2 reduces SARS-CoV-2 infection.
+PMC11564809,UNC119,1,2024,absent,5,0,0,DHX36 binding induces RNA structurome remodeling and regulates RNA abundance via m&lt;sup&gt;6&lt;/sup&gt;A reader YTHDF1.
+PMC13421873,UNC119,1,2026,absent,4,10,4,RNA G-quadruplex structure recognition by chimeric peptides.
+PMC5458144,ZFP91,1,2017,subject,10,4,3,pSILAC mass spectrometry reveals ZFP91 as IMiD-dependent substrate of the CRL4<sup>CRBN</sup> ubiquitin ligase.
+PMC9667253,ZFP91,1,2022,subject,8,10,3,Atypical E3 ligase ZFP91 promotes small-molecule-induced E2F2 transcription factor degradation for cancer therapy.
+PMC8795797,ZFP91,1,2022,subject,4,6,3,ZFP91 promotes cell proliferation and inhibits cell apoptosis in AML via inhibiting the proteasome-dependent degradation of RIP1.
+PMC8088462,ZFP91,1,2021,absent,4,5,1,Zinc finger protein 91 accelerates tumour progression by activating β-catenin signalling in pancreatic cancer.
+PMC7520255,ZFP91,1,2020,absent,3,0,0,Zinc finger protein 91 loss induces cardiac hypertrophy through adenosine A1 receptor down-regulation under pressure overload status.
+PMC7026158,ZFP91,1,2020,absent,2,0,0,lncRNA MALAT1 modulates oxaliplatin resistance of gastric cancer via sponging miR-22-3p.
+PMC5095020,ZFP91,1,2016,subject,2,0,0,Zinc finger protein 91 (ZFP91) activates HIF-1α via NF-κB/p65 to promote proliferation and tumorigenesis of colon cancer.
+PMC10740889,ZFP91,1,2023,absent,2,0,0,Low-Dose Ionizing Radiation-Crosslinking Immunoprecipitation (LDIR-CLIP) Identified Irradiation-Sensitive RNAs for RNA-Binding Protein HuR-Mediated Decay.
+PMC7408170,ZFP91,1,2020,subject,2,0,0,Roles of miR-640 and Zinc Finger Protein 91 (ZFP91) in Angiopoietin-1-Induced In Vitro Angiogenesis.
+PMC5128685,ZFP91,1,2016,subject,2,0,0,ZFP91: A Noncanonical NF-<i>κ</i>B Signaling Pathway Regulator with Oncogenic Properties Is Overexpressed in Prostate Cancer.
+PMC8520529,ZYX,1,2021,subject,6,6,3,Essential role of zyxin in platelet biogenesis and glycoprotein Ib-IX surface expression.
+PMC9809962,ZYX,1,2023,absent,5,0,0,Identification of HPCAL1 as a specific autophagy receptor involved in ferroptosis.
+PMC7789614,ZYX,1,2021,absent,5,0,0,Synergism between the phosphatidylinositol 3-kinase p110β isoform inhibitor AZD6482 and the mixed lineage kinase 3 inhibitor URMC-099 on the blockade of glioblastoma cell motility and focal adhesion f
+PMC11323796,ZYX,1,2024,absent,4,10,2,Leveraging biotin-based proximity labeling to identify cellular factors governing early alphaherpesvirus infection.
+PMC9820364,ZYX,1,2022,absent,4,0,0,The Role of Bromodomain and Extraterminal (BET) Proteins in Controlling the Phagocytic Activity of Microglia In Vitro: Relevance to Alzheimer's Disease.
+PMC4599528,ZYX,1,2015,subject,4,10,4,Loss of the mechanotransducer zyxin promotes a synthetic phenotype of vascular smooth muscle cells.
+PMC11294437,ZYX,1,2024,subject,3,0,0,Decreased expression of p53 is associated with down expression of zyxin in breast cancer.
+PMC13155341,ZYX,1,2026,absent,3,0,0,Reconstituted nascent adhesion condensates drive actin polymerization on supported lipid bilayers.
+PMC11535546,ZYX,1,2024,subject,3,0,0,TBK1-Zyxin signaling controls tumor-associated macrophage recruitment to mitigate antitumor immunity.
+PMC12730878,ZYX,1,2025,absent,3,0,0,Reversing the Irreversible: miRNA-Targeting Mesyl Phosphoramidate Oligonucleotides Restore Sensitivity to Cisplatin and Doxorubicin of KB-8-5 Epidermoid Carcinoma Cells.
+PMC13027536,ADORA1,2,2026,absent,6,0,0,Integrating Transcriptomics and 3D Spheroid Models Reveals Microenvironment-Dependent Purinergic Modulation in Hepatocellular Carcinoma.
+PMC12349724,ADORA1,2,2025,absent,5,9,2,A novel combination therapy with Uridine and Praziquantel effectively alleviates schistosomiasis-induced hepatic fibrosis through promoting adipogenic differentiation.
+PMC10956435,ADORA1,2,2024,absent,5,8,2,Beyond the Nucleus: Plastic Chemicals Activate G Protein-Coupled Receptors.
+PMC9304768,ADORA1,2,2022,absent,5,4,1,Feeding desensitizes A1 adenosine receptors in adipose through FOXO1-mediated transcriptional regulation.
+PMC13004594,ADORA1,2,2026,absent,4,0,0,Specific GPCRs elicit unique extracellular vesicle miRNA array signatures.
+PMC5622154,ADORA1,2,2017,absent,4,5,1,Genomic Programming of Human Neonatal Dendritic Cells in Congenital Systemic and &lt;i&gt;In Vitro&lt;/i&gt; Cytomegalovirus Infection Reveal Plastic and Robust Immune Pathway Biology Responses.
+PMC12789147,ADORA1,2,2026,absent,3,0,0,Selective antagonism of adenosine A2A receptor reduces hypobaric hypoxia-induced neuroinflammation by inhibiting cGAS-STING pathway.
+PMC10563797,ADORA1,2,2023,absent,3,0,0,"Ultrasonic-induced synthesis of novel diverse arylidenes <i>via</i> Knoevenagel condensation reaction. Antitumor, QSAR, docking and DFT assessment."
+PMC11397041,ADORA1,2,2024,absent,3,0,0,Effects of Ketogenic Diet on Increased Ethanol Consumption Induced by Social Stress in Female Mice.
+PMC4939168,ADORA1,2,2016,absent,3,0,0,Contractile effects and receptor analysis of adenosine-receptors in human detrusor muscle from stable and neuropathic bladders.
+PMC13231080,AFF1,2,2026,absent,5,11,4,FusionTarget: Computational framework for drug repurposing against modeled fusion protein structures from genomic breakpoints.
+PMC10380293,AFF1,2,2023,absent,5,6,1,A FRET-Based Assay for the Identification of PCNA Inhibitors.
+PMC11387401,AFF1,2,2024,absent,5,0,0,Interactome of the HIV-1 proteome and human host RNA.
+PMC13231121,AFF1,2,2026,absent,4,0,0,A small molecule inhibitor of RNA-binding protein IGF2BP3 shows anti-leukemic activity.
+PMC11772344,AFF1,2,2024,subject,4,4,3,MLL-AF4 upregulates 5-lipoxygenase expression in t(4;11) leukemia cells via the ALOX5 core promoter.
+PMC9223756,AFF1,2,2022,absent,4,0,0,Mathematical Modeling Reveals That Sucrose Regulates Leaf Senescence via Dynamic Sugar Signaling Pathways.
+PMC8344022,AFF1,2,2021,subject,4,1,1,Small-molecule inhibitor of AF9/ENL-DOT1L/AF4/AFF4 interactions suppresses malignant gene expression and tumor growth.
+PMC10504488,AFF1,2,2023,subject,4,6,2,The human leukemic oncogene MLL-AF4 promotes hyperplastic growth of hematopoietic tissues in <i>Drosophila</i> larvae.
+PMC11830341,AFF1,2,2025,absent,4,0,0,CADD-based discovery of novel oligomeric modulators of PKM2 with antitumor activity in aggressive human glioblastoma models.
+PMC8853663,AFF1,2,2022,absent,4,12,2,An empirical energy landscape reveals mechanism of proteasome in polypeptide translocation.
+PMC8965451,AKR1C1,2,2022,subject,7,9,2,Natural Product Alantolactone Targeting AKR1C1 Suppresses Cell Proliferation and Metastasis in Non-Small-Cell Lung Cancer.
+PMC11059152,AKR1C1,2,2024,absent,6,6,3,Discovery of an Aldo-Keto reductase 1C3 (AKR1C3) degrader.
+PMC6202482,AKR1C1,2,2018,subject,6,0,0,Wentilactone A induces cell apoptosis by targeting AKR1C1 gene via the IGF-1R/IRS1/PI3K/AKT/Nrf2/FLIP/Caspase-3 signaling pathway in small cell lung cancer.
+PMC12562546,AKR1C1,2,2025,absent,5,3,2,Metabolic activation of flunitrazepam via nitroreduction mediated by aldo-keto reductase 1C3.
+PMC12947632,AKR1C1,2,2026,absent,5,1,1,Directed C-H activation of 13α-estrone: a pathway to promising AKR1C inhibitors &lt;i&gt;via&lt;/i&gt; docking and biological studies.
+PMC13296439,AKR1C1,2,2026,absent,4,2,1,Targeting Steroid-Metabolizing Enzymes with 15β-Substituted Estrone Analogues: Dual Discovery of AKR1C2/17β-HSD1 Inhibitors and a Fluorescent 17β-HSD1 Ligand.
+PMC10177075,AKR1C1,2,2023,subject,4,9,1,Genome-Wide Screening Identifies Gene AKR1C1 Critical for Resistance to Pirarubicin in Bladder Cancer.
+PMC11894074,AKR1C1,2,2025,subject,3,0,0,The AKR1C1-CYP1B1-cAMP signaling axis controls tumorigenicity and ferroptosis susceptibility of extrahepatic cholangiocarcinoma.
+PMC13188000,AKR1C1,2,2026,subject,3,0,0,Targeting AKR1C1 overcomes lenvatinib resistance in hepatocellular carcinoma through the STAT3-ABC transporters pathway.
+PMC6558898,AKR1C1,2,2019,subject,3,0,0,AKR1C1 controls cisplatin-resistance in head and neck squamous cell carcinoma through cross-talk with the STAT1/3 signaling pathway.
+PMC6685929,AOC3,2,2020,subject,4,3,2,Zinc-α2-glycoprotein as an inhibitor of amine oxidase copper-containing 3.
+PMC13490858,AOC3,2,2026,absent,4,0,0,"The Fungal Pathogen Fusarium graminearum Can Hydrolyse Tryptamine-Derived Hydroxy-Cinnamic Acid Amide Defence Compounds, and Generates Highly Increased Auxin Levels in Wheat via Copper Amine-Oxidases."
+PMC11716213,AOC3,2,2025,absent,4,0,0,LOX-induced tubulointerstitial fibrosis via the TGF-β/LOX/Snail axis in diabetic mice.
+PMC10628239,AOC3,2,2023,subject,3,0,0,A randomised Phase IIa trial of amine oxidase copper-containing 3 (AOC3) inhibitor BI 1467335 in adults with non-alcoholic steatohepatitis.
+PMC13144515,AOC3,2,2026,subject,3,0,0,VAP1 promotes cardiac fibrosis by enabling PDGFR signaling in myofibroblasts.
+PMC8329917,AOC3,2,2021,subject,3,0,0,"Amine oxidase, copper containing 3 exerts anti‑mesenchymal transformation and enhances CD4<sup>+</sup> T‑cell recruitment to prolong survival in lung cancer."
+PMC8301340,AOC3,2,2021,absent,3,0,0,Proof-of-Concept for the Analgesic Effect and Thermoregulatory Safety of Orally Administered Multi-Target Compound SZV 1287 in Mice: A Novel Drug Candidate for Neuropathic Pain.
+PMC12824011,AOC3,2,2025,absent,3,0,0,Exploratory research on therapeutic agents combined with early diagnostic biomarkers for colorectal cancer.
+PMC6130853,AOC3,2,2018,absent,3,0,0,Copper-dependent amino oxidase 3 governs selection of metabolic fuels in adipocytes.
+PMC12196869,AOC3,2,2025,absent,2,0,0,Integrative Spatial Proteomics and Single-Cell RNA Sequencing Unveil Molecular Complexity in Rheumatoid Arthritis for Novel Therapeutic Targeting.
+PMC3689682,CALM2,2,2013,absent,5,0,0,Identification of Host Kinase Genes Required for Influenza Virus Replication and the Regulatory Role of MicroRNAs.
+PMC12189513,CALM2,2,2025,absent,4,0,0,Restorative Effects of Synbiotics on Colonic Ultrastructure and Oxidative Stress in Dogs with Chronic Enteropathy.
+PMC6323261,CALM2,2,2019,absent,4,0,0,miR‑223‑3p/TIAL1 interaction is involved in the mechanisms associated with the neuroprotective effects of dexmedetomidine on hippocampal neuronal cells in vitro.
+PMC3426304,CALM2,2,2012,subject,3,0,0,Endothelium-Dependent Vasorelaxant Effect of Butanolic Fraction from Caryocar brasiliense Camb. Leaves in Rat Thoracic Aorta.
+PMC9060481,CALM2,2,2022,absent,2,0,0,Engineered CaM2 modulates nuclear calcium oscillation and enhances legume root nodule symbiosis.
+PMC9145465,CALM2,2,2022,absent,2,0,0,De novo transcriptome assembly of the cotyledon of Camellia oleifera for discovery of genes regulating seed germination.
+PMC6538785,CALM2,2,2019,absent,2,0,0,Efficacy of Oral Encochleated Amphotericin B in a Mouse Model of Cryptococcal Meningoencephalitis.
+PMC6415600,CALM2,2,2018,subject,2,0,0,"The pequi pulp oil (Caryocar brasiliense Camb.) provides protection against aging-related anemia, inflammation and oxidative stress in Swiss mice, especially in females."
+PMC4255682,CALM2,2,2014,absent,2,0,0,Evaluation of the cytotoxicity and phototoxicity of Caryocar brasiliense supercritical carbon dioxide extract.
+PMC12562227,CALM2,2,2025,subject,1,0,0,"Pequi (&lt;i&gt;Caryocar brasiliense&lt;/i&gt;, Camb) Bark Extract Reduces ROS Production in Diabetic Human Coronary Endothelial Cells."
+PMC11947613,FADS2,2,2025,subject,5,15,4,Orchestrated desaturation reprogramming from stearoyl-CoA desaturase to fatty acid desaturase 2 in cancer epithelial-mesenchymal transition and metastasis.
+PMC10635827,FADS2,2,2023,absent,5,0,0,Engineered human hepatocyte organoids enable CRISPR-based target discovery and drug screening for steatosis.
+PMC8733004,FADS2,2,2022,absent,5,8,5,STING orchestrates the crosstalk between polyunsaturated fatty acid metabolism and inflammatory responses.
+PMC4718762,FADS2,2,2016,absent,5,0,0,Correlating chemical sensitivity and basal gene expression reveals mechanism of action.
+PMC11223218,FADS2,2,2024,absent,5,5,1,An RNA Helicase DHX33 Inhibitor Shows Broad Anticancer Activity via Inducing Ferroptosis in Cancer Cells.
+PMC12391508,FADS2,2,2025,subject,4,7,2,Differential regulation of FADS2 by EZH2 reveals a metabolic vulnerability in ovarian cancer treatment.
+PMC10361602,FADS2,2,2023,subject,4,3,1,Fatty acid desaturase 2 determines the lipidomic landscape and steroidogenic function of the adrenal gland.
+PMC11392809,FADS2,2,2024,absent,3,0,0,Zeb1 mediates EMT/plasticity-associated ferroptosis sensitivity in cancer cells by regulating lipogenic enzyme expression and phospholipid composition.
+PMC12749274,FADS2,2,2025,subject,3,0,0,Novel organoid-based exploration reveals the role of LMTK3/FADS2 signaling in metastatic breast cancer progression in felines and humans.
+PMC9065188,FADS2,2,2022,subject,3,0,0,SCD1/FADS2 fatty acid desaturases equipoise lipid metabolic activity and redox-driven ferroptosis in ascites-derived ovarian cancer cells.
+PMC13715715,GDF15,2,2026,absent,7,8,2,Induced-fit anti-GFRAL antibody ameliorates cancer cachexia and attenuates sympathetic outflow in tumor-bearing mice.
+PMC13338363,GDF15,2,2026,subject,5,8,4,Structure-guided identification of small molecules potentially able to modulate GDF15 activity.
+PMC13339307,GDF15,2,2026,subject,4,11,10,De Novo Designed Minibinders Targeting the GDF15-GFRAL Axis Reverse Cancer Cachexia and Restore Anti-Tumor Immunity.
+PMC12586721,GDF15,2,2025,subject,4,6,1,GDF15 regulates development and growth of sympathetic neurons to enhance energy expenditure and thermogenesis.
+PMC13409253,GDF15,2,2026,subject,3,0,0,"Osteocyte-Derived GDF15 Promotes Paclitaxel Resistance, Tumor Growth, and Bone Microenvironment Regulation in Prostate Cancer."
+PMC13241508,GDF15,2,2026,subject,3,0,0,The Gdf15-xenobiotic receptor axis shapes NK cell maladaptation predicting cold tumors under environmental stress.
+PMC13352486,GDF15,2,2026,subject,3,0,0,Gdf15 expression in thermogenic adipocytes regulates diet-induced weight gain in a sex-dependent manner.
+PMC13165276,GDF15,2,2026,subject,2,0,0,Evaluation of Growth Differentiation Factor 15 as an Early Biomarker of Anthracycline-Induced Cardiotoxicity Using an Integrated PK/PD Model.
+PMC13524768,GDF15,2,2026,absent,2,0,0,Uridine and pyruvate supplementation is associated with Th1 polarization during mitotoxic antibiotic therapy.
+PMC12522818,GDF15,2,2025,subject,2,0,0,GFRAL-Fc disarms GDF15 to reprogram tumor immunity and amplify PD-1 efficacy in hepatocellular carcinoma.
+PMC11439915,GRIN1,2,2024,absent,6,0,0,Establishment of human pluripotent stem cell-derived cortical neurosphere model to study pathomechanisms and chemical toxicity in Kleefstra syndrome.
+PMC11621364,GRIN1,2,2024,absent,6,0,0,ICU patient-on-a-chip emulating orchestration of mast cells and cerebral organoids in neuroinflammation.
+PMC11780861,GRIN1,2,2025,absent,5,3,2,Ligand distances as key predictors of pathogenicity and function in NMDA receptors.
+PMC10973091,GRIN1,2,2024,absent,5,0,0,De novo GRIN variants in M3 helix associated with neurological disorders control channel gating of NMDA receptor.
+PMC8369916,GRIN1,2,2021,subject,5,5,1,A <i>de novo GRIN1</i> Variant Associated With Myoclonus and Developmental Delay: From Molecular Mechanism to Rescue Pharmacology.
+PMC5837214,GRIN1,2,2018,subject,5,1,0,De novo mutations in GRIN1 cause extensive bilateral polymicrogyria.
+PMC10311837,GRIN1,2,2023,absent,5,8,2,Electroacupuncture protective effects after cerebral ischemia are mediated through miR-219a inhibition.
+PMC10952597,GRIN1,2,2023,subject,4,2,0,GRIN1 variants associated with neurodevelopmental disorders reveal channel gating pathomechanisms.
+PMC8283169,GRIN1,2,2021,subject,4,4,0,Recurrent seizure-related GRIN1 variant: Molecular mechanism and targeted therapy.
+PMC10849963,GRIN1,2,2024,absent,4,15,2,Synaptic-like transmission between neural axons and arteriolar smooth muscle cells drives cerebral neurovascular coupling.
+PMC12711971,GZMA,2,2025,absent,7,0,0,Disruption of heme homeostasis by nuclear receptor Nur77 induces pyroptosis through granzyme B-dependent GSDMC cleavage.
+PMC13707659,GZMA,2,2026,absent,6,0,0,&lt;i&gt;Prunus mume&lt;/i&gt; Extract Cooperates with Cisplatin to Induce Melanoma Apoptosis and Regulate Immune Responses.
+PMC13035909,GZMA,2,2026,absent,6,0,0,Lytic IFNγ is stored in cytotoxic granules and coreleased with granzyme B to mediate cytotoxic T lymphocyte killing.
+PMC12161327,GZMA,2,2025,absent,6,0,0,Osteoclast-expanded supercharged NK cells perform superior antitumour effector functions.
+PMC13528017,GZMA,2,2026,absent,5,0,0,S-propargyl-cysteine remodels the HCC microenvironment and potentiates anti-PD-1 therapy through CSE/H&lt;sub&gt;2&lt;/sub&gt;S-linked vascular and immune reprogramming.
+PMC13002968,GZMA,2,2026,absent,5,0,0,Teriflunomide modulates the PD-1/PD-L1 axis and enhances antitumor immunity in colorectal cancer.
+PMC9321427,GZMA,2,2022,absent,5,5,1,Granzyme K initiates IL-6 and IL-8 release from epithelial cells by activating protease-activated receptor 2.
+PMC13493310,GZMA,2,2026,absent,5,0,0,Berberine induces PD-L1 degradation via the autophagy-lysosome pathway through the PI3K-Akt pathway and enhances immunogenic cell death in triple-negative breast cancer.
+PMC12609824,GZMA,2,2025,absent,5,0,0,Immunomodulatory Effects of a High-CBD Cannabis Extract: A Comparative Analysis with Conventional Therapies for Oral Lichen Planus and Graft-Versus-Host Disease.
+PMC12645622,GZMA,2,2025,absent,4,0,0,Development of a novel &lt;sup&gt;18&lt;/sup&gt;F-labeled radiotracer targeting granzyme B for imaging early tumor responses to immunotherapy.
+PMC8346284,HNRNPM,2,2021,subject,7,6,5,HNRNPM controls circRNA biogenesis and splicing fidelity to sustain cancer cell fitness.
+PMC11519470,HNRNPM,2,2024,absent,7,11,3,5'-tRNA&lt;sup&gt;Gly(GCC)&lt;/sup&gt; halves generated by IRE1α are linked to the ER stress response.
+PMC11283696,HNRNPM,2,2024,subject,6,12,0,Oncogenic LINC00698 suppresses apoptosis of melanoma stem cells to promote tumorigenesis via LINC00698-miR-3132-TCF7/hnRNPM axis.
+PMC11791083,HNRNPM,2,2025,subject,5,6,1,RNA-binding proteins hnRNPM and ELAVL1 promote type-I interferon induction downstream of the nucleic acid sensors cGAS and RIG-I.
+PMC4052765,HNRNPM,2,2014,subject,4,4,2,Cell type-restricted activity of hnRNPM promotes breast cancer metastasis via regulating alternative splicing.
+PMC6981122,HNRNPM,2,2020,absent,4,8,4,The RNA-binding protein AKAP8 suppresses tumor metastasis by antagonizing EMT-associated alternative splicing.
+PMC8938476,HNRNPM,2,2022,subject,3,0,0,Targeting HNRNPM Inhibits Cancer Stemness and Enhances Antitumor Immunity in Wnt-activated Hepatocellular Carcinoma.
+PMC10066201,HNRNPM,2,2023,subject,3,0,0,circPTPN12 promotes the progression and sunitinib resistance of renal cancer via hnRNPM/IL-6/STAT3 pathway.
+PMC11045219,HNRNPM,2,2024,absent,3,0,0,KIS counteracts PTBP2 and regulates alternative exon usage in neurons.
+PMC7072589,HNRNPM,2,2020,absent,3,0,0,Poison-Exon Inclusion in DHX9 Reduces Its Expression and Sensitizes Ewing Sarcoma Cells to Chemotherapeutic Treatment.
+PMC2746911,IGFBP6,2,2009,subject,6,4,0,Gli1 maintains cell survival by up-regulating IGFBP6 and Bcl-2 through promoter regions in parallel manner in pancreatic cancer cells.
+PMC9322660,IGFBP6,2,2022,absent,5,0,0,Insulin-Like Growth Factor Binding Protein (IGFBP-6) as a Novel Regulator of Inflammatory Response in Cystic Fibrosis Airway Cells.
+PMC12307719,IGFBP6,2,2025,subject,4,6,3,Pantothenic acid ameliorates hepatic fibrosis by targeting IGFBP6 to regulate the TGF-β/SMADs pathway.
+PMC9880435,IGFBP6,2,2023,subject,4,5,0,<i>ELOVL5</i> and <i>IGFBP6</i> genes modulate sensitivity of breast cancer cells to ferroptosis.
+PMC3583816,IGFBP6,2,2012,absent,4,7,2,Response to inhibition of smoothened in diverse epithelial cancer cells that lack smoothened or patched 1 mutations.
+PMC13364574,IGFBP6,2,2026,absent,3,0,0,IGFBP-6 regulates SH2D4A expression to promote breast cancer cell cycle progression in response to progesterone.
+PMC12860944,IGFBP6,2,2026,absent,3,0,0,IGFBP-6 regulates breast cancer cell cycle progression by promoting exit out of G1.
+PMC8206645,IGFBP6,2,2021,subject,3,0,0,Effect of the Expression of <i>ELOVL5</i> and <i>IGFBP6</i> Genes on the Metastatic Potential of Breast Cancer Cells.
+PMC5618785,IGFBP6,2,2017,subject,3,0,0,Insulin-Like Growth Factor Binding Protein-6 Alters Skeletal Muscle Differentiation of Human Mesenchymal Stem Cells.
+PMC7413518,IGFBP6,2,2020,absent,3,0,0,Plasma biomarkers of the amyloid pathway are associated with geographic atrophy secondary to age-related macular degeneration.
+PMC9458432,JUND,2,2022,absent,8,9,6,Chemically targeting the redox switch in AP1 transcription factor ΔFOSB.
+PMC8310672,JUND,2,2021,subject,5,12,3,JunD accentuates arecoline-induced disruption of tight junctions and promotes epithelial-to-mesenchymal transition by association with NEAT1 lncRNA.
+PMC5737521,JUND,2,2017,absent,5,2,1,Activator Protein-1: redox switch controlling structure and DNA-binding.
+PMC12398621,JUND,2,2025,absent,4,0,0,Targeting DDX3X suppresses progression of KRAS-driven lung cancer by disrupting antioxidative homeostasis and inducing ferroptosis.
+PMC9597577,JUND,2,2022,absent,4,6,2,Mutant Ras and inflammation-driven skin tumorigenesis is suppressed via a JNK-iASPP-AP1 axis.
+PMC13746572,JUND,2,2026,subject,3,0,0,JUND-DNAJB1-p21 axis drives fibroblast senescence to recruit CD4⁺ T cells in salivary gland pathogenesis of Sjögren's disease.
+PMC13085888,JUND,2,2026,absent,3,0,0,TIM-4&lt;sup&gt;+&lt;/sup&gt; skeletal muscle Resident Tissue Macrophages Ferroptosis mediated Rhabdomyolysis in Exertional Heatstroke.
+PMC13601434,JUND,2,2026,subject,3,0,0,The DCBLD2 super-enhancer drives colorectal cancer progression through FOSL2/JUND-mediated activation of the CD146/AKT/TNFRSF6B pathway.
+PMC11729558,JUND,2,2025,subject,3,0,0,JARID1D-dependent androgen receptor and JunD signaling activation of osteoclast differentiation inhibits prostate cancer bone metastasis through demethylating H3K4.
+PMC6959298,JUND,2,2020,subject,3,0,0,Enhanced JunD/RSK3 signalling due to loss of BRD4/FOXD3/miR-548d-3p axis determines BET inhibition resistance.
+PMC9724676,LETM1,2,2022,absent,6,11,1,TMBIM5 is the Ca&lt;sup&gt;2+&lt;/sup&gt; /H&lt;sup&gt;+&lt;/sup&gt; antiporter of mammalian mitochondria.
+PMC12945686,LETM1,2,2026,absent,5,12,6,Mitochondrial Ca&lt;sup&gt;2+&lt;/sup&gt; efflux controls neuronal metabolism and long-term memory across species.
+PMC5037442,LETM1,2,2016,subject,4,3,2,Leucine zipper-EF-hand containing transmembrane protein 1 (LETM1) forms a Ca<sup>2+</sup>/H<sup>+</sup> antiporter.
+PMC5680261,LETM1,2,2017,subject,3,0,0,PINK1-mediated phosphorylation of LETM1 regulates mitochondrial calcium transport and protects neurons against mitochondrial stress.
+PMC7859436,LETM1,2,2020,subject,2,0,0,LETM1 Knockdown Promotes Autophagy and Apoptosis Through AMP-Activated Protein Kinase Phosphorylation-Mediated Beclin-1/Bcl-2 Complex Dissociation in Hepatocellular Carcinoma.
+PMC12003058,LETM1,2,2021,absent,2,0,0,Defective brown adipose tissue thermogenesis and impaired glucose metabolism in mice lacking Letmd1.
+PMC9271802,LETM1,2,2022,absent,2,0,0,High Expression of TMEM33 Predicts Poor Prognosis and Promotes Cell Proliferation in Cervical Cancer.
+PMC8806762,LETM1,2,2021,subject,1,0,0,"LETM1 (leucine zipper-EF-hand-containing transmembrane protein 1) silence reduces the proliferation, invasion, migration and angiogenesis in esophageal squamous cell carcinoma via KIF14 (kinesin famil"
+PMC9502063,LETM1,2,2022,subject,1,0,0,Bi-allelic LETM1 variants perturb mitochondrial ion homeostasis leading to a clinical spectrum with predominant nervous system involvement.
+PMC7311216,LETM1,2,2020,subject,1,0,0,"LETM1 Promotes Gastric Cancer Cell Proliferation, Migration, and Invasion via the PI3K/Akt Signaling Pathway."
+PMC11574022,OGT,2,2024,subject,6,10,0,KDM2B regulates stroke injury by modulating OGT-mediated 0-GlcNAcylation of SLC7A11.
+PMC12894984,OGT,2,2026,absent,5,4,3,Small molecule splicing modulators that disrupt O-GlcNAc homeostasis.
+PMC13387492,OGT,2,2026,subject,5,9,2,B cell TET2 recruits OGT for nuclear TET2 and H2B O-GlcNAcylation to drive AID and BLIMP-1 expression and maturation of the antibody response.
+PMC12890163,OGT,2,2026,subject,5,3,1,Reducing OGT and O-GlcNAcylation enhance the anticancer effects of oxaliplatin in SW620 metastatic colorectal cancer cells.
+PMC12365020,OGT,2,2025,absent,4,10,5,O-GlcNAc transferase plays dual antiviral roles by integrating innate immunity and lipid metabolism.
+PMC11784489,OGT,2,2025,absent,4,2,2,Exploiting O-GlcNAc dyshomeostasis to screen O-GlcNAc transferase intellectual disability variants.
+PMC11980313,OGT,2,2025,absent,4,8,1,Kaempferol inhibits cardiomyocyte pyroptosis via promoting O-GlcNAcylation of GSDME and improved acute myocardial infarction.
+PMC12789530,OGT,2,2025,subject,4,7,2,O-GlcNAcylation of DDB1 at Ser-764 by OGT promotes cancer cell stemness in colorectal cancer through increased polyubiquitination of p53.
+PMC12099056,OGT,2,2025,subject,4,17,6,Targeting the Exonic Circular &lt;i&gt;OGT&lt;/i&gt; RNA/O-GlcNAc Transferase/Forkhead Box C1 Axis Inhibits Asparagine- and Alanine-Mediated Ferroptosis Repression in Neuroblastoma Progression.
+PMC13310628,OGT,2,2026,absent,4,9,2,Hexosamine biosynthesis drives hemocyanin O-GlcNAcylation to potentiate antibacterial immunity in shrimp.
+PMC12372887,PRKAA2,2,2025,absent,10,0,0,Mechanism and cellular actions of the potent AMPK inhibitor BAY-3827.
+PMC13654189,PRKAA2,2,2026,absent,7,0,0,Reversal of Chronic Stress-Induced Inflammaging by Bazi Bushen Formula Through AMPK-Sirtuins Axis Activation and Myeloid Reset.
+PMC13142926,PRKAA2,2,2026,absent,6,0,0,Binding of 14-3-3 stabilises recombinant AMPKγ2-containing complexes.
+PMC12948975,PRKAA2,2,2026,absent,6,0,0,mTOR-driven autophagy suppression defines metabolic vulnerability in CDK4/6 inhibitor-resistant HR&lt;sup&gt;+&lt;/sup&gt;/HER2&lt;sup&gt;-&lt;/sup&gt; breast cancer.
+PMC13453865,PRKAA2,2,2026,absent,5,0,0,"Wogonin, a bioactive flavonoid from Scutellaria baicalensis, alleviates alcoholic pancreatitis via AMPK-mediated TFEB activation."
+PMC13544254,PRKAA2,2,2026,absent,5,0,0,AMPK phosphorylation proceeds through hierarchical proteoform cascades revealed by integrated mass spectrometry.
+PMC13324344,PRKAA2,2,2026,absent,5,0,0,Inhibiting Fatty Acid Oxidation Reverses Autophagy-Mediated Acquired Chemotherapy Resistance in Pancreatic Ductal Adenocarcinoma.
+PMC12905822,PRKAA2,2,2026,absent,5,0,0,Therapeutic targeting of the AMPK-Has1 complex formation ameliorates metabolic dysfunction-associated steatohepatitis in mice.
+PMC13686833,PRKAA2,2,2026,absent,5,0,0,Dibucaine induces autophagic flux and reduces Ser129-phosphorylated &lt;i&gt;α&lt;/i&gt;-synuclein in induced pluripotent stem cell-derived neurons with &lt;i&gt;SNCA&lt;/i&gt; duplication.
+PMC13714316,PRKAA2,2,2026,absent,5,0,0,Ginsenoside Rb1 alleviates uterine aging via AMPK-mediated mTOR inactivation.
+PMC13680500,RPS15,2,2026,subject,10,6,5,Discovery of direct-acting small-molecule RIG-I agonists through creation of a selective CARD activation platform.
+PMC13157012,RPS15,2,2026,subject,7,7,3,Quercetin potentially suppresses HBV activity through targeting the RIG-I/MAVS pathway.
+PMC12571054,RPS15,2,2025,subject,7,10,3,Pharmacological targeting of RIG-I can selectively activate the integrated stress response.
+PMC13616384,RPS15,2,2026,absent,7,0,0,Sarbecoviruses Suppress Innate Immunity by Recruiting PPM1A to Modulate STAT2 and ORF9b Phosphorylation.
+PMC12424427,RPS15,2,2025,subject,7,6,5,Argonaute 2 inhibits RIG-I signaling via competition for viral RNA binding.
+PMC13463801,RPS15,2,2027,absent,6,8,1,Benzothiazole derivatives target oligoadenylate synthetase and enhance RSV vaccine efficacy as adjuvants.
+PMC13179341,RPS15,2,2026,absent,6,0,0,Betrixaban activates cGAS and ERVs to promote dual nucleic-sensing antiviral immunity.
+PMC8882870,RPS15,2,2022,subject,6,4,2,A Cell-Based Screen Identifies HDAC Inhibitors as Activators of RIG-I Signaling.
+PMC13290906,RPS15,2,2026,subject,5,8,1,OLFML3 negatively regulates RIG-I signaling in RNA virus infection.
+PMC13220864,RPS15,2,2026,absent,5,7,1,DHX36 is a regulatory switch in the interferon-mediated antiviral response.
+PMC13524720,STRA6,2,2026,subject,4,12,3,STRA6-mediated ferroptosis and its potential association with antioxidant stress pathways in glioblastoma.
+PMC4376794,STRA6,2,2015,subject,4,4,3,Production of functional human vitamin A transporter/RBP receptor (STRA6) for structure determination.
+PMC8589649,STRA6,2,2021,absent,4,0,0,Clozapine modulates retinoid homeostasis in human brain and normalizes serum retinoic acid deficit in patients with schizophrenia.
+PMC12128968,STRA6,2,2025,absent,3,0,0,Vitamin A retinoic acid contributes to muscle stem cell and mitochondrial function loss in old age.
+PMC4207704,STRA6,2,2014,absent,3,0,0,Fenretinide: a novel treatment for endometrial cancer.
+PMC12535577,STRA6,2,2025,subject,2,0,0,ARNT2-driven transcriptional activation of STRA6 reprograms fatty acid metabolism to promote retroperitoneal liposarcoma progression.
+PMC12940945,STRA6,2,2026,absent,2,0,0,"FOXC1 Regulates Cytokine Signaling, Inflammatory Pathways, and Retinoid Metabolism to Maintain Limbal Epithelial Cell Homeostasis In Vitro."
+PMC10887181,STRA6,2,2024,subject,2,0,0,<i>ANLN</i> Promotes the Proliferation and Migration of Gallbladder Cancer Cells via STRA6-Mediated Activation of PI3K/AKT Signaling.
+PMC9992173,STRA6,2,2023,absent,2,0,0,Mapping of the extracellular RBP4 ligand binding domain on the RBPR2 receptor for Vitamin A transport.
+PMC11117505,STRA6,2,2024,absent,2,0,0,Risk and Resilience Variants in the Retinoic Acid Metabolic and Developmental Pathways Associated with Risk of FASD Outcomes.
+PMC13200455,UBA6,2,2026,absent,6,0,0,Quantum dot-DNA microsphere aptamer biosensor with AI-assisted structural modeling for rapid detection of the lung cancer biomarker USE1.
+PMC13572539,UBA6,2,2026,subject,5,5,4,Structural determinants for FAT10 activation and transfer from UBA6 to E2 enzymes.
+PMC12999496,UBA6,2,2026,subject,5,8,4,UBA6 specificity for ubiquitin E2 conjugating enzymes reveals a priority mechanism of BIRC6.
+PMC9391358,UBA6,2,2022,subject,5,8,2,Crystal structures reveal catalytic and regulatory mechanisms of the dual-specificity ubiquitin/FAT10 E1 enzyme Uba6.
+PMC8452654,UBA6,2,2021,absent,5,6,1,Multi-level inhibition of coronavirus replication by chemical ER stress.
+PMC13190965,UBA6,2,2026,subject,3,0,0,UBA6 serves as a prognostic biomarker and promotes tumor progression in pancreatic ductal adenocarcinoma.
+PMC12310546,UBA6,2,2025,subject,3,0,0,Characterization of E1 enzyme dependencies in mutant-UBA1 human cells reveals UBA6 as a novel therapeutic target in VEXAS syndrome.
+PMC9478149,UBA6,2,2022,subject,3,0,0,Inhibition of UBA6 by inosine augments tumour immunogenicity and responses.
+PMC6863627,UBA6,2,2019,subject,3,0,0,Negative regulation of autophagy by UBA6-BIRC6-mediated ubiquitination of LC3.
+PMC9378703,UBA6,2,2022,subject,3,0,0,Structures of UBA6 explain its dual specificity for ubiquitin and FAT10.
+PMC12751014,ABL1,3,2025,absent,10,0,0,Non-Catalytic Inhibitors of the p38/MK2 Interface: Repurposing Approved Drugs to Target Neuroinflammation in Alzheimer's Disease.
+PMC13514604,ABL1,3,2026,absent,7,0,0,"Design, Synthesis and Biological Evaluation of Novel Oleanolic Acid Derivatives as Potential Anti-Leukemic Agents."
+PMC12304311,ABL1,3,2025,absent,7,0,0,Sequence-based virtual screening using transformers.
+PMC7718943,ABL1,3,2020,absent,7,16,9,In silico molecular target prediction unveils mebendazole as a potent MAPK14 inhibitor.
+PMC13406097,ABL1,3,2026,subject,6,2,2,"Discovery of a Novel 4,5-Dihydro-1&lt;i&gt;H&lt;/i&gt;-pyrazole-1-carbothioamide Derivative with Cytotoxic, Apoptotic, and ABL1 Inhibitory Activities Against Chronic Myeloid Leukemia."
+PMC13701561,ABL1,3,2026,absent,6,0,0,"Imatinib Resistance in Chronic Myeloid Leukemia Is Associated with Distinct Metabolic, Oxidative, and Autophagic Adaptations in K562-Derived Cell Sublines."
+PMC13037951,ABL1,3,2026,absent,6,0,0,Tyrosine phosphoproteome profiling identifies cell-intrinsic signals limiting the efficacy of tyrosine kinase inhibitor therapies.
+PMC11694007,ABL1,3,2025,absent,6,10,1,Mebendazole effectively overcomes imatinib resistance by dual-targeting BCR/ABL oncoprotein and β-tubulin in chronic myeloid leukemia cells.
+PMC11666773,ABL1,3,2024,subject,6,11,0,Development of mirror-image monobodies targeting the oncogenic BCR::ABL1 kinase.
+PMC11694061,ABL1,3,2025,absent,6,0,0,Targeted Degradation of SOS1 Exhibits Potent Anticancer Activity and Overcomes Resistance in KRAS-Mutant Tumors and BCR-ABL-Positive Leukemia.
+PMC12868639,AKT1,3,2026,absent,7,0,0,Switching off CK2-mediated activation of survivin offers new therapeutic opportunities in neuroblastoma.
+PMC12869703,AKT1,3,2026,absent,6,13,1,Covalent targeting of PSMD14 by Eupalinolide B induces oncoprotein degradation and apoptosis in acute promyelocytic leukemia cells.
+PMC13105497,AKT1,3,2026,subject,6,12,4,Apigenin activates AKT1 to coordinate MTOR-mediated anti-apoptosis and FOXO3-driven antioxidant defense in calcium oxalate nephropathy.
+PMC11575505,AKT1,3,2024,absent,6,9,2,"Rapid, potent, and persistent covalent chemical probes to deconvolute PI3Kα signaling."
+PMC12913817,AKT1,3,2026,absent,6,4,2,"Integrated phytochemical, network pharmacology, and computational analysis to elucidate the anti-neurodegenerative mechanisms of &lt;i&gt;Parquetina nigrescens&lt;/i&gt; and &lt;i&gt;Ficus capensis&lt"
+PMC13033748,AKT1,3,2026,absent,6,5,3,"Integrative analysis of &lt;i&gt;Trichosanthes kirilowii&lt;/i&gt; maxim formula granules' anti-triple-negative breast cancer mechanism via network pharmacology, metabolomics, and molecular pharmacolo"
+PMC13519503,AKT1,3,2026,absent,6,6,1,Triptolide Suppresses Tongue Squamous Cell Carcinoma Progression via PI3K-AKT Pathway Inhibition: An Integrative Network Pharmacology and Experimental Validation Study.
+PMC11694061,AKT1,3,2025,absent,6,0,0,Targeted Degradation of SOS1 Exhibits Potent Anticancer Activity and Overcomes Resistance in KRAS-Mutant Tumors and BCR-ABL-Positive Leukemia.
+PMC13717484,AKT1,3,2026,subject,5,2,1,Integrated Network Pharmacology and Experimental Validation Implicate AKT1-Associated Signaling in the Protective Effects of &lt;i&gt;Panax notoginseng&lt;/i&gt; Against Pulmonary Arterial Hypertensio
+PMC13426228,AKT1,3,2026,absent,5,0,0,A Rac-PI3Kβ feedback loop drives GPVI-dependent platelet activation.
+PMC12155096,CYP1A2,3,2025,absent,7,8,3,Profiling the Tox21 Compound Library for Their Inhibitory Effects on Cytochrome P450 Enzymes.
+PMC13275619,CYP1A2,3,2026,absent,6,3,1,"The effect of salidroside, an active component of Rhodiola rosea, on the metabolic activity of rat and human cytochromes P450 in preclinical studies."
+PMC10537618,CYP1A2,3,2023,absent,6,24,6,"Effect of Betanin, the Major Pigment of Red Beetroot (&lt;i&gt;Beta vulgaris&lt;/i&gt; L.), on the Activity of Recombinant Human Cytochrome P450 Enzymes."
+PMC13265959,CYP1A2,3,2026,absent,6,0,0,CH25H-mediated cholesterol metabolism drives chondrogenic differentiation in adipose-derived stem cells and enhances cartilage repair.
+PMC12879736,CYP1A2,3,2026,absent,5,0,0,"Discovery of VU6025733 (AG06827): A Highly Selective, Orally Bioavailable, and Structurally Distinct M&lt;sub&gt;4&lt;/sub&gt; Muscarinic Acetylcholine Receptor Positive Allosteric Modulator (PAM) wit"
+PMC11212004,CYP1A2,3,2024,absent,5,0,0,Preclinical evaluation of ELP-004 in mice.
+PMC10489644,CYP1A2,3,2023,absent,5,16,9,<i>In Vitro</i> Evaluation of the Potential for Drug Interactions by Salidroside.
+PMC13099280,CYP1A2,3,2026,absent,5,12,5,Dexamethasone-Mediated Regulation of CYP3A4 and UGTs in Human Hepatoma HuH-7 Cells.
+PMC11676982,CYP1A2,3,2024,absent,5,24,4,Heterotropic Activation of Cytochrome P450 3A4 by Perillyl Alcohol.
+PMC12655445,CYP1A2,3,2025,subject,4,6,5,In Vitro and In Vivo Effects of Resveratrol on Rat Hepatic CYP1A2.
+PMC10537618,CYP2C19,3,2023,absent,6,24,6,"Effect of Betanin, the Major Pigment of Red Beetroot (&lt;i&gt;Beta vulgaris&lt;/i&gt; L.), on the Activity of Recombinant Human Cytochrome P450 Enzymes."
+PMC12389355,CYP2C19,3,2025,absent,5,12,9,Physiologically Based Pharmacokinetic Modeling to Assess Perpetrator and Victim Cytochrome P450 2C Induction Risk.
+PMC11410521,CYP2C19,3,2024,subject,5,6,2,"CYP2C9, CYP3A and CYP2C19 metabolize Δ9-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1)."
+PMC10489644,CYP2C19,3,2023,absent,5,16,9,<i>In Vitro</i> Evaluation of the Potential for Drug Interactions by Salidroside.
+PMC11676982,CYP2C19,3,2024,absent,5,24,4,Heterotropic Activation of Cytochrome P450 3A4 by Perillyl Alcohol.
+PMC10146558,CYP2C19,3,2023,absent,5,0,0,Highly Cytotoxic Copper(II) Mixed-Ligand Quinolinonato Complexes: Pharmacokinetic Properties and Interactions with Drug Metabolizing Cytochromes P450.
+PMC12367827,CYP2C19,3,2025,absent,4,5,1,Prioritisation of co-formulants and plant protection products for non-dietary risk assessment using NAMs.
+PMC13473850,CYP2C19,3,2026,absent,4,1,1,Integrated assessment of rifampicin-mediated induction of transporters and drug-metabolizing enzymes in a long-term human liver tissue chip system.
+PMC13119212,CYP2C19,3,2026,absent,4,8,4,Comprehensive In Vitro Metabolic Characterization of Eudesmin in Human and Mouse Hepatocytes.
+PMC10996199,CYP2C19,3,2024,absent,4,4,0,Evaluation of Lippia scaberrima Sond. and Aspalathus linearis (Burm.f.) R. Dahlgren extracts on human CYP enzymes and gold nanoparticle synthesis: implications for drug metabolism and cytotoxicity.
+PMC10537618,CYP2C9,3,2023,absent,6,24,6,"Effect of Betanin, the Major Pigment of Red Beetroot (&lt;i&gt;Beta vulgaris&lt;/i&gt; L.), on the Activity of Recombinant Human Cytochrome P450 Enzymes."
+PMC12879736,CYP2C9,3,2026,absent,5,0,0,"Discovery of VU6025733 (AG06827): A Highly Selective, Orally Bioavailable, and Structurally Distinct M&lt;sub&gt;4&lt;/sub&gt; Muscarinic Acetylcholine Receptor Positive Allosteric Modulator (PAM) wit"
+PMC13210512,CYP2C9,3,2026,absent,5,2,1,In Vitro Cytochrome P450 Interaction Profile and ADME Characterisation of Gold(I)-Triphenylphosphine Complexes with 6-Alkoxy-9-deazapurine Ligands.
+PMC12389355,CYP2C9,3,2025,absent,5,12,9,Physiologically Based Pharmacokinetic Modeling to Assess Perpetrator and Victim Cytochrome P450 2C Induction Risk.
+PMC11410521,CYP2C9,3,2024,subject,5,6,2,"CYP2C9, CYP3A and CYP2C19 metabolize Δ9-tetrahydrocannabinol to multiple metabolites but metabolism is affected by human liver fatty acid binding protein (FABP1)."
+PMC13099280,CYP2C9,3,2026,absent,5,12,5,Dexamethasone-Mediated Regulation of CYP3A4 and UGTs in Human Hepatoma HuH-7 Cells.
+PMC10489644,CYP2C9,3,2023,absent,5,16,9,<i>In Vitro</i> Evaluation of the Potential for Drug Interactions by Salidroside.
+PMC11676982,CYP2C9,3,2024,absent,5,24,4,Heterotropic Activation of Cytochrome P450 3A4 by Perillyl Alcohol.
+PMC10146558,CYP2C9,3,2023,absent,5,0,0,Highly Cytotoxic Copper(II) Mixed-Ligand Quinolinonato Complexes: Pharmacokinetic Properties and Interactions with Drug Metabolizing Cytochromes P450.
+PMC13119212,CYP2C9,3,2026,absent,4,8,4,Comprehensive In Vitro Metabolic Characterization of Eudesmin in Human and Mouse Hepatocytes.
+PMC11649115,CYP2D6,3,2024,absent,7,11,1,"In vitro safety evaluation of dopamine D3R antagonist, R-VK4-116, as a potential medication for the treatment of opioid use disorder."
+PMC12155096,CYP2D6,3,2025,absent,7,8,3,Profiling the Tox21 Compound Library for Their Inhibitory Effects on Cytochrome P450 Enzymes.
+PMC13265959,CYP2D6,3,2026,absent,6,0,0,CH25H-mediated cholesterol metabolism drives chondrogenic differentiation in adipose-derived stem cells and enhances cartilage repair.
+PMC10537618,CYP2D6,3,2023,absent,6,24,6,"Effect of Betanin, the Major Pigment of Red Beetroot (&lt;i&gt;Beta vulgaris&lt;/i&gt; L.), on the Activity of Recombinant Human Cytochrome P450 Enzymes."
+PMC12879736,CYP2D6,3,2026,absent,5,0,0,"Discovery of VU6025733 (AG06827): A Highly Selective, Orally Bioavailable, and Structurally Distinct M&lt;sub&gt;4&lt;/sub&gt; Muscarinic Acetylcholine Receptor Positive Allosteric Modulator (PAM) wit"
+PMC12071759,CYP2D6,3,2025,absent,5,2,2,Mono-CYP CHO Model: A Recombinant Chinese Hamster Ovary Cell Platform for Investigating CYP-Specific Tamoxifen Metabolism.
+PMC11784145,CYP2D6,3,2025,absent,5,9,1,Efficacy and &lt;i&gt;in vitro&lt;/i&gt; pharmacological assessment of novel &lt;i&gt;N&lt;/i&gt;-hydroxypyridinediones as hepatitis B virus ribonuclease H inhibitors.
+PMC10489644,CYP2D6,3,2023,absent,5,16,9,<i>In Vitro</i> Evaluation of the Potential for Drug Interactions by Salidroside.
+PMC12747322,CYP2D6,3,2025,subject,5,4,3,Development of a CYP2D6-enhanced HepaRG cell model with improved CYP2D6 metabolic capacity.
+PMC11676982,CYP2D6,3,2024,absent,5,24,4,Heterotropic Activation of Cytochrome P450 3A4 by Perillyl Alcohol.
+PMC13371085,CYP3A4,3,2026,subject,9,5,3,Rifamycin Structural Modifications Attenuate PXR Binding and CYP3A4 Induction.
+PMC11985932,CYP3A4,3,2025,subject,9,12,10,Decoding the selective chemical modulation of CYP3A4.
+PMC13151951,CYP3A4,3,2026,subject,8,4,3,Label-Free High-Throughput Screening of CYP3A4 Inhibitors Using Acoustic Ejection Mass Spectrometry.
+PMC11649115,CYP3A4,3,2024,absent,7,11,1,"In vitro safety evaluation of dopamine D3R antagonist, R-VK4-116, as a potential medication for the treatment of opioid use disorder."
+PMC12155096,CYP3A4,3,2025,absent,7,8,3,Profiling the Tox21 Compound Library for Their Inhibitory Effects on Cytochrome P450 Enzymes.
+PMC12967466,CYP3A4,3,2026,absent,7,0,0,Exploring the potential of liver microphysiological systems of varied configurations to model cholestatic chemical effects.
+PMC12879736,CYP3A4,3,2026,absent,5,0,0,"Discovery of VU6025733 (AG06827): A Highly Selective, Orally Bioavailable, and Structurally Distinct M&lt;sub&gt;4&lt;/sub&gt; Muscarinic Acetylcholine Receptor Positive Allosteric Modulator (PAM) wit"
+PMC12824400,CYP3A4,3,2026,absent,5,2,1,​Temporal proteomic profiling of iPSC-derived human liver organoids reveals optimal maturation for drug metabolism and toxicology.
+PMC13210512,CYP3A4,3,2026,absent,5,2,1,In Vitro Cytochrome P450 Interaction Profile and ADME Characterisation of Gold(I)-Triphenylphosphine Complexes with 6-Alkoxy-9-deazapurine Ligands.
+PMC12389355,CYP3A4,3,2025,absent,5,12,9,Physiologically Based Pharmacokinetic Modeling to Assess Perpetrator and Victim Cytochrome P450 2C Induction Risk.
+PMC12670427,DRD2,3,2025,absent,7,0,0,FDA Drug Repurposing Uncovers Modulators of Dopamine D<sub>2</sub> Receptor Localization via Disruption of the NCS-1 Interaction.
+PMC12186844,DRD2,3,2025,absent,6,0,0,Identification of a Lipid-Exposed Extrahelical Binding Site for Positive Allosteric Modulators of the Dopamine D&lt;sub&gt;2&lt;/sub&gt; Receptor.
+PMC12334658,DRD2,3,2025,subject,6,7,0,Molecular mechanism of β-arrestin 2 interaction with phosphorylated intracellular loop 3 of dopamine receptor D2.
+PMC12563322,DRD2,3,2025,subject,5,12,7,The Heteromeric Dopamine Receptor D2:D3 Controls the Gut Recruitment and Suppressive Activity of Regulatory T-Cells.
+PMC11761627,DRD2,3,2024,subject,5,4,0,Disease-Associated Dopamine Receptor D2 Variants Exhibit Functional Consequences Depending on Different Heterotrimeric G-Protein Subunit Combinations.
+PMC12775823,DRD2,3,2026,absent,5,13,2,Glucosylceramide regulates depression through activating peroxisome proliferator-activated receptor gamma in dorsal striatum.
+PMC13610874,DRD2,3,2026,absent,5,0,0,Anticancer Effects of Fluphenazine Alone and in Combination with Cisplatin in Gastric Cancer Cells and a Mouse Xenograft Model.
+PMC11894060,DRD2,3,2025,absent,5,3,1,Accelerating discovery of bioactive ligands with pharmacophore-informed generative models.
+PMC8050214,DRD2,3,2021,absent,5,0,0,New phosphosite-specific antibodies to unravel the role of GRK phosphorylation in dopamine D<sub>2</sub> receptor regulation and signaling.
+PMC13119093,DRD2,3,2026,subject,4,5,4,Identification of Dopamine D2 Receptor as a Direct Target of Salidroside and Tyrosol by Integrated Transcriptomic and Biophysical Approaches.
+PMC7619385,EGFR,3,2025,absent,8,0,0,Discovery and Characterization of Cell-Permeable Inhibitors of &lt;i&gt;Leishmania mexicana&lt;/i&gt; CLK1 Using an In-Cell Target Engagement Assay.
+PMC13720926,EGFR,3,2026,subject,8,6,4,Overcoming EGFR Resistance by Monovalent and Bident Inhibitors Targeting Cys775.
+PMC13360121,EGFR,3,2026,absent,8,11,3,Versatile Detection of Cellular Protein via Fluorescence Anisotropy.
+PMC12794186,EGFR,3,2026,subject,8,6,3,Covalent Alkynylpyridopyrimidinones Targeting Cysteine 775 of the Epidermal Growth Factor Receptor Overcome Resistance to Current Therapies.
+PMC11551396,EGFR,3,2024,subject,8,4,4,Biochemical analysis of EGFR exon20 insertion variants insASV and insSVD and their inhibitor sensitivity.
+PMC13634975,EGFR,3,,subject,7,6,4,Comparative profiling of osimertinib and fourth-generation EGFR inhibitors on EGFR-mutant proteins and cell lines
+PMC13088391,EGFR,3,2026,subject,7,4,1,Engineering NKG2D ligand affinity transforms EGFR-targeted NK cell engagers into high-potency effectors against pancreatic cancer.
+PMC11094307,EGFR,3,2024,subject,7,9,5,Marine-derived EGFR inhibitors: novel compounds targeting breast cancer growth and drug resistance.
+PMC13666482,EGFR,3,2026,subject,7,8,4,"Novel 2,4-Pyrimidinediamine Derivative as Potent EGFR Inhibitor for NSCLC Treatment"
+PMC13151916,EGFR,3,2026,absent,7,0,0,"Discovery of BBO-11818, a Potent and Selective Noncovalent Inhibitor of (ON) and (OFF) KRAS with Activity against Multiple Oncogenic Mutants."
+PMC13728809,FLT3,3,2026,absent,8,11,1,A Selective CK1α Degrader Targets Acute Myeloid Leukemia and Spares Normal Hematopoietic Cells.
+PMC13545197,FLT3,3,2026,subject,7,6,3,The type I FLT3 inhibitor XL999 overrides secondary FLT3-ITD mutations that arise under gilteritinib and quizartinib treatment in acute myeloid leukemia.
+PMC13058478,FLT3,3,2026,subject,7,6,1,Preclinical evaluation of CPL423: a novel potent small-molecule inhibitor of TAM family and FLT3 kinase for cancer therapy.
+PMC12039533,FLT3,3,2025,subject,7,7,2,Xanthohumol as a potential therapeutic strategy for acute myeloid leukemia: Targeting the FLT3/SRPK1 signaling axis.
+PMC12642047,FLT3,3,2025,absent,7,5,1,Marine-derived Acremonium strain prioritization using untargeted metabolomics approach for the identification of cytotoxic cyclic depsipeptides.
+PMC13464089,FLT3,3,2026,subject,6,2,2,Optimizing pyrazine-2-carboxamide derivatives as dual FLT3/HDAC inhibitors with enhanced pharmacokinetics and immunotherapeutic potential.
+PMC13642945,FLT3,3,2026,subject,6,5,2,SGI-7079 as a novel type I FLT3 inhibitor overcomes resistance to gilteritinib and quizartinib mediated by ITD and TKD mutations in acute myeloid leukemia.
+PMC11952222,FLT3,3,2025,subject,6,3,1,Development and comparison of single FLT3-inhibitors to dual FLT3/TAF1-inhibitors as an anti-leukemic approach.
+PMC13210772,FLT3,3,2026,subject,6,24,4,Dual FLT3/MAPK14 Proteolysis-Targeting Chimera (PROTAC) Induces Potent Acute Myeloid Leukemia Cell Death.
+PMC12996285,FLT3,3,2026,absent,6,0,0,Midostaurin response in AML is shaped by a progenitor-like cell state selectively targeted by SMAC mimetics.
+PMC9742639,GSK3B,3,2022,subject,8,6,1,Inhibition of glycogen synthase kinase-3-beta (GSK3β) blocks nucleocapsid phosphorylation and SARS-CoV-2 replication.
+PMC8998611,GSK3B,3,2022,absent,7,0,0,Identification of Novel GSK-3β Hits Using Competitive Biophysical Assays.
+PMC12113848,GSK3B,3,2025,absent,7,0,0,Exploring the Neuroprotective Properties of Celery (&lt;i&gt;Apium graveolens&lt;/i&gt; Linn) Extract Against Amyloid-Beta Toxicity and Enzymes Associated with Alzheimer's Disease.
+PMC7581251,GSK3B,3,2020,absent,7,0,0,Machine Learning for Discovery of GSK3β Inhibitors.
+PMC13427657,GSK3B,3,2026,subject,6,3,0,&lt;i&gt;GSK3B&lt;/i&gt; variations influence renoprotective responses to dapagliflozin in diabetic kidney disease.
+PMC12561938,GSK3B,3,2025,absent,6,0,0,Cholinergic Transmission Dysregulation and Neurodegeneration Induced by Thyroid Signaling Disruption Following Butylparaben Single and Repeated Treatment.
+PMC12707127,GSK3B,3,2025,subject,6,8,0,Alantolactone Inhibits Double Expression Lymphoma via Dual-Targeted Glycogen Synthase Kinase 3 Beta and B-Cell Lymphoma2.
+PMC12148233,GSK3B,3,2025,absent,6,10,2,The ubiquitin ligase HUWE1 enhances WNT signaling by antagonizing destruction complex-mediated β-catenin degradation and through a mechanism independent of changes in β-catenin abundance.
+PMC13174198,GSK3B,3,2026,absent,5,8,1,Novel &lt;i&gt;N&lt;/i&gt;-chloroacetyl-2-pyrazoline analogs with 2-naphthyl and ferrocenyl groups: targeting histamine receptor H1 to overcome colorectal cancer drug resistance.
+PMC13605391,GSK3B,3,2026,absent,5,0,0,"Propofol-Induced Metabolic, Apoptotic, and Wnt-Frizzled-Related Transcript Changes in MIA PaCa-2 Cells: In Vitro and Bioinformatic Analyses."
+PMC11882444,HDAC1,3,2025,subject,11,15,5,UM171 glues asymmetric CRL3-HDAC1/2 assembly to degrade CoREST corepressors.
+PMC11882451,HDAC1,3,2025,absent,8,10,4,Converging mechanism of UM171 and KBTBD4 neomorphic cancer mutations.
+PMC13453028,HDAC1,3,2026,subject,7,9,5,A trifluoromethyl quinazoline inhibits hepatocellular carcinoma proliferation through HDAC1 binding and multi-target mechanisms.
+PMC10272112,HDAC1,3,2023,absent,7,11,1,Chemoproteomic target deconvolution reveals Histone Deacetylases as targets of (R)-lipoic acid.
+PMC12706802,HDAC1,3,2025,subject,6,10,5,"&lt;i&gt;Ortho&lt;/i&gt;-Hydroxyanilides: Slow-Acting, Selective Histone Deacetylase 1/2 Inhibitors Suitable for Photocaging Applications."
+PMC12913817,HDAC1,3,2026,absent,6,4,2,"Integrated phytochemical, network pharmacology, and computational analysis to elucidate the anti-neurodegenerative mechanisms of &lt;i&gt;Parquetina nigrescens&lt;/i&gt; and &lt;i&gt;Ficus capensis&lt"
+PMC13393398,HDAC1,3,2026,absent,6,0,0,Repurposing 6‑Anilinopurine Derivatives That Exhibit PfHDAC1 Inhibition and Antimalarial Activity against Asexual and Sexual Stages of &lt;i&gt;Plasmodium falciparum&lt;/i&gt;.
+PMC13464089,HDAC1,3,2026,absent,6,2,2,Optimizing pyrazine-2-carboxamide derivatives as dual FLT3/HDAC inhibitors with enhanced pharmacokinetics and immunotherapeutic potential.
+PMC12515225,HDAC1,3,2025,subject,6,1,1,Targeting neuroblastoma with hydroxamic acid based HDAC1 and HDAC2 inhibitors: Insights from in vitro and in vivo studies.
+PMC10878397,HDAC1,3,2024,absent,6,7,1,Development of Potent Dual BET/HDAC Inhibitors via Pharmacophore Merging and Structure-Guided Optimization.
+PMC12395164,JAK2,3,2025,subject,8,4,1,"Exploring novel furochochicine derivatives as promising JAK2 inhibitors in HeLa cells: Integrating docking, QSAR-ML, MD simulations, and experiments."
+PMC12943364,JAK2,3,2026,subject,7,3,1,Dual Inhibition of PB2 and JAK2 for Influenza: A Strategy Combining Antiviral and Host-Directed Immune Modulation.
+PMC12640804,JAK2,3,2025,absent,7,6,2,"A tumor immune microenvironment gene expression signature for predicting prognosis, immunotherapy efficacy, and drug candidates in triple-negative breast cancer."
+PMC13109381,JAK2,3,2026,subject,6,6,3,AI and experimental convergence: a synergistic pathway to JAK2 inhibitor discovery.
+PMC13196228,JAK2,3,2026,subject,6,5,0,"Integrating network pharmacology, transcriptomics, and experimental validation: Compound Baixianpi Formula targets IL-17A to inhibit dual PI3K-AKT/JAK2-STAT3 pathways for psoriasis improvement."
+PMC9865020,JAK2,3,2023,subject,6,5,4,Identification of Novel Small Molecule Ligands for JAK2 Pseudokinase Domain.
+PMC13589821,JAK2,3,2026,subject,5,6,3,Mulberrofuran G Induces Apoptosis and Cell Cycle Arrest Through Suppression of the JAK2/STAT3 Pathway by Direct JAK2 Inhibition and Reactive Oxygen Species Induction in the NCI-H460 Cell Line.
+PMC12042240,JAK2,3,2025,subject,5,8,3,Discovery and biological evaluation of a novel and highly potent JAK2 inhibitor for the treatment of triple negative breast cancer.
+PMC13753658,JAK2,3,2026,absent,5,9,1,Schisandrin C Targets PPARγ to Induce Ferroptosis in Colorectal Cancer Cells and Promote M1 Macrophage Polarization.
+PMC11215726,JAK2,3,2024,subject,5,8,4,Functional and Structural Characterization of Clinical-Stage Janus Kinase 2 Inhibitors Identifies Determinants for Drug Selectivity.
+PMC9186491,JAK3,3,2022,absent,8,7,1,Novel Small Molecule Tyrosine Kinase 2 Pseudokinase Ligands Block Cytokine-Induced TYK2-Mediated Signaling Pathways.
+PMC13703138,JAK3,3,2026,absent,7,2,2,Toward full-cycle automation of closed-loop molecular discovery - a case study on JAK targets.
+PMC11025159,JAK3,3,2024,subject,7,10,0,Discovery of a novel and highly selective JAK3 inhibitor as a potent hair growth promoter.
+PMC9494680,JAK3,3,2022,absent,7,0,0,Discovery of JAK2/3 Inhibitors from Quinoxalinone-Containing Compounds.
+PMC13388716,JAK3,3,2026,absent,6,10,2,α-Halothioamide warheads with enhanced cysteine reactivity and specificity for covalent protein labelling.
+PMC10578023,JAK3,3,2023,absent,6,0,0,A novel highly selective allosteric inhibitor of tyrosine kinase 2 (TYK2) can block inflammation- and autoimmune-related pathways.
+PMC11579875,JAK3,3,2024,subject,6,9,1,Pyrimidine compounds BY4003 and BY4008 inhibit glioblastoma cells growth via modulating JAK3/STAT3 signaling pathway.
+PMC12042240,JAK3,3,2025,absent,5,8,3,Discovery and biological evaluation of a novel and highly potent JAK2 inhibitor for the treatment of triple negative breast cancer.
+PMC13226920,JAK3,3,2026,absent,5,0,0,The tumor suppressor NDRG2 recruits protein phosphatase 2A to suppress STAT5 phosphorylation in adult T-cell leukemia/lymphoma.
+PMC9390995,JAK3,3,2022,subject,5,15,4,A highly selective JAK3 inhibitor is developed for treating rheumatoid arthritis by suppressing γc cytokine-related JAK-STAT signal.
+PMC13607826,KCNH2,3,2026,absent,6,0,0,Targeting Lung Cancer Stem Cells with Trimebutine: Synergistic Antitumor Activity in Combination with Cisplatin.
+PMC13209584,KCNH2,3,2026,absent,5,0,0,"Evidence for Potentiation of M-Type Potassium Current by Flavonoid Corylin (3-(2,2-Dimethylchromen-6-yl)-7-hydroxychromen-4-one)."
+PMC13269939,KCNH2,3,2026,absent,5,0,0,TMPRSS2-ERG confers resistance of prostate cancer to antiandrogens.
+PMC13367891,KCNH2,3,2026,absent,4,0,0,A ligandable PNT domain establishes ERG as a directly targetable oncogenic driver in prostate cancer.
+PMC13695281,KCNH2,3,2026,absent,4,0,0,ERG inhibition selectively sensitizes ERG-positive prostate cancer to radiation through DNA repair vulnerabilities and enhances response to androgen receptor inhibitors.
+PMC12591323,KCNH2,3,2025,absent,4,0,0,EGFR-STAT3 activation provides a therapeutic rationale for targeting aggressive ETV1-positive prostate cancer.
+PMC12646650,KCNH2,3,2025,absent,4,0,0,Androgen deprivation-mediated activation of AKT is enhanced in prostate cancer with TMPRSS2:ERG fusion.
+PMC11748958,KCNH2,3,2025,absent,4,0,0,Phα1β interaction with the Kv11.1 potassium channel in HEK293 cells transfected with the human ERG channel.
+PMC13201520,KCNH2,3,2026,absent,3,0,0,&lt;i&gt;In silico&lt;/i&gt; identification of isosilybin a targeting squalene epoxidase as an antifungal adjuvant with &lt;i&gt;in vitro&lt;/i&gt; validation against azole-resistant &lt;i&gt;Candida&
+PMC12995837,KCNH2,3,2026,subject,3,0,0,Sudden death-associated KCNH2 variants exert opposing effects on a nuclear subdomain of the cardiac potassium channel hERG1.
+PMC12907715,KDR,3,2026,absent,8,0,0,Activation of stimulator of interferon genes (STING) and inhibition of vascular endothelial growth factor receptor (VEGFR) by telatinib induce antitumor activity.
+PMC10192158,KDR,3,2023,subject,8,4,3,Comparative biochemical kinase activity analysis identifies rivoceranib as a highly selective VEGFR2 inhibitor.
+PMC13371918,KDR,3,2026,subject,7,5,5,"Mechanisms of VEGFR2 activation by VEGF, neuropilin, and heparin."
+PMC13282705,KDR,3,2026,absent,7,11,1,The TRPM7 inhibitor carvacrol suppresses angiogenesis and vasculogenic mimicry in triple-negative breast cancer.
+PMC12932778,KDR,3,2026,subject,6,3,2,Discovery of a novel VEGFR2 inhibitor using integrated structure-based docking study and functional validation: potential applications in targeted cancer therapy.
+PMC12771454,KDR,3,2025,absent,6,6,1,Development of the 5‑Nitrosalicaldehyde Arylhydrazones as Anticancer (MCF‑7 and HCT116) Agents Targeting Inhibition of VEGFR‑2 and Cytokines (IL‑6 and TNF-α).
+PMC11790708,KDR,3,2025,subject,6,12,3,Clioquinol inhibits angiogenesis by promoting VEGFR2 degradation and synergizes with AKT inhibition to suppress triple-negative breast cancer vascularization.
+PMC12996994,KDR,3,2026,subject,5,14,2,Aminated fullerene-based nanoplatform enables synergistic VEGFR2-targeted anti-angiogenesis and tumor immunotherapy.
+PMC13717184,KDR,3,2026,subject,4,6,4,Tyrosine phosphorylation of the scaffold protein IQGAP1 by VEGFR2 modulates cell proliferation.
+PMC12206127,KDR,3,2025,subject,4,4,2,Cancer-associated VEGFR2&lt;sup&gt;R1032Q&lt;/sup&gt; sustains receptor activation also by promoting ligand-independent hetero-dimerization with co-expressed wild-type VEGFR2 and translocation into li
+PMC13487472,LCK,3,2026,subject,8,5,5,LCK-targeting molecular glues overcome resistance to inhibitor-based therapy in T-cell acute lymphoblastic leukemia.
+PMC12490252,LCK,3,2025,absent,8,0,0,SOX4-ZIP14-zinc metabolism mediates oncogenesis and suppresses T cell immunity in nasopharyngeal carcinoma.
+PMC12412669,LCK,3,2025,absent,7,7,3,PTPN22-CD45 dual phosphatase retrograde feedback enhances TCR signaling and autoimmunity.
+PMC13293875,LCK,3,2026,absent,7,10,2,HIV-1 signalling remodels nuclear pores to licence infection.
+PMC7249037,LCK,3,2020,absent,7,3,1,"Phenylpyrazalopyrimidines as Tyrosine Kinase Inhibitors: Synthesis, Antiproliferative Activity, and Molecular Simulations."
+PMC13170340,LCK,3,2026,absent,6,0,0,Tyrosine kinase LYN restricts the replication and virulence of influenza A virus by directly phosphorylating viral nucleoprotein.
+PMC10650606,LCK,3,2023,subject,6,2,1,LCK-SafeScreen-Model: An Advanced Ensemble Machine Learning Approach for Estimating the Binding Affinity between Compounds and LCK Target.
+PMC9763865,LCK,3,2022,subject,6,6,5,Role of the membrane anchor in the regulation of Lck activity.
+PMC12864039,LCK,3,2026,subject,5,16,9,SIRT2-mediated deacetylation of LCK governs the magnitude of T cell receptor signaling.
+PMC9733937,LCK,3,2022,absent,5,1,1,Oncogenic deubiquitination controls tyrosine kinase signaling and therapy response in acute lymphoblastic leukemia.
+PMC7718943,MAPK14,3,2020,subject,7,16,9,In silico molecular target prediction unveils mebendazole as a potent MAPK14 inhibitor.
+PMC13210772,MAPK14,3,2026,subject,6,24,4,Dual FLT3/MAPK14 Proteolysis-Targeting Chimera (PROTAC) Induces Potent Acute Myeloid Leukemia Cell Death.
+PMC13044620,MAPK14,3,2026,absent,6,0,0,Dimeric Anthraquinone Rugulosin A Induces Apoptosis in Lung Adenocarcinoma and Targets PI3K/AKT/MAPK Pathways &lt;i&gt;In Silico&lt;/i&gt;.
+PMC10407934,MAPK14,3,2023,absent,6,6,3,Comparison of Quantitative Mass Spectrometric Methods for Drug Target Identification by Thermal Proteome Profiling.
+PMC11585884,MAPK14,3,2024,absent,5,0,0,Targeting the Hippo pathway in Schwann cells ameliorates peripheral nerve degeneration via a polypharmacological mechanism.
+PMC13721419,MAPK14,3,2026,absent,4,9,2,Caffeic acid mitigates myocardial fibrosis via suppressing MAPKs/CREB-mediated inflammation in myocardial ischemia-reperfusion injury mice.
+PMC13566757,MAPK14,3,2026,absent,4,0,0,Integrated Metabolomics and Multilevel Validation of the Anti-Inflammatory and Skin-Soothing Effects of Bioactive Components from &lt;i&gt;Prinsepia utilis&lt;/i&gt; Seeds.
+PMC13361695,MAPK14,3,2026,absent,4,5,1,"Exploring the Therapeutic Potential of Ganoderic Acid A Against Inflammatory Bowel Disease Based on Network Pharmacology, Molecular Docking, and Intestinal Organoid Validation."
+PMC11334046,MAPK14,3,2024,absent,4,0,0,"Curcumin for gastric cancer: Mechanism prediction <i>via</i> network pharmacology, docking, and <i>in vitro</i> experiments."
+PMC11864979,MAPK14,3,2025,absent,4,0,0,First-in-class ultralong-target-residence-time p38α inhibitors as a mitosis-targeted therapy for colorectal cancer.
+PMC13183674,MET,3,2026,absent,8,8,3,Discovery of a triple-site inhibitor targeting bacterial methionyl-tRNA synthetase through combined drug repurposing screening and generative AI-assisted optimization.
+PMC13669324,MET,3,2026,absent,8,0,0,"Preclinical and clinical investigation of VES001, an oral small molecule sortilin receptor inhibitor for the treatment of frontotemporal dementia: a first-in-human randomized placebo-controlled phase "
+PMC13015893,MET,3,2026,absent,8,15,3,Mechanistic insights into the therapeutic properties of delta opioid receptor.
+PMC13610743,MET,3,2026,absent,7,0,0,Developing a Fluorescence-Based High-Throughput Screening Method for Natural Product Fractions to Identify Inhibitors of AR-V7 for Castration-Resistant Prostate Cancer.
+PMC13396614,MET,3,2026,subject,7,16,7,Molecular glue that stabilizes the LRPPRC-MET-G4 interaction complex to drive MET downregulation.
+PMC10708960,MET,3,2023,subject,7,2,1,Structural insight into the macrocyclic inhibitor TPX-0022 of c-Met and c-Src.
+PMC12039421,MET,3,2025,absent,6,0,0,Unraveling ER dimerization dynamics in endocrine disruption based on a BRET-focused approach.
+PMC13019932,MET,3,2026,absent,6,0,0,High-throughput phenotypic screening of Medicines for Malaria Venture's Hit Generation Library 1 identifies new nematocidal chemotypes.
+PMC13745382,MET,3,2026,absent,6,4,4,Dual-Loaded Curcumin-Metformin Niosomes: Physicochemical Characterization and &lt;i&gt;In Vitro&lt;/i&gt; Activity in Colorectal and Pancreatic Cancer Cells.
+PMC12735468,MET,3,2025,subject,6,5,2,Discovery of Novel Piperidinyl-Based Benzoxazole Derivatives as Anticancer Agents Targeting VEGFR-2 and c-Met Kinases.
+PMC10564737,SRC,3,2023,absent,11,0,0,Structure-based design of a phosphotyrosine-masked covalent ligand targeting the E3 ligase SOCS2.
+PMC12366525,SRC,3,2023,absent,9,0,0,Characterization of allosteric modulators that disrupt androgen receptor co-activator protein-protein interactions to alter transactivation-Drug leads for metastatic castration resistant prostate canc
+PMC13383355,SRC,3,2026,subject,8,14,3,Constraining regulatory domain dynamics of the Src kinase Fgr increases ATP-site inhibitor sensitivity and impairs bone marrow engraftment.
+PMC11590367,SRC,3,2024,absent,8,0,0,Characterization of novel small molecule inhibitors of estrogen receptor-activation function 2 (ER-AF2).
+PMC11786751,SRC,3,2025,subject,8,8,2,"An SH3-binding allosteric modulator stabilizes the global conformation of the AML-associated Src-family kinase, Hck."
+PMC10967972,SRC,3,2024,absent,8,0,0,Different Coactivator Recruitment to Human PPARα/δ/γ Ligand-Binding Domains by Eight PPAR Agonists to Treat Nonalcoholic Fatty Liver Disease.
+PMC13151057,SRC,3,2026,absent,7,0,0,Development of Antagonist Peptides of the Crk/CrkL SH2 Domains by Modifying the Peripheral Amino Acid Residues of the YXXP Motif.
+PMC7619190,SRC,3,2026,subject,7,10,3,Pervanadate-induced oxidation relieves autoinhibition of the protein tyrosine kinase SRC.
+PMC12024163,SRC,3,2025,absent,7,2,1,Competitive Ligand-Induced Recruitment of Coactivators to Specific PPARα/δ/γ Ligand-Binding Domains Revealed by Dual-Emission FRET and X-Ray Diffraction of Cocrystals.
+PMC11906777,SRC,3,2025,absent,7,0,0,Structural basis for the asymmetric binding of coactivator SRC1 to FXR-RXRα and allosteric communication within the complex.
+PMC11053294,HSPA5,4,2024,absent,10,0,0,Discovery and validation of a novel inhibitor of HYPE-mediated AMPylation.
+PMC12007993,HSPA5,4,2025,absent,10,0,0,Small-Molecule FICD Inhibitors Suppress Endogenous and Pathologic FICD-Mediated Protein AMPylation.
+PMC13039285,HSPA5,4,2026,absent,8,12,4,Homoharringtonine exhibits senotherapeutic activity that mitigates diet- and age-associated obesity and insulin resistance and extends lifespan in mice.
+PMC13386991,HSPA5,4,2026,subject,6,12,7,Identification of GRP78 as a novel host factor that facilitates zoonotic porcine deltacoronavirus internalization and replication via clathrin-mediated endocytosis.
+PMC12144991,HSPA5,4,2025,subject,6,10,3,USP51/GRP78/ABCB1 axis confers chemoresistance through decreasing doxorubicin accumulation in triple-negative breast cancer cells.
+PMC10701780,HSPA5,4,2023,subject,6,6,1,The synthetic oleanane triterpenoid CDDO-2P-Im binds GRP78/BiP to induce unfolded protein response-mediated apoptosis in myeloma.
+PMC11763779,HSPA5,4,2025,absent,5,6,1,Pharmacological Modulation of the Unfolded Protein Response as a Therapeutic Approach in Cutaneous T-Cell Lymphoma.
+PMC12890533,HSPA5,4,2025,subject,4,5,1,Inhibition of cell surface GRP78 and activated α2M interaction attenuates kidney fibrosis.
+PMC13257771,HSPA5,4,2026,subject,4,7,1,Cypripedin Induces Apoptosis and Synergizes with Bortezomib via ER Stress Mediated Ubiquitination of GRP78 in T-Cell Acute Lymphoblastic Leukemia.
+PMC9994480,HSPA5,4,2023,subject,4,5,0,Infancy-onset diabetes caused by de-regulated AMPylation of the human endoplasmic reticulum chaperone BiP.
+PMC10226132,KAT8,4,2023,subject,8,11,6,First-in-Class Selective Inhibitors of the Lysine Acetyltransferase KAT8.
+PMC11983497,KAT8,4,2025,subject,6,6,1,Gastrodin attenuates rheumatoid arthritis by targeting KAT8 to inhibit the lactylation of H3K9.
+PMC13330777,KAT8,4,2026,subject,6,1,0,Synergistic adsorption of ciprofloxacin on an amine-functionalized Zn-MOF/chitosan-polyethylenimine composite sponge: experimental and statistical optimization and biological activity.
+PMC13223542,KAT8,4,2026,absent,6,0,0,The Histone Modifier KANSL2 Is an Actionable Biomarker in Multiple Myeloma.
+PMC13184097,KAT8,4,2026,subject,5,16,4,Lactylation at lysine 145 fosters KAT8-TIP60 complex formation to promote p53 acetylation at lysine 120 and its pro-apoptotic function.
+PMC13204659,KAT8,4,2026,subject,4,5,2,CDK1 Phosphorylates KAT8 at Ser348 to Stabilize the MSL Complex and Promote H4K16 Acetylation in Non-Small Cell Lung Cancer.
+PMC13532696,KAT8,4,2026,absent,4,0,0,KAT6A-inhibitor co-crystal structures: tackling a challenging crystallization target via two alternative approaches.
+PMC13424319,KAT8,4,2026,subject,4,4,3,One-dimensional palladium MOF as VEGFR2 and colchicine binding inhibitors with potential anticancer and anti-inflammatory activities: synthesis and molecular investigation.
+PMC13172425,KAT8,4,2026,absent,4,2,1,Hierarchical small molecule inhibition of MYST acetyltransferases.
+PMC12293422,KAT8,4,2025,subject,4,5,1,Histone Acetyltransferase MOF-Mediated AURKB K215 Acetylation Drives Breast Cancer Cell Proliferation via c-MYC Stabilization.
+PMC11965392,KDM1A,4,2025,absent,8,0,0,Covalent adduct Grob fragmentation underlies LSD1 demethylase-specific inhibitor mechanism of action and resistance.
+PMC10894237,KDM1A,4,2024,absent,8,8,1,KDM3B inhibitors disrupt the oncogenic activity of PAX3-FOXO1 in fusion-positive rhabdomyosarcoma.
+PMC9287196,KDM1A,4,2022,subject,8,15,7,Fine-tuned KDM1A alternative splicing regulates human cardiomyogenesis through an enzymatic-independent mechanism.
+PMC6683035,KDM1A,4,2019,subject,7,4,0,Extra Virgin Olive Oil Contains a Phenolic Inhibitor of the Histone Demethylase LSD1/KDM1A.
+PMC7138538,KDM1A,4,2020,absent,7,0,0,The LSD1 inhibitor iadademstat (ORY-1001) targets SOX2-driven breast cancer stem cells: a potential epigenetic therapy in luminal-B and HER2-positive breast cancer subtypes.
+PMC9825171,KDM1A,4,2022,absent,7,0,0,"The structure, binding and function of a Notch transcription complex involving RBPJ and the epigenetic reader protein L3MBTL3."
+PMC8669716,KDM1A,4,2021,absent,6,0,0,Comprehensive <i>in Vitro</i> Characterization of the LSD1 Small Molecule Inhibitor Class in Oncology.
+PMC9323733,KDM1A,4,2022,subject,6,9,1,Efficacy of Vafidemstat in Experimental Autoimmune Encephalomyelitis Highlights the KDM1A/RCOR1/HDAC Epigenetic Axis in Multiple Sclerosis.
+PMC8084583,KDM1A,4,2021,subject,6,6,2,"Monobenzone, a Novel and Potent KDM1A Inhibitor, Suppresses Migration of Gastric Cancer Cells."
+PMC13109959,KDM1A,4,2025,absent,5,0,0,Metabolic traits shape responses to LSD1-directed therapy in glioblastoma tumor-initiating cells.
+PMC13249833,KRAS,4,2026,subject,10,5,0,High-throughput screening identifies NT-1 that synergizes with MRTX1133 against acquired resistant KRAS&lt;sup&gt;G12D&lt;/sup&gt; colorectal cancer.
+PMC12270674,KRAS,4,2025,subject,9,9,4,Biophysical and structural analysis of KRAS switch-II pocket inhibitors reveals allele-specific binding constraints.
+PMC12776615,KRAS,4,2026,subject,8,9,3,Activity of Direct KRAS(G12C) Inhibitors in Preclinical Models of Pediatric Cancer.
+PMC11651172,KRAS,4,2024,subject,8,7,5,Suite of Biochemical and Cell-Based Assays for the Characterization of Kirsten Rat Sarcoma (KRAS) Inhibitors and Degraders.
+PMC12990036,KRAS,4,2026,subject,8,11,7,"Discovery and Characterization of Divarasib (GDC-6036), a Potent Covalent Inhibitor of KRAS G12C."
+PMC13366234,KRAS,4,2026,absent,8,12,3,High-throughput ligand discovery in living cells using the cellular protein stability enhancement assay.
+PMC11292009,KRAS,4,2024,absent,8,9,1,Mapping protein binding sites by photoreactive fragment pharmacophores.
+PMC13151916,KRAS,4,2026,subject,7,10,5,"Discovery of BBO-11818, a Potent and Selective Noncovalent Inhibitor of (ON) and (OFF) KRAS with Activity against Multiple Oncogenic Mutants."
+PMC12963410,KRAS,4,2026,subject,7,9,5,Covalent inhibitor design confers activity against both GDP- and GTP-bound forms of KRAS G12C.
+PMC12672662,KRAS,4,2025,subject,7,3,2,Identification and characterization of binders to a cryptic and functional pocket in KRAS.
+PMC11624193,PARP1,4,2024,absent,11,9,7,Coupling cellular drug-target engagement to downstream pharmacology with CeTEAM.
+PMC11986510,PARP1,4,2025,absent,9,5,3,Duplexed CeTEAM drug biosensors reveal determinants of PARP inhibitor selectivity in cells.
+PMC10872402,PARP1,4,2023,subject,9,3,3,HTS discovery of PARP1-HPF1 complex inhibitors in cancer.
+PMC13360121,PARP1,4,2026,absent,8,11,2,Versatile Detection of Cellular Protein via Fluorescence Anisotropy.
+PMC10873324,PARP1,4,2024,absent,8,10,4,High-throughput screening assay for PARP-HPF1 interaction inhibitors to affect DNA damage repair.
+PMC12684391,PARP1,4,2025,absent,7,16,1,Mechanistic insights into the monotherapy and combination potential of FEN1 inhibition in cancer therapy.
+PMC13434705,PARP1,4,2026,subject,6,15,8,TRIM21-mediated ubiquitination of PARP1 regulated by the PI3K/AKT-STAT5A axis suppresses small cell lung cancer.
+PMC13211343,PARP1,4,2026,subject,6,8,1,Nicotinamide Ameliorates Deoxynivalenol-Induced Injury in Renal Cells via Inhibiting PARP1 Hyperactivation and Restoring NAD&lt;sup&gt;+&lt;/sup&gt; Homeostasis.
+PMC13284649,PARP1,4,2026,subject,6,2,2,Discovery of the PARP1 Inhibitors from Natural Compounds Using Structure-Based Virtual Screening and Bioactivity Evaluation.
+PMC13011414,PARP1,4,2026,subject,6,3,3,A SERS-based biosensor for optical monitoring of PARP1 trapping dynamics and high-throughput screening of modulators.
+PMC10487961,PDE5A,4,2023,absent,6,3,1,Antiplatelet Effects of Selected Xanthine-Based Adenosine A<sub>2A</sub> and A<sub>2B</sub> Receptor Antagonists Determined in Rat Blood.
+PMC9968969,PDE5A,4,2023,subject,6,11,8,A label-free LC/MS-based enzymatic activity assay for the detection of PDE5A inhibitors.
+PMC11742916,PDE5A,4,2025,absent,6,3,1,Repurposing of phosphodiesterase-5 inhibitor sildenafil as a therapeutic agent to prevent gastric cancer growth through suppressing c-MYC stability for IL-6 transcription.
+PMC8471536,PDE5A,4,2021,absent,6,0,0,Suppression of Proliferation of Human Glioblastoma Cells by Combined Phosphodiesterase and Multidrug Resistance-Associated Protein 1 Inhibition.
+PMC8156604,PDE5A,4,2021,absent,6,5,5,Development of Phosphodiesterase-Protein-Kinase Complexes as Novel Targets for Discovery of Inhibitors with Enhanced Specificity.
+PMC10420992,PDE5A,4,2023,absent,6,8,2,Phosphodiesterase 5 and Arginase Inhibitory Activities of the Extracts from Some Members of Nelumbonaceae and Nymphaeaceae Families.
+PMC7995890,PDE5A,4,2021,absent,5,9,3,Inhibition of Phosphodiesterase 5 Promotes the Aromatase-Mediated Estrogen Biosynthesis in Osteoblastic Cells by Activation of cGMP/PKG/SHP2 Pathway.
+PMC9805685,PDE5A,4,2022,subject,5,5,0,"Isolation, bioassay and 3D-QSAR analysis of 8-isopentenyl flavonoids from Epimedium sagittatum maxim. as PDE5A inhibitors."
+PMC13707866,PDE5A,4,2026,absent,4,0,0,"Design, Synthesis, Evaluation, and Molecular Dynamics Simulation of Tadalafil Derivatives for the Treatment of Erectile Dysfunction."
+PMC13631500,PDE5A,4,2026,subject,4,6,1,PDE5A Inhibition Restricts Cancer Metastasis by Disrupting NPC1-Mediated Cholesterol Trafficking through a Noncanonical cGMP-Dependent Pathway.
+PMC10338669,SNCA,4,2023,subject,8,6,1,Advancements in a FRET Biosensor for Live-Cell Fluorescence-Lifetime High-Throughput Screening of Alpha-Synuclein.
+PMC13579807,SNCA,4,2026,subject,6,2,1,Brain region-resolved pharmacodynamics of an antisense oligonucleotide targeting human SNCA 3'UTR in BAC-hSNCA rats.
+PMC13253660,SNCA,4,2026,absent,6,0,0,STIP1/HOP promotes the formation of cytotoxic α-synuclein oligomers.
+PMC12162852,SNCA,4,2025,subject,5,8,0,Alpha-synuclein misfolding as fluid biomarker for Parkinson's disease measured with the iRS platform.
+PMC13686833,SNCA,4,2026,subject,5,3,0,Dibucaine induces autophagic flux and reduces Ser129-phosphorylated &lt;i&gt;α&lt;/i&gt;-synuclein in induced pluripotent stem cell-derived neurons with &lt;i&gt;SNCA&lt;/i&gt; duplication.
+PMC12398573,SNCA,4,2025,absent,4,5,1,Elevated hexosylceramides in Parkinson's disease cause gene upregulations in neurons mimicking responses to pathogens.
+PMC13347601,SNCA,4,2026,subject,4,2,0,Quantitative measures of total and phosphorylated alpha-synuclein in skin tissue as potential biomarkers for synucleinopathies.
+PMC12181412,SNCA,4,2025,absent,4,4,1,Dopamine and cortical neurons with different Parkinsonian mutations show variation in lysosomal and mitochondrial dysfunction.
+PMC12344149,SNCA,4,2025,absent,4,7,2,Morphological profiling reveals neuroprotection via mitochondrial uncoupling in human dopaminergic neurons.
+PMC11660147,SNCA,4,2024,subject,4,4,1,"Imidazo[2,1-&lt;i&gt;b&lt;/i&gt;][1,3]thiazine Derivatives as Potential Modulators of Alpha-Synuclein Amyloid Aggregation."
+PMC13086438,SPHK1,4,2026,subject,6,8,3,Targeting Leishmania donovani Sphingosine Kinase 1 using PF-543 enhances immune response and limits parasite load.
+PMC9279331,SPHK1,4,2022,subject,6,4,1,Targeting sphingosine kinase 1/2 by a novel dual inhibitor SKI-349 suppresses non-small cell lung cancer cell growth.
+PMC12655459,SPHK1,4,2025,subject,6,5,0,The SP1-SuperEnhancer-SPHK1 Axis Mediates Niraparib Resistance in TNBC.
+PMC11859825,SPHK1,4,2025,absent,5,3,1,"Discovery of Sphingosine Kinase Inhibition by Modified Quinoline-5,8-Diones."
+PMC10715668,SPHK1,4,2023,subject,5,8,2,Sphingosine kinase 1/S1P receptor signaling axis is essential for cellular uptake of Neisseria meningitidis in brain endothelial cells.
+PMC11465068,SPHK1,4,2024,absent,5,8,2,The sphingosine kinase 2 inhibitors ABC294640 and K145 elevate (dihydro)sphingosine 1-phosphate levels in various cells.
+PMC10100792,SPHK1,4,2023,absent,5,0,0,Host-Erythrocytic Sphingosine-1-Phosphate Regulates &lt;i&gt;Plasmodium&lt;/i&gt; Histone Deacetylase Activity and Exhibits Epigenetic Control over Cell Death and Differentiation.
+PMC11787445,SPHK1,4,2025,subject,4,3,2,The suppression of the SPHK1/S1P/S1PR3 signaling pathway diminishes EGFR activation and increases the sensitivity of non-small cell lung cancer to gefitinib.
+PMC12075077,SPHK1,4,2025,absent,4,3,1,Six pairs of enantiomeric prenylated flavonoids with cytotoxic activities from Epimedium sagittatum Maxim.
+PMC12709969,SPHK1,4,2025,subject,4,3,1,Study on the CHJ01 antitumor activity and mechanism via targeting sphingosine kinase 1 in A549 cells.
+PMC12917163,SQSTM1,4,2026,absent,6,11,1,Palmitic acid-triggered B7H3 palmitoylation promotes immune escape.
+PMC13611238,SQSTM1,4,2026,subject,5,7,2,Imidacloprid-Induced Ferroptosis-Associated Injury in Common Carp Hepatocytes: Potential Involvement of the miR-153c/SQSTM1 Axis.
+PMC12167074,SQSTM1,4,2025,absent,5,0,0,"Autophagy hub-protein p62 orchestrates oxidative, endoplasmic reticulum stress, and inflammatory responses post-ischemia, exacerbating stroke outcome."
+PMC13099342,SQSTM1,4,2026,absent,4,0,0,Targeted delivery of glucocerebrosidase to lysosomes: The LYSOTAC (LYSOsome-TArgeting Chimera) technology.
+PMC13371185,SQSTM1,4,2026,subject,4,4,1,MG132-mediated inhibition of rabies virus replication via the Nrf2/SQSTM1/PINK1/Parkin autophagy pathway.
+PMC13753654,SQSTM1,4,2026,absent,4,10,2,"Targeting TLR2 to Overcome Autophagy-Dependent Chemoresistance in Gastric Cancer: Integrating Molecular Docking, Mechanistic Validation, and Therapeutic Evaluation."
+PMC13330442,SQSTM1,4,2026,absent,4,0,0,TGM2-TUFM promotes acquired resistance to EGFR-TKIs in EGFR-mutated NSCLC through p62-mediated lipophagy.
+PMC13566273,SQSTM1,4,2026,absent,4,0,0,All-Trans Retinoic Acid and Curcumin Exhibit Hormesis or Synergistic Anticancer Effects in U87 Glioblastoma Cells: Defining the Proteome Accompanying Synergism.
+PMC10813631,SQSTM1,4,2024,subject,4,10,3,KPT330 promotes the sensitivity of glioblastoma to olaparib by retaining SQSTM1 in the nucleus and disrupting lysosomal function.
+PMC13232979,SQSTM1,4,2026,absent,4,6,2,"Mitochondrial transplantation ameliorates rheumatoid arthritis by targeting abnormal CGAS-STING1 signaling activation, autophagosome accumulation, and necroptosis."
+PMC11183241,TOP1,4,2024,absent,7,0,0,In vitro evolution and whole genome analysis to study chemotherapy drug resistance in haploid human cells.
+PMC10290057,TOP1,4,2023,absent,7,9,2,Targeting neddylation sensitizes colorectal cancer to topoisomerase I inhibitors by inactivating the DCAF13-CRL4 ubiquitin ligase complex.
+PMC13221645,TOP1,4,2026,subject,6,16,9,Arginine methylation of human DNA topoisomerase I by PRMT5 facilitates DNA relaxation.
+PMC13100145,TOP1,4,2026,absent,6,10,1,Dual targeting of topoisomerase I and DNA G-quadruplexes enhances senescence and chemosensitivity in colorectal cancer.
+PMC10124032,TOP1,4,2023,absent,6,12,2,Toosendanin targeting eEF2 impedes Topoisomerase I & II protein translation to suppress esophageal squamous cell carcinoma growth.
+PMC13114712,TOP1,4,2026,absent,6,0,0,The Influence of TDP1 Inhibitor Usnic Acid Derivative OL9-116 on the Effects of Topotecan in Human Cells.
+PMC13465145,TOP1,4,2026,absent,6,0,0,Sub-Saharan African Prostate Cancer Patient-Derived Cell Lines and High-Throughput Drug Screening: Addressing Ancestry Underrepresentation in Oncobiology Research.
+PMC13409999,TOP1,4,2026,absent,6,0,0,Synthesis and Biological Evaluation of TDP1 Inhibitors Based on Coumarin and Monoterpenoid Fragments Conjoined by Heterocyclic Moieties.
+PMC12661461,TOP1,4,2025,absent,6,0,0,Maritoclax Overcomes FBW7 Deficiency-Driven Irinotecan Resistance in Colorectal Cancer by Targeting MCL1.
+PMC13594191,TOP1,4,2026,absent,5,10,1,PUM3 is an essential suppressor of replication stress in homologous recombination deficient breast cancer.
+PMC13172357,USP7,4,2026,subject,9,6,4,Targeted degradation of USP7 in solid cancer cells reveals distinct effects of deubiquitinase degraders and inhibitors.
+PMC11059122,USP7,4,2024,absent,9,12,6,Ubiquitin-specific protease 7 inhibitors reveal a differentiated mechanism of p53-driven anti-cancer activity.
+PMC10516900,USP7,4,2023,absent,8,7,6,Structural and functional characterization of USP47 reveals a hot spot for inhibitor design.
+PMC13516235,USP7,4,2026,subject,7,6,5,Virtual Screening-Guided Identification of Candidate USP7-Inhibitory Scaffolds Exhibiting Antiproliferative Activity.
+PMC13086964,USP7,4,2026,subject,7,9,4,USP7 deubiquitinase stabilizes FAN1 to support DNA crosslink repair and suppress CAG repeat expansion.
+PMC13355891,USP7,4,2026,absent,7,0,0,Targeting GALNT7 Disrupts the TAZ O-GalNAcylation Feedback Loop to Suppress Gallbladder Cancer Progression.
+PMC13100221,USP7,4,2026,absent,7,0,0,Oxidative stress causes a reversible decrease of deubiquitylases activity in old vertebrate brains.
+PMC12390941,USP7,4,2025,absent,6,9,3,Ubiquitin-specific protease 7-mediated stabilization of discoidin domain receptor 1 drives progression of TP53-Mutant cancers.
+PMC11909274,USP7,4,2025,subject,6,6,3,USP7 V517F mutation as a mechanism of inhibitor resistance.
+PMC12481409,USP7,4,2025,subject,6,3,1,Therapeutic inhibition of USP7 promotes antitumor immune responses.
+PMC13518197,ABCB1,4,2026,subject,6,7,4,Umbralisib antagonizes multidrug resistance in ABCB1-overexpressing cancer cells.
+PMC13017922,ABCB1,4,2026,subject,6,8,3,Valproate reactivates HTLV-1 tax and reduces ABCB1/MDR1 expression in PBMCs derived from ATLL patients.
+PMC13575119,ABCB1,4,2026,absent,6,7,3,Interleukin-1 receptor-associated kinase 1 controls chemoresistance and immuno-killing in non-small cell lung cancer.
+PMC13241782,ABCB1,4,2026,absent,5,10,3,IGFL2 suppresses gastric cancer cell sensitivity to docetaxel by activating the Toll-like receptor signaling pathway.
+PMC12922422,ABCB1,4,2026,subject,5,2,2,"Discovery of novel coumarin-containing triazolo[1,5-a]pyrimidine derivatives as potent ABCB1 inhibitor for modulation of multidrug resistance."
+PMC12686069,ABCB1,4,2025,absent,5,0,0,ABCC1 promotes GSH-dependent iron transport and resistance to Fe(II) and Cu(II) chelators.
+PMC10005754,ABCB1,4,2023,subject,5,4,2,Non-Nutritive Sweeteners Acesulfame Potassium and Sucralose Are Competitive Inhibitors of the Human P-glycoprotein/Multidrug Resistance Protein 1 (PGP/MDR1).
+PMC12944454,ABCB1,4,2026,absent,5,5,1,Ginger and Its Purified Major Components Inhibit Clinically Relevant Uptake and Efflux Transporters In Vitro.
+PMC13388718,ABCB1,4,2026,subject,4,5,3,Pharmacological strategies to enhance the response of hepatoblastoma to chemotherapy through MDR1 inhibition.
+PMC13506453,ABCB1,4,2026,absent,4,0,0,Eupatilin-derived compounds enhance antitumor activity and doxorubicin efficacy in triple-negative breast cancer.
+PMC11283519,APEX1,4,2024,absent,6,6,2,Nucleolytic processing of abasic sites underlies PARP inhibitor hypersensitivity in ALC1-deficient BRCA mutant cancer cells.
+PMC12019196,APEX1,4,2025,subject,5,6,3,APE1 promotes lung adenocarcinoma through G4-mediated transcriptional reprogramming of urea cycle metabolism.
+PMC11176775,APEX1,4,2024,subject,5,8,5,Impact of DNA ligase 1 and IIIα interactions with APE1 and polβ on the efficiency of base excision repair pathway at the downstream steps.
+PMC8990529,APEX1,4,2022,subject,5,4,1,The human AP-endonuclease 1 (APE1) is a DNA G-quadruplex structure binding protein and regulates KRAS expression in pancreatic ductal adenocarcinoma cells.
+PMC13069687,APEX1,4,2026,subject,4,1,1,Live-cell decoding of labile post-translational modifications in APE1 with a rationally engineered nano-catcher.
+PMC12886270,APEX1,4,2026,subject,4,8,2,USP36 inhibits ferroptosis of melanoma cells by stabilizing APEX1.
+PMC13279178,APEX1,4,2026,subject,4,6,0,Acidic bile salts induce APE1-dependent PRDX2 activation to drive oxaliplatin resistance via ferroptosis inhibition.
+PMC13012041,APEX1,4,2026,absent,4,0,0,C4b-binding protein as an antigenic target in the pathogenesis of antiphosphatidylethanolamine autoantibodies.
+PMC13401041,APEX1,4,2026,absent,4,7,5,A structural accessibility principle for LbuCas13a activation by noncontiguous DNA.
+PMC12976503,APEX1,4,2026,subject,3,0,0,Piperine alleviates retinal ischemic injury by mediating the APE1 signaling.
+PMC12916164,BLM,4,2026,absent,7,9,2,Orcinol glucoside ameliorates pulmonary fibrosis by suppressing hyaluronic acid synthesis and macrophage M2 polarization via targeting hyaluronic acid synthase 2.
+PMC13198257,BLM,4,2026,absent,7,11,2,An aerosolized dual-action autotaxin inhibitor-PPARγ agonist for the treatment of pulmonary fibrosis.
+PMC12996937,BLM,4,2026,absent,7,9,3,Naringin nanoparticles alleviate RA-ILD pulmonary fibrosis by targeting 14-3-3ζ to inhibit LYVE1&lt;sup&gt;+&lt;/sup&gt; macrophages TGF-β1 secretion.
+PMC12241633,BLM,4,2025,subject,6,14,6,Irinotecan alleviates chemoresistance to anthracyclines through the inhibition of AARS1-mediated BLM lactylation and homologous recombination repair.
+PMC13635247,BLM,4,2026,absent,5,10,5,Multi-omics profiling reveals homologous recombination repair hyperactivation as a therapeutic vulnerability in neuroendocrine cervical carcinoma.
+PMC12384627,BLM,4,2025,absent,5,9,8,"Pentoxifylline Enhances the Effects of Doxorubicin and Bleomycin on Apoptosis, Caspase Activity, and Cell Cycle While Reducing Proliferation and Senescence in Hodgkin's Disease Cell Line."
+PMC7924943,BLM,4,2021,subject,5,8,6,Uncovering an allosteric mode of action for a selective inhibitor of human Bloom syndrome protein.
+PMC12176262,BLM,4,2025,absent,5,1,1,Biophysical investigation of the molecular interaction between minichromosome maintenance protein 6 and Bloom syndrome helicase.
+PMC13713264,BLM,4,2026,absent,4,0,0,Blockade of the calpain-1/HSP90/TGF-β1 axis by Astragaloside IV ameliorates bleomycin-induced pulmonary fibrosis.
+PMC13604186,BLM,4,2026,absent,4,8,1,"BUB1 and CDK4/6 Dual Inhibition Increases Radiation Sensitivity in Glioblastoma, Lung Cancer, and Triple-Negative Breast Cancer."
+PMC13376172,BRD4,4,2026,absent,10,24,13,BromoCatch: a self-labelling tag platform for protein modification and live cell imaging.
+PMC10917667,BRD4,4,2024,absent,10,15,6,Targeted protein degradation via intramolecular bivalent glues.
+PMC13712366,BRD4,4,2026,subject,9,14,9,BD2-selective BRD4 inhibitor ZX29 mitigates myocardial ischemia-reperfusion injury &lt;i&gt;via&lt;/i&gt; BRD4-YY1-NCOA4 axis disruption and ferroptosis inhibition.
+PMC13586308,BRD4,4,2026,absent,9,7,3,Cell type-selective targeting by heterobifunctional protein binders via in-cell enrichment.
+PMC11897524,BRD4,4,2025,subject,9,10,4,A combinatorial screening protocol for identifying novel and highly potent dual-target inhibitor of BRD4 and STAT3 for kidney cancer therapy.
+PMC13342671,BRD4,4,2026,absent,9,11,3,Activating p53&lt;sup&gt;Y220C&lt;/sup&gt; with a mutant-specific small molecule.
+PMC13249469,BRD4,4,2026,absent,9,18,7,High-throughput ligand diversification to discover chemical inducers of proximity.
+PMC11582070,BRD4,4,2024,absent,9,16,3,Template-assisted covalent modification underlies activity of covalent molecular glues.
+PMC13592199,BRD4,4,2026,absent,8,3,2,Discovery of PROTACs recruiting the E3 ligase CHIP.
+PMC12316891,BRD4,4,2025,absent,8,8,7,A bottom-up approach to find lead compounds in expansive chemical spaces.
+PMC13496138,CBX8,4,2026,absent,8,3,2,Structure-guided design of an LC3B-targeting PNA oligomer modulating autophagy and LC3B-mediated mRNA decay.
+PMC11919719,CBX8,4,2025,subject,7,9,3,Dynamic PRC1-CBX8 stabilizes a porous structure of chromatin condensates.
+PMC13729735,CBX8,4,2026,absent,7,7,4,Cellular Prion Protein Coupling to ADAM-mediated Release of Small Extracellular Vesicles: Pathological Implications in Prostate Cancer Cells.
+PMC13607705,CBX8,4,2026,absent,6,8,2,Docosahexaenoic Acid Enhances the Cytotoxic Effects of Enzalutamide and the PARP Inhibitor in Castration-Resistant Prostate Cancer Cell Lines.
+PMC13520305,CBX8,4,2026,absent,6,0,0,CDK4-selective inhibitor AU2-94 for the treatment of advanced and therapy-resistant prostate cancer.
+PMC13712433,CBX8,4,2026,absent,6,4,1,&lt;i&gt;In vivo&lt;/i&gt; validation of intramolecular bivalent glues targeting PSMA reveals potent and tissue-selective BRD4 degradation in prostate cancer.
+PMC13401539,CBX8,4,2026,absent,5,4,2,Differential Effects of a First-in-Class IKK&lt;sub&gt;α&lt;/sub&gt; Inhibitor on Trabecular and Cortical Bone in a Human Prostate Cancer Xenograft Model.
+PMC13356039,CBX8,4,2026,absent,5,0,0,"Sustainable gold nanoparticles using Jania rubens, targeted therapeutic potential in prostate cancer and mechanistic insights via GO/KEGG pathway analysis."
+PMC13207072,CBX8,4,2026,absent,4,6,1,Integrated Phenotypic and Transcriptomic Profiling Positions ONC212 as a Lead Imipridone in Androgen-Independent Prostate Cancer Models.
+PMC13072317,CBX8,4,2026,absent,4,14,5,G Protein-Coupled Oestrogen Receptor Actions Targeting the Hallmarks of Cancer in Human Prostate Cells: From Cell Fate to Metabolic Reprogramming.
+PMC13601516,CCND1,4,2026,absent,7,0,0,"GDPPH1 induces cell cycle arrest by downregulation of CDK4/Cyclin D1 via the m&lt;sup&gt;6&lt;/sup&gt;A-METTL14-YTHDF2 axis, attenuating glioblastoma progression."
+PMC13409944,CCND1,4,2026,absent,6,7,1,Spiramide and Hydroquinidine Inhibit Proliferation and Migration While Promoting Apoptosis and Oxidative Stress in Neuroblastoma Cells.
+PMC13033748,CCND1,4,2026,absent,6,0,0,"Integrative analysis of &lt;i&gt;Trichosanthes kirilowii&lt;/i&gt; maxim formula granules' anti-triple-negative breast cancer mechanism via network pharmacology, metabolomics, and molecular pharmacolo"
+PMC13457617,CCND1,4,2026,absent,6,0,0,Small-molecule cocktail 2SM promotes heart regeneration via inducing embryonic-like cardiomyocyte state.
+PMC9407455,CCND1,4,2022,absent,5,0,0,A specific JMJD6 inhibitor potently suppresses multiple types of cancers both in vitro and in vivo.
+PMC12675586,CCND1,4,2025,absent,5,0,0,CDK2 inhibition enhances CDK4/6 inhibitor antitumor activity in comprehensive breast cancer PDX model screen.
+PMC13653042,CCND1,4,2026,absent,4,6,1,"Molecular mechanism of Xanthotoxol against gastric cancer: A comprehensive study integrating network pharmacology, computer simulations, and experimental validation."
+PMC13705325,CCND1,4,2026,absent,4,0,0,Heme-Mediated Danger Signaling Suppresses Osteogenesis Through TLR4-Dependent Inhibition of β-Catenin Signaling.
+PMC13114720,CCND1,4,2026,absent,4,0,0,&lt;i&gt;Pelargonium graveolens&lt;/i&gt; Essential Oil Suppresses Proliferation and Migration and Modulates Mesenchymal-Associated Cellular Functions in Human Endometriotic Cells.
+PMC12520566,CCND1,4,2025,absent,3,0,0,Discovery of Natural Compound α-Hederin via Large-Scale Screening as a Targeted JAK/STAT3 Inhibitor for Ovarian Cancer Therapy.
+PMC13645674,DNMT1,4,2026,subject,9,16,7,Decitabine suppresses triple-negative breast cancer by disrupting DNMT1 liquid-liquid phase separation and synergizes with G9a inhibition.
+PMC13291643,DNMT1,4,2026,absent,8,0,0,Structural and cellular insights into DCTPP1 antagonists and their synergistic action with DNMT inhibitors.
+PMC12666319,DNMT1,4,2025,absent,7,11,1,LHX2 Rewires the Metabolic and Epigenetic Landscape to Drive Tumor Progression in Prostate Cancer.
+PMC13252609,DNMT1,4,2026,subject,6,7,1,Reduced Maintenance DNA Methylation Thresholds Enable Sensitive Reporter Assays for UHRF1 and DNMT1 Inhibition.
+PMC13156772,DNMT1,4,2026,subject,6,7,1,DNMT1-DUOXA1 axis discovers a novel methylation-ferroptosis circuit in bicalutamide-resistant prostate cancer.
+PMC13616921,DNMT1,4,2026,absent,6,0,0,Triptolide sensitizes cancer cells to nucleoside DNA methyltransferase inhibitors through inhibition of DCTPP1-mediated cell-intrinsic resistance.
+PMC13079937,DNMT1,4,2026,subject,5,5,3,Structure-guided design of 7-azaindole DNMT1 inhibitors active against hypomethylating agent-resistant acute myeloid leukemia.
+PMC10278071,DNMT1,4,2023,absent,5,6,2,Mechanistic Insights into Harmine-Mediated Inhibition of Human DNA Methyltransferases and Prostate Cancer Cell Growth.
+PMC13153144,DNMT1,4,2026,absent,5,5,1,The combined inhibitory effect of butaselen and decitabine against lung cancer cells.
+PMC13360561,DNMT1,4,2026,absent,5,0,0,Potent Anti-Glioblastoma Effects of Next-Generation MNK Inhibitors.
+PMC12260087,ESR1,4,2025,absent,8,0,0,Scaffold-hopping for molecular glues targeting the 14-3-3/ERα complex.
+PMC11590367,ESR1,4,2024,subject,8,12,3,Characterization of novel small molecule inhibitors of estrogen receptor-activation function 2 (ER-AF2).
+PMC13490399,ESR1,4,2026,subject,8,1,0,Induced ubiquitination of the partially disordered estrogen receptor alpha via a 14-3-3 directed molecular glue-PROTAC.
+PMC12644489,ESR1,4,2025,absent,8,0,0,A ternary switch model governing ERα ligand binding domain conformation.
+PMC11540614,ESR1,4,2024,subject,7,3,0,Small phenolic compounds as potential endocrine disruptors interacting with estrogen receptor alpha.
+PMC13712132,ESR1,4,2026,absent,6,0,0,The prenylation code regulating estrogenic activity of synthetic and natural product derivatives of resveratrol.
+PMC13425715,ESR1,4,2026,subject,6,7,0,Ganoderic acid A accelerates osteoporotic fracture healing by promoting osteogenic differentiation via estrogen receptor alpha binding.
+PMC13562826,ESR1,4,2026,absent,6,0,0,A Novel SXXLF Motif in the FXR N-Terminal Domain Mediates Coregulator and Interdomain Interactions.
+PMC13750517,ESR1,4,2026,subject,6,1,0,"The Scope Concept: Defined Chemical Space for Identifying Ligand-Efficient, Tractable Hits Applied to Drug Discovery Targets Trypanosomal CLK1, 14-3-3/Estrogen Receptor-α, and SARS-CoV-2 Mpro."
+PMC12163657,ESR1,4,2025,subject,6,0,0,"Discovery of Palazestrant (OP-1250), a Potent and Orally Bioavailable Complete Estrogen Receptor Antagonist (CERAN) and Selective Estrogen Receptor Degrader (SERD)."
+PMC13469651,EZH2,4,2026,subject,8,8,2,Rational design and biological validation of EZH2/PD-L1 bifunctional inhibitors for colorectal cancer immunotherapy.
+PMC13026104,EZH2,4,2026,subject,6,8,0,Biological Evaluation of a Novel Compound with Predicted EZH2 and EED Binding Against Human Malignant Melanoma Cells.
+PMC11579030,EZH2,4,2024,subject,6,8,3,Increased translation driven by non-canonical EZH2 creates a synthetic vulnerability in enzalutamide-resistant prostate cancer.
+PMC13337107,EZH2,4,2026,subject,6,5,2,Allosteric Inhibition of Polycomb Repressive Complex 2 by an EZH2-Selective Small Molecule Inhibitor.
+PMC13138334,EZH2,4,2026,subject,5,4,2,The conserved N-terminal SANT1-binding domain (SBD) of EZH2 regulates PRC2 activity.
+PMC12732196,EZH2,4,2025,subject,5,6,1,The Therapeutic Effect of EZH2 Inhibitors in Targeting Human Papillomavirus Associated Cervical Cancer.
+PMC13552380,EZH2,4,2026,subject,5,4,1,Combination of EZH2 and MEK inhibitors as an effective therapy for neurofibromatosis type 1-associated malignant peripheral nerve sheath tumors.
+PMC12613573,EZH2,4,2025,subject,5,6,1,Synthetic lethality of EZH2 and DNMT Inhibition suppresses neuroblastoma proliferation via MYCN destabilization.
+PMC12846922,EZH2,4,2026,subject,4,3,1,EZH2 PROTACs outperform catalytic inhibitors in prostate cancer by targeting a methylation-independent function of PRC2.
+PMC12024519,EZH2,4,2025,subject,4,7,0,BRD9 functions as a methylarginine reader to regulate AKT-EZH2 signaling.
