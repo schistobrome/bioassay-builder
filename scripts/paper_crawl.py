@@ -64,8 +64,12 @@ EVIDENCE_COLS = ["gene", "batch", "pmcid", "assay_id", "confidence", "scope", "f
                  "protein_classes", "entries", "new_entry_links", "new_readouts", "quote", "title"]
 OCC_COLS = ["catalog_term", "field", "verbatim", "nearest_controlled_value", "gene", "batch", "pmcid",
             "assay_id", "quote"]
+# `variants` are paper verbatims and are matched EXACTLY by catalog_lookup(), so nothing phrased
+# for the labeller belongs there. label_synonyms / label_suppresses carry the ChEMBL-side wording
+# through to scripts/term_table.csv instead; see tools/papers_to_review.py.
 CATALOG_COLS = ["term_id", "proposed_term", "kind", "nearest_controlled_value", "variants",
-                "definition", "status", "first_pass", "notes"]
+                "label_synonyms", "label_suppresses", "definition", "status", "first_pass",
+                "notes"]
 WORK_COLS = ["assay_id", "pmcid", "gene", "chars", "section", "flag", "block_path", "write_to"]
 # One row per alias that cost papers. Written by `alias` as it is found, then enriched by `log`:
 # the fix is applied in one pass over several batches, because changing an alias invalidates the

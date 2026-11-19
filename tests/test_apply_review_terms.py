@@ -119,6 +119,19 @@ class TermRouteTest(unittest.TestCase):
         _, out = self.run_tool("--apply")
         self.assertIn("relabel", out.lower())
 
+    def test_a_chunk_from_an_older_version_is_reported_not_crashed(self):
+        """term_proposals.csv gained the term_table.csv columns; chunks rendered before that do
+        not have them. The tool must say so and leave the file alone, not raise KeyError."""
+        old = ["term_id,proposed_term,kind,definition,variants,n_papers,evidence,confidence,"
+               "decision,your_note",
+               "T003,Microscale thermophoresis (MST),technology,d,mst,10,q,high,accept,"]
+        write(os.path.join(self.chunk, "term_proposals.csv"), old, bom=False)
+        before = read(self.table)
+        rc, out = self.run_tool("--apply")
+        self.assertIn("older version", out)
+        self.assertIn("re-render", out)
+        self.assertEqual(read(self.table), before)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -355,13 +355,22 @@ def build_term_proposals(term_rows):
         kind = (t.get("kind") or "").strip().lower()
         variants = t.get("variants") or ""
         first = next((v.strip() for v in variants.split("|") if v.strip()), "")
+        # The labeller reads ChEMBL descriptions, which phrase things differently from a methods
+        # section. label_synonyms holds that wording and comes first, because it is the form the
+        # term will actually be matched by; the paper verbatims follow as extra cover.
+        syn, seen_syn = [], set()
+        for s in ((t.get("label_synonyms") or "") + "|" + variants).split("|"):
+            s = s.strip()
+            if s and s.lower() not in seen_syn:
+                seen_syn.add(s.lower())
+                syn.append(s)
         out.append({
             # the row as it would be written into scripts/term_table.csv
             "axis": kind if kind in TERM_AXES else "",
             "term": t.get("proposed_term"),
-            "synonyms": variants,
+            "synonyms": "|".join(syn),
             "examples": first or (t.get("definition") or "")[:120],
-            "suppresses": "",
+            "suppresses": t.get("label_suppresses") or "",
             "applies_to": "any",
             "notes": "from the paper crawl, %s: %s" % (t.get("term_id") or "?",
                                                        (t.get("definition") or "")[:200]),

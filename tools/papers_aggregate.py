@@ -394,6 +394,9 @@ def aggregate_terms(min_papers, controlled):
         out.append({"term_id": t.get("term_id"), "proposed_term": t.get("proposed_term"),
                     "kind": t.get("kind"), "nearest_controlled_value": t.get("nearest_controlled_value"),
                     "definition": t.get("definition"), "variants": t.get("variants"),
+                    # carried straight through to scripts/term_table.csv by papers_to_review.py
+                    "label_synonyms": t.get("label_synonyms") or "",
+                    "label_suppresses": t.get("label_suppresses") or "",
                     "n_papers": len(d["papers"]), "n_proteins": len(d["genes"]),
                     "proteins": "; ".join(sorted(x for x in d["genes"] if x)[:8]),
                     "pmcids": "; ".join(sorted(x for x in d["papers"] if x)[:10]),
@@ -441,8 +444,8 @@ def main(argv=None):
                 "proteins", "pmcids", "quote"], ne)
     write_rows(os.path.join(OUT, "term_candidates.csv"),
                ["term_id", "proposed_term", "kind", "nearest_controlled_value", "definition",
-                "variants", "n_papers", "n_proteins", "proteins", "pmcids", "quote",
-                "catalog_status"], terms)
+                "variants", "label_synonyms", "label_suppresses", "n_papers", "n_proteins",
+                "proteins", "pmcids", "quote", "catalog_status"], terms)
     write_rows(os.path.join(OUT, "link_candidates.csv"),
                ["gene", "entry_id", "n_papers", "pmcids", "quote"], lk)
     write_rows(os.path.join(OUT, "record_problems.csv"),

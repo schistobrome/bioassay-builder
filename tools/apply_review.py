@@ -131,8 +131,14 @@ def plan_new_rows(proposals, header, rows, key, check=None):
     """New rows. -> list of (status, id, row or message). check(row) returns an error message or ''."""
     have = {k[key]: k for k in rows}
     out, seen = [], set()
+    if proposals and key not in proposals[0]:
+        # A chunk rendered by an older papers_to_review.py: the file predates the columns of the
+        # table it now feeds. Say so once, rather than raising KeyError on the first row.
+        return [("error", "-", "this file has no '%s' column, so it was written for an older "
+                               "version of this tool: re-render the chunk with "
+                               "tools\\papers_to_review.py" % key)]
     for p in proposals:
-        rid, d = p[key].strip(), decision(p)
+        rid, d = (p.get(key) or "").strip(), decision(p)
         if d in ("", "undecided"):
             out.append(("undecided", rid, "")); continue
         if d == "reject":
