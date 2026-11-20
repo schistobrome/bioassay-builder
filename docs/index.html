@@ -99,6 +99,9 @@ select,input[type=number]{width:100%;background:var(--surface2);border:1px solid
 .cls div{font-size:13px;padding:6px 10px;border-left:3px solid var(--accent);background:var(--surface)}
 .cls .partial{border-color:var(--warn);background:var(--warn-soft)}
 .cls .outside{border-color:var(--bad);background:var(--bad-soft)}
+.cls .suppressed{border-color:var(--muted);background:var(--surface2)}
+.dimnote{background:var(--warn-soft);color:var(--fg);border-left:3px solid var(--warn);border-radius:4px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+.dimnote a{color:var(--accent)}
 .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 6px}
 @media(max-width:600px){.flow{grid-template-columns:1fr}}
 .flow a{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:10px 12px}
@@ -142,6 +145,9 @@ select,input[type=number]{width:100%;background:var(--surface2);border:1px solid
 .kit .u{color:var(--bad);font-weight:600;font-size:12px}
 .actions{display:flex;gap:8px;padding:0 14px 12px;flex-wrap:wrap}
 .dropped{font-size:13px;color:var(--muted);margin-top:16px;padding:10px 12px;border:1px dashed var(--line);border-radius:6px}
+.safety{font-size:13px;margin:0 0 10px;padding:9px 12px;border-left:3px solid var(--accent);background:var(--surface);border-radius:4px}
+.safety b{font-weight:600}
+.safety .meta{display:block;margin-top:3px}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--surface);border-left:2px solid var(--accent);padding:16px max(16px,env(safe-area-inset-right,0px)) 16px 16px;padding-top:max(16px,env(safe-area-inset-top,0px));overflow:auto;z-index:20;box-shadow:-8px 0 24px rgba(0,0,0,.18)}
 .drawer h2{font-size:19px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .drawer ol{margin:0;padding-left:20px}
@@ -197,7 +203,6 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <div class="row"><input type="text" id="prot" list="protlist" placeholder="Gene name or UniProt accession" autocomplete="off" spellcheck="false" style="width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:7px 8px"><button class="btn primary" id="lookup">Look up</button></div>
         <datalist id="protlist"></datalist>
         <p class="note" id="lookupnote" aria-live="polite">Human proteins, looked up live in UniProt. Start typing a gene name for suggestions (proteins with campaign data), or enter any gene name or accession such as O60885.</p>
-
         <div class="stepblock" id="sb2" hidden>
           <div class="step"><b>Step 2 of 3</b>Drag the handles to set the residues your construct covers. Blue bands are annotated domains.</div>
           <div class="row"><input type="number" id="cs" min="1" aria-label="First residue"><span>to</span><input type="number" id="ce" aria-label="Last residue"></div>
@@ -209,7 +214,7 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
 
         <div class="stepblock" id="sb3" hidden>
           <div class="step"><b>Step 3 of 3</b>What do you want the compound to do?</div>
-          <div class="seg" id="effect"><button aria-pressed="false" data-v="inhibition">Inhibition</button><button aria-pressed="false" data-v="activation">Activation</button></div>
+          <div class="seg" id="effect"><button aria-pressed="false" data-v="inhibition">Inhibition</button><button aria-pressed="false" data-v="activation">Activation</button><button aria-pressed="false" data-v="degradation">Degradation</button></div>
           <label class="chk" style="margin-top:8px"><input type="checkbox" id="unspec"> Include unspecified results</label>
           <p class="note" style="margin-top:2px">Unspecified = campaigns whose text names no direction (often binding or plain activity assays). Off: only campaigns labeled with the direction you chose (or both directions).</p>
         </div>
@@ -240,7 +245,7 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
         <label class="chk"><input type="checkbox" data-i="lcms"> LC-MS / RapidFire</label>
         <label class="chk"><input type="checkbox" data-i="radio"> Radioactivity detection (scintillation / filter)</label>
         <label class="chk"><input type="checkbox" data-i="spr"> Biosensor (SPR / BLI)</label>
-        <label class="chk"><input type="checkbox" data-i="cell"> Cell culture and imaging</label>
+        <label class="chk"><input type="checkbox" data-i="cell" checked> Cell culture and imaging</label>
         <label class="chk"><input type="checkbox" data-i="flow"> Flow cytometer</label>
         <label class="chk"><input type="checkbox" data-i="patch"> Automated patch-clamp system</label>
         <label class="chk"><input type="checkbox" data-i="ecl"> Electrochemiluminescence reader (Meso Scale-type)</label>
@@ -268,7 +273,7 @@ details.defs code{font:12px var(--f-mono);background:var(--surface2);padding:1px
       <div class="welcome" id="welcome">
         <h2>Start with your target</h2>
         <p style="margin:0;color:var(--muted)">Recommendations appear once you have told the app three things.</p>
-        <ol><li>Which protein</li><li>Which part of it your construct covers</li><li>Whether you want inhibition or activation</li></ol>
+        <ol><li>Which protein</li><li>Which part of it your construct covers</li><li>Whether you want inhibition, activation or degradation</li></ol>
       </div>
       <div id="results" hidden>
         <div class="summary" id="summary"></div>
@@ -315,7 +320,7 @@ function expandUsage(u){
 let D;
 try{
   const [db,prots]=await Promise.all([fetch("assay_db.json").then(r=>{if(!r.ok)throw new Error("assay_db.json "+r.status);return r.json()}),fetch("demo_proteins.json").then(r=>{if(!r.ok)throw new Error("demo_proteins.json "+r.status);return r.json()})]);
-  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:expandUsage(db.usage_stats),conds:db.condition_stats||[],meta:db.meta,
+  D={function_classes:db.function_classes,proteins:prots,cfg:db.config,usage:expandUsage(db.usage_stats),conds:db.condition_stats||[],meta:db.meta,readoutLabels:db.readout_labels||[],
    playbook:db.assays.map(a=>({entry_id:a.entry_id,assay_name:a.assay_name,classes:asStr(a.classes),assay_category:a.assay_category,scope:a.scope,role:a.role,effect:a.effect||"",development_priority:(a.development_priority||{}).text||"",screening_suitability:a.screening_suitability,biological_relevance:a.biological_relevance,rating_notes:a.rating_notes,measures:a.measures,readouts:asStr(a.readouts),conditions:a.conditions,reagents:a.reagents,rationale:a.rationale,status:(a.review||{}).status||"",plate_formats:asStr(a.plate_formats),sources_doi:asStr((a.sources||[]).map(s=>s.doi)),learn_more_url:(a.mechanism||{}).learn_more_url||"",
      qc_metric:(a.quality||{}).qc_metric||"",dmso_pct:(a.quality||{}).dmso_pct||"",interference:asStr((a.quality||{}).interference),systems:asStr(a.systems)})),
    kits:db.kits.map(k=>({...k,applies_to_entries:asStr(k.applies_to_entries),product_code:k.product_code||"",status:(k.verification||{}).status||"",url:k.url||""}))};
@@ -360,11 +365,17 @@ const SCOPES = {free:"Cell-free assays",cell:"Cell-based assays"};
 const AVAIL = {kit:"Commercial kit available",method:"Method only (no kit recorded)"};
 const FULLCOV = 0.9, PARTIALCOV = 0;
 const $ = id => document.getElementById(id);
-const INST_DEFAULT=["plate","htrf"];
+const INST_DEFAULT=["plate","htrf","cell"];   /* must match the checkboxes ticked in the HTML */
 const S = {inst:new Set(INST_DEFAULT),prot:null,start:1,end:1,stage:0,effect:null,unspec:false,sort:'relevance',scope:new Set(Object.keys(SCOPES)),avail:new Set(Object.keys(AVAIL)),cats:new Set(Object.keys(CATS)),plates:new Set(),plan:new Set(),open:new Set()};
 const split = s => (s||"").split(/[;|]/).map(x=>x.trim()).filter(Boolean);
 const isCell = r => /cell/i.test(r.scope||"") && !/free/i.test(r.scope||"");
-const mainRole = r => (split(r.role.replace(/ or /g,";"))[0]||"primary").toLowerCase();
+/* Primary only for a lab that has the instrument: without it the entry is listed under Confirmation.
+   ASMS (G7) is generic, so it reached the Primary block of every protein, but it is nobody's first-pass
+   screen without a dedicated LC-MS platform. It keeps role "primary" in assays.csv because it is the only
+   generic primary: as confirmation, a protein that matches no specific class would get no primary at all. */
+const PRIMARY_NEEDS = {G7:"lcms"};
+const mainRole = r => { const k=(split(r.role.replace(/ or /g,";"))[0]||"primary").toLowerCase(), need=PRIMARY_NEEDS[r.entry_id];
+  return k==="primary"&&need&&!S.inst.has(need)?"confirmation":k; };
 const pnum = r => { const m = (r.development_priority||"").match(/P(\d)/g); return m? Math.min(...m.map(x=>+x[1])) : 9; };
 const esc = t => String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const plateEst = r => { const l=LV[r.screening_suitability]||0; return l>=4?["96","384","1536"]:l===3?["96","384"]:["96"]; };
@@ -390,8 +401,16 @@ function anchorBlocks(anchors){
     if(b&&s<=b.e+1){b.e=Math.max(b.e,e);if(n)b.names.push(n);}else out.push({s,e,names:n?[n]:[]});}
   return out.map(b=>({s:b.s,e:b.e,name:b.names.length>1?b.names[0]+" to "+b.names[b.names.length-1]:(b.names[0]||"domain")}));
 }
+/* A protein's classes for the current choices. Degradation is a modality, not a protein property UniProt records,
+   so the degrader_modality class (empty matcher row in function_classes.csv) is added here when the user picks
+   Degradation in step 3, never by classifyProtein. Used everywhere the page reads P.classes for selection. */
+function protClasses(P){
+  if(S.effect!=="degradation") return P.classes;
+  const row=D.function_classes.find(c=>c.class_id==="degrader_modality");
+  return row?[...P.classes,{id:row.class_id,label:row.label,why:"added because you chose Degradation",anchors:[],chosen:true}]:P.classes;
+}
 function classStatus(c){
-  if(!c.anchors.length) return {st:"applies",note:c.id==="generic"?c.why:c.why+"; no functional domain annotated in UniProt, so construct coverage cannot be checked"};
+  if(!c.anchors.length) return {st:"applies",note:(c.id==="generic"||c.chosen)?c.why:c.why+"; no functional domain annotated in UniProt, so construct coverage cannot be checked"};
   const cov=b=>Math.max(0,Math.min(b.e,S.end)-Math.max(b.s,S.start)+1)/(b.e-b.s+1);
   const blocks=anchorBlocks(c.anchors), best=blocks.reduce((x,y)=>cov(y)>cov(x)?y:x), f=cov(best);
   const lbl=b=>b.name+" "+b.s+"-"+b.e;
@@ -425,9 +444,9 @@ function condText(u){
   return fmt(u.median);
 }
 function condFor(r){
-  const rows=CBY[r.entry_id]||[], P=D.proteins[S.prot];
+  const rows=CBY[r.entry_id]||[], PC=protClasses(D.proteins[S.prot]);
   const g=rows.filter(u=>u.scope.type==="gene"&&u.scope.id===S.prot);
-  const cl=rows.filter(u=>u.scope.type==="function_class"&&P.classes.some(c=>c.id===u.scope.id));
+  const cl=rows.filter(u=>u.scope.type==="function_class"&&PC.some(c=>c.id===u.scope.id));
   const byParam={};
   for(const u of cl){const o=byParam[u.parameter];if(!o||u.n_stating>o.n_stating)byParam[u.parameter]=u;}   /* class rows: the class with most campaigns */
   const out={};
@@ -440,6 +459,9 @@ function condFor(r){
 /* Which effect view of the usage rows to read: the chosen direction, with or without unspecified campaigns
    ("Include unspecified results" switch). See EFFECT_VIEWS in scripts/build_database.py. */
 function effView(){
+  /* Campaign records label inhibition, activation, both or nothing; none says "degradation". Pool every direction
+     rather than borrow one, which is what the fallthrough below used to do (it read activation numbers). */
+  if(S.effect==="degradation") return "any";
   if(S.effect==="inhibition") return S.unspec?"inhibition":"inhibition_labeled";
   return S.unspec?"activation_with_unspecified":"activation";
 }
@@ -456,12 +478,12 @@ const rShare=x=>{const s=rSrc(x);return s.v==null?-1:s.v;};
 function rPct(x){const s=rSrc(x);return pct(s.v)+(s.from==="papers"?" in papers":"");}
 
 function usageFor(r){
-  const key=r.entry_id+"|"+S.prot+"|"+effView();
+  const key=r.entry_id+"|"+S.prot+"|"+S.effect+"|"+effView();      /* S.effect: Degradation adds a class */
   if(key in _ucache) return _ucache[key];
-  const rows=UBY[r.entry_id]||[], P=D.proteins[S.prot], eff=effView();
+  const rows=UBY[r.entry_id]||[], PC=protClasses(D.proteins[S.prot]), eff=effView();
   let geneN=0;           /* classifiable campaigns for this protein itself (for the small-sample caution) */
   const isGene=u=>u.scope.type==='gene'&&u.scope.id===S.prot;
-  const isCls=u=>u.scope.type==='function_class'&&P.classes.some(c=>c.id===u.scope.id);
+  const isCls=u=>u.scope.type==='function_class'&&PC.some(c=>c.id===u.scope.id);
   const tiers=[[isGene,eff,"gene"],[isCls,eff,"class"],[isGene,"any","gene"],[isCls,"any","class"]];
   let found=null,first=null;
   for(const [fn,ef,lvl] of tiers){
@@ -493,7 +515,8 @@ function caution(u){
       :"No "+S.prot+" campaign in our data matches this assay's function for this direction")
     +", so this number is for the whole "+cls+" class, not "+S.prot+" itself.";
   else if(n<MINC) tip="Only "+c(n)+" with a classified assay, and the wider class has no larger sample: treat this number as anecdotal.";
-  if(u.effect==="any") tip+=(tip?" ":"")+"No direction-specific data either: counts pool all directions.";
+  /* not for Degradation: pooling is the only possible view there, said once in the summary, not on every card */
+  if(u.effect==="any"&&S.effect!=="degradation") tip+=(tip?" ":"")+"No direction-specific data either: counts pool all directions.";
   return tip?` <span class="caution" tabindex="0" role="img" aria-label="Caution: ${esc(tip)}" data-tip="${esc(tip)}">⚠</span>`:"";
 }
 const pct=x=>Math.round(x*100)+"%";
@@ -559,7 +582,7 @@ const INSTR=[ /* first match wins, so specific technologies come before the gene
  ["thermal",/thermal shift|thermal melting|melting curve|\bdsf\b|differential scanning fluorimetry|thermofluor/i],
  ["itc",/\bitc\b|isothermal titration|calorimetr/i],
  ["cell",/high-content|imaging|microscop|immunofluorescence/i],
- ["plate",/luminesc|glo\b|-glo|fluoresc|fluorogenic|polari[sz]ation|\bfp\b|absorb|colorimetr|malachite|elisa|bret|nanoluc|luciferase|reporter|fret|transcreener|dye|ratiometric|cetsa|alphascreen|coupled|nadh|nadph|resazurin|redox|thiol-reactivity|reducing agent|europium|enzyme fragment|complementation|two-hybrid|phosphorylation assay|second-messenger|pathway-specific|activity assay|product-spike|detergent|enzyme-concentration|surface antibody|antibody detection/i]];
+ ["plate",/plate[- ]reader|luminesc|glo\b|-glo|fluoresc|fluorogenic|polari[sz]ation|\bfp\b|absorb|colorimetr|malachite|elisa|bret|nanoluc|luciferase|reporter|fret|transcreener|dye|ratiometric|cetsa|alphascreen|coupled|nadh|nadph|resazurin|redox|thiol-reactivity|reducing agent|europium|enzyme fragment|complementation|two-hybrid|phosphorylation assay|second-messenger|pathway-specific|activity assay|product-spike|detergent|enzyme-concentration|surface antibody|antibody detection/i]];
 const instOf=t=>{      /* instruments a readout text needs; "A or B" lists count as alternatives, otherwise the first (most specific) match wins */
   const hits=INSTR.filter(([k,re])=>re.test(t)).map(x=>x[0]);
   return hits.length>1&&/\bor\b/i.test(t)?hits:hits.slice(0,1);
@@ -575,20 +598,11 @@ function readoutTexts(r,d=0){        /* "Same readout as K1" entries use the rea
   return D.playbook.filter(x=>x!==r&&mainRole(x)==="primary"&&split(x.classes).some(c=>cl.includes(c))).flatMap(x=>readoutTexts(x,d+1));
 }
 /* The readout (technology) labels the campaign counts use, and the words that name each one in a curated readout.
-   A curated readout takes the best share of every label it names. Keyword based, like INSTR. */
-const TECH=[["TR-FRET / HTRF",/tr-?fret|htrf/i],["AlphaScreen / AlphaLISA",/alpha ?(screen|lisa)/i],["LanthaScreen",/lanthascreen/i],
-  ["Radioligand binding",/radioligand|\[3h\]dofetilide/i],["Radiometric",/radiometric|radiolabel|\[(3h|32p|33p|35s)\]|scintillation|tritiat|rubidium/i],
-  ["Fluorogenic / FRET substrate",/fluorogenic|(?<!tr-)\bfret\b(?! ?\/ ?htrf)|\bamc\b|rhodamine|amplex/i],["Fluorescence polarization",/fluorescence polari[sz]ation|\bfp\b|imap/i],
-  ["Mass spectrometry",/mass spec|lc-ms|rapidfire/i],["Thermal shift (DSF)",/(?<!cellular )thermal[ -]shift|\bdsf\b/i],["CETSA",/cetsa|cellular thermal/i],
-  ["SPR / BLI",/\bspr\b|\bbli\b|surface plasmon/i],["ITC",/\bitc\b/i],["Mobility shift (Caliper / LabChip)",/mobility shift|caliper|labchip/i],
-  ["KINOMEscan competition binding",/kinomescan|competition[- ]binding panel/i],["Fluorescent calcium dye",/calcium (dye|flux)|fluo-?4|flipr/i],
-  ["ADP-Glo luminescence",/adp-glo/i],["Kinase-Glo luminescence",/kinase-glo|atp-depletion/i],["Transcreener",/transcreener/i],
-  ["ELISA / immunosorbent",/elisa|immunosorbent/i],["Luciferase reporter",/luciferase|reporter/i],["Automated patch clamp",/patch[- ]clamp/i],
-  ["Gel-based (PAGE / EMSA)",/gel-based|\bpage\b|\bemsa\b/i],["Enzyme fragment complementation",/fragment complementation|pathhunter|hibit/i],
-  ["Membrane potential dye",/membrane potential|voltage-sensitive/i],["High-content imaging",/high-content|imaging|immunofluorescence/i],
-  ["Western blot",/western/i],["BRET / NanoBRET",/\b(nano)?bret\b/i],["Luminescent HDAC assay",/hdac-glo|luminescent hdac/i],
-  ["Crystallography / cryo-EM",/crystallograph|cryo-em/i],["Absorbance / colorimetric",/absorbance|colorimetric|malachite|turbidity/i],
-  ["Luminescent Glo assay",/-glo\b/i],["Fluorescent nucleotide (BODIPY / mant)",/bodipy|\bmant-/i]];
+   A curated readout takes the best share of every label it names. Keyword based, like INSTR.
+   Kept in data/readout_labels.csv (one row per technology term in scripts/term_table.csv) and shipped in
+   assay_db.json; tools/build_db.py refuses to build when the usage data carries a label with no row there.
+   A pattern the browser cannot compile is skipped rather than allowed to stop the page. */
+const TECH=D.readoutLabels.flatMap(([lab,p])=>{try{return [[lab,new RegExp(p,"i")]];}catch(_){console.warn("readout_labels: bad pattern for",lab);return [];}});
 function readShare(text,u){       /* the usage row of the most-used technology this curated readout names */
   let best=null;
   for(const [lab,re] of TECH){if(!re.test(text)) continue; const x=u.reads.find(y=>y.readout===lab);
@@ -624,19 +638,66 @@ function kitsFor(r){return D.kits.filter(kt=>split(kt.applies_to_entries).includ
   return new RegExp("\\b"+reEsc(S.prot)+"\\b","i").test(sc);});}   /* escaped: gene names can contain "." or "-" */
 function reEsc(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");}
 
+/* ---- PPI on enzymes ----
+   ppi_domain matches common scaffolding domains (SH2, SH3, WD, ANK, ...), so on its own it would offer PPI assays to
+   JAK2 (SH2) and every other enzyme that carries one. When an enzyme class also matched and the construct includes
+   its catalytic domain, the interaction domain is not the screening interface: drop the PPI class. It comes back when
+   the construct excludes the catalytic domain (MDM2 1-120, KEAP1 321-609), which is the case where it is.
+   Not enzymes here, on purpose: e3_ligase (MDM2, KEAP1, VHL are screened at their substrate-binding interface),
+   readers, small GTPases (effector interfaces such as RAS-RAF), transporters, receptors. */
+const ENZYME_CLASSES=new Set(["protein_kinase","lipid_kinase","protease","protein_phosphatase","dna_helicase","nuclease",
+  "topoisomerase","dub","epigenetic_writer","epigenetic_demethylase","epigenetic_deacetylase","histone_acetyltransferase",
+  "nucleic_acid_methyltransferase","adp_ribosyltransferase","phosphodiesterase","cytochrome_p450","atpase","enzyme_other"]);
+function suppressPPI(classes,stat){
+  const p=stat.ppi_domain; if(!p||p.st==="outside") return;
+  const enz=classes.filter(c=>ENZYME_CLASSES.has(c.id)&&stat[c.id].st!=="outside");
+  if(!enz.length) return;
+  const unannotated=enz.every(c=>!c.anchors.length);
+  stat.ppi_domain={st:"suppressed",note:"PPI assays not offered: "+S.prot+" also matches "+enz.map(c=>c.label).join(", ")
+    +(unannotated?", whose catalytic domain is not annotated, so it is assumed to be in your construct.":", and your construct includes all or part of its catalytic domain.")
+    +" An interaction domain on an enzyme is rarely the screening interface. Set the construct to the interaction domain alone to see PPI assays."};
+}
+/* ---- dimming: one place decides it, so the cards and the "all primaries dimmed" hint cannot disagree ---- */
+function dimOf(r){
+  const specific=[...S.plates].filter(x=>x!=="und"), pf=platesOf(r), need=instMissing(r);
+  const plateBad=specific.length>0&&!specific.some(x=>pf.list.includes(x));
+  return {need,plateBad,pf,dim:plateBad||need.length>0};
+}
+function dimHint(r,d){
+  const fix=[];
+  if(d.need.length) fix.push("tick "+d.need.join(" and "));
+  if(d.plateBad) fix.push("add a plate format it is run in ("+d.pf.list.join(", ")+"-well)");
+  return `<div class="dimnote">Every primary assay is dimmed by your setup. To use the top one, <b>${esc(r.assay_name)}</b>, ${esc(fix.join(" and "))} under <a href="#p3">3. Specify experimental setup</a>.</div>`;
+}
+/* ---- safety counterscreens most programs run whatever the target ----
+   Pointers only: every entry named here is an existing row, and nothing changes stage, order or ratings. These rows
+   are class-scoped (IC5 is ion_channel, CYP1 is cytochrome_p450), so for most proteins they are NOT in the list;
+   then the entry is named as plain text rather than a link that would go nowhere. */
+const SAFETY=[["IC5","cardiac ion-channel liability"],["CYP1","drug-drug interactions via CYP inhibition"]];
+function safetyNote(shownIds){
+  const items=SAFETY.map(([id,why])=>{
+    const r=D.playbook.find(x=>x.entry_id===id); if(!r) return null;
+    const name=esc(r.assay_name)+" <span class='meta' style='display:inline'>["+id+"]</span>";
+    return (shownIds.has(id)?`<a href="#a-${id}">${name}</a>`:name)+" &mdash; "+esc(why);
+  }).filter(Boolean);
+  if(!items.length) return "";
+  return `<div class="safety"><b>Also usually run, whatever the target:</b><br>${items.join("<br>")}
+    <span class="meta">Standard liability screens for a small-molecule program, listed here as a reminder; they are not specific to ${esc(S.prot)} and are not part of the counts above. An entry without a link is not in the list above, usually because it belongs to another function class.</span></div>`;
+}
 function render(){
   const ready=S.stage>=3;
   $("welcome").hidden=ready; $("results").hidden=!ready; $("p2").hidden=!ready; $("p3").hidden=!ready;
   if(!ready) return;
-  const P=D.proteins[S.prot];
-  const stat={}; P.classes.forEach(c=>stat[c.id]=classStatus(c));
+  const P=D.proteins[S.prot], classes=protClasses(P);
+  const stat={}; classes.forEach(c=>stat[c.id]=classStatus(c));
+  suppressPPI(classes,stat);
   const full = S.start===1&&S.end===P.len;
   $("summary").innerHTML = (D.usage.some(u=>u.is_example)?`<div class="exbanner">Usage percentages marked "example" are placeholder numbers for this demo, not real data.</div>`:"")+`<div><h2>${esc(S.prot)} <span class="meta">${P.acc}</span><a href="https://www.uniprot.org/uniprotkb/${P.acc}/entry" target="_blank" rel="noopener">UniProt ↗</a></h2><div>${esc(P.name)}, ${P.len} residues</div>
    <div class="meta">Construct ${S.start}-${S.end}${full?" (full length)":""} · ${S.effect} · UniProt: ${P.kw} keywords, ${P.go} GO functions, ${P.pdb} PDB entries${P.live?" · fetched live from UniProt":" · built-in example copy"}</div></div>
-   <div class="cls">${P.classes.map(c=>`<div class="${stat[c.id].st}"><b>${esc(c.label)}</b> <span style="color:var(--muted)">${esc(stat[c.id].note)}</span></div>`).join("")}</div>`;
+   <div class="cls">${classes.map(c=>`<div class="${stat[c.id].st}"><b>${esc(c.label)}</b> <span style="color:var(--muted)">${esc(stat[c.id].note)}</span></div>`).join("")}</div>`;
   const chosen=[],dropped=[],notapp=[];
   for(const r of D.playbook){
-    const cl=split(r.classes).filter(c=>stat[c]); if(!cl.length) continue;
+    const cl=split(r.classes).filter(c=>stat[c]&&stat[c].st!=="suppressed"); if(!cl.length) continue;
     const sts=cl.map(c=>stat[c].st);
     const level=sts.includes("applies")?"applies":sts.includes("partial")?"partial":null;
     if(!level){dropped.push(r);continue}
@@ -656,6 +717,7 @@ function render(){
   const tally={gene:0,class:0,any:0,none:0};
   chosen.forEach(x=>{const u=usageFor(x.r);if(!u)tally.none++;else if(u.effect==="any")tally.any++;else tally[u.level]++;});
   const eNote=(tally.gene+tally.class+tally.any+tally.none)===0?"":
+    S.effect==="degradation"?`<div class="meta">Campaign records do not label degradation, so usage shares here pool all directions. Degrader-specific assays (degradation, ternary complex, rescue) have no campaign counts yet.</div>`:
     tally.gene>0?`<div class="meta">${esc(S.prot)}: ${tally.gene} assays have ${S.effect}-specific usage data for this protein${tally.class?`, ${tally.class} fall back to the whole function class`:""}${tally.any?`, ${tally.any} only have data pooled over all directions`:""}.</div>`:
     `<div class="exbanner">Few or no ${S.effect} campaigns were found for ${esc(S.prot)}, so usage shares come from the wider function class${tally.any?" or are pooled over all directions":""}. Treat function occurrence as a rough guide here (look for the ⚠ mark).</div>`;
   $("summary").insertAdjacentHTML("beforeend",eNote);
@@ -670,17 +732,18 @@ function render(){
   }
   $("eqnote").hidden=!eq.length;$("eqnote").innerHTML=eq.map(esc).join("<br>");
   let html="";
+  const shownIds=new Set(chosen.map(x=>x.r.entry_id));   /* which safety rows are on the page, so a link has a target */
   for(const [k,n,d] of ROLES){
     const g=chosen.filter(x=>mainRole(x.r)===k);
     html+=`<div class="sect" id="sec-${k}"><h2>${n} assays (${g.length})</h2><p>${d}</p></div>`;
     if(!g.length) html+=`<div class="dropped">None for this protein with the current filters.</div>`;
+    else if(k==="primary"){const d0=dimOf(g[0].r); if(d0.dim&&g.every(x=>dimOf(x.r).dim)) html+=dimHint(g[0].r,d0);}
     for(const {r,level} of g){
       const kits=kitsFor(r), pf=platesOf(r);
       const open=S.open.has(r.entry_id), inplan=S.plan.has(r.entry_id), draft=/draft/i.test(r.status);
       const specific=sel.filter(x=>x!=="und");
-      const need=instMissing(r);
+      const di=dimOf(r), need=di.need, dim=di.dim;
       const washNote=WASHRE.test(r.readouts||"")&&!has("washer");
-      const dim=(specific.length>0 && !specific.some(x=>pf.list.includes(x)))||need.length>0;
       const dois=split(r.sources_doi);
       html+=`<article class="card ${inplan?"inplan":""} ${dim?"dim":""}" id="a-${r.entry_id}">
         <header><div class="tt"><h3>${esc(r.assay_name)} <span class="meta">[${r.entry_id}]</span></h3>
@@ -713,6 +776,7 @@ function render(){
           <button class="btn ${inplan?"":"primary"}" data-plan="${r.entry_id}">${inplan?"Remove from plan":"Add to my plan"}</button></div>
       </article>`;
     }
+    if(k==="counterscreen") html+=safetyNote(shownIds);   /* after the cards: the protein's own counterscreens read first */
   }
   if(notapp.length) html+=`<div class="dropped"><b>Not relevant when you want ${esc(S.effect)}:</b><br>${notapp.map(r=>esc(r.assay_name)+" ["+r.entry_id+"]").join("<br>")}</div>`;
   if(dropped.length) html+=`<div class="dropped"><b>Dropped because the domain is outside your construct:</b><br>${dropped.map(r=>esc(r.assay_name)+" ["+r.entry_id+"]").join("<br>")}</div>`;
@@ -842,7 +906,7 @@ $("prot").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();
 $("presets").onclick=e=>{const b=e.target.closest("[data-pre]");if(b){const [s,en]=b.dataset.pre.split("-");setRange(s,en)}};
 $("cconfirm").onclick=()=>{if(S.stage<2){S.stage=2;$("sb3").hidden=false;$("sb3").scrollIntoView({block:"nearest",behavior:"smooth"});}};
 $("unspec").onchange=e=>{S.unspec=e.target.checked;if(S.stage>=3)render();};
-$("effect").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.effect=b.dataset.v;[...$("effect").children].forEach(x=>x.setAttribute("aria-pressed",x===b));if(S.stage<3)S.stage=3;render();renderPlan();};
+$("effect").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.effect=b.dataset.v;[...$("effect").children].forEach(x=>x.setAttribute("aria-pressed",x===b));$("unspec").disabled=S.effect==="degradation";   /* degradation always pools every direction */if(S.stage<3)S.stage=3;render();renderPlan();};
 
 /* ---- tags ---- */
 function mkTags(id,obj,set,g){$(id).innerHTML=Object.entries(obj).map(([k,v])=>`<button class="tag" data-g="${g}" data-k="${k}" aria-pressed="true">${v}</button>`).join("");
@@ -858,7 +922,7 @@ $("plates").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;const 
   if(k==="und"){S.plates.clear();S.plates.add("und");}else{S.plates.delete("und");S.plates.has(k)?S.plates.delete(k):S.plates.add(k);}
   [...$("plates").children].forEach(x=>x.setAttribute("aria-pressed",S.plates.has(x.dataset.p)));render();};
 
-const instToggle=e=>{const c=e.target.closest("[data-i]");if(!c)return;c.checked?S.inst.add(c.dataset.i):S.inst.delete(c.dataset.i);render()};
+const instToggle=e=>{const c=e.target.closest("[data-i]");if(!c)return;c.checked?S.inst.add(c.dataset.i):S.inst.delete(c.dataset.i);render();renderPlan()};   /* renderPlan: an instrument can move an assay between stages (PRIMARY_NEEDS) */
 $("insts").onchange=instToggle;$("handling").onchange=instToggle;
 
 /* ---- results actions, drawer ---- */
@@ -876,7 +940,7 @@ $("clear").onclick=()=>{S.plan.clear();render();renderPlan()};
 
 /* ---- definitions (shows the settings coded into the app) ---- */
 const DEFS=[
-["Primary / Confirmation / Counterscreen","The stage an assay plays. Primary: suitable and scalable for first-pass screening. Confirmation: re-tests hits, often with a different method. Counterscreen: removes artifacts and off-target hits. Each assay has one main stage in the database."],
+["Primary / Confirmation / Counterscreen","The stage an assay plays. Primary: suitable and scalable for first-pass screening. Confirmation: re-tests hits, often with a different method. Counterscreen: removes artifacts and off-target hits. Each assay has one main stage in the database, with one exception: affinity-selection mass spectrometry (ASMS) is listed as a primary screen only when you tick LC-MS / RapidFire under instruments, and under Confirmation otherwise."],
 ["Biochemical HTS","Purified-component assay built for screening many compounds (for example a fluorogenic enzyme assay)."],
 ["Cell-based functional","Measures a response in living cells, such as cAMP, calcium or reporter signal. Cell-based assays are the usual primary screens for GPCRs and ion channels."],
 ["Biophysical binding","Detects direct compound binding to the protein (for example thermal shift, SPR, ITC, ASMS) without requiring a functional readout."],
@@ -888,7 +952,8 @@ const DEFS=[
 ["Construct coverage thresholds","Each annotated domain of a function is checked on its own, and the best-covered one counts: a protein-protein interaction or reader assay needs one intact interface, not all of them. Back-to-back repeats that fold together (for example the six Kelch repeats of KEAP1) count as one domain. Best domain at least "+Math.round(FULLCOV*100)+"% inside your construct: assays apply. Between 0% and "+Math.round(FULLCOV*100)+"%: assays are shown with a warning. 0% for every domain: assays for that function are dropped. If UniProt annotates no domain, coverage cannot be checked and assays are shown."],
 ["How function classes are found","From UniProt: EC numbers, keywords, GO function terms and domain names. Any one match is enough. A few classes cancel others (for example a GPCR is not treated as a receptor ectodomain)."],
 ["Function occurrence","How often public screening campaigns for this protein (or its function class) studied the biological function this assay measures. A campaign is one independent study: one PubChem deposit, one paper or one patent, counted once even when ChEMBL, PubChem and BindingDB all hold a copy. The number is: campaigns whose text matches the assay's function (for example 'ion channel activity' or 'kinase activity'), divided by all campaigns whose function could be determined from their text. A cell-based assay is only counted from cell-based campaigns, and a cell-free assay from cell-free ones. It is NOT yet specific to the detection format: assays that measure the same function in the same setting (for example patch clamp, thallium flux and membrane-potential dye) show the same occurrence. The format split is the 'Most used' line on each card and the readout shares under Show details. Shares do not add to 100% because one campaign can study several functions. The bar is a weighted score: "+Math.round(D.cfg.prevalence.weights.campaigns*100)+"% campaign share + "+Math.round(D.cfg.prevalence.weights.literature*100)+"% literature share (campaign share alone when literature counts are missing, which is the case today). Levels: "+D.cfg.prevalence.levels.map(([k,f])=>k.replace("_"," ")+" from "+Math.round(f*100)+"%").join(", ")+". Public assay text often does not name the function or technology, so the denominator is smaller than the number of campaigns found. Fewer than "+D.cfg.prevalence.min_campaigns_for_confidence+" classifiable campaigns is flagged \"few\"."],
-["Inhibition, activation and unspecified results","Each campaign is labeled inhibition, activation, mixed (both) or unspecified (its text names no direction, as in many binding or plain activity assays). Function occurrence is recomputed for the direction you choose: inhibition counts campaigns labeled inhibition or mixed; activation counts campaigns labeled activation or mixed. Tick 'Include unspecified results' to add the unspecified campaigns to either direction. This is useful for inhibition, because binding and unlabeled assays are usually run to find inhibitors or binders. Direction labels come from keywords in the assay text and are not perfect."],
+["Inhibition, activation and unspecified results","Each campaign is labeled inhibition, activation, mixed (both) or unspecified (its text names no direction, as in many binding or plain activity assays). Function occurrence is recomputed for the direction you choose: inhibition counts campaigns labeled inhibition or mixed; activation counts campaigns labeled activation or mixed. Tick 'Include unspecified results' to add the unspecified campaigns to either direction. This is useful for inhibition, because binding and unlabeled assays are usually run to find inhibitors or binders. Direction labels come from keywords in the assay text and are not perfect. Degradation is a modality rather than a direction: choosing it adds the targeted-protein-degradation assays (cellular degradation, ternary complex, rescue counterscreen), and because no campaign is labeled degradation, its usage shares pool all directions."],
+["PPI assays on enzymes","Protein-protein interaction assays are offered when UniProt annotates an interaction domain (SH2, SH3, WD repeats, Kelch and others). Many enzymes carry such a domain without it being the screening interface, so when the protein also matches an enzyme class (kinase, protease, phosphatase and so on) and your construct includes the catalytic domain, PPI assays are left out. Set the construct to the interaction domain alone (for example MDM2 1-120 or KEAP1 321-609) and they come back. E3 ligases are not counted as enzymes here, because they are usually screened at their substrate-binding interface."],
 ["Order of assays","Within each stage (primary, confirmation, counterscreen) the most relevant assays come first. Relevance combines how often campaigns for this protein used the assay's function (function occurrence; a class-wide fallback counts half) with the assay's biological-relevance rating. Assays for the protein's own functions come before the generic checks that apply to any protein (thermal shift, SPR, ITC and so on). You can switch to ordering by development priority or by function occurrence alone."],
 ["Class-wide fallback (⚠)","If the protein has fewer than "+MINC+" classified campaigns for the chosen direction, the app shows the numbers for its whole function class instead, marked 'class-wide' with a ⚠ sign. Hover over or tab to the sign to see how many campaigns the protein itself has. The sign also appears when even the class has fewer than "+MINC+" campaigns (treat as anecdotal), and when only data pooled over all directions exist."],
 ["Plate formats","Order of trust: (1) a reviewed list in the database; (2) the formats that at least "+Math.round(PLATE_SHARE*100)+"% of public campaigns stated in their assay text, when at least "+MINP+" campaigns state one (the shares are listed under Show details, and are of campaigns that state a format, since many texts do not); (3) an estimate from HTS suitability: high or very high = 96, 384 and 1536; moderate = 96 and 384; low or very low = 96. Compound and source plates are ignored. Assays are dimmed, never hidden, when none of your selected formats fit."],
@@ -896,6 +961,7 @@ const DEFS=[
 ["Liquid and plate handling","These items do not dim assays. They only produce notes: for example 1536-well work usually needs nanoliter compound transfer plus a bulk dispenser, and assays with wash steps (ELISA, filtration) are flagged when no plate washer is ticked. Which equipment public campaigns actually mention is listed by scripts/equipment_scan.py (build_output/equipment_mentions.csv)."],
 ["Most used readouts","The readouts that public campaigns for this protein used most for this assay, with the share of campaigns that used each (the same campaigns as function occurrence, limited to those that state a readout). Only the readout of the measurement itself counts: a paper with an HTRF kinase assay and a binding panel credits HTRF to the kinase assay only. Selectivity panels (campaigns that tested 20 or more proteins) are left out, because they use the panel provider's platform whatever the protein. With too few campaigns for the protein, the numbers come from its function class. This is how often a readout was used, not a judgment of which is best. The curated readout list under Show details is sorted the same way. A share marked \'in papers\' comes from open-access papers mined for this protein and is shown only where no campaign for it states that readout: ChEMBL and PubChem record what a campaign measured far more reliably than how it was measured, so a method can be standard in the literature and invisible in the campaign data. Paper shares are of the papers mined, never mixed into the campaign percentages, and their bars are outlined rather than filled."],
 ["Instruments","Each readout listed for an assay needs an instrument (for example TR-FRET needs an HTRF reader, calcium dye assays need a kinetic reader). An assay is dimmed when none of its readouts can run with the instruments you ticked; cell-based assays also need cell culture. Readouts that name no instrument the app knows are ignored, and entries that say \'same readout as X\' use the readouts of X. The mapping is keyword based and not curated, so check the readout list."],
+["Also usually run, whatever the target","Under Counterscreen, the app names the liability screens a small-molecule program normally runs for any target: cardiac ion-channel activity (the hERG counterscreen) and CYP inhibition. They are reminders, not recommendations for your protein, and they are left out of the counts and of the ordering. Each one is an ordinary entry in the database belonging to a function class, so it is linked only when that entry is in the list above, which normally means your protein matches its class (hERG for ion channels, CYP inhibition for P450s). Otherwise it is named without a link. Running them needs the cell lines or microsomes those entries describe, or a contract lab."],
 ["Draft","Entries marked draft were written by Claude and have not been reviewed by an expert. Unmarked entries were edited by the expert reviewer (name and date not yet recorded). The header line counts how many entries are still drafts."],
 ["Quality target","From the NIH Assay Guidance Manual (AGM). Primary screens: Z′ ≥ 0.4 or signal window ≥ 2 on every validation plate, with max, mid and min signal CVs of 20% or less; Z′ ≥ 0.5 is the common cutoff. Image-based screens: Z′ between 0 and 0.5 is often acceptable for complex phenotypes. Dose-response (confirmation and counterscreen) assays: two independent runs should agree within 3-fold (replicate-experiment minimum significant ratio, MSR, below 3). These are targets to validate against, not values measured for this assay."],
 ["DMSO starting point","A curated default, not a measured tolerance: up to 0.5% final for cell-based assays and 1-2% for cell-free assays (the AGM notes enzyme and binding assays often tolerate 5-10%, cells usually 0.5%; take extra care above 0.1% in kinetic calcium and membrane-potential dye reads). Cell tolerance depends on the cell line, so run a DMSO series (for example 0.01% to 8%) with your own cells and readout. Public assay records rarely state DMSO, so no number here comes from campaign data."],

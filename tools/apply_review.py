@@ -357,6 +357,9 @@ def main(argv=None):
     if tables.get("terms", {}).get("changed"):
         print("scripts\\term_table.csv changed: re-run the m2 relabel before trusting the usage")
         print("statistics, because every campaign's labels were produced by the old vocabulary.")
+        print("Each new technology term also needs a row in data\\readout_labels.csv (the words that")
+        print("name it in an assay's curated readouts). build_db.py lists any that are missing, and")
+        print("refuses to build once the relabel puts a label without a row into the usage data.")
     return 0
 
 

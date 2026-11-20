@@ -26,11 +26,72 @@ QC_METRICS = {"", "hts", "hcs", "potency"}
 INTERFERENCE = {"luciferase", "fluorescence", "absorbance", "proximity", "aggregation", "thiol_redox", "cytotoxicity",
                 "imaging", "label_free"}
 MAX_JSON_MB = 15          # docs/assay_db.json above this size gets a warning
+# The labeller's vocabulary. Its technology terms are the readout labels usage_stats.csv can carry.
+TERM_TABLE = os.path.join(ROOT, "scripts", "term_table.csv")
+# Regex syntax Python accepts but browsers do not. readout_labels.csv patterns run in the page as
+# new RegExp(pattern, "i"), so one of these would compile here and silently fail there.
+PY_ONLY_REGEX = [(r"\(\?P", "(?P...) named groups (write (?<name>...))"),
+                 (r"\(\?#", "(?#...) comments"),
+                 (r"\(\?[aiLmsux]+[):]", "inline flags such as (?i) (the page already ignores case)"),
+                 (r"\(\?>", "atomic groups (?>...)"),
+                 (r"[*+?}][+]", "possessive quantifiers such as *+"),
+                 (r"\\[AZ]", r"\A or \Z (use ^ and $)")]
 ERRORS, WARNINGS = [], []
 
 
 def err(msg): ERRORS.append(msg)
 def warn(msg): WARNINGS.append(msg)
+
+
+def check_readout_labels(rows, usage_counts, term_tech):
+    """Check data/readout_labels.csv against the data and the vocabulary.
+
+    The page shows a readout's campaign share next to an assay's curated readouts by finding which
+    labels the curated text names: each row here is a label and the words (a regex) that name it.
+    Three things must agree, and before this table existed nothing made them:
+      usage_counts  {label: n rows} -- readout labels usage_stats.csv actually carries
+      term_tech     set of technology terms in scripts/term_table.csv, or None if it is absent
+      rows          this table
+    A label in the data with no row here cannot be matched at all: ERROR. A term in the vocabulary
+    with no row here is harmless until the relabel puts it in the data, so it is a WARNING that
+    says what to add before then.
+    Returns (errors, warnings, [[label, pattern], ...] in file order)."""
+    errors, warnings, out, seen = [], [], [], set()
+    for i, r in enumerate(rows, start=2):
+        label, pat = (r.get("label") or "").strip(), (r.get("pattern") or "").strip()
+        where = "readout_labels.csv line %d" % i
+        if not label:
+            errors.append("%s: no label" % where); continue
+        where = "readout_labels.csv '%s'" % label
+        if label in seen:
+            errors.append("%s: duplicate label" % where); continue
+        seen.add(label)
+        if not pat:
+            errors.append("%s: no pattern, so no curated readout can ever match it" % where); continue
+        try:
+            re.compile(pat, re.I)
+        except re.error as e:
+            errors.append("%s: pattern does not compile (%s)" % (where, e)); continue
+        bad = [why for rx, why in PY_ONLY_REGEX if re.search(rx, pat)]
+        if bad:
+            errors.append("%s: pattern uses %s, which works here but not in the browser"
+                          % (where, "; ".join(bad))); continue
+        out.append([label, pat])
+    for label in sorted(set(usage_counts) - seen):
+        errors.append("usage_stats.csv carries readout label '%s' (%d rows) but data/readout_labels.csv "
+                      "has no row for it, so the website cannot match it to any assay's curated readouts. "
+                      "Add: %s,<regex for the words assays.csv uses for it>,"
+                      % (label, usage_counts[label], label))
+    if term_tech is not None:
+        for t in sorted(term_tech - seen):
+            if t not in usage_counts:      # already an ERROR above when it is in the data
+                warnings.append("scripts/term_table.csv has technology term '%s' but data/readout_labels.csv "
+                                "has no row for it. Add one before the m2 relabel, or this build will fail "
+                                "once the usage data carries that label." % t)
+        for t in sorted(seen - term_tech):
+            warnings.append("readout_labels.csv '%s' is not a technology term in scripts/term_table.csv, "
+                            "so no campaign can carry it (renamed or removed there?)" % t)
+    return errors, warnings, out
 
 
 def read(name, path=None):
@@ -79,6 +140,19 @@ def main():
     usage = read("usage_stats.csv")
     if args.include_examples:
         usage += read("", os.path.join(ROOT, "examples", "usage_stats.example.csv"))
+
+    usage_labels = {}
+    for u in usage:
+        rd = (u.get("readout") or "").strip()
+        if rd and not rd.startswith("plate:"):      # plate-format rows share the readout column
+            usage_labels[rd] = usage_labels.get(rd, 0) + 1
+    term_tech = None
+    if os.path.exists(TERM_TABLE):
+        term_tech = {r["term"] for r in read("", TERM_TABLE) if r.get("axis", "").lower() == "technology"}
+    else:
+        warn("scripts/term_table.csv not found, so readout labels are only checked against the usage data")
+    e_rl, w_rl, readout_labels = check_readout_labels(read("readout_labels.csv"), usage_labels, term_tech)
+    ERRORS.extend(e_rl); WARNINGS.extend(w_rl)
 
     cond_path = os.path.join(DATA, "condition_stats.csv")        # optional, written by build_database.py
     conds = []
@@ -166,7 +240,8 @@ def main():
             source_index[src]])
 
     out = {
-        "meta": {"schema_version": "0.2", "built_on": date.today().isoformat(),
+        # 0.3: readout_labels added (was hard-coded as TECH in docs/index.html)
+        "meta": {"schema_version": "0.3", "built_on": date.today().isoformat(),
                  "last_curated": max([a.get("reviewed_on", "") for a in assays if a.get("reviewed_on")] or [None]),
                  "counts": {"assays": len(assays), "kits": len(kits), "usage_stats": len(stats), "condition_stats": len(conds)},
                  "includes_example_data": bool(args.include_examples)},
@@ -204,6 +279,9 @@ def main():
                         "sources": sources},
         "condition_stats": conds,
         "citations": cites,
+        # [label, pattern]: which words in an assay's curated readouts name each usage readout label.
+        # The page compiles each pattern with new RegExp(pattern, "i").
+        "readout_labels": readout_labels,
     }
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     for m in WARNINGS: print("WARNING:", m)

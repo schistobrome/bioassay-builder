@@ -16,6 +16,7 @@ The data lives in plain tables (CSV files) in `data/`. A script checks them and 
 | `data/usage_stats.csv` | how often assay is used in one scope (gene or function class) |
 | `data/citations.csv` | a paper or study supporting assay or mechanism |
 | `data/function_classes.csv` | a protein functional domain or class |
+| `data/readout_labels.csv` | one readout technology: the words that name it in `assays.csv` readouts (one row per technology term in `scripts/term_table.csv`) |
 | `data/config.json` | settings (weights, thresholds) |
 
 Lists inside a cell are separated by `;`. Levels are exactly: very_low, low, moderate, high, very_high.
@@ -47,7 +48,7 @@ Every step can be stopped (Ctrl+C) and rerun: finished work is skipped. `build_c
 - *Network errors or "STOPPED: the connection kept failing":* rerun the same command later. Downloads are cached in small pieces, so nothing is lost.
 - *Proteins "parked":* they were too big for the first pass. Rerun with `--heavy-minutes 90`. `py scripts\build_database.py --status` lists them, and so does `build_output\parked_proteins.csv`.
 - *"quarantined" (failed 3 runs):* `py scripts\build_database.py --retry-quarantined`.
-- *You edited `scripts\term_table.csv`:* the next run relabels without downloading.
+- *You edited `scripts\term_table.csv`:* the next run relabels without downloading. A new technology term also needs a row in `data\readout_labels.csv`; `tools\build_db.py` warns until it has one, and refuses to build once the relabel puts that label into the usage data.
 - *`data\usage_stats.csv` looks wrong after a merge:* copy the newest file from `data\backup\` back over it.
 - *`tools\build_db.py` says "Not built":* it lists each ERROR row. Fix that row in `data\` and rerun.
 

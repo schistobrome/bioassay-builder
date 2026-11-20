@@ -1,0 +1,33 @@
+label,pattern,notes
+TR-FRET / HTRF,tr-?fret|htrf,
+AlphaScreen / AlphaLISA,alpha ?(screen|lisa),
+LanthaScreen,lanthascreen,
+Radioligand binding,radioligand|\[3h\]dofetilide,
+Radiometric,radiometric|radiolabel|\[(3h|32p|33p|35s)\]|scintillation|tritiat|rubidium,
+Fluorogenic / FRET substrate,fluorogenic|(?<!tr-)\bfret\b(?! ?/ ?htrf)|\bamc\b|rhodamine|amplex,the lookarounds keep TR-FRET and 'FRET / HTRF' out
+Fluorescence polarization,fluorescence polari[sz]ation|\bfp\b|imap,
+Mass spectrometry,mass spec|lc-ms|rapidfire,
+Thermal shift (DSF),(?<!cellular )thermal[ -]shift|\bdsf\b,the lookbehind keeps 'cellular thermal shift' (CETSA) out
+CETSA,cetsa|cellular thermal,
+SPR / BLI,\bspr\b|\bbli\b|surface plasmon,
+ITC,\bitc\b,
+Mobility shift (Caliper / LabChip),mobility shift|caliper|labchip,
+KINOMEscan competition binding,kinomescan|competition[- ]binding panel,
+Fluorescent calcium dye,calcium (dye|flux)|fluo-?4|flipr,
+ADP-Glo luminescence,adp-glo,
+Kinase-Glo luminescence,kinase-glo|atp-depletion,
+Transcreener,transcreener,
+ELISA / immunosorbent,elisa|immunosorbent,
+Luciferase reporter,luciferase|reporter,
+Automated patch clamp,patch[- ]clamp,matches every 'patch clamp'; narrow it when a Manual patch clamp label exists
+Gel-based (PAGE / EMSA),gel-based|\bpage\b|\bemsa\b,
+Enzyme fragment complementation,fragment complementation|pathhunter|hibit,
+Membrane potential dye,membrane potential|voltage-sensitive,
+High-content imaging,high-content|imaging|immunofluorescence,
+Western blot,western,
+BRET / NanoBRET,\b(nano)?bret\b,
+Luminescent HDAC assay,hdac-glo|luminescent hdac,
+Crystallography / cryo-EM,crystallograph|cryo-em,
+Absorbance / colorimetric,absorbance|colorimetric|malachite|turbidity,
+Luminescent Glo assay,-glo\b,catch-all for -Glo kits without a label of their own
+Fluorescent nucleotide (BODIPY / mant),bodipy|\bmant-,
